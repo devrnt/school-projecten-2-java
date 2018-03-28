@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testpackage;
+package domein;
 
 /**
  *
- * @author devri
+ * @author sam
  */
-public class TestKlasse {
-    //delete this class
+public enum OperatorEnum {
+    optellen,
+    aftrekken,
+    vermeningvuldigen,
+    delen
 }
