@@ -1,5 +1,7 @@
-package domein;
+package controllers;
 
+import domein.Groepsbewerking;
+import domein.Oefening;
 import java.util.List;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
@@ -8,10 +10,10 @@ import repository.GenericDaoJpa;
  *
  * @author sam
  */
-public class DomeinController {
+public class OefeningController {
     private GenericDao<Oefening> oefeningRepo;
 
-    public DomeinController() {
+    public OefeningController() {
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
     }
 
@@ -20,9 +22,7 @@ public class DomeinController {
     }
     
     public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen){
-        GenericDaoJpa.startTransaction();
         oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
-        GenericDaoJpa.commitTransaction();
     }
     
     public void close(){

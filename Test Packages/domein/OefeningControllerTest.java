@@ -1,5 +1,6 @@
 package domein;
 
+import controllers.OefeningController;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -15,14 +16,14 @@ import repository.GenericDao;
  *
  * @author sam
  */
-public class DomeinControllerTest {
+public class OefeningControllerTest {
 
-    private DomeinController controller;
+    private OefeningController controller;
     private GenericDao<Oefening> oefeningRepo;
 
     @Before
     public void before() {
-        controller = new DomeinController();
+        controller = new OefeningController();
         oefeningRepo = Mockito.mock(GenericDao.class);
         controller.setOefeningRepo(oefeningRepo);
     }
@@ -31,7 +32,7 @@ public class DomeinControllerTest {
 
     @Test
     public void createOefening_AddsNewOefening() {
-        controller.createOefening("opgave", 0, "feedbacj", null);
+        controller.createOefening("opgave", 0, "feedback", null);
         Mockito.verify(oefeningRepo).insert(Mockito.any(Oefening.class));      
     }
 
