@@ -26,13 +26,6 @@ public class SessieTest {
         calendar = Calendar.getInstance();
     }
 
-    //overbodig
-    @Test
-    public void nieuweSessie_maaktLegeSessie() {
-        Assert.assertEquals("", sessie.getNaam());
-        Assert.assertEquals("", sessie.getOmschrijving());
-    }
-
     @Test
     public void setSessieDatumOpVandaag_werkt() {
         Date vandaag = calendar.getTime();
@@ -44,7 +37,7 @@ public class SessieTest {
     @Test
     public void setSessieDatumOpMorgen_werkt() {
         Date morgen = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_WEEK, -1);
+        calendar.add(Calendar.DATE, -1);
         sessie.setDatum(morgen);
         Assert.assertEquals(morgen, sessie.getDatum());
     }
@@ -59,7 +52,7 @@ public class SessieTest {
     }
 
     @Test
-    public void setSessieLesuurCorrect_werkt(){
+    public void setSessieLesuurCorrect_werkt() {
         double lesuur = 5.0;
         sessie.setLesuur(lesuur);
         Assert.assertEquals(lesuur, sessie.getLesuur(), 0.0);

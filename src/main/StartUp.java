@@ -2,6 +2,7 @@ package main;
 
 
 import controllers.OefeningController;
+import controllers.SessieController;
 import repository.GenericDaoJpa;
 
 
@@ -14,6 +15,9 @@ public class StartUp {
         GenericDaoJpa.startTransaction();
         OefeningController controller = new OefeningController();
         controller.createOefening("oef", 0, "feed", null);
+        SessieController sessieController = new SessieController();
+        sessieController.createSessie("Sessie1", "omschrijving van de sessie");
+        
         GenericDaoJpa.commitTransaction();
         controller.close();    
     }
