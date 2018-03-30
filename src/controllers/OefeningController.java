@@ -6,6 +6,9 @@ import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 
@@ -30,9 +33,7 @@ public class OefeningController {
         this.oefeningRepo = oefeningRepo;
     }
     
-    public void createOefening(String opgave, int antwoord, String feedback, int[] groepsbewerkingIds){
-        List<Groepsbewerking> groepsbewerkingen = new ArrayList<>();
-        Arrays.stream(groepsbewerkingIds).forEach(id -> groepsbewerkingen.add(groepsbewerkingRepo.get(id)));
+    public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen){
         GenericDaoJpa.startTransaction();
         try {
             oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
@@ -73,6 +74,16 @@ public class OefeningController {
             GenericDaoJpa.rollbackTransaction();
         }
         GenericDaoJpa.commitTransaction();
+    }
+    
+    public ObservableList<String> getGroepsbewerkingen(){
+        List<String> omschrijvingen = groepsbewerkingRepo.findAll()
+                .stream()
+                .map(Groepsbewerking::getOmschrijving)
+                .collect(Collectors.toList());
+        ObservableList<String> list = FXCollections.observableArrayList(omschrijvingen);
+        
+        return list;
     }
     
     public void close(){

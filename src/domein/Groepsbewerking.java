@@ -12,12 +12,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author sam
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Groepsbewerking.findAll",
+            query = "SELECT o FROM Groepsbewerking o")
+})
 public class Groepsbewerking implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

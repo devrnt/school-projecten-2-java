@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import controllers.OefeningController;
 import gui.controllers.BeheerOefeningenController;
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -18,25 +20,30 @@ import javafx.stage.Stage;
  *
  * @author sam
  */
-public class HomePanelController implements Initializable {
+public class HomePanelController extends AnchorPane {
     @FXML
     private Button oefeningBeheer;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public HomePanelController() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/HomePanel.fxml"));
+        
+        loader.setRoot(this);
+        loader.setController(this);
+        
+        try {
+            loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+    
+    
 
     @FXML
-    public void oefeningBeheerClicked(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(BeheerOefeningenController.class.getResource("../panels/BeheerOefeningenPanel.fxml"));
-        Scene scene = new Scene(loader.load());
+    public void oefeningBeheerClicked(ActionEvent event){
         Stage stage = (Stage) oefeningBeheer.getScene().getWindow();
-        stage.setScene(scene);
+        stage.setScene(new Scene(new BeheerOefeningenController(new OefeningController())));
+        stage.setTitle("Beheer oefeningen");
         stage.show();
     }
     
