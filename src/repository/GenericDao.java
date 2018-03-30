@@ -15,4 +15,7 @@ public interface GenericDao<T> {
     public void insert(T object);
 
     public boolean exists(int id);
+
+    public boolean exists(String name);
+
 }
