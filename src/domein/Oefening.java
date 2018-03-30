@@ -31,22 +31,22 @@ public class Oefening implements Serializable {
     private List<Groepsbewerking> groepsbewerkingen;
 
     public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
-        this.opgave = opgave;
-        this.antwoord = antwoord;
-        this.feedback = feedback;
-        this.groepsbewerkingen = groepsbewerkingen;
-    }
-    
-    protected Oefening(){
-        
+        setOpgave(opgave);
+        setAntwoord(antwoord);
+        setFeedback(feedback);
+        setGroepsbewerkingen(groepsbewerkingen);
     }
 
-    public String getOpgave() {
-        return opgave;
+    protected Oefening() {
+
     }
 
     public int getAntwoord() {
         return antwoord;
+    }
+
+    public String getOpgave() {
+        return opgave;
     }
 
     public String getFeedback() {
@@ -57,15 +57,25 @@ public class Oefening implements Serializable {
         return groepsbewerkingen;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setOpgave(String opgave) {
+        if (opgave == null || opgave.trim().length() <= 0)
+            throw new IllegalArgumentException("Opgave mag niet leeg zijn");
         this.opgave = opgave;
     }
 
     public void setAntwoord(int antwoord) {
+        if (antwoord > Integer.MAX_VALUE || antwoord < Integer.MIN_VALUE)
+            throw new IllegalArgumentException("Antwoord is buiten bereik");
         this.antwoord = antwoord;
     }
 
     public void setFeedback(String feedback) {
+        if (feedback == null || feedback.trim().length() <= 0)
+            throw new IllegalArgumentException("Opgave mag niet leeg zijn");
         this.feedback = feedback;
     }
 

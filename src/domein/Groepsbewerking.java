@@ -5,7 +5,10 @@
  */
 package domein;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,12 +18,14 @@ import javax.persistence.Id;
  * @author sam
  */
 @Entity
-public class Groepsbewerking {
+public class Groepsbewerking implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String omschrijving;
     private int factor;
+    
+    @Enumerated(EnumType.STRING)
     private OperatorEnum operator;
 
     public Groepsbewerking(String omschrijving, int factor, OperatorEnum operator) {
