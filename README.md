@@ -3,7 +3,7 @@ projectenII
 
 ## Details wijziging opdracht
 
-*filteren op naam of doelstelling of vak
+* filteren op naam of doelstelling of vak
 *oefening wijzigen behalve als die in een sessie zit
 *nieuwe oefening; naam, opgave(pdf), feedback(pdf)
 *tijdslimiet is optioneel
