@@ -4,13 +4,13 @@ import domein.Groepsbewerking;
 import domein.Oefening;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
+import repository.GroepsbewerkingDao;
+import repository.GroepsbewerkingDaoJpa;
 
 /**
  *
@@ -18,14 +18,14 @@ import repository.GenericDaoJpa;
  */
 public class OefeningController {
     private GenericDao<Oefening> oefeningRepo;
-    private GenericDao<Groepsbewerking> groepsbewerkingRepo;
+    private GroepsbewerkingDao groepsbewerkingRepo;
 
     public OefeningController() {
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
-        setGroepsbewerkingRepo(new GenericDaoJpa<>(Groepsbewerking.class));
+        setGroepsbewerkingRepo(new GroepsbewerkingDaoJpa());
     }
 
-    public final void setGroepsbewerkingRepo(GenericDao<Groepsbewerking> groepsbewerkingRepo) {
+    public void setGroepsbewerkingRepo(GroepsbewerkingDao groepsbewerkingRepo) {
         this.groepsbewerkingRepo = groepsbewerkingRepo;
     }
     
@@ -33,19 +33,20 @@ public class OefeningController {
         this.oefeningRepo = oefeningRepo;
     }
     
-    public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen){
+    public void createOefening(String opgave, int antwoord, String feedback, List<String> omschrijvingen){
+        List<Groepsbewerking> groepsbewerkingen = groepsbewerkingRepo.getByOmschrijvingen(omschrijvingen);
         GenericDaoJpa.startTransaction();
         try {
             oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
         } catch (Exception e) {
             GenericDaoJpa.rollbackTransaction();
+            throw e;
         }
         GenericDaoJpa.commitTransaction();
     }
     
-    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, int[] groepsbewerkingIds){
-        List<Groepsbewerking> groepsbewerkingen = new ArrayList<>();
-        Arrays.stream(groepsbewerkingIds).forEach(id -> groepsbewerkingen.add(groepsbewerkingRepo.get(id)));
+    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, List<String> omschrijvingen){
+        List<Groepsbewerking> groepsbewerkingen = groepsbewerkingRepo.getByOmschrijvingen(omschrijvingen);
         Oefening oefening = oefeningRepo.get(oefId);
         if (oefening == null)
             throw new NotFoundException("De oefening werd niet gevonden");
@@ -77,10 +78,7 @@ public class OefeningController {
     }
     
     public ObservableList<String> getGroepsbewerkingen(){
-        List<String> omschrijvingen = groepsbewerkingRepo.findAll()
-                .stream()
-                .map(Groepsbewerking::getOmschrijving)
-                .collect(Collectors.toList());
+        List<String> omschrijvingen = groepsbewerkingRepo.getOmschrijvingen();
         ObservableList<String> list = FXCollections.observableArrayList(omschrijvingen);
         
         return list;
@@ -88,6 +86,16 @@ public class OefeningController {
     
     public void close(){
         GenericDaoJpa.closePersistency();
+    }
+
+    public List<String> getOefening(int id) {
+        Oefening oefening = oefeningRepo.get(id);
+        List<String> oefeningDetails = new ArrayList<>();
+        oefeningDetails.add(oefening.getOpgave());
+        oefeningDetails.add(Integer.toString(oefening.getAntwoord()));
+        oefeningDetails.add(oefening.getFeedback());
+        
+        return oefeningDetails;
     }
     
 }

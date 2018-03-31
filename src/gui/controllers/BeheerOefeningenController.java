@@ -30,6 +30,12 @@ public class BeheerOefeningenController extends AnchorPane {
     @FXML
     private Button createOefening;
     
+    @FXML
+    private Button updateOefening;
+    
+    @FXML
+    private Button deleteOefening;
+    
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
         
@@ -51,6 +57,7 @@ public class BeheerOefeningenController extends AnchorPane {
         Scene scene = new Scene(new CreateOefeningController(controller));
         Stage stage = (Stage) createOefening.getScene().getWindow();
         stage.setScene(scene);
+        stage.setTitle("Aanmaken van een oefening");
         stage.show();
         
     }

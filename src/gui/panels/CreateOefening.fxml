@@ -7,48 +7,47 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <fx:root id="AnchorPane" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Maak nieuwe oefening">
-               <font>
-                  <Font size="22.0" />
-               </font></Label>
-            <Label fx:id="opgaveFout" text="Opgave">
-               <VBox.margin>
-                  <Insets bottom="5.0" top="10.0" />
-               </VBox.margin>
-            </Label>
             <TextField fx:id="opgave" maxWidth="-Infinity" promptText="Typ hier de opgave...">
                <VBox.margin>
-                  <Insets />
+                  <Insets left="5.0" right="5.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <Label fx:id="antwoordFout" text="Antwoord">
+            <Label fx:id="opgaveFout" textFill="RED">
                <VBox.margin>
-                  <Insets bottom="5.0" top="10.0" />
+                  <Insets top="2.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="antwoord" maxWidth="-Infinity" promptText="Typ hier het antwoord..." />
-            <Label fx:id="feedbackFout" text="Feedback">
+            <TextField fx:id="antwoord" maxWidth="-Infinity" promptText="Typ hier het antwoord...">
                <VBox.margin>
-                  <Insets bottom="5.0" top="10.0" />
+                  <Insets left="5.0" right="5.0" top="20.0" />
+               </VBox.margin></TextField>
+            <Label fx:id="antwoordFout" textFill="RED">
+               <VBox.margin>
+                  <Insets top="2.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="feedback" maxWidth="-Infinity" promptText="Typ hier de feedback...">
                <VBox.margin>
-                  <Insets />
+                  <Insets left="5.0" right="5.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <Label fx:id="groepsbewerkingenFout" text="Groepsbewerkingen">
+            <Label fx:id="feedbackFout" textFill="RED">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Selecteer de gewenste groepsbewerkingen" />
+            <ListView fx:id="groepsbewerkingen" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+            <Label fx:id="groepsbewerkingenFout" textFill="#fc0000">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="groepsbewerkingen" prefHeight="200.0" prefWidth="200.0" />
             <Button fx:id="bevestig" mnemonicParsing="false" onAction="#bevestigClicked" text="Bevestig">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

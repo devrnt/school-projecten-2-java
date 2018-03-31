@@ -37,7 +37,7 @@ public class Oefening implements Serializable {
         setGroepsbewerkingen(groepsbewerkingen);
     }
 
-    protected Oefening() {
+    public Oefening() {
 
     }
 
@@ -62,20 +62,14 @@ public class Oefening implements Serializable {
     }
 
     public void setOpgave(String opgave) {
-        if (opgave == null || opgave.trim().length() <= 0)
-            throw new IllegalArgumentException("Opgave mag niet leeg zijn");
         this.opgave = opgave;
     }
 
     public void setAntwoord(int antwoord) {
-        if (antwoord > Integer.MAX_VALUE || antwoord < Integer.MIN_VALUE)
-            throw new IllegalArgumentException("Antwoord is buiten bereik");
         this.antwoord = antwoord;
     }
 
     public void setFeedback(String feedback) {
-        if (feedback == null || feedback.trim().length() <= 0)
-            throw new IllegalArgumentException("Opgave mag niet leeg zijn");
         this.feedback = feedback;
     }
 

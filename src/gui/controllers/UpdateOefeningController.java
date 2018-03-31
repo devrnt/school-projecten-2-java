@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.OefeningController;
+import domein.Oefening;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author sam
  */
-public class CreateOefeningController extends AnchorPane {
+public class UpdateOefeningController extends AnchorPane {
 
     private OefeningController controller;
 
@@ -51,7 +52,7 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
 
-    public CreateOefeningController(OefeningController controller) {
+    public UpdateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
 
@@ -63,6 +64,12 @@ public class CreateOefeningController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        List<String> oefeningDetails = controller.getOefening(1);
+        opgave.setText(oefeningDetails.get(0));
+        antwoord.setText(oefeningDetails.get(1));
+        feedback.setText(oefeningDetails.get(2));
+
         groepsbewerkingen.setItems(controller.getGroepsbewerkingen());
         groepsbewerkingen.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         groepsbewerkingen.getSelectionModel().selectFirst();
@@ -100,7 +107,7 @@ public class CreateOefeningController extends AnchorPane {
                 }
             }
         });
-        
+
         groepsbewerkingen.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (groepsbewerkingen.getSelectionModel().getSelectedItems() == null) {

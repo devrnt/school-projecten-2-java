@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.mockito.Mockito;
 import repository.GenericDao;
+import repository.GroepsbewerkingDao;
 
 /**
  *
@@ -22,22 +23,31 @@ public class OefeningControllerTest {
 
     private OefeningController controller;
     private GenericDao<Oefening> oefeningRepo;
-    private GenericDao<Groepsbewerking> groepsbwRepo;
+    private GroepsbewerkingDao groepsbwRepo;
 
     private Oefening oefening;
 
     @Before
     public void before() {
-        oefening = new Oefening("opgave", 0, "feedback", new ArrayList<>());
+        // aanmaken controller
         controller = new OefeningController();
+        
+        // aanmaken mocks
         oefeningRepo = Mockito.mock(GenericDao.class);
-        groepsbwRepo = Mockito.mock(GenericDao.class);
+        groepsbwRepo = Mockito.mock(GroepsbewerkingDao.class);
+        
+        // trainen mocks
+        oefening = new Oefening("opgave", 0, "feedback", new ArrayList<>());
         Mockito.when(oefeningRepo.get(1)).thenReturn(oefening);
         Mockito.when(oefeningRepo.get(2)).thenReturn(null);
-        List<Groepsbewerking> groepsbwList = new ArrayList<>();
-        groepsbwList.add(new Groepsbewerking("gbw", 2, OperatorEnum.optellen));
-        Mockito.when(groepsbwRepo.findAll()).thenReturn(groepsbwList);
+        List<String> omschrijvingen = new ArrayList<>();
+        omschrijvingen.add("gbw1");        
+        omschrijvingen.add("gbw2");
+        Mockito.when(groepsbwRepo.getOmschrijvingen()).thenReturn(omschrijvingen);
 
+        
+        
+        // setter injection mocks
         controller.setOefeningRepo(oefeningRepo);
         controller.setGroepsbewerkingRepo(groepsbwRepo);
     }
@@ -45,21 +55,21 @@ public class OefeningControllerTest {
     /* === createOefening === */
     @Test
     public void createOefening_AddsNewOefening() {
-        controller.createOefening("opgave", 0, "feedback", null);
+        controller.createOefening("opgave", 0, "feedback", new ArrayList<>());
         Mockito.verify(oefeningRepo).insert(Mockito.any(Oefening.class));
     }
 
     /* === updateOefening === */
     @Test
     public void updateOefening_changesAndPersistsOefening() {
-        controller.updateOefening(1, "opgave2", 0, "feedback", new int[]{});
+        controller.updateOefening(1, "opgave2", 0, "feedback", new ArrayList<>());
         Assert.assertEquals("opgave2", oefening.getOpgave());
         Mockito.verify(oefeningRepo).update(Mockito.any(Oefening.class));
     }
 
     @Test(expected = NotFoundException.class)
     public void updateOefening_oefeningNotFound_throwsNotFoundException() {
-        controller.updateOefening(2, "opgave2", 0, "feedback", new int[]{});
+        controller.updateOefening(2, "opgave2", 0, "feedback", new ArrayList<>());
     }
 
     /* === deleteOefening === */
@@ -78,6 +88,6 @@ public class OefeningControllerTest {
     @Test
     public void getGroepsbewerkingen_returnsObservableListWithStrings() {
         ObservableList<String> list = controller.getGroepsbewerkingen();
-        Assert.assertEquals("gbw", list.get(0));
+        Assert.assertEquals(2, list.size());
     }
 }
