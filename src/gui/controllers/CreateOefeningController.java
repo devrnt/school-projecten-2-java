@@ -63,9 +63,13 @@ public class CreateOefeningController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // listview
         groepsbewerkingen.setItems(controller.getGroepsbewerkingen());
         groepsbewerkingen.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         groepsbewerkingen.getSelectionModel().selectFirst();
+
+        // listeners voor validatie
         opgave.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (opgave.getText() == null || opgave.getText().trim().length() == 0) {
@@ -80,6 +84,7 @@ public class CreateOefeningController extends AnchorPane {
             if (!newValue) {
                 if (antwoord.getText() == null || antwoord.getText().trim().length() == 0) {
                     antwoordFout.setText("Geef een antwoord in");
+
                 } else {
                     try {
                         Integer.parseInt(antwoord.getText());
@@ -100,7 +105,7 @@ public class CreateOefeningController extends AnchorPane {
                 }
             }
         });
-        
+
         groepsbewerkingen.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (groepsbewerkingen.getSelectionModel().getSelectedItems() == null) {
@@ -118,7 +123,7 @@ public class CreateOefeningController extends AnchorPane {
         Label[] foutLabels = {opgaveFout, antwoordFout, feedbackFout, groepsbewerkingenFout};
         List<String> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && geselecteerdeItems != null;
+        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
         if (inputGeldig) {
             controller.createOefening(opgave.getText(), Integer.parseInt(antwoord.getText()), feedback.getText(), geselecteerdeItems);
@@ -134,6 +139,12 @@ public class CreateOefeningController extends AnchorPane {
             stage.setScene(scene);
             stage.show();
 
+        } else {
+            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+            invalidInput.setTitle("Oefening aanmaken");
+            invalidInput.setHeaderText("Er zijn nog ongeldige velden");
+            invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
+            invalidInput.showAndWait();
         }
     }
 

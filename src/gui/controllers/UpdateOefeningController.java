@@ -125,15 +125,15 @@ public class UpdateOefeningController extends AnchorPane {
         Label[] foutLabels = {opgaveFout, antwoordFout, feedbackFout, groepsbewerkingenFout};
         List<String> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && geselecteerdeItems != null;
+        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
         if (inputGeldig) {
-            controller.createOefening(opgave.getText(), Integer.parseInt(antwoord.getText()), feedback.getText(), geselecteerdeItems);
+            controller.updateOefening(1, opgave.getText(), Integer.parseInt(antwoord.getText()), feedback.getText(), geselecteerdeItems);
 
             Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("Oefening");
-            oefeningCreatedSuccess.setHeaderText("Aanmaken van een oefening");
-            oefeningCreatedSuccess.setContentText("Oefening is succesvol aangemaakt");
+            oefeningCreatedSuccess.setHeaderText("Wijzigen van een oefening");
+            oefeningCreatedSuccess.setContentText("Oefening is succesvol gewijzigd");
             oefeningCreatedSuccess.showAndWait();
             Scene scene = new Scene(new BeheerOefeningenController(controller));
             Stage stage = (Stage) opgave.getScene().getWindow();
@@ -141,6 +141,12 @@ public class UpdateOefeningController extends AnchorPane {
             stage.setScene(scene);
             stage.show();
 
+        } else {
+            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+            invalidInput.setTitle("Oefening aanmaken");
+            invalidInput.setHeaderText("Er zijn nog ongeldige velden");
+            invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
+            invalidInput.showAndWait();
         }
     }
 

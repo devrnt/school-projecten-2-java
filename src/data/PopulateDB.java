@@ -16,11 +16,11 @@ public class PopulateDB {
         GenericDao<Groepsbewerking> groepbwRepo = new GenericDaoJpa<>(Groepsbewerking.class);
         GenericDao<Oefening> oefeningRepo = new GenericDaoJpa<Oefening>(Oefening.class);
         GenericDaoJpa.startTransaction();
-        groepbwRepo.insert(new Groepsbewerking("bewerking1", 2, OperatorEnum.optellen));
-        groepbwRepo.insert(new Groepsbewerking("bewerking2", 3, OperatorEnum.aftrekken));
-        groepbwRepo.insert(new Groepsbewerking("bewerking3", 4, OperatorEnum.delen));
-        groepbwRepo.insert(new Groepsbewerking("bewerking4", 1, OperatorEnum.vermeningvuldigen));
-        oefeningRepo.insert(new Oefening("opgave1", 2, "feedback", groepbwRepo.findAll()));
+        groepbwRepo.insert(new Groepsbewerking("Tel 2 op", 2, OperatorEnum.optellen));
+        groepbwRepo.insert(new Groepsbewerking("Trek 3 af", 3, OperatorEnum.aftrekken));
+        groepbwRepo.insert(new Groepsbewerking("Deel door 4", 4, OperatorEnum.delen));
+        groepbwRepo.insert(new Groepsbewerking("Vermeningvuldig met 5", 5, OperatorEnum.vermeningvuldigen));
+        oefeningRepo.insert(new Oefening("Hoofdrekenen 1", 100, "Gebruik tussenstappen", groepbwRepo.findAll()));
         GenericDaoJpa.commitTransaction();
 
     }

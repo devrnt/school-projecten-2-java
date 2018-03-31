@@ -5,6 +5,7 @@ import domein.Oefening;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDao;
@@ -82,6 +83,14 @@ public class OefeningController {
         ObservableList<String> list = FXCollections.observableArrayList(omschrijvingen);
         
         return list;
+    }
+    
+    public ObservableList<String> getGroepsbewerkingenByOefening(int oefeningId){
+        List<Groepsbewerking> groepsbewerkingen = oefeningRepo.get(oefeningId).getGroepsbewerkingen();
+        return FXCollections.observableArrayList(groepsbewerkingen.stream()
+                .map(Groepsbewerking::getOmschrijving)
+                .collect(Collectors.toList())
+        );
     }
     
     public void close(){

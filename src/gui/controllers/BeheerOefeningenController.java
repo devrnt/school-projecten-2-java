@@ -62,4 +62,26 @@ public class BeheerOefeningenController extends AnchorPane {
         
     }
     
+    @FXML
+    public void updateOefeningClicked(ActionEvent event) throws IOException {        
+        
+        Scene scene = new Scene(new UpdateOefeningController(controller));
+        Stage stage = (Stage) updateOefening.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Wijzigen van een oefening");
+        stage.show();
+        
+    }
+    
+    @FXML
+    public void deleteOefeningClicked(ActionEvent event) throws IOException {        
+        
+        Scene scene = new Scene(new DeleteOefeningController(controller));
+        Stage stage = (Stage) deleteOefening.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Verwijderen van een oefening");
+        stage.show();
+        
+    }
+    
 }
