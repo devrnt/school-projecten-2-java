@@ -86,8 +86,8 @@ public class OefeningControllerTest {
 
     /* === getGroepsbewerkingen === */
     @Test
-    public void getGroepsbewerkingen_returnsObservableListWithStrings() {
-        ObservableList<String> list = controller.getGroepsbewerkingen();
+    public void getGroepsbewerkingen_returnsListOfGroepsbewerkingen() {
+        ObservableList<Groepsbewerking> list = controller.getGroepsbewerkingen();
         Assert.assertEquals(2, list.size());
     }
 }

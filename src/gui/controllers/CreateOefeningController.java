@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.OefeningController;
+import domein.Groepsbewerking;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +44,7 @@ public class CreateOefeningController extends AnchorPane {
     private Label feedbackFout;
 
     @FXML
-    private ListView<String> groepsbewerkingen;
+    private ListView<Groepsbewerking> groepsbewerkingen;
 
     @FXML
     private Label groepsbewerkingenFout;
@@ -121,7 +122,7 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     public void bevestigClicked(ActionEvent event) {
         Label[] foutLabels = {opgaveFout, antwoordFout, feedbackFout, groepsbewerkingenFout};
-        List<String> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
+        List<Groepsbewerking> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 

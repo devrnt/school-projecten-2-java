@@ -61,8 +61,8 @@ public class BeheerOefeningenController extends AnchorPane {
 
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         antwoordCol.setCellValueFactory(c -> c.getValue().getAntwoordProp());
-        
         oefeningenTable.setItems(controller.getOefeningen());
+        
 
     }
 
@@ -79,7 +79,12 @@ public class BeheerOefeningenController extends AnchorPane {
 
     @FXML
     public void detailsBtnClicked(ActionEvent event) {
-
+        int id = oefeningenTable.getSelectionModel().getSelectedItem().getId();
+        Scene scene = new Scene(new DetailsOefeningController(controller, id));
+        Stage stage = (Stage) createOefening.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Wijzig oefening");
+        stage.show();
     }
 
 //    @FXML

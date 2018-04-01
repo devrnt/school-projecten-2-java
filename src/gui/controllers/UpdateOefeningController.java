@@ -1,10 +1,12 @@
 package gui.controllers;
 
 import controllers.OefeningController;
+import domein.Groepsbewerking;
 import domein.Oefening;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +46,7 @@ public class UpdateOefeningController extends AnchorPane {
     private Label feedbackFout;
 
     @FXML
-    private ListView<String> groepsbewerkingen;
+    private ListView<Groepsbewerking> groepsbewerkingen;
 
     @FXML
     private Label groepsbewerkingenFout;
@@ -54,7 +56,7 @@ public class UpdateOefeningController extends AnchorPane {
 
     private Oefening oefening;
 
-    public UpdateOefeningController(OefeningController controller) {
+    public UpdateOefeningController(OefeningController controller, int id) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
 
@@ -67,7 +69,7 @@ public class UpdateOefeningController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        oefening = controller.getOefening(1);
+        oefening = controller.getOefening(id);
         opgave.setText(oefening.getOpgave());
         antwoord.setText(Integer.toString(oefening.getAntwoord()));
         feedback.setText(oefening.getFeedback());
@@ -125,7 +127,7 @@ public class UpdateOefeningController extends AnchorPane {
     @FXML
     public void bevestigClicked(ActionEvent event) {
         Label[] foutLabels = {opgaveFout, antwoordFout, feedbackFout, groepsbewerkingenFout};
-        List<String> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
+        List<Groepsbewerking> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 

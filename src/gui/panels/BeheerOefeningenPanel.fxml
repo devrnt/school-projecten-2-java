@@ -33,7 +33,7 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="detailsBtn" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Verwijder een oefening">
+                  <Button fx:id="detailsBtn" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Details">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>

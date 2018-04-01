@@ -35,8 +35,7 @@ public class OefeningController {
         this.oefeningRepo = oefeningRepo;
     }
     
-    public void createOefening(String opgave, int antwoord, String feedback, List<String> omschrijvingen){
-        List<Groepsbewerking> groepsbewerkingen = groepsbewerkingRepo.getByOmschrijvingen(omschrijvingen);
+    public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen){
         GenericDaoJpa.startTransaction();
         try {
             oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
@@ -47,8 +46,7 @@ public class OefeningController {
         GenericDaoJpa.commitTransaction();
     }
     
-    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, List<String> omschrijvingen){
-        List<Groepsbewerking> groepsbewerkingen = groepsbewerkingRepo.getByOmschrijvingen(omschrijvingen);
+    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen){
         Oefening oefening = oefeningRepo.get(oefId);
         if (oefening == null)
             throw new NotFoundException("De oefening werd niet gevonden");
@@ -79,11 +77,9 @@ public class OefeningController {
         GenericDaoJpa.commitTransaction();
     }
     
-    public ObservableList<String> getGroepsbewerkingen(){
-        List<String> omschrijvingen = groepsbewerkingRepo.getOmschrijvingen();
-        ObservableList<String> list = FXCollections.observableArrayList(omschrijvingen);
+    public ObservableList<Groepsbewerking> getGroepsbewerkingen(){
+        return FXCollections.observableArrayList(groepsbewerkingRepo.findAll());
         
-        return list;
     }
     
     public ObservableList<String> getGroepsbewerkingenByOefening(int oefeningId){

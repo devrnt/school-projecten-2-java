@@ -60,6 +60,11 @@ public class Groepsbewerking implements Serializable {
         return operator;
     }
     
+    @Override
+    public String toString(){
+        return omschrijving;
+    }
+    
     
     
     
