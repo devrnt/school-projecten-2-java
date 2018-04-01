@@ -2,6 +2,8 @@ package domein;
 
 import java.io.Serializable;
 import java.util.List;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  *
@@ -29,6 +33,11 @@ public class Oefening implements Serializable {
     private String feedback;
     @ManyToMany
     private List<Groepsbewerking> groepsbewerkingen;
+    @Transient
+    private SimpleStringProperty opgaveProp = new SimpleStringProperty();
+    @Transient
+    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
+
 
     public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
         setOpgave(opgave);
@@ -40,6 +49,16 @@ public class Oefening implements Serializable {
     public Oefening() {
 
     }
+
+    public SimpleStringProperty getOpgaveProp() {
+        return opgaveProp;
+    }
+
+    public SimpleIntegerProperty getAntwoordProp() {
+        return antwoordProp;
+    }
+    
+    
 
     public int getAntwoord() {
         return antwoord;
@@ -63,10 +82,12 @@ public class Oefening implements Serializable {
 
     public void setOpgave(String opgave) {
         this.opgave = opgave;
+        opgaveProp.set(opgave);
     }
 
     public void setAntwoord(int antwoord) {
         this.antwoord = antwoord;
+        antwoordProp.set(antwoord);
     }
 
     public void setFeedback(String feedback) {

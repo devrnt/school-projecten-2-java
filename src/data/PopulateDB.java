@@ -3,6 +3,8 @@ package data;
 import domein.Groepsbewerking;
 import domein.Oefening;
 import domein.OperatorEnum;
+import java.util.ArrayList;
+import java.util.Arrays;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 
@@ -20,7 +22,12 @@ public class PopulateDB {
         groepbwRepo.insert(new Groepsbewerking("Trek 3 af", 3, OperatorEnum.aftrekken));
         groepbwRepo.insert(new Groepsbewerking("Deel door 4", 4, OperatorEnum.delen));
         groepbwRepo.insert(new Groepsbewerking("Vermeningvuldig met 5", 5, OperatorEnum.vermeningvuldigen));
-        oefeningRepo.insert(new Oefening("Hoofdrekenen 1", 100, "Gebruik tussenstappen", groepbwRepo.findAll()));
+        GenericDaoJpa.commitTransaction();
+        GenericDaoJpa.startTransaction();
+        oefeningRepo.insert(new Oefening("2 x 200 = ", 400, "Gebruik tussenstappen", groepbwRepo.findAll()));
+        oefeningRepo.insert(new Oefening("5 + 20 = ", 25, "Gebruik tussenstappen",  new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)}))));
+        oefeningRepo.insert(new Oefening("190 - 50 = ", 140, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)}))));
+
         GenericDaoJpa.commitTransaction();
 
     }

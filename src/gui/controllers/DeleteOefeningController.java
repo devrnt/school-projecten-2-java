@@ -39,6 +39,8 @@ public class DeleteOefeningController extends AnchorPane {
 
     @FXML
     private Button bevestigBtn;
+    
+    private Oefening oefening;
 
     public DeleteOefeningController(OefeningController controller) {
         this.controller = controller;
@@ -53,10 +55,10 @@ public class DeleteOefeningController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        List<String> oefeningDetails = controller.getOefening(1);
-        opgaveLabel.setText(oefeningDetails.get(0));
-        antwoordLabel.setText(oefeningDetails.get(1));
-        feedbackLabel.setText(oefeningDetails.get(2));
+        oefening = controller.getOefening(1);
+        opgaveLabel.setText(oefening.getOpgave());
+        antwoordLabel.setText(Integer.toString(oefening.getAntwoord()));
+        feedbackLabel.setText(oefening.getFeedback());
 
         groepsbewerkingen.setItems(controller.getGroepsbewerkingenByOefening(1));
         groepsbewerkingen.setDisable(true);

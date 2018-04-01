@@ -52,6 +52,8 @@ public class UpdateOefeningController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
 
+    private Oefening oefening;
+
     public UpdateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
@@ -65,10 +67,10 @@ public class UpdateOefeningController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        List<String> oefeningDetails = controller.getOefening(1);
-        opgave.setText(oefeningDetails.get(0));
-        antwoord.setText(oefeningDetails.get(1));
-        feedback.setText(oefeningDetails.get(2));
+        oefening = controller.getOefening(1);
+        opgave.setText(oefening.getOpgave());
+        antwoord.setText(Integer.toString(oefening.getAntwoord()));
+        feedback.setText(oefening.getFeedback());
 
         groepsbewerkingen.setItems(controller.getGroepsbewerkingen());
         groepsbewerkingen.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

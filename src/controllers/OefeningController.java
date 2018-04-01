@@ -4,6 +4,7 @@ import domein.Groepsbewerking;
 import domein.Oefening;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -97,14 +98,17 @@ public class OefeningController {
         GenericDaoJpa.closePersistency();
     }
 
-    public List<String> getOefening(int id) {
-        Oefening oefening = oefeningRepo.get(id);
-        List<String> oefeningDetails = new ArrayList<>();
-        oefeningDetails.add(oefening.getOpgave());
-        oefeningDetails.add(Integer.toString(oefening.getAntwoord()));
-        oefeningDetails.add(oefening.getFeedback());
-        
-        return oefeningDetails;
+    public Oefening getOefening(int id) {
+        return oefeningRepo.get(id);
+    }
+    
+    public ObservableList<Oefening> getOefeningen(){
+        return FXCollections.observableArrayList(
+                oefeningRepo.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(o -> o.getOpgave()))
+                        .collect(Collectors.toList())
+        );
     }
     
 }
