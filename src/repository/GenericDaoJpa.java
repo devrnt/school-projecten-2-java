@@ -74,4 +74,10 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
         return entity != null;
     }
 
+    @Override
+    public boolean exists(String name) {
+        T entity = em.find(type, name);
+        return entity != null;
+    }
+
 }
