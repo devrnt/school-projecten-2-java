@@ -54,6 +54,12 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
     }
 
     @Override
+    public T get(String naam) {
+        T entity = em.find(type, naam);
+        return entity;
+    }
+
+    @Override
     public T update(T object) {
         return em.merge(object);
     }

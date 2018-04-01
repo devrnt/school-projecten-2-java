@@ -44,13 +44,15 @@ public class BeheerSessiesController extends AnchorPane {
     private Button detailsBtn;
     @FXML
     private TextField searchTextField;
+    @FXML
+    private Button maakSessieButton;
 
     private SessieController sessieController;
     private ObservableList<Sessie> sessies;
 
     public BeheerSessiesController(SessieController sessieController) {
         this.sessieController = sessieController;
-        this.sessies = this.sessieController.getAllSessies();
+        sessies = sessieController.getAllSessies();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerSessiesPanel.fxml"));
         loader.setRoot(this);
@@ -64,7 +66,7 @@ public class BeheerSessiesController extends AnchorPane {
 
         naamCol.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
-        sessieTabel.setItems(sessies);
+        sessieTabel.setItems(sessieController.getAllSessies());
         initialize();
     }
 
@@ -90,16 +92,32 @@ public class BeheerSessiesController extends AnchorPane {
         SortedList<Sessie> sortedSessies = new SortedList<>(filteredSessieLijst);
         sortedSessies.comparatorProperty().bind(sessieTabel.comparatorProperty());
         sessieTabel.setItems(sortedSessies);
+
+        detailsBtn.setDisable(true);
+        sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
+            if (newval != null) {
+                detailsBtn.setDisable(false);
+            }
+        });
     }
 
     @FXML
     private void detailsBtnClicked(ActionEvent event) {
-        /*String uniekeNaam = sessieTabel.getSelectionModel().getSelectedItem().getNaam();
-        Scene scene = new Scene(new DetailsOefeningController(controller, id));
-        Stage stage = (Stage) createOefening.getScene().getWindow();
+        int id = sessieTabel.getSelectionModel().getSelectedItem().getId();
+        Scene scene = new Scene(new DetailsSessieController(sessieController, id));
+        Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Wijzig oefening");
-        stage.show();*/
+        stage.show();
+    }
+
+    @FXML
+    private void maakSessieButtonClicked(ActionEvent event) {
+        Scene scene = new Scene(new CreateSessieController(sessieController));
+        Stage stage = (Stage) maakSessieButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Aanmaken van een nieuwe sessie");
+        stage.show();
     }
 
 }

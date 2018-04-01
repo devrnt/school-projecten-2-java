@@ -17,6 +17,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,8 +30,6 @@ import javax.persistence.Transient;
  *
  * @author devri
  */
-
-
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Sessie.findAll",
@@ -38,6 +38,8 @@ import javax.persistence.Transient;
 public class Sessie implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String naam;
     private String omschrijving;
     private String klas;
@@ -64,6 +66,10 @@ public class Sessie implements Serializable {
     }
 
     // <editor-fold desc="Getters and Setters" >
+    public int getId(){
+        return id;
+    }
+    
     public String getNaam() {
         return naam;
     }
@@ -111,7 +117,13 @@ public class Sessie implements Serializable {
     public void setDatum(Date datum) {
         // controle: datum moet na vandaag zijn
         Calendar cal = Calendar.getInstance();
-        this.datum = datum;
+
+        Date vandaag = cal.getTime();
+        if (datum.before(vandaag)) {
+            throw new IllegalArgumentException("Datum moet in de toekomst liggen");
+        } else {
+            this.datum = datum;
+        }
     }
 
     public void setSessieCode() {

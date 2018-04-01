@@ -7,6 +7,8 @@ public interface GenericDao<T> {
     public List<T> findAll();
 
     public T get(int id);
+    
+    public T get(String naam);
 
     public T update(T object);
 

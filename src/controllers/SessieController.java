@@ -1,14 +1,21 @@
 package controllers;
 
+import domein.Groepsbewerking;
+import domein.Oefening;
 import domein.Sessie;
+import exceptions.NotFoundException;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
+import repository.SessieDao;
+import repository.SessieDaoJpa;
 
 /**
  *
@@ -16,32 +23,44 @@ import repository.GenericDaoJpa;
  */
 public class SessieController {
 
-    private GenericDao<Sessie> sessieRepo;
+    private SessieDaoJpa sessieRepo;
+    private SessieDao repo;
 
     public SessieController() {
-
-        setSessieRepo(new GenericDaoJpa<>(Sessie.class));
-
+        setSessieRepo(new SessieDaoJpa(Sessie.class));
     }
 
-    public void setSessieRepo(GenericDao<Sessie> sessieRepo) {
+    public void setSessieRepo(SessieDaoJpa sessieRepo) {
         this.sessieRepo = sessieRepo;
     }
 
     public void createSessie(String naam, String omschrijving) {
-        if (sessieRepo.exists(naam)) {
+        if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
+        } else {
+            GenericDaoJpa.startTransaction();
+
+            //tijdelijk
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            c.add(Calendar.DAY_OF_YEAR, 1);
+
+            try {
+                sessieRepo.insert(new Sessie(naam, omschrijving, "1", 2.0, c.getTime()));
+            } catch (Exception e) {
+                GenericDaoJpa.rollbackTransaction();
+                throw e;
+            }
+            GenericDaoJpa.commitTransaction();
         }
-        sessieRepo.insert(new Sessie(naam, omschrijving, "1", 2.0, new Date()));
     }
 
     public void close() {
         GenericDaoJpa.closePersistency();
     }
-    
-    
-     public Sessie getSessie(String naam) {
-        return sessieRepo.get(naam);
+
+    public Sessie getSessie(int id) {
+        return sessieRepo.get(id);
     }
 
     public ObservableList<Sessie> getAllSessies() {
@@ -51,6 +70,45 @@ public class SessieController {
                         .sorted(Comparator.comparing(Sessie::getNaam))
                         .collect(Collectors.toList())
         );
+    }
+
+    public void deleteSessie(int id) {
+        Sessie sessie = sessieRepo.get(id);
+        if (sessie == null) {
+            throw new NotFoundException("De sessie werd niet gevonden");
+        }
+        GenericDaoJpa.startTransaction();
+        try {
+            sessieRepo.delete(sessie);
+        } catch (Exception e) {
+            GenericDaoJpa.rollbackTransaction();
+        }
+        GenericDaoJpa.commitTransaction();
+    }
+
+    public boolean bestaatSessieNaam(String naam) {
+        Sessie sessie = sessieRepo.getByNaam(naam);
+        return sessie != null;
+    }
+
+    public void updateSessie(int id, String naam, String omschrijving, String klas, Date datum) {
+        Sessie sessie = sessieRepo.get(id);
+        if (sessie == null) {
+            throw new NotFoundException("De sessie werd niet gevonden");
+        }
+        sessie.setNaam(naam);
+        sessie.setOmschrijving(omschrijving);
+        sessie.setKlas(klas);
+        sessie.setDatum(datum);
+
+        GenericDaoJpa.startTransaction();
+        try {
+            sessieRepo.update(sessie);
+        } catch (Exception e) {
+            GenericDaoJpa.rollbackTransaction();
+            throw e;
+        }
+        GenericDaoJpa.commitTransaction();
     }
 
 }
