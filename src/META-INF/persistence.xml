@@ -4,6 +4,9 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>domein.Groepsbewerking</class>
     <class>domein.Oefening</class>
+    <class>domein.Actie</class>
+    <class>domein.BreakOutBox</class>
+    <class>domein.Toegangscode</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/breakoutbox"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
