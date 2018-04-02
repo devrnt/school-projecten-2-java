@@ -53,9 +53,9 @@ public class SessieTest {
 
     @Test
     public void setSessieLesuurCorrect_werkt() {
-        double lesuur = 5.0;
+        int lesuur = 5;
         sessie.setLesuur(lesuur);
-        Assert.assertEquals(lesuur, sessie.getLesuur(), 0.0);
+        Assert.assertEquals(lesuur, sessie.getLesuur());
     }
 
     @Test(expected = IllegalArgumentException.class)
