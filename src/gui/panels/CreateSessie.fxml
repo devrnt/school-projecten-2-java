@@ -2,122 +2,121 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="624.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="400.0" prefWidth="600.0">
-            <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Details sessie">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Text>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="600.0">
-                    <children>
-                        <Label text="Naam:">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="naamInput" maxWidth="-Infinity" promptText="Typ hier een unieke naam" />
-                        <Label fx:id="naamFout" textFill="RED" />
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="600.0">
-                    <children>
-                        <Label text="Omschrijving:">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextArea fx:id="omschrijvingInput" prefHeight="49.0" prefWidth="361.0" promptText="Typ hier een omschrijving vb met benodigdheden...">
-                            <HBox.margin>
-                                <Insets bottom="5.0" top="5.0" />
-                            </HBox.margin>
-                        </TextArea>
-                        <Label fx:id="omschrijvingFout" textFill="RED" />
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="600.0">
-                    <children>
-                        <Label text="Klas:">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="klasInput" maxWidth="-Infinity" promptText="Typ hier uw klas" />
-                        <Label fx:id="klasFout" textFill="RED" />
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="600.0">
-                    <children>
-                        <Label text="Datum:">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <DatePicker fx:id="datumInput" />
-                        <Label fx:id="datumFout" textFill="RED" />
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="600.0">
-                    <children>
-                        <Label text="Sessie code:">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <Label fx:id="sessiecodeLabel">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Button fx:id="bevestigButton" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="Bevestig">
-                            <HBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </HBox.margin>
-                        </Button>
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="620.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Details sessie">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
+      <GridPane hgap="10.0" layoutX="-4.0" layoutY="50.0" prefHeight="324.0" prefWidth="628.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="116.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="280.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="156.0" />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="65.33331298828125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Naam:">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="naamInput" maxWidth="-Infinity" prefHeight="25.0" prefWidth="212.0" promptText="Typ hier een unieke naam" GridPane.columnIndex="1" />
+            <Label fx:id="naamFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" />
+            <Label text="Omschrijving:" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="omschrijvingInput" prefHeight="70.0" prefWidth="293.0" promptText="Typ hier een omschrijving vb met benodigdheden..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="omschrijvingFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label text="Onderwijs:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="Klas:" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="klasInput" maxWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Typ hier uw klas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="klasFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label text="Datum:" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="datumInput" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label text="Lesuur" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="lesuurInput" maxWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Lesuur (getal)" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="lesuurFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label text="Sessie code:" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="sessiecodeLabel" alignment="TOP_LEFT" prefHeight="20.0" prefWidth="158.0" text="Wordt gegenereerd " GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="soortonderwijsChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Fout antwd" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         </children>
+         <padding>
+            <Insets left="25.0" right="25.0" />
+         </padding>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="-1.0" layoutY="362.0" prefHeight="61.0" prefWidth="620.0">
+         <children>
+            <Button fx:id="bevestigButton" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="Bevestig">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
     </children>
 </fx:root>

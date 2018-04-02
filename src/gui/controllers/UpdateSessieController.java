@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.SessieController;
 import domein.Sessie;
+import domein.SoortOnderwijsEnum;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -55,6 +57,15 @@ public class UpdateSessieController extends AnchorPane {
     private Label sessiecodeLabel;
     @FXML
     private Button bevestigButton;
+    @FXML
+    private ChoiceBox<SoortOnderwijsEnum> soortonderwijsChoiceBox;
+    @FXML
+    private ChoiceBox<String> reactieFoutAntwChoiceBox;
+    @FXML
+    private TextField lesuurInput;
+
+    @FXML
+    private Label lesuurFout;
 
     private SessieController sessieController;
 
@@ -85,30 +96,35 @@ public class UpdateSessieController extends AnchorPane {
 
         sessiecodeLabel.setText(sessie.getSessieCode());
 
-        naamInput.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (naamInput.getText() == null || naamInput.getText().trim().length() == 0) {
-                    naamFout.setText("Vul het veld sessienaam in");
+        lesuurInput.setText(String.valueOf(sessie.getLesuur()));
+
+        // set the choiceboxes
+        Arrays.asList(SoortOnderwijsEnum.values())
+                .forEach(soortOnderwijs -> soortonderwijsChoiceBox.getItems().add(soortOnderwijs));
+        soortonderwijsChoiceBox.setValue(sessie.getSoortOnderwijs());
+
+        reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
+        reactieFoutAntwChoiceBox.setValue(sessie.getFoutAntwActie().substring(0, 1).toUpperCase() + sessie.getFoutAntwActie().substring(1));
+
+        naamInput.textProperty().addListener((ob, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                naamFout.setText("Vul het veld sessienaam in");
+            } else {
+                String sessieNaam = naamInput.getText();
+                if (!sessieNaam.equals(sessie.getNaam()) && sessieController.bestaatSessieNaam(sessieNaam)) {
+                    naamFout.setText("Een sessie met deze naam bestaat al, vul een andere in!");
                 } else {
-                    String sessieNaam = naamInput.getText();
-                    if (!sessieNaam.equals(sessie.getNaam()) && sessieController.bestaatSessieNaam(sessieNaam)) {
-                        naamFout.setText("Een sessie met deze naam bestaat al, vul een andere in!");
-                    } else {
-                        naamFout.setText("");
-                    }
+                    naamFout.setText("");
                 }
             }
 
         });
-        omschrijvingInput.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue == null || newValue.isEmpty()) {
-                    omschrijvingFout.setText("Geef een omschrijving in");
-
-                }
+        omschrijvingInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                omschrijvingFout.setText("Geef een omschrijving in");
+            } else {
+                omschrijvingFout.setText("");
             }
-
         });
 
         klasInput.focusedProperty().addListener((ob, oldValue, newValue) -> {
@@ -123,18 +139,51 @@ public class UpdateSessieController extends AnchorPane {
 
         // date picker
         datumInput.setOnAction(event -> {
-            LocalDate date = datumInput.getValue();
-            if (date == null) {
+            try {
+                LocalDate datumInputVal = datumInput.getValue();
+                Date gekozenDag = Date.from(datumInputVal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                // controle: datum moet na vandaag zijn
+                LocalDate vandaagLoc = LocalDate.now(ZoneId.systemDefault());
+                Date vandaag = Date.from(vandaagLoc.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                if (gekozenDag.before(vandaag)) {
+                    datumFout.setText("De datum moet in de toekomst liggen");
+                } else {
+                    datumFout.setText("");
+                }
+            } catch (NullPointerException e) {
                 datumFout.setText("Geef een datum in");
             }
-            // controle: datum moet na vandaag zijn
-            Calendar cal = Calendar.getInstance();
 
-            Date vandaag = cal.getTime();
-            if (convertToDate(date).before(vandaag)) {
-                datumFout.setText("De datum moet in de toekomst liggen");
+        });
+
+        // listener for choicebox sleect change
+        soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+
+            if (newVal == SoortOnderwijsEnum.dagonderwijs) {
+                reactieFoutAntwChoiceBox.getItems().clear();
+                reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
+                reactieFoutAntwChoiceBox.setValue("Feedback");
+            }
+            if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
+                reactieFoutAntwChoiceBox.getItems().clear();
+                reactieFoutAntwChoiceBox.getItems().add("Feedback");
+                reactieFoutAntwChoiceBox.setValue("Feedback");
+
+            }
+        });
+
+        lesuurInput.textProperty().addListener((v, oldVal, newVal) -> {
+            if (!getalOfNiet(newVal)) {
+                lesuurFout.setText("Lesuur moet een getal zijn!");
             } else {
-                datumFout.setText("");
+                int getal = Integer.parseInt(newVal);
+                if (getal < 0 || getal > 10) {
+                    lesuurFout.setText("Lesuur moet tussen 0 en 10 liggen");
+                } else {
+                    lesuurFout.setText("");
+                }
             }
         });
 
@@ -142,15 +191,18 @@ public class UpdateSessieController extends AnchorPane {
 
     @FXML
     public void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout};
+        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout, lesuurFout};
+        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), klasInput.getText(), lesuurInput.getText()};
 
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
+        boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
 
         if (inputGeldig) {
+            SoortOnderwijsEnum keuze = soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get();
+            String foutAntwActie = reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get();
             sessieController.updateSessie(
                     sessie.getId(), naamInput.getText(),
-                    omschrijvingInput.getText(), klasInput.getText(),
-                    convertToDate(datumInput.getValue())
+                    omschrijvingInput.getText(), klasInput.getText(), Integer.parseInt(lesuurInput.getText()),
+                    convertToDate(datumInput.getValue()), keuze, foutAntwActie
             );
 
             Alert sessieSuccesvolGewijzigd = new Alert(Alert.AlertType.INFORMATION);
@@ -176,7 +228,18 @@ public class UpdateSessieController extends AnchorPane {
     private Date convertToDate(LocalDate value) {
         Instant instant = Instant.from(value.atStartOfDay(ZoneId.systemDefault()));
         Date datum = Date.from(instant);
+        System.out.println("Gekozen datum: " + datum);
+
         return datum;
+    }
+
+    private boolean getalOfNiet(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+        return true;
     }
 
 }

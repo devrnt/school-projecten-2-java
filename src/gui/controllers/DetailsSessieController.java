@@ -47,6 +47,12 @@ public class DetailsSessieController extends AnchorPane {
     private Button wijzigBtn;
     @FXML
     private Button verwijderBtn;
+    @FXML
+    private Label onderwijsLabel;
+    @FXML
+    private Label reactieFoutAntw;
+    @FXML
+    private Label lesuurLabel;
 
     private SessieController sessieController;
     private Sessie sessie;
@@ -99,9 +105,11 @@ public class DetailsSessieController extends AnchorPane {
         naamLabel.setText(sessie.getNaam());
         omschrijvingLabel.setText(sessie.getOmschrijving());
         klasLabel.setText(sessie.getKlas());
-        
+        reactieFoutAntw.setText(sessie.getFoutAntwActie());
+        onderwijsLabel.setText(sessie.getSoortOnderwijs().toString());
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));
         sessiecodeLabel.setText(sessie.getSessieCode());
+        lesuurLabel.setText(Integer.toString((sessie.getLesuur())));
     }
 
 }
