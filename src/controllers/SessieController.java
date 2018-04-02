@@ -3,6 +3,7 @@ package controllers;
 import domein.Groepsbewerking;
 import domein.Oefening;
 import domein.Sessie;
+import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -24,7 +25,6 @@ import repository.SessieDaoJpa;
 public class SessieController {
 
     private SessieDaoJpa sessieRepo;
-    private SessieDao repo;
 
     public SessieController() {
         setSessieRepo(new SessieDaoJpa(Sessie.class));
@@ -34,19 +34,18 @@ public class SessieController {
         this.sessieRepo = sessieRepo;
     }
 
-    public void createSessie(String naam, String omschrijving) {
+    public void createSessie(
+            String naam, String omschrijving,
+            String klas, int lesuur, Date datum,
+            SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
+
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
             GenericDaoJpa.startTransaction();
 
-            //tijdelijk
-            Calendar c = Calendar.getInstance();
-            c.setTime(new Date());
-            c.add(Calendar.DAY_OF_YEAR, 1);
-
             try {
-                sessieRepo.insert(new Sessie(naam, omschrijving, "1", 2.0, c.getTime()));
+                sessieRepo.insert(new Sessie(naam, omschrijving, klas, lesuur, datum, soortOnderwijs, foutAntwActie));
             } catch (Exception e) {
                 GenericDaoJpa.rollbackTransaction();
                 throw e;
@@ -87,11 +86,14 @@ public class SessieController {
     }
 
     public boolean bestaatSessieNaam(String naam) {
-        Sessie sessie = sessieRepo.getByNaam(naam);
+        Sessie sessie = sessieRepo.getByNaam(naam.toLowerCase());
         return sessie != null;
     }
 
-    public void updateSessie(int id, String naam, String omschrijving, String klas, Date datum) {
+    public void updateSessie(int id, String naam, String omschrijving,
+            String klas, int lesuur, Date datum,
+            SoortOnderwijsEnum soortOnderwijs, String foutAntwActie
+    ) {
         Sessie sessie = sessieRepo.get(id);
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
@@ -99,7 +101,11 @@ public class SessieController {
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
+        sessie.setLesuur(lesuur);
+
         sessie.setDatum(datum);
+        sessie.setSoortOnderwijs(soortOnderwijs);
+        sessie.setFoutAntwActie(foutAntwActie);
 
         GenericDaoJpa.startTransaction();
         try {

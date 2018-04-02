@@ -4,6 +4,7 @@ import controllers.BoxController;
 import controllers.OefeningController;
 import controllers.SessieController;
 import data.PopulateDB;
+import domein.SoortOnderwijsEnum;
 import repository.GenericDaoJpa;
 
 public class StartUp {
@@ -13,7 +14,6 @@ public class StartUp {
         new PopulateDB().run();
         controller.createOefening("oef", 0, "feed", null);
         SessieController sessieController = new SessieController();
-        sessieController.createSessie("Sessie1", "omschrijving van de sessie");
         
         controller.close();    
     }
