@@ -9,6 +9,7 @@ package domein;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,6 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,10 +46,14 @@ public class Sessie implements Serializable {
     private String naam;
     private String omschrijving;
     private String klas;
-    private double lesuur;
+    private int lesuur;
     @Temporal(TemporalType.DATE)
     private Date datum;
     private String sessieCode;
+    @Enumerated(EnumType.STRING)
+    private SoortOnderwijsEnum soortOnderwijs;
+    private String foutAntwActie;
+    
 
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
@@ -56,20 +63,24 @@ public class Sessie implements Serializable {
     public Sessie() {
     }
 
-    public Sessie(String naam, String omschrijving, String klas, double lesuur, Date datum) {
+    public Sessie(String naam, String omschrijving,
+            String klas, int lesuur,
+            Date datum, SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
         setNaam(naam);
         setOmschrijving(omschrijving);
         setKlas(klas);
         setLesuur(lesuur);
         setDatum(datum);
         setSessieCode();
+        setSoortOnderwijs(soortOnderwijs);
+        setFoutAntwActie(foutAntwActie);
     }
 
     // <editor-fold desc="Getters and Setters" >
-    public int getId(){
+    public int getId() {
         return id;
     }
-    
+
     public String getNaam() {
         return naam;
     }
@@ -98,11 +109,11 @@ public class Sessie implements Serializable {
         this.klas = klas;
     }
 
-    public double getLesuur() {
+    public int getLesuur() {
         return lesuur;
     }
 
-    public void setLesuur(double lesuur) {
+    public void setLesuur(int lesuur) {
         // controle 
         if (lesuur <= 0 || lesuur > 10) {
             throw new IllegalArgumentException("Geef een geldig lesuur in, tussen 1 en 10");
@@ -142,6 +153,18 @@ public class Sessie implements Serializable {
         return sessieCode;
     }
 
+    public SoortOnderwijsEnum getSoortOnderwijs() {
+        return soortOnderwijs;
+    }
+
+    public void setSoortOnderwijs(SoortOnderwijsEnum soortOnderwijs) {
+        if (Arrays.asList(SoortOnderwijsEnum.values()).contains(soortOnderwijs)) {
+            this.soortOnderwijs = soortOnderwijs;
+        } else {
+            throw new IllegalArgumentException("Geen geldig onderwijstype");
+        }
+    }
+
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
@@ -151,4 +174,12 @@ public class Sessie implements Serializable {
     }
 
     // </editor-fold>
+
+    public void setFoutAntwActie(String foutAntwActie) {
+        this.foutAntwActie = foutAntwActie.toLowerCase().trim();
+    }
+    
+    public String getFoutAntwActie(){
+        return foutAntwActie;
+    }
 }
