@@ -12,12 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class BeheerBreakOutBoxPanelController extends AnchorPane {
 
@@ -59,7 +61,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         FilteredList<BreakOutBox> filteredBoxLijst = new FilteredList<>(BreakOutBoxen, p -> true);
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredBoxLijst.setPredicate(box -> {
@@ -90,6 +92,12 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 
     @FXML
     private void detailsBtnClicked(ActionEvent event) {
+        int id = boxTabel.getSelectionModel().getSelectedItem().getId();
+        Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, id));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Wijzig oefening");
+        stage.show();
     }
 
 }

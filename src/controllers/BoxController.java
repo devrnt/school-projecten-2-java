@@ -5,6 +5,7 @@ import domein.BreakOutBox;
 import domein.Oefening;
 import domein.Toegangscode;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDao;
@@ -36,6 +37,30 @@ public class BoxController {
 
     public BreakOutBox GeefBreakOutBox(int id) {
         return BreakOutBoxRepo.get(id);
+    }
+
+    public ObservableList<String> getActiesByBox(int id) {
+        List<Actie> acties = BreakOutBoxRepo.get(id).getActies();
+        return FXCollections.observableArrayList(acties.stream()
+                .map(Actie::getOmschrijving)
+                .collect(Collectors.toList())
+        );
+    }
+
+    public ObservableList<String> getOefeningenByBox(int id) {
+        List<Oefening> oefeningen = BreakOutBoxRepo.get(id).getOefeningen();
+        return FXCollections.observableArrayList(oefeningen.stream()
+                .map(Oefening::getOpgave)
+                .collect(Collectors.toList())
+        );
+    }
+
+    public ObservableList<String> getToegangscodesByBox(int id) {
+        List<Toegangscode> toegangscodes = BreakOutBoxRepo.get(id).getToegangscodes();
+        return FXCollections.observableArrayList(toegangscodes.stream()
+                .map(Toegangscode::getCode)
+                .collect(Collectors.toList())
+        );
     }
 
 }

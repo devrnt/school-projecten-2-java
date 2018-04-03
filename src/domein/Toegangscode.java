@@ -18,7 +18,17 @@ public class Toegangscode implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String code;
+
+    public Toegangscode(String code) {
+        this.code = code;
+    }
 
     protected Toegangscode() {
     }
+
+    public String getCode() {
+        return code;
+    }
+
 }

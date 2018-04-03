@@ -83,9 +83,9 @@ public class BeheerOefeningenController extends AnchorPane {
     public void detailsBtnClicked(ActionEvent event) {
         int id = oefeningenTable.getSelectionModel().getSelectedItem().getId();
         Scene scene = new Scene(new DetailsOefeningController(controller, id));
-        Stage stage = (Stage) createOefening.getScene().getWindow();
+        Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Wijzig oefening");
+        stage.setTitle("Wijzig BreakOutBox");
         stage.show();
     }
     

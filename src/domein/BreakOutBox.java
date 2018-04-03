@@ -3,6 +3,7 @@ package domein;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +31,9 @@ public class BreakOutBox implements Serializable {
     private String omschrijving;
     @ManyToMany
     private List<Oefening> oefeningen;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Actie> acties;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Toegangscode> toegangscodes;
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
@@ -90,6 +91,22 @@ public class BreakOutBox implements Serializable {
 
     public String getOmschrijving() {
         return omschrijving;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Oefening> getOefeningen() {
+        return oefeningen;
+    }
+
+    public List<Actie> getActies() {
+        return acties;
+    }
+
+    public List<Toegangscode> getToegangscodes() {
+        return toegangscodes;
     }
 
 }

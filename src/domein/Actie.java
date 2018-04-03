@@ -18,7 +18,17 @@ public class Actie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String Omschrijving;
 
+    public Actie(String Omschrijving) {
+        this.Omschrijving = Omschrijving;
+    }
+    
     protected Actie() {
     }
+
+    public String getOmschrijving() {
+        return Omschrijving;
+    }
+    
 }
