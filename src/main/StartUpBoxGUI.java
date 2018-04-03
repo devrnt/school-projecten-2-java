@@ -1,12 +1,10 @@
 package main;
 
 import controllers.BoxController;
-import controllers.OefeningController;
 import domein.Actie;
-import domein.BreakOutBox;
 import domein.Oefening;
 import domein.Toegangscode;
-import gui.BreakOutBoxOverzichtController;
+import gui.controllers.BeheerBreakOutBoxPanelController;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -14,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import repository.GenericDaoJpa;
 
-public class StartUpBoxLijst extends Application {
+public class StartUpBoxGUI extends Application {
 
     @Override
     public void start(Stage stage) {
@@ -27,7 +25,7 @@ public class StartUpBoxLijst extends Application {
         }
         GenericDaoJpa.commitTransaction();
 
-        Scene scene = new Scene(new BreakOutBoxOverzichtController(boxController));
+        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
         stage.setTitle("Box Lijst test");
         stage.setScene(scene);
         stage.setOnShown((WindowEvent t) -> {
@@ -38,6 +36,6 @@ public class StartUpBoxLijst extends Application {
     }
 
     public static void main(String... args) {
-        Application.launch(StartUpBoxLijst.class, args);
+        Application.launch(StartUpBoxGUI.class, args);
     }
 }

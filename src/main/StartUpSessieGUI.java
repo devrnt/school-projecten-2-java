@@ -8,7 +8,6 @@ import domein.BreakOutBox;
 import domein.Oefening;
 import domein.SoortOnderwijsEnum;
 import domein.Toegangscode;
-import gui.BreakOutBoxOverzichtController;
 import gui.controllers.BeheerSessiesController;
 import java.util.ArrayList;
 import java.util.Calendar;

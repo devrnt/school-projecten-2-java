@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox prefHeight="400.0" prefWidth="600.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overzicht BreakOutBoxen">
+                            <font>
+                                <Font size="19.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Text>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="600.0">
+                    <children>
+                        <Button fx:id="maakBoxButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakSessieButtonClicked" text="Nieuwe BreakOutBox">
+                            <HBox.margin>
+                                <Insets left="15.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, Omschrijving...">
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <HBox.margin>
+                                <Insets right="15.0" />
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                </HBox>
+                <HBox prefHeight="244.0" prefWidth="600.0">
+                    <children>
+                        <TableView fx:id="boxTabel" prefHeight="219.0" prefWidth="600.0">
+                            <columns>
+                                <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
+                                <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                    <children>
+                        <Button fx:id="detailsButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Details">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</fx:root>

@@ -30,7 +30,7 @@ public class BoxController {
         GenericDaoJpa.closePersistency();
     }
 
-    public ObservableList<BreakOutBox> GeefAlleBreakOutBoxen() {
+    public ObservableList<BreakOutBox> getAllBreakOutBoxen() {
         return FXCollections.observableArrayList(BreakOutBoxRepo.findAll());
     }
 
