@@ -48,7 +48,7 @@
             </HBox>
             <HBox prefHeight="244.0" prefWidth="600.0">
                <children>
-                  <TableView fx:id="sessieTabel" prefHeight="219.0" prefWidth="600.0">
+                  <TableView fx:id="sessieTabel" onMouseClicked="#dubbelKlik" prefHeight="219.0" prefWidth="600.0">
                     <columns>
                       <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
                       <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />

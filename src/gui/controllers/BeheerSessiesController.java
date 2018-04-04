@@ -8,22 +8,17 @@ package gui.controllers;
 import controllers.SessieController;
 import domein.Sessie;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Comparator;
-import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -34,8 +29,6 @@ import javafx.stage.Stage;
  */
 public class BeheerSessiesController extends AnchorPane {
 
-    @FXML
-    private AnchorPane AnchorPane;
     @FXML
     private TableView<Sessie> sessieTabel;
     @FXML
@@ -66,51 +59,39 @@ public class BeheerSessiesController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
+        initialize();
+    }
+
+    public final void initialize() {
+        /* ==== Code is verhuisd naar SessieController methode -> testbaar ==== */
         naamCol.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
+
         sessieTabel.setPlaceholder(new Label("Geen sessies"));
-        sessieTabel.setItems(sessieController.getAllSessies());
+        sessieTabel.setItems(sessies);
+
         detailsBtn.setDisable(true);
+
+        // als er geen sessie is geselecteerd in de table disable details knop
         sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 detailsBtn.setDisable(false);
             }
         });
-        
+
         searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
     }
 
-    public void initialize() {    /* ==== Code is verhuisd naar SessieController methode -> testbaar ==== */
-
-//        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredSessieLijst.setPredicate(sessie -> {
-//                if (newValue == null || newValue.isEmpty()) {
-//                    return true;
-//                }
-//                String lowerCaseFilter = newValue.toLowerCase();
-//                lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
-//
-//                if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-//                    return true;
-//                } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-//                    return true;
-//                }
-//                return false; // No matches
-//            });
-//        });
-
-//        SortedList<Sessie> sortedSessies = new SortedList<>(filteredSessieLijst, Comparator.comparing(Sessie::getNaam));
-
+    @FXML
+    private void dubbelKlik(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            gaNaarSessieDetails();
+        }
     }
 
     @FXML
     private void detailsBtnClicked(ActionEvent event) {
-        int id = sessieTabel.getSelectionModel().getSelectedItem().getId();
-        Scene scene = new Scene(new DetailsSessieController(sessieController, id));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Wijzig sessie");
-        stage.show();
+        gaNaarSessieDetails();
     }
 
     @FXML
@@ -121,5 +102,16 @@ public class BeheerSessiesController extends AnchorPane {
         stage.setTitle("Aanmaken van een nieuwe sessie");
         stage.show();
     }
+
+    // <editor-fold desc="=== Help methodes ===" >
+    private void gaNaarSessieDetails() {
+        int sessieId = sessieTabel.getSelectionModel().getSelectedItem().getId();
+        Scene scene = new Scene(new DetailsSessieController(sessieController, sessieId));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Details sessie");
+        stage.show();
+    }
+    // </editor-fold>
 
 }
