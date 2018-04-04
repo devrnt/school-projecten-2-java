@@ -71,7 +71,6 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="klasInput" maxWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Typ hier uw klas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="klasFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label text="Datum:" GridPane.rowIndex="4">
                <font>
@@ -104,6 +103,7 @@
                </font>
             </Label>
             <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="klasChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />

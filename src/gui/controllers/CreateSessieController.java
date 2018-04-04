@@ -6,6 +6,7 @@
 package gui.controllers;
 
 import controllers.SessieController;
+import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -49,7 +51,7 @@ public class CreateSessieController extends AnchorPane {
     @FXML
     private Label omschrijvingFout;
     @FXML
-    private TextField klasInput;
+    private ChoiceBox<Klas> klasChoiceBox;
     @FXML
     private Label klasFout;
     @FXML
@@ -90,6 +92,25 @@ public class CreateSessieController extends AnchorPane {
                 .forEach(soortOnderwijs -> soortonderwijsChoiceBox.getItems().add(soortOnderwijs));
         soortonderwijsChoiceBox.setValue(SoortOnderwijsEnum.dagonderwijs);
 
+        klasChoiceBox.setConverter(new StringConverter<Klas>() {
+            @Override
+            public String toString(Klas klas) {
+                return klas.getNaam();
+            }
+
+            @Override
+            public Klas fromString(String klasNaam) {
+                return klasChoiceBox.getItems()
+                        .stream()
+                        .filter(k -> k.getNaam().equals(klasNaam))
+                        .findFirst()
+                        .orElse(null);
+            }
+        });
+
+        sessieController.getAllKlassen()
+                .forEach(klas -> klasChoiceBox.getItems().add(klas));
+
         reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
         reactieFoutAntwChoiceBox.setValue("Feedback");
 
@@ -118,15 +139,10 @@ public class CreateSessieController extends AnchorPane {
             }
         });
 
-        klasInput.textProperty().addListener((ob, oldValue, newValue) -> {
-            System.out.println("Got to klas");
-
-            if (klasInput.getText() == null || klasInput.getText().trim().length() == 0) {
-                klasFout.setText("Geef een klas in");
-            } else {
-                klasFout.setText("");
-            }
-
+        klasChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            System.out.println("Gekozen klas" + newVal + " "+newVal.getNaam());
+            newVal.getLeerlingen()
+                    .forEach(leerling -> System.out.println(leerling));
         });
 
         // date picker
@@ -185,14 +201,16 @@ public class CreateSessieController extends AnchorPane {
 
     private void bevestigButtonClicked(ActionEvent event) {
         Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout, lesuurFout};
-        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), klasInput.getText()};
+        String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
+
+        Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
 
         boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
 
         if (inputGeldig) {
 
             sessieController.createSessie(naamInput.getText(), omschrijvingInput.getText(),
-                    klasInput.getText(), Integer.parseInt(lesuurInput.getText()), convertToDate(datumInput.getValue()),
+                    gekozenKlas, Integer.parseInt(lesuurInput.getText()), convertToDate(datumInput.getValue()),
                     soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
                     reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get()
             );

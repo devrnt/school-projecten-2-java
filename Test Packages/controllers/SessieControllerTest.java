@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
@@ -41,7 +42,7 @@ public class SessieControllerTest {
         // Mocks trainen
         //tijdelijk
         sessie = new Sessie("Sessie 1", "Omschrijving Sessie 1",
-                "2A1", 2, c.getTime(),
+                new Klas(), 2, c.getTime(),
                 SoortOnderwijsEnum.dagonderwijs, "feedback"
         );
         Mockito.when(sessieRepo.get(1)).thenReturn(sessie);
@@ -54,7 +55,7 @@ public class SessieControllerTest {
     // <editor-fold desc="=== createSessie ===" >
     @Test
     public void createSessie_voegtNieuweSessieToe() {
-        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", "2A1", 3, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
+        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), 3, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
         Mockito.verify(sessieRepo).insert(Mockito.any(Sessie.class));
     }
     // </editor-fold>
@@ -62,7 +63,7 @@ public class SessieControllerTest {
     // <editor-fold desc="=== updateSessie ===" >
     @Test
     public void updateSessie_wordtGewijzigd() {
-        sessieController.updateSessie(1, "sessie89", "omschrijving", "2A1", 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
+        sessieController.updateSessie(1, "sessie89", "omschrijving", new Klas(), 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
         Assert.assertEquals("sessie89", sessie.getNaam());
         Mockito.verify(sessieRepo).update(Mockito.any(Sessie.class));
     }
@@ -70,7 +71,7 @@ public class SessieControllerTest {
     @Test(expected = NotFoundException.class)
     public void updateSessie_sessieNietGevonden_GooitNotFoundException() {
         int foutId = 8;
-        sessieController.updateSessie(foutId, "sessie89", "omschrijving", "2A1", 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
+        sessieController.updateSessie(foutId, "sessie89", "omschrijving", new Klas(), 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback");
     }
     // </editor-fold>
 

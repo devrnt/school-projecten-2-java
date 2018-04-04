@@ -17,12 +17,15 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -45,7 +48,8 @@ public class Sessie implements Serializable {
     private int id;
     private String naam;
     private String omschrijving;
-    private String klas;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Klas klas;
     private int lesuur;
     @Temporal(TemporalType.DATE)
     private Date datum;
@@ -64,7 +68,7 @@ public class Sessie implements Serializable {
     }
 
     public Sessie(String naam, String omschrijving,
-            String klas, int lesuur,
+            Klas klas, int lesuur,
             Date datum, SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
         setNaam(naam);
         setOmschrijving(omschrijving);
@@ -99,12 +103,12 @@ public class Sessie implements Serializable {
         omschrijvingProperty.set(omschrijving);
     }
 
-    public String getKlas() {
+    public Klas getKlas() {
         return klas;
     }
 
     //klas wordt van type Klas
-    public void setKlas(String klas) {
+    public void setKlas(Klas klas) {
         //controle 
         this.klas = klas;
     }
@@ -173,13 +177,15 @@ public class Sessie implements Serializable {
         return omschrijvingProperty;
     }
 
-    // </editor-fold>
-
-    public void setFoutAntwActie(String foutAntwActie) {
+    
+     public void setFoutAntwActie(String foutAntwActie) {
         this.foutAntwActie = foutAntwActie.toLowerCase().trim();
     }
     
     public String getFoutAntwActie(){
         return foutAntwActie;
     }
+    // </editor-fold>
+
+   
 }

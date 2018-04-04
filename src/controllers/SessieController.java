@@ -1,6 +1,7 @@
 package controllers;
 
 import domein.Groepsbewerking;
+import domein.Klas;
 import domein.Oefening;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
@@ -25,18 +26,24 @@ import repository.SessieDaoJpa;
 public class SessieController {
 
     private SessieDaoJpa sessieRepo;
+    private GenericDao<Klas> klasRepo;
 
     public SessieController() {
         setSessieRepo(new SessieDaoJpa(Sessie.class));
+        setKlasRepo(new GenericDaoJpa(Klas.class));
     }
 
     public void setSessieRepo(SessieDaoJpa sessieRepo) {
         this.sessieRepo = sessieRepo;
     }
 
+    public void setKlasRepo(GenericDaoJpa klasRepo) {
+        this.klasRepo = klasRepo;
+    }
+
     public void createSessie(
             String naam, String omschrijving,
-            String klas, int lesuur, Date datum,
+            Klas klas, int lesuur, Date datum,
             SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
 
         if (bestaatSessieNaam(naam)) {
@@ -45,7 +52,8 @@ public class SessieController {
             GenericDaoJpa.startTransaction();
 
             try {
-                sessieRepo.insert(new Sessie(naam, omschrijving, klas, lesuur, datum, soortOnderwijs, foutAntwActie));
+                sessieRepo.insert(new Sessie(naam, omschrijving, klas,
+                        lesuur, datum, soortOnderwijs, foutAntwActie));
             } catch (Exception e) {
                 GenericDaoJpa.rollbackTransaction();
                 throw e;
@@ -91,13 +99,14 @@ public class SessieController {
     }
 
     public void updateSessie(int id, String naam, String omschrijving,
-            String klas, int lesuur, Date datum,
+            Klas klas, int lesuur, Date datum,
             SoortOnderwijsEnum soortOnderwijs, String foutAntwActie
     ) {
         Sessie sessie = sessieRepo.get(id);
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
         }
+
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
@@ -115,6 +124,15 @@ public class SessieController {
             throw e;
         }
         GenericDaoJpa.commitTransaction();
+    }
+
+    public List<Klas> getAllKlassen() {
+        return FXCollections.observableArrayList(
+                klasRepo.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(Klas::getNaam))
+                        .collect(Collectors.toList())
+        );
     }
 
 }

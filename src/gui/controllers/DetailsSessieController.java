@@ -104,7 +104,7 @@ public class DetailsSessieController extends AnchorPane {
     private void setLabels() {
         naamLabel.setText(sessie.getNaam());
         omschrijvingLabel.setText(sessie.getOmschrijving());
-        klasLabel.setText(sessie.getKlas());
+        klasLabel.setText(sessie.getKlas().getNaam());
         reactieFoutAntw.setText(sessie.getFoutAntwActie());
         onderwijsLabel.setText(sessie.getSoortOnderwijs().toString());
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));

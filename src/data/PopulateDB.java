@@ -3,6 +3,7 @@ package data;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Groepsbewerking;
+import domein.Klas;
 import domein.Oefening;
 import domein.OperatorEnum;
 import domein.Sessie;
@@ -21,7 +22,7 @@ import repository.GenericDaoJpa;
  * @author sam
  */
 public class PopulateDB {
-    
+
     public void run() {
         GenericDao<Groepsbewerking> groepbwRepo = new GenericDaoJpa<>(Groepsbewerking.class);
         GenericDao<Oefening> oefeningRepo = new GenericDaoJpa<>(Oefening.class);
@@ -39,7 +40,7 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
         GenericDaoJpa.commitTransaction();
-        
+
         Oefening oefening1 = new Oefening("2 x 200 = ", 400, "Gebruik tussenstappen", groepbwRepo.findAll());
         Oefening oefening2 = new Oefening("5 + 20 = ", 25, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening("190 - 50 = ", 140, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
@@ -79,12 +80,21 @@ public class PopulateDB {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DAY_OF_YEAR, 1);
+
+        Klas klas = new Klas("2A1");
+        Klas klas2 = new Klas("2B1");
+
+        klas.voegLeerlingToe("Jan");
+        klas2.voegLeerlingToe("Piet");
         for (int i = 0; i < 3; i++) {
             sessieRepo.insert(new Sessie(
                     "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    "2A1", 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
+                    klas, 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
         }
+        sessieRepo.insert(new Sessie(
+                "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
+                klas2, 2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, "Feedback"));
         GenericDaoJpa.commitTransaction();
-        
+
     }
 }

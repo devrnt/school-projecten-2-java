@@ -6,6 +6,7 @@
 package gui.controllers;
 
 import controllers.SessieController;
+import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import java.io.IOException;
@@ -30,6 +31,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -46,7 +48,7 @@ public class UpdateSessieController extends AnchorPane {
     @FXML
     private Label omschrijvingFout;
     @FXML
-    private TextField klasInput;
+    private ChoiceBox<Klas> klasChoiceBox;
     @FXML
     private Label klasFout;
     @FXML
@@ -88,8 +90,25 @@ public class UpdateSessieController extends AnchorPane {
 
         naamInput.setText(sessie.getNaam());
         omschrijvingInput.setText(sessie.getOmschrijving());
-        klasInput.setText(sessie.getKlas());
 
+        klasChoiceBox.setConverter(new StringConverter<Klas>() {
+            @Override
+            public String toString(Klas klas) {
+                return klas.getNaam();
+            }
+
+            @Override
+            public Klas fromString(String klasNaam) {
+                return klasChoiceBox.getItems()
+                        .stream()
+                        .filter(k -> k.getNaam().equals(klasNaam))
+                        .findFirst()
+                        .orElse(null);
+            }
+        });
+        sessieController.getAllKlassen()
+                .forEach(klas -> klasChoiceBox.getItems().add(klas));
+        klasChoiceBox.setValue(sessie.getKlas());
         // datepicker
         LocalDate sessieDatum = sessie.getDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         datumInput.setValue(sessieDatum);
@@ -127,7 +146,7 @@ public class UpdateSessieController extends AnchorPane {
             }
         });
 
-        klasInput.focusedProperty().addListener((ob, oldValue, newValue) -> {
+        /* klasInput.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (klasInput.getText() == null || klasInput.getText().trim().length() == 0) {
                     klasInput.setText("Geef een klas in");
@@ -135,8 +154,7 @@ public class UpdateSessieController extends AnchorPane {
                     klasInput.setText("");
                 }
             }
-        });
-
+        });*/
         // date picker
         datumInput.setOnAction(event -> {
             try {
@@ -192,7 +210,8 @@ public class UpdateSessieController extends AnchorPane {
     @FXML
     public void bevestigButtonClicked(ActionEvent event) {
         Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout, lesuurFout};
-        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), klasInput.getText(), lesuurInput.getText()};
+        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), lesuurInput.getText()};
+        Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
 
         boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
 
@@ -201,7 +220,7 @@ public class UpdateSessieController extends AnchorPane {
             String foutAntwActie = reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get();
             sessieController.updateSessie(
                     sessie.getId(), naamInput.getText(),
-                    omschrijvingInput.getText(), klasInput.getText(), Integer.parseInt(lesuurInput.getText()),
+                    omschrijvingInput.getText(), gekozenKlas, Integer.parseInt(lesuurInput.getText()),
                     convertToDate(datumInput.getValue()), keuze, foutAntwActie
             );
 
