@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.List;
+import java.util.Observer;
 
 public interface GenericDao<T> {
 
@@ -19,5 +20,7 @@ public interface GenericDao<T> {
     public boolean exists(int id);
 
     public boolean exists(String name);
+    
+    public void addObserver(Observer o);
 
 }

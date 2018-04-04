@@ -4,6 +4,8 @@ import domein.Groepsbewerking;
 import domein.Oefening;
 import exceptions.NotFoundException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +15,7 @@ import repository.GenericDaoJpa;
 import repository.GroepsbewerkingDao;
 import repository.GroepsbewerkingDaoJpa;
 
-public final class OefeningController {
+public final class OefeningController implements Observer {
 
     private GenericDao<Oefening> oefeningRepo;
     private ObservableList<Oefening> oefeningenLijst;
@@ -31,9 +33,9 @@ public final class OefeningController {
 
     public void setOefeningRepo(GenericDao<Oefening> oefeningRepo) {
         this.oefeningRepo = oefeningRepo;
+        this.oefeningRepo.addObserver(this);
         oefeningenLijst = FXCollections.observableArrayList(oefeningRepo.findAll());
         gefilterdeOefeningenLijst = new FilteredList<>(oefeningenLijst, o -> true);
-
     }
 
     /**
@@ -48,7 +50,7 @@ public final class OefeningController {
     public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
         GenericDaoJpa.startTransaction();
         oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
-        oefeningenLijst.add(oefeningRepo.get(oefeningRepo.findAll().size()));
+//        oefeningenLijst.add(oefeningRepo.get(oefeningRepo.findAll().size()));
         GenericDaoJpa.commitTransaction();
 
     }
@@ -68,7 +70,7 @@ public final class OefeningController {
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
-        int index = oefeningenLijst.indexOf(oefening);
+//        int index = oefeningenLijst.indexOf(oefening);
         oefening.setOpgave(opgave);
         oefening.setAntwoord(antwoord);
         oefening.setFeedback(feedback);
@@ -76,7 +78,7 @@ public final class OefeningController {
 
         GenericDaoJpa.startTransaction();
         oefeningRepo.update(oefening);
-        oefeningenLijst.set(index, oefening);    
+//        oefeningenLijst.set(index, oefening);    
         GenericDaoJpa.commitTransaction();
     }
 
@@ -94,7 +96,7 @@ public final class OefeningController {
         }
         GenericDaoJpa.startTransaction();
         oefeningRepo.delete(oefening);
-        oefeningenLijst.remove(oefening);
+//        oefeningenLijst.remove(oefening);
         GenericDaoJpa.commitTransaction();
     }
 
@@ -163,6 +165,12 @@ public final class OefeningController {
             return o.getOpgave().replaceAll("\\s+", "").toLowerCase().contains(toFilter.replaceAll("\\s+", "").toLowerCase());
         });
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        oefeningenLijst.clear();
+        oefeningenLijst.addAll(oefeningRepo.findAll());
     }
 
 }
