@@ -1,6 +1,8 @@
 package gui.controllers;
 
+import controllers.BoxController;
 import controllers.OefeningController;
+import controllers.SessieController;
 import gui.controllers.BeheerOefeningenController;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +24,13 @@ import javafx.stage.Stage;
  */
 public class HomePanelController extends AnchorPane {
     @FXML
-    private Button oefeningBeheer;
+    private Button oefeningBeheerBtn;
+    
+    @FXML
+    private Button boxBeheerBtn;
+    
+    @FXML
+    private Button sessieBeheerBtn;
 
     public HomePanelController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/HomePanel.fxml"));
@@ -40,10 +48,26 @@ public class HomePanelController extends AnchorPane {
     
 
     @FXML
-    public void oefeningBeheerClicked(ActionEvent event){
-        Stage stage = (Stage) oefeningBeheer.getScene().getWindow();
+    public void oefeningBeheerBtnClicked(ActionEvent event){
+        Stage stage = (Stage) oefeningBeheerBtn.getScene().getWindow();
         stage.setScene(new Scene(new BeheerOefeningenController(new OefeningController())));
         stage.setTitle("Beheer oefeningen");
+        stage.show();
+    }
+    
+    @FXML
+    public void boxBeheerBtnClicked(ActionEvent event){
+        Stage stage = (Stage) oefeningBeheerBtn.getScene().getWindow();
+        stage.setScene(new Scene(new BeheerBreakOutBoxPanelController(new BoxController())));
+        stage.setTitle("Beheer BreakoutBoxen");
+        stage.show();
+    }
+    
+    @FXML
+    public void sessieBeheerBtnClicked(ActionEvent event){
+        Stage stage = (Stage) oefeningBeheerBtn.getScene().getWindow();
+        stage.setScene(new Scene(new BeheerSessiesController(new SessieController())));
+        stage.setTitle("Beheer sessies");
         stage.show();
     }
     

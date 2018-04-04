@@ -6,6 +6,7 @@ import domein.Oefening;
 import domein.OperatorEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.collections.ObservableList;
 import org.junit.Before;
@@ -31,22 +32,23 @@ public class OefeningControllerTest {
     public void before() {
         // aanmaken controller
         controller = new OefeningController();
-        
+
         // aanmaken mocks
         oefeningRepo = Mockito.mock(GenericDao.class);
         groepsbwRepo = Mockito.mock(GroepsbewerkingDao.class);
-        
+
         // trainen mocks
         oefening = new Oefening("opgave", 0, "feedback", new ArrayList<>());
         Mockito.when(oefeningRepo.get(1)).thenReturn(oefening);
         Mockito.when(oefeningRepo.get(2)).thenReturn(null);
-        List<String> omschrijvingen = new ArrayList<>();
-        omschrijvingen.add("gbw1");        
-        omschrijvingen.add("gbw2");
-        Mockito.when(groepsbwRepo.getOmschrijvingen()).thenReturn(omschrijvingen);
+        Mockito.when(groepsbwRepo.findAll()).thenReturn(
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{
+                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
+                    new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
 
-        
-        
+                }))
+        );
+
         // setter injection mocks
         controller.setOefeningRepo(oefeningRepo);
         controller.setGroepsbewerkingRepo(groepsbwRepo);

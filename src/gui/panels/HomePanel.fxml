@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -8,7 +9,20 @@
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="oefeningBeheer" mnemonicParsing="false" onAction="#oefeningBeheerClicked" text="Beheer oefeningen" />
+            <Button fx:id="oefeningBeheerBtn" mnemonicParsing="false" onAction="#oefeningBeheerBtnClicked" text="Beheer Oefeningen">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <Button fx:id="boxBeheerBtn" mnemonicParsing="false" onAction="#boxBeheerBtnClicked" text="Beheer BreakoutBoxes">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="sessieBeheerBtn" mnemonicParsing="false" onAction="#sessieBeheerBtnClicked" text="Beheer Sessies">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
    </children>

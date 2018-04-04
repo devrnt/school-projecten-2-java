@@ -49,10 +49,20 @@
                   </Label>
                </children>
             </VBox>
-            <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="Bevestig">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin></Button>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="Bevestig">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="annuleerBtn" mnemonicParsing="false" text="Annuleer">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

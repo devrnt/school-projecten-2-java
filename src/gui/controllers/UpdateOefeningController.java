@@ -53,6 +53,9 @@ public class UpdateOefeningController extends AnchorPane {
 
     @FXML
     private Button bevestigBtn;
+    
+    @FXML
+    private Button annuleerBtn;
 
     private Oefening oefening;
 
@@ -121,6 +124,8 @@ public class UpdateOefeningController extends AnchorPane {
                 }
             }
         });
+        
+        annuleerBtn.setOnAction(event -> terugNaarDetails());
 
     }
 
@@ -132,18 +137,14 @@ public class UpdateOefeningController extends AnchorPane {
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
         if (inputGeldig) {
-            controller.updateOefening(1, opgave.getText(), Integer.parseInt(antwoord.getText()), feedback.getText(), geselecteerdeItems);
+            controller.updateOefening(oefening.getId(), opgave.getText(), Integer.parseInt(antwoord.getText()), feedback.getText(), geselecteerdeItems);
 
             Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("Oefening");
             oefeningCreatedSuccess.setHeaderText("Wijzigen van een oefening");
             oefeningCreatedSuccess.setContentText("Oefening is succesvol gewijzigd");
             oefeningCreatedSuccess.showAndWait();
-            Scene scene = new Scene(new BeheerOefeningenController(controller));
-            Stage stage = (Stage) opgave.getScene().getWindow();
-            stage.setTitle("Beheer Oefeningen");
-            stage.setScene(scene);
-            stage.show();
+            terugNaarDetails();
 
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
@@ -152,6 +153,14 @@ public class UpdateOefeningController extends AnchorPane {
             invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
             invalidInput.showAndWait();
         }
+    }
+    
+    private void terugNaarDetails() {
+        Scene scene = new Scene(new DetailsOefeningController(controller, oefening.getId()));
+        Stage stage = (Stage) opgave.getScene().getWindow();
+        stage.setTitle("Details oefening");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

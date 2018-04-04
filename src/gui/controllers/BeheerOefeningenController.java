@@ -85,7 +85,7 @@ public class BeheerOefeningenController extends AnchorPane {
         Scene scene = new Scene(new DetailsOefeningController(controller, id));
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Wijzig BreakOutBox");
+        stage.setTitle("Oefening details");
         stage.show();
     }
     

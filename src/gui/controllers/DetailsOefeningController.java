@@ -46,6 +46,9 @@ public class DetailsOefeningController extends AnchorPane {
     @FXML
     private Button verwijderBtn;
     
+    @FXML
+    private Button terugBtn;
+    
     private Oefening oefening;
 
     public DetailsOefeningController(OefeningController controller, int id) {
@@ -69,7 +72,10 @@ public class DetailsOefeningController extends AnchorPane {
         groepsbewerkingen.setItems(controller.getGroepsbewerkingenByOefening(id));
         groepsbewerkingen.setDisable(true);
 
+        terugBtn.setOnAction(event -> terugNaarLijst());
+        
     }
+    
     
     @FXML
     public void wijzigBtnClicked(ActionEvent event){
@@ -89,12 +95,16 @@ public class DetailsOefeningController extends AnchorPane {
         Optional<ButtonType> result = verwijderAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             controller.deleteOefening(oefening.getId());
-            Scene scene = new Scene(new BeheerOefeningenController(controller));
-            Stage stage = (Stage) opgaveLabel.getScene().getWindow();
-            stage.setTitle("Beheer Oefeningen");
-            stage.setScene(scene);
-            stage.show();
+            terugNaarLijst();
         }
+    }
+    
+    private void terugNaarLijst() {
+        Scene scene = new Scene(new BeheerOefeningenController(controller));
+        Stage stage = (Stage) wijzigBtn.getScene().getWindow();
+        stage.setTitle("Beheer Oefeningen");
+        stage.setScene(scene);
+        stage.show();
     }
 
 //    @FXML
@@ -114,5 +124,6 @@ public class DetailsOefeningController extends AnchorPane {
 //        stage.show();
 //
 //    }
+    
 
 }

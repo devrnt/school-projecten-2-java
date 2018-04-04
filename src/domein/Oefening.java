@@ -5,14 +5,13 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  *
@@ -31,12 +30,12 @@ public class Oefening implements Serializable {
     private String opgave;
     private int antwoord;
     private String feedback;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Groepsbewerking> groepsbewerkingen;
-    @Transient
-    private SimpleStringProperty opgaveProp = new SimpleStringProperty();
-    @Transient
-    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
+//    @Transient
+//    private SimpleStringProperty opgaveProp = new SimpleStringProperty();
+//    @Transient
+//    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
 
 
     public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
@@ -51,11 +50,11 @@ public class Oefening implements Serializable {
     }
 
     public SimpleStringProperty getOpgaveProp() {
-        return opgaveProp;
+        return new SimpleStringProperty(opgave);
     }
 
     public SimpleIntegerProperty getAntwoordProp() {
-        return antwoordProp;
+        return new SimpleIntegerProperty(antwoord);
     }
     
     
@@ -82,12 +81,12 @@ public class Oefening implements Serializable {
 
     public void setOpgave(String opgave) {
         this.opgave = opgave;
-        opgaveProp.set(opgave);
+//        opgaveProp.set(opgave);
     }
 
     public void setAntwoord(int antwoord) {
         this.antwoord = antwoord;
-        antwoordProp.set(antwoord);
+//        antwoordProp.set(antwoord);
     }
 
     public void setFeedback(String feedback) {

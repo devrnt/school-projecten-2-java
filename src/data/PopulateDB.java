@@ -5,9 +5,13 @@ import domein.BreakOutBox;
 import domein.Groepsbewerking;
 import domein.Oefening;
 import domein.OperatorEnum;
+import domein.Sessie;
+import domein.SoortOnderwijsEnum;
 import domein.Toegangscode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
@@ -17,12 +21,14 @@ import repository.GenericDaoJpa;
  * @author sam
  */
 public class PopulateDB {
-
+    
     public void run() {
         GenericDao<Groepsbewerking> groepbwRepo = new GenericDaoJpa<>(Groepsbewerking.class);
         GenericDao<Oefening> oefeningRepo = new GenericDaoJpa<>(Oefening.class);
         GenericDao<BreakOutBox> boxRepo = new GenericDaoJpa<>(BreakOutBox.class);
+        GenericDao<Sessie> sessieRepo = new GenericDaoJpa<>(Sessie.class);
 
+        /* === Data voor oefeningenbeheer === */
         Groepsbewerking groepsbewerking1 = new Groepsbewerking("Tel 2 op", 2, OperatorEnum.optellen);
         Groepsbewerking groepsbewerking2 = new Groepsbewerking("Trek 3 af", 3, OperatorEnum.aftrekken);
         Groepsbewerking groepsbewerking3 = new Groepsbewerking("Deel door 4", 4, OperatorEnum.delen);
@@ -33,7 +39,7 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
         GenericDaoJpa.commitTransaction();
-
+        
         Oefening oefening1 = new Oefening("2 x 200 = ", 400, "Gebruik tussenstappen", groepbwRepo.findAll());
         Oefening oefening2 = new Oefening("5 + 20 = ", 25, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening("190 - 50 = ", 140, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
@@ -43,6 +49,7 @@ public class PopulateDB {
         oefeningRepo.insert(oefening3);
         GenericDaoJpa.commitTransaction();
 
+        /* === Data voor boxbeheer === */
         List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
         List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
         List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
@@ -67,5 +74,17 @@ public class PopulateDB {
         boxRepo.insert(box3);
         GenericDaoJpa.commitTransaction();
 
+        /*=== Data voor sessiebeheer === */
+        GenericDaoJpa.startTransaction();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        for (int i = 0; i < 3; i++) {
+            sessieRepo.insert(new Sessie(
+                    "sessie " + i, "Sessie " + i + " omschrijving hier...",
+                    "2A1", 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
+        }
+        GenericDaoJpa.commitTransaction();
+        
     }
 }

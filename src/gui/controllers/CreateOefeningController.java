@@ -52,6 +52,9 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
 
+    @FXML
+    private Button annuleerBtn;
+
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
@@ -116,6 +119,8 @@ public class CreateOefeningController extends AnchorPane {
                 }
             }
         });
+        
+        annuleerBtn.setOnAction(event -> terugNaarLijst());
 
     }
 
@@ -134,11 +139,7 @@ public class CreateOefeningController extends AnchorPane {
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een oefening");
             oefeningCreatedSuccess.setContentText("Oefening is succesvol aangemaakt");
             oefeningCreatedSuccess.showAndWait();
-            Scene scene = new Scene(new BeheerOefeningenController(controller));
-            Stage stage = (Stage) opgave.getScene().getWindow();
-            stage.setTitle("Beheer Oefeningen");
-            stage.setScene(scene);
-            stage.show();
+            terugNaarLijst();
 
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
@@ -147,6 +148,14 @@ public class CreateOefeningController extends AnchorPane {
             invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
             invalidInput.showAndWait();
         }
+    }
+
+    private void terugNaarLijst() {
+        Scene scene = new Scene(new BeheerOefeningenController(controller));
+        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
+        stage.setTitle("Beheer Oefeningen");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
