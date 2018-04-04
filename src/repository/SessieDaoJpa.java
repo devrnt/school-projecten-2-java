@@ -5,10 +5,7 @@
  */
 package repository;
 
-import domein.Groepsbewerking;
 import domein.Sessie;
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 /**

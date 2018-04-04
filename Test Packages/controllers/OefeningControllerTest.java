@@ -111,27 +111,32 @@ public class OefeningControllerTest {
         Assert.assertEquals(2, list.size());
     }
 //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="=== getOefening ===">
     @Test
-    public void getOefeningen_ReturnsOefeningen(){
+    public void getOefeningen_ReturnsOefeningen() {
         Assert.assertEquals(2, controller.getOefeningen().size());
     }
 //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="=== applyFilter ===">
     @Test
-    public void applyFilter_NoTextReturnsAll(){
+    public void applyFilter_NoTextReturnsAll() {
         controller.applyFilter("");
         Assert.assertEquals(2, controller.getOefeningen().size());
     }
-    
+
     @Test
-    public void applyFilter_ReturnsMatches(){
+    public void applyFilter_ReturnsMatches() {
         controller.applyFilter("opgave1");
         Assert.assertEquals(1, controller.getOefeningen().size());
     }
+
+    @Test
+    public void applyFilter_WithWhiteSpaceReturnsMatches() {
+        controller.applyFilter("opgave 1");
+        Assert.assertEquals(1, controller.getOefeningen().size());
+    }
 //</editor-fold>
-    
-    
+
 }

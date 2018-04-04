@@ -111,7 +111,6 @@ public class SessieController {
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
         sessie.setLesuur(lesuur);
-
         sessie.setDatum(datum);
         sessie.setSoortOnderwijs(soortOnderwijs);
         sessie.setFoutAntwActie(foutAntwActie);

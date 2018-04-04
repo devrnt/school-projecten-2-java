@@ -160,7 +160,7 @@ public final class OefeningController {
             if (toFilter == null || toFilter.isEmpty()) {
                 return true;
             }
-            return o.getOpgave().toLowerCase().contains(toFilter.toLowerCase());
+            return o.getOpgave().replaceAll("\\s+", "").toLowerCase().contains(toFilter.replaceAll("\\s+", "").toLowerCase());
         });
 
     }
