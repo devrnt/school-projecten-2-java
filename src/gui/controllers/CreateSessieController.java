@@ -70,6 +70,9 @@ public class CreateSessieController extends AnchorPane {
     private TextField lesuurInput;
 
     @FXML
+    private Button bekijkLlnButton;
+
+    @FXML
     private Label lesuurFout;
 
     private SessieController sessieController;
@@ -113,6 +116,8 @@ public class CreateSessieController extends AnchorPane {
 
         reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
         reactieFoutAntwChoiceBox.setValue("Feedback");
+        
+        bekijkLlnButton.setDisable(true);
 
         naamInput.textProperty().addListener((ob, oldValue, newValue) -> {
             System.out.println("Got to naam");
@@ -140,9 +145,7 @@ public class CreateSessieController extends AnchorPane {
         });
 
         klasChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
-            System.out.println("Gekozen klas" + newVal + " "+newVal.getNaam());
-            newVal.getLeerlingen()
-                    .forEach(leerling -> System.out.println(leerling));
+            bekijkLlnButton.setDisable(false);
         });
 
         // date picker
@@ -248,5 +251,15 @@ public class CreateSessieController extends AnchorPane {
             return false;
         }
         return true;
+    }
+
+    @FXML
+    private void bekijkLlnButtonClicked(ActionEvent event) {
+        Klas klas = klasChoiceBox.getSelectionModel().getSelectedItem();
+        Scene scene = new Scene(new OverzichtLeerlingenInKlasController(sessieController,klas.getId()));
+        Stage stage = new Stage();
+        stage.setTitle("Bekijk leerlingen");
+        stage.setScene(scene);
+        stage.show();
     }
 }

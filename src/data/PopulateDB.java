@@ -81,15 +81,23 @@ public class PopulateDB {
         c.setTime(new Date());
         c.add(Calendar.DAY_OF_YEAR, 1);
 
-        Klas klas = new Klas("2A1");
+        Klas klas1 = new Klas("2A1");
         Klas klas2 = new Klas("2B1");
 
-        klas.voegLeerlingToe("Jan");
-        klas2.voegLeerlingToe("Piet");
+        String[] llnKlas1 = {"Jan", "Piet", "Joris", "Corneel"};
+        for (String lln : llnKlas1) {
+            klas1.voegLeerlingToe(lln);
+        }
+
+        String[] llnKlas2 = {"Niels", "Pepijn", "Robin", "Petra"};
+        for (String lln : llnKlas2) {
+            klas2.voegLeerlingToe(lln);
+        }
+
         for (int i = 0; i < 3; i++) {
             sessieRepo.insert(new Sessie(
                     "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    klas, 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
+                    klas1, 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
         }
         sessieRepo.insert(new Sessie(
                 "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",

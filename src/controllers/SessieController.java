@@ -136,6 +136,10 @@ public class SessieController {
         );
     }
 
+    public Klas getKlas(int id) {
+        return klasRepo.get(id);
+    }
+
     public void applyFilter(String toFilter) {
         gefilterdeSessieLijst.setPredicate(sessie -> {
             if (toFilter == null || toFilter.isEmpty()) {

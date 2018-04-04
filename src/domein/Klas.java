@@ -8,6 +8,8 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,7 @@ import javax.persistence.NamedQuery;
             query = "SELECT k FROM Klas k")
 })
 public class Klas implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -58,8 +61,8 @@ public class Klas implements Serializable {
         this.naam = naam;
     }
 
-    public List<String> getLeerlingen() {
-        return leerlingen;
+    public ObservableList<String> getLeerlingen() {
+        return FXCollections.observableArrayList(leerlingen);
     }
 
     public void setLeerlingen(List<String> leerlingen) {
@@ -67,7 +70,6 @@ public class Klas implements Serializable {
     }
 
     // </editor-fold>
-    
     public void voegLeerlingToe(String leerling) {
         if (leerlingen.stream().anyMatch(l -> l.trim().equalsIgnoreCase(leerling))) {
             throw new IllegalArgumentException("Leerling bestaat al.");

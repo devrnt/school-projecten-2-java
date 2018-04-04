@@ -68,12 +68,14 @@ public class UpdateSessieController extends AnchorPane {
 
     @FXML
     private Label lesuurFout;
+    @FXML
+    private Button bekijkLlnButton;
 
     private SessieController sessieController;
 
     private Sessie sessie;
 
-    public UpdateSessieController(SessieController sessieController, int id) {
+    public UpdateSessieController(SessieController sessieController, int sessieId) {
         this.sessieController = sessieController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
 
@@ -86,7 +88,7 @@ public class UpdateSessieController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        sessie = sessieController.getSessie(id);
+        sessie = sessieController.getSessie(sessieId);
 
         naamInput.setText(sessie.getNaam());
         omschrijvingInput.setText(sessie.getOmschrijving());
@@ -124,6 +126,10 @@ public class UpdateSessieController extends AnchorPane {
 
         reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
         reactieFoutAntwChoiceBox.setValue(sessie.getFoutAntwActie().substring(0, 1).toUpperCase() + sessie.getFoutAntwActie().substring(1));
+
+        klasChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            bekijkLlnButton.setDisable(false);
+        });
 
         naamInput.textProperty().addListener((ob, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
@@ -259,6 +265,16 @@ public class UpdateSessieController extends AnchorPane {
             return false;
         }
         return true;
+    }
+
+    @FXML
+    private void bekijkLlnButtonClicked(ActionEvent event) {
+        Klas klas = klasChoiceBox.getSelectionModel().getSelectedItem();
+        Scene scene = new Scene(new OverzichtLeerlingenInKlasController(sessieController, klas.getId()));
+        Stage stage = new Stage();
+        stage.setTitle("Bekijk leerlingen");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

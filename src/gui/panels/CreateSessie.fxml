@@ -104,6 +104,7 @@
             </Label>
             <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ChoiceBox fx:id="klasChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="bekijkLlnButton" mnemonicParsing="false" onAction="#bekijkLlnButtonClicked" text="Bekijk leerlingen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
