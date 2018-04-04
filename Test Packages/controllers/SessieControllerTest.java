@@ -10,6 +10,7 @@ import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Assert;
@@ -47,6 +48,16 @@ public class SessieControllerTest {
         );
         Mockito.when(sessieRepo.get(1)).thenReturn(sessie);
         Mockito.when(sessieRepo.get(2)).thenReturn(null);
+        Mockito.when(sessieRepo.findAll()).thenReturn(
+                new ArrayList<>(
+                        Arrays.asList(
+                                new Sessie[]{
+                                    sessie,
+                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "feedback")
+                                }
+                        )
+                )
+        );
 
         // SetterInjection mocks
         sessieController.setSessieRepo(sessieRepo);
@@ -88,4 +99,23 @@ public class SessieControllerTest {
         sessieController.deleteSessie(90);
     }
     // </editor-fold>
+    
+    @Test
+    public void getAllSessies_returnsAllSessies(){
+        Assert.assertEquals(2, sessieController.getAllSessies().size());
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="=== applyFilter ===">
+    @Test
+    public void applyFilter_NoTextReturnsAll(){
+        sessieController.applyFilter("");
+        Assert.assertEquals(2, sessieController.getAllSessies().size());
+    }
+    
+    @Test
+    public void applyFilter_ReturnsMatches(){
+        sessieController.applyFilter("sessie 1");
+        Assert.assertEquals(1, sessieController.getAllSessies().size());
+    }
+//</editor-fold>
 }

@@ -41,12 +41,27 @@ public class OefeningControllerTest {
         oefening = new Oefening("opgave", 0, "feedback", new ArrayList<>());
         Mockito.when(oefeningRepo.get(1)).thenReturn(oefening);
         Mockito.when(oefeningRepo.get(2)).thenReturn(null);
-        Mockito.when(groepsbwRepo.findAll()).thenReturn(
-                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{
-                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
-                    new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
+        Mockito.when(oefeningRepo.findAll()).thenReturn(
+                new ArrayList<>(
+                        Arrays.asList(
+                                new Oefening[]{
+                                    new Oefening("opgave1", 1, "feedback1", new ArrayList<>()),
+                                    new Oefening("opgave2", 1, "feedback2", new ArrayList<>())
 
-                }))
+                                }
+                        )
+                )
+        );
+        Mockito.when(groepsbwRepo.findAll()).thenReturn(
+                new ArrayList<>(
+                        Arrays.asList(
+                                new Groepsbewerking[]{
+                                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
+                                    new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
+
+                                }
+                        )
+                )
         );
 
         // setter injection mocks
@@ -54,14 +69,15 @@ public class OefeningControllerTest {
         controller.setGroepsbewerkingRepo(groepsbwRepo);
     }
 
-    /* === createOefening === */
+    //<editor-fold defaultstate="collapsed" desc="=== createOefening ===">
     @Test
     public void createOefening_AddsNewOefening() {
         controller.createOefening("opgave", 0, "feedback", new ArrayList<>());
         Mockito.verify(oefeningRepo).insert(Mockito.any(Oefening.class));
     }
+    //</editor-fold>
 
-    /* === updateOefening === */
+    //<editor-fold defaultstate="collapsed" desc="=== updateOefening ===">
     @Test
     public void updateOefening_changesAndPersistsOefening() {
         controller.updateOefening(1, "opgave2", 0, "feedback", new ArrayList<>());
@@ -73,8 +89,9 @@ public class OefeningControllerTest {
     public void updateOefening_oefeningNotFound_throwsNotFoundException() {
         controller.updateOefening(2, "opgave2", 0, "feedback", new ArrayList<>());
     }
+//</editor-fold>
 
-    /* === deleteOefening === */
+    //<editor-fold defaultstate="collapsed" desc="=== deleteOefening ===">
     @Test
     public void deleteOefening_callsDeleteInRepo() {
         controller.deleteOefening(1);
@@ -85,11 +102,36 @@ public class OefeningControllerTest {
     public void deleteOefening_oefeningNotFound_throwsNotFoundException() {
         controller.deleteOefening(2);
     }
+//</editor-fold>
 
-    /* === getGroepsbewerkingen === */
+    //<editor-fold defaultstate="collapsed" desc="=== getGroepsbewerkingen ===">
     @Test
     public void getGroepsbewerkingen_returnsListOfGroepsbewerkingen() {
         ObservableList<Groepsbewerking> list = controller.getGroepsbewerkingen();
         Assert.assertEquals(2, list.size());
     }
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="=== getOefening ===">
+    @Test
+    public void getOefeningen_ReturnsOefeningen(){
+        Assert.assertEquals(2, controller.getOefeningen().size());
+    }
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="=== applyFilter ===">
+    @Test
+    public void applyFilter_NoTextReturnsAll(){
+        controller.applyFilter("");
+        Assert.assertEquals(2, controller.getOefeningen().size());
+    }
+    
+    @Test
+    public void applyFilter_ReturnsMatches(){
+        controller.applyFilter("opgave1");
+        Assert.assertEquals(1, controller.getOefeningen().size());
+    }
+//</editor-fold>
+    
+    
 }
