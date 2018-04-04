@@ -63,6 +63,11 @@ public class SessieControllerTest {
         sessieController.setSessieRepo(sessieRepo);
     }
 
+    @Test
+    public void getAllSessies_returnsAllSessies() {
+        Assert.assertEquals(2, sessieController.getAllSessies().size());
+    }
+
     // <editor-fold desc="=== createSessie ===" >
     @Test
     public void createSessie_voegtNieuweSessieToe() {
@@ -99,21 +104,16 @@ public class SessieControllerTest {
         sessieController.deleteSessie(90);
     }
     // </editor-fold>
-    
-    @Test
-    public void getAllSessies_returnsAllSessies(){
-        Assert.assertEquals(2, sessieController.getAllSessies().size());
-    }
-    
+
     //<editor-fold defaultstate="collapsed" desc="=== applyFilter ===">
     @Test
-    public void applyFilter_NoTextReturnsAll(){
+    public void applyFilter_NoTextReturnsAll() {
         sessieController.applyFilter("");
         Assert.assertEquals(2, sessieController.getAllSessies().size());
     }
-    
+
     @Test
-    public void applyFilter_ReturnsMatches(){
+    public void applyFilter_ReturnsMatches() {
         sessieController.applyFilter("sessie 1");
         Assert.assertEquals(1, sessieController.getAllSessies().size());
     }
