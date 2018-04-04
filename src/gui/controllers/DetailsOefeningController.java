@@ -42,13 +42,13 @@ public class DetailsOefeningController extends AnchorPane {
 
     @FXML
     private Button wijzigBtn;
-    
+
     @FXML
     private Button verwijderBtn;
-    
+
     @FXML
     private Button terugBtn;
-    
+
     private Oefening oefening;
 
     public DetailsOefeningController(OefeningController controller, int id) {
@@ -73,32 +73,32 @@ public class DetailsOefeningController extends AnchorPane {
         groepsbewerkingen.setDisable(true);
 
         terugBtn.setOnAction(event -> terugNaarLijst());
-        
+
     }
-    
-    
+
     @FXML
-    public void wijzigBtnClicked(ActionEvent event){
+    public void wijzigBtnClicked(ActionEvent event) {
         Scene scene = new Scene(new UpdateOefeningController(controller, oefening.getId()));
         Stage stage = (Stage) wijzigBtn.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Wijzig oefening");
         stage.show();
     }
-    
+
     @FXML
-    public void verwijderBtnClicked(ActionEvent event){
+    public void verwijderBtnClicked(ActionEvent event) {
         Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen oefening");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze oefening wil verwijderen?");
-        Optional<ButtonType> result = verwijderAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            controller.deleteOefening(oefening.getId());
-            terugNaarLijst();
-        }
+        verwijderAlert.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                controller.deleteOefening(oefening.getId());
+                terugNaarLijst();
+            }
+        });
     }
-    
+
     private void terugNaarLijst() {
         Scene scene = new Scene(new BeheerOefeningenController(controller));
         Stage stage = (Stage) wijzigBtn.getScene().getWindow();
@@ -124,6 +124,4 @@ public class DetailsOefeningController extends AnchorPane {
 //        stage.show();
 //
 //    }
-    
-
 }

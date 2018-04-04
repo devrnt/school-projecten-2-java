@@ -9,6 +9,7 @@ import controllers.SessieController;
 import domein.Sessie;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -69,38 +70,37 @@ public class BeheerSessiesController extends AnchorPane {
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
         sessieTabel.setPlaceholder(new Label("Geen sessies"));
         sessieTabel.setItems(sessieController.getAllSessies());
-        initialize();
-    }
-
-    public void initialize() {
-        FilteredList<Sessie> filteredSessieLijst = new FilteredList<>(sessies, p -> true);
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredSessieLijst.setPredicate(sessie -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
-
-                if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                    return true;
-                } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false; // No matches
-            });
-        });
-
-        SortedList<Sessie> sortedSessies = new SortedList<>(filteredSessieLijst);
-        sortedSessies.comparatorProperty().bind(sessieTabel.comparatorProperty());
-        sessieTabel.setItems(sortedSessies);
-
         detailsBtn.setDisable(true);
         sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 detailsBtn.setDisable(false);
             }
         });
+        
+        searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
+    }
+
+    public void initialize() {    /* ==== Code is verhuisd naar SessieController methode -> testbaar ==== */
+
+//        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredSessieLijst.setPredicate(sessie -> {
+//                if (newValue == null || newValue.isEmpty()) {
+//                    return true;
+//                }
+//                String lowerCaseFilter = newValue.toLowerCase();
+//                lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
+//
+//                if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
+//                    return true;
+//                } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
+//                    return true;
+//                }
+//                return false; // No matches
+//            });
+//        });
+
+//        SortedList<Sessie> sortedSessies = new SortedList<>(filteredSessieLijst, Comparator.comparing(Sessie::getNaam));
+
     }
 
     @FXML
@@ -109,7 +109,7 @@ public class BeheerSessiesController extends AnchorPane {
         Scene scene = new Scene(new DetailsSessieController(sessieController, id));
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Wijzig oefening");
+        stage.setTitle("Wijzig sessie");
         stage.show();
     }
 

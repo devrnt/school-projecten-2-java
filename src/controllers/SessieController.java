@@ -1,21 +1,14 @@
 package controllers;
 
-import domein.Groepsbewerking;
-import domein.Oefening;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import repository.GenericDao;
+import javafx.collections.transformation.FilteredList;
 import repository.GenericDaoJpa;
-import repository.SessieDao;
 import repository.SessieDaoJpa;
 
 /**
@@ -25,6 +18,8 @@ import repository.SessieDaoJpa;
 public class SessieController {
 
     private SessieDaoJpa sessieRepo;
+    private ObservableList<Sessie> sessieLijst;
+    private FilteredList<Sessie> gefilterdeSessieLijst;
 
     public SessieController() {
         setSessieRepo(new SessieDaoJpa(Sessie.class));
@@ -32,6 +27,8 @@ public class SessieController {
 
     public void setSessieRepo(SessieDaoJpa sessieRepo) {
         this.sessieRepo = sessieRepo;
+        sessieLijst = FXCollections.observableArrayList(sessieRepo.findAll());
+        gefilterdeSessieLijst = new FilteredList<>(sessieLijst, s -> true);
     }
 
     public void createSessie(
@@ -50,6 +47,7 @@ public class SessieController {
                 GenericDaoJpa.rollbackTransaction();
                 throw e;
             }
+            sessieLijst.add(sessieRepo.findAll().get(sessieRepo.findAll().size() - 1));
             GenericDaoJpa.commitTransaction();
         }
     }
@@ -63,12 +61,7 @@ public class SessieController {
     }
 
     public ObservableList<Sessie> getAllSessies() {
-        return FXCollections.observableArrayList(
-                sessieRepo.findAll()
-                        .stream()
-                        .sorted(Comparator.comparing(Sessie::getNaam))
-                        .collect(Collectors.toList())
-        );
+        return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
     }
 
     public void deleteSessie(int id) {
@@ -82,6 +75,7 @@ public class SessieController {
         } catch (Exception e) {
             GenericDaoJpa.rollbackTransaction();
         }
+        sessieLijst.remove(sessie);
         GenericDaoJpa.commitTransaction();
     }
 
@@ -98,6 +92,7 @@ public class SessieController {
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
         }
+        int index = sessieLijst.indexOf(sessie);
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
@@ -114,7 +109,25 @@ public class SessieController {
             GenericDaoJpa.rollbackTransaction();
             throw e;
         }
+        sessieLijst.set(index, sessie);
         GenericDaoJpa.commitTransaction();
+    }
+
+    public void applyFilter(String toFilter) {
+        gefilterdeSessieLijst.setPredicate(sessie -> {
+            if (toFilter == null || toFilter.isEmpty()) {
+                return true;
+            }
+            String lowerCaseFilter = toFilter.toLowerCase();
+            lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
+
+            if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
+                return true;
+            } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
+                return true;
+            }
+            return false; // No matches
+        });
     }
 
 }

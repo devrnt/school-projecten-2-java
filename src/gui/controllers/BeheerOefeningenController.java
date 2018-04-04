@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -59,6 +60,7 @@ public class BeheerOefeningenController extends AnchorPane {
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         antwoordCol.setCellValueFactory(c -> c.getValue().getAntwoordProp());
         oefeningenTable.setItems(controller.getOefeningen());
+        oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         detailsBtn.setDisable(true);
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
