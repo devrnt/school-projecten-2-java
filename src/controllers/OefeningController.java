@@ -48,10 +48,8 @@ public final class OefeningController implements Observer {
      *
      */
     public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
-        GenericDaoJpa.startTransaction();
         oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
 //        oefeningenLijst.add(oefeningRepo.get(oefeningRepo.findAll().size()));
-        GenericDaoJpa.commitTransaction();
 
     }
 
@@ -76,10 +74,8 @@ public final class OefeningController implements Observer {
         oefening.setFeedback(feedback);
         oefening.setGroepsbewerkingen(groepsbewerkingen);
 
-        GenericDaoJpa.startTransaction();
         oefeningRepo.update(oefening);
 //        oefeningenLijst.set(index, oefening);    
-        GenericDaoJpa.commitTransaction();
     }
 
     /**
@@ -94,10 +90,8 @@ public final class OefeningController implements Observer {
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
-        GenericDaoJpa.startTransaction();
         oefeningRepo.delete(oefening);
 //        oefeningenLijst.remove(oefening);
-        GenericDaoJpa.commitTransaction();
     }
 
     /**

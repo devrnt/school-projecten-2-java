@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import repository.SessieDaoJpa;
+import repository.SessieDao;
 
 /**
  *
@@ -26,7 +26,7 @@ import repository.SessieDaoJpa;
 public class SessieControllerTest {
 
     private SessieController sessieController;
-    private SessieDaoJpa sessieRepo;
+    private SessieDao sessieRepo;
 
     private Sessie sessie;
 
@@ -38,7 +38,7 @@ public class SessieControllerTest {
         c.setTime(new Date());
         c.add(Calendar.DAY_OF_YEAR, 1);
         // Mocks
-        sessieRepo = Mockito.mock(SessieDaoJpa.class);
+        sessieRepo = Mockito.mock(SessieDao.class);
 
         // Mocks trainen
         //tijdelijk

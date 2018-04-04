@@ -34,21 +34,17 @@ public class PopulateDB {
         Groepsbewerking groepsbewerking2 = new Groepsbewerking("Trek 3 af", 3, OperatorEnum.aftrekken);
         Groepsbewerking groepsbewerking3 = new Groepsbewerking("Deel door 4", 4, OperatorEnum.delen);
         Groepsbewerking groepsbewerking4 = new Groepsbewerking("Vermeningvuldig met 5", 5, OperatorEnum.vermeningvuldigen);
-        GenericDaoJpa.startTransaction();
         groepbwRepo.insert(groepsbewerking1);
         groepbwRepo.insert(groepsbewerking2);
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
-        GenericDaoJpa.commitTransaction();
 
         Oefening oefening1 = new Oefening("2 x 200 = ", 400, "Gebruik tussenstappen", groepbwRepo.findAll());
         Oefening oefening2 = new Oefening("5 + 20 = ", 25, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening("190 - 50 = ", 140, "Gebruik tussenstappen", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
-        GenericDaoJpa.startTransaction();
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
         oefeningRepo.insert(oefening3);
-        GenericDaoJpa.commitTransaction();
 
         /* === Data voor boxbeheer === */
         List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
@@ -69,14 +65,11 @@ public class PopulateDB {
         BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1, toegangscodes1);
         BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2, toegangscodes2);
         BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3, toegangscodes3);
-        GenericDaoJpa.startTransaction();
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
-        GenericDaoJpa.commitTransaction();
 
         /*=== Data voor sessiebeheer === */
-        GenericDaoJpa.startTransaction();
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DAY_OF_YEAR, 1);
@@ -102,7 +95,6 @@ public class PopulateDB {
         sessieRepo.insert(new Sessie(
                 "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
                 klas2, 2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, "Feedback"));
-        GenericDaoJpa.commitTransaction();
 
     }
 }

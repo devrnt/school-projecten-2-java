@@ -31,15 +31,17 @@ public class GenericDaoJpa<T> extends Observable implements GenericDao<T>{
         emf.close();
     }
 
-    public static void startTransaction() {
+    private void startTransaction() {
         em.getTransaction().begin();
     }
 
-    public static void commitTransaction() {
+    private void commitTransaction() {
         em.getTransaction().commit();
+        setChanged();
+        notifyObservers();
     }
 
-    public static void rollbackTransaction() {
+    private void rollbackTransaction() {
         em.getTransaction().rollback();
     }
 
@@ -62,23 +64,42 @@ public class GenericDaoJpa<T> extends Observable implements GenericDao<T>{
 
     @Override
     public T update(T object) {
+        startTransaction();
         setChanged();
         notifyObservers();
-        return em.merge(object);
+        T changed = null;
+        try {
+            changed = em.merge(object);
+            commitTransaction();
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        return changed;
     }
 
     @Override
     public void delete(T object) {
-        em.remove(em.merge(object));
-        setChanged();
-        notifyObservers();
+        startTransaction();
+        try {
+            em.remove(em.merge(object));
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        commitTransaction();
     }
 
     @Override
     public void insert(T object) {
-        em.persist(object);
-        setChanged();
-        notifyObservers();
+        startTransaction();
+        try {
+            em.persist(object);
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        commitTransaction();
     }
 
     @Override
