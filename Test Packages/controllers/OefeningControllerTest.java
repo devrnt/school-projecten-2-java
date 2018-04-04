@@ -80,8 +80,8 @@ public class OefeningControllerTest {
     //<editor-fold defaultstate="collapsed" desc="=== updateOefening ===">
     @Test
     public void updateOefening_changesAndPersistsOefening() {
-        controller.updateOefening(1, "opgave2", 0, "feedback", new ArrayList<>());
-        Assert.assertEquals("opgave2", oefening.getOpgave());
+        controller.updateOefening(1, "opgaveUpdate", 0, "feedback", new ArrayList<>());
+        Assert.assertEquals("opgaveUpdate", oefening.getOpgave());
         Mockito.verify(oefeningRepo).update(Mockito.any(Oefening.class));
     }
 
