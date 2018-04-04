@@ -62,28 +62,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     }
 
     private void initialize() {
-        FilteredList<BreakOutBox> filteredBoxLijst = new FilteredList<>(BreakOutBoxen, p -> true);
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredBoxLijst.setPredicate(box -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
-
-                if (box.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (box.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }
-                return false; // Does not match.
-            });
-        });
-        SortedList<BreakOutBox> sortedBoxLijst = new SortedList<>(filteredBoxLijst);
-        sortedBoxLijst.comparatorProperty().bind(boxTabel.comparatorProperty());
-        boxTabel.setItems(sortedBoxLijst);
-
+        searchTextField.setOnKeyReleased(event -> boxController.applyFilter(searchTextField.getText()));
     }
 
     @FXML
