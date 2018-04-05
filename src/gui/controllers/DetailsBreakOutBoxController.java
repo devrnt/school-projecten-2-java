@@ -9,10 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class DetailsBreakOutBoxController extends AnchorPane {
 
@@ -68,5 +72,24 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
+         Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        verwijderAlert.setTitle("Verwijderen BreakOutBox");
+        verwijderAlert.setHeaderText("Bevestigen");
+        verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");
+        verwijderAlert.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                System.out.println("test");
+                boxController.deleteBreakOutBox(breakOutBox.getId());
+                terugNaarLijst();
+            }
+        });
+    }
+    
+     private void terugNaarLijst() {
+        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Beheer Oefeningen");
+        stage.setScene(scene);
+        stage.show();
     }
 }
