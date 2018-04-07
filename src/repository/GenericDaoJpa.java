@@ -6,6 +6,7 @@
 package repository;
 
 import java.util.List;
+import java.util.Observable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,7 +15,7 @@ import javax.persistence.Persistence;
  *
  * @author sam
  */
-public class GenericDaoJpa<T> implements GenericDao<T> {
+public class GenericDaoJpa<T> extends Observable implements GenericDao<T>{
 
     private static final String PU_name = "java-g16PU";
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU_name);
@@ -30,15 +31,17 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
         emf.close();
     }
 
-    public static void startTransaction() {
+    private void startTransaction() {
         em.getTransaction().begin();
     }
 
-    public static void commitTransaction() {
+    private void commitTransaction() {
         em.getTransaction().commit();
+        setChanged();
+        notifyObservers();
     }
 
-    public static void rollbackTransaction() {
+    private void rollbackTransaction() {
         em.getTransaction().rollback();
     }
 
@@ -61,17 +64,42 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
 
     @Override
     public T update(T object) {
-        return em.merge(object);
+        startTransaction();
+        setChanged();
+        notifyObservers();
+        T changed = null;
+        try {
+            changed = em.merge(object);
+            commitTransaction();
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        return changed;
     }
 
     @Override
     public void delete(T object) {
-        em.remove(em.merge(object));
+        startTransaction();
+        try {
+            em.remove(em.merge(object));
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        commitTransaction();
     }
 
     @Override
     public void insert(T object) {
-        em.persist(object);
+        startTransaction();
+        try {
+            em.persist(object);
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw new RuntimeException(e);
+        }
+        commitTransaction();
     }
 
     @Override
@@ -85,5 +113,4 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
         T entity = em.find(type, name);
         return entity != null;
     }
-
 }

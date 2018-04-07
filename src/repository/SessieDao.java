@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException;
  *
  * @author devri
  */
-public interface SessieDao {
+public interface SessieDao extends GenericDao<Sessie> {
 
     public Sessie getByNaam(String naam) throws EntityNotFoundException;
 

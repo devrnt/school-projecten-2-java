@@ -4,8 +4,11 @@ import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
 import domein.Toegangscode;
+import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +16,7 @@ import javafx.collections.transformation.FilteredList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 
-public class BoxController {
+public class BoxController implements Observer {
 
     private GenericDao<BreakOutBox> breakOutBoxRepo;
     private ObservableList<BreakOutBox> boxLijst;
@@ -25,6 +28,7 @@ public class BoxController {
 
     public void setBreakOutBoxRepo(GenericDao<BreakOutBox> breakOutBoxRepo) {
         this.breakOutBoxRepo = breakOutBoxRepo;
+        this.breakOutBoxRepo.addObserver(this);
         boxLijst = FXCollections.observableArrayList(breakOutBoxRepo.findAll());
         gefilterdeBoxLijst = new FilteredList<>(boxLijst, b -> true);
     }
@@ -86,6 +90,21 @@ public class BoxController {
             }
             return false; // No matches
         });
+    }
+
+    public void deleteBreakOutBox(int boxId) {
+        BreakOutBox box = breakOutBoxRepo.get(boxId);
+        if (box == null) {
+            throw new NotFoundException("De oefening werd niet gevonden");
+        }
+        breakOutBoxRepo.delete(box);
+//        oefeningenLijst.remove(oefening);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        boxLijst.clear();
+        boxLijst.addAll(breakOutBoxRepo.findAll());
     }
 
 }

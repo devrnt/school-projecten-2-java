@@ -9,21 +9,24 @@ import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
+import repository.SessieDao;
 import repository.SessieDaoJpa;
 
 /**
  *
  * @author devri
  */
-public class SessieController {
+public class SessieController implements Observer {
 
-    private SessieDaoJpa sessieRepo;
+    private SessieDao sessieRepo;
     private GenericDao<Klas> klasRepo;
     private ObservableList<Sessie> sessieLijst;
     private FilteredList<Sessie> gefilterdeSessieLijst;
@@ -33,8 +36,9 @@ public class SessieController {
         setKlasRepo(new GenericDaoJpa(Klas.class));
     }
 
-    public void setSessieRepo(SessieDaoJpa sessieRepo) {
+    public void setSessieRepo(SessieDao sessieRepo) {
         this.sessieRepo = sessieRepo;
+        this.sessieRepo.addObserver(this);
         sessieLijst = FXCollections.observableArrayList(sessieRepo.findAll());
         gefilterdeSessieLijst = new FilteredList<>(sessieLijst, s -> true);
     }
@@ -51,17 +55,10 @@ public class SessieController {
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
-            GenericDaoJpa.startTransaction();
 
-            try {
-                sessieRepo.insert(new Sessie(naam, omschrijving, klas,
-                        lesuur, datum, soortOnderwijs, foutAntwActie));
-            } catch (Exception e) {
-                GenericDaoJpa.rollbackTransaction();
-                throw e;
-            }
-            sessieLijst.add(sessieRepo.findAll().get(sessieRepo.findAll().size() - 1));
-            GenericDaoJpa.commitTransaction();
+            sessieRepo.insert(new Sessie(naam, omschrijving, klas,
+                    lesuur, datum, soortOnderwijs, foutAntwActie));
+
         }
     }
 
@@ -82,14 +79,7 @@ public class SessieController {
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
         }
-        GenericDaoJpa.startTransaction();
-        try {
-            sessieRepo.delete(sessie);
-        } catch (Exception e) {
-            GenericDaoJpa.rollbackTransaction();
-        }
-        sessieLijst.remove(sessie);
-        GenericDaoJpa.commitTransaction();
+        sessieRepo.delete(sessie);
     }
 
     public boolean bestaatSessieNaam(String naam) {
@@ -105,7 +95,6 @@ public class SessieController {
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
         }
-        int index = sessieLijst.indexOf(sessie);
 
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
@@ -115,15 +104,7 @@ public class SessieController {
         sessie.setSoortOnderwijs(soortOnderwijs);
         sessie.setFoutAntwActie(foutAntwActie);
 
-        GenericDaoJpa.startTransaction();
-        try {
-            sessieRepo.update(sessie);
-        } catch (Exception e) {
-            GenericDaoJpa.rollbackTransaction();
-            throw e;
-        }
-        sessieLijst.set(index, sessie);
-        GenericDaoJpa.commitTransaction();
+        sessieRepo.update(sessie);
     }
 
     public List<Klas> getAllKlassen() {
@@ -154,6 +135,12 @@ public class SessieController {
             }
             return false; // No matches
         });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        sessieLijst.clear();
+        sessieLijst.addAll(sessieRepo.findAll());
     }
 
 }
