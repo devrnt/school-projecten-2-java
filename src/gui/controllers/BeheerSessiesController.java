@@ -9,6 +9,7 @@ import controllers.SessieController;
 import domein.Sessie;
 import java.io.IOException;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,7 +69,12 @@ public class BeheerSessiesController extends AnchorPane {
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
 
         sessieTabel.setPlaceholder(new Label("Geen sessies"));
-        sessieTabel.setItems(sessies);
+        
+        // zorg dat de kolom gesorteerd kan worden
+        SortedList<Sessie> sortedSessies = new SortedList<>(sessies);
+        sortedSessies.comparatorProperty().bind(sessieTabel.comparatorProperty());
+        
+        sessieTabel.setItems(sortedSessies);
 
         detailsBtn.setDisable(true);
 
