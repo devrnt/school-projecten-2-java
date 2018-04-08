@@ -30,5 +30,9 @@ public class Toegangscode implements Serializable {
     public String getCode() {
         return code;
     }
+      @Override
+    public String toString(){
+        return code;
+    }
 
 }

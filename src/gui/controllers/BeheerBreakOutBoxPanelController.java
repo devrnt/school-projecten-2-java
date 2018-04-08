@@ -67,6 +67,11 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 
     @FXML
     private void maakSessieButtonClicked(ActionEvent event) {
+        Scene scene = new Scene(new CreateBreakOutBoxController(boxController));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Aanmaken van een BreakOutBox");
+        stage.show();
     }
 
     @FXML

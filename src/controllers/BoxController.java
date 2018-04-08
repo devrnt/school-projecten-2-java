@@ -19,11 +19,18 @@ import repository.GenericDaoJpa;
 public class BoxController implements Observer {
 
     private GenericDao<BreakOutBox> breakOutBoxRepo;
+    private GenericDao<Actie> actieRepo;
+    private GenericDao<Oefening> oefeningRepo;
+    private GenericDao<Toegangscode> toegangscodeRepo;
+
     private ObservableList<BreakOutBox> boxLijst;
     private FilteredList<BreakOutBox> gefilterdeBoxLijst;
 
     public BoxController() {
         setBreakOutBoxRepo(new GenericDaoJpa<>(BreakOutBox.class));
+        setActieRepo(new GenericDaoJpa<>(Actie.class));
+        setToegangscodeRepo(new GenericDaoJpa<>(Toegangscode.class));
+        setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
     }
 
     public void setBreakOutBoxRepo(GenericDao<BreakOutBox> breakOutBoxRepo) {
@@ -31,6 +38,18 @@ public class BoxController implements Observer {
         this.breakOutBoxRepo.addObserver(this);
         boxLijst = FXCollections.observableArrayList(breakOutBoxRepo.findAll());
         gefilterdeBoxLijst = new FilteredList<>(boxLijst, b -> true);
+    }
+
+    public void setActieRepo(GenericDao<Actie> actieRepo) {
+        this.actieRepo = actieRepo;
+    }
+
+    public void setOefeningRepo(GenericDao<Oefening> oefeningRepo) {
+        this.oefeningRepo = oefeningRepo;
+    }
+
+    public void setToegangscodeRepo(GenericDao<Toegangscode> toegangscodeRepo) {
+        this.toegangscodeRepo = toegangscodeRepo;
     }
 
     public void createBreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties, List<Toegangscode> toegangscodes) {
@@ -105,6 +124,18 @@ public class BoxController implements Observer {
     public void update(Observable o, Object arg) {
         boxLijst.clear();
         boxLijst.addAll(breakOutBoxRepo.findAll());
+    }
+
+    public ObservableList<Actie> getActies() {
+        return FXCollections.observableArrayList(actieRepo.findAll());
+    }
+
+    public ObservableList<Toegangscode> getToegangscodes() {
+        return FXCollections.observableArrayList(toegangscodeRepo.findAll());
+    }
+
+    public ObservableList<Oefening> getOefeningen() {
+        return FXCollections.observableArrayList(oefeningRepo.findAll());
     }
 
 }

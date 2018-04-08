@@ -37,7 +37,6 @@ public class Oefening implements Serializable {
 //    @Transient
 //    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
 
-
     public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
         setOpgave(opgave);
         setAntwoord(antwoord);
@@ -56,8 +55,6 @@ public class Oefening implements Serializable {
     public SimpleIntegerProperty getAntwoordProp() {
         return new SimpleIntegerProperty(antwoord);
     }
-    
-    
 
     public int getAntwoord() {
         return antwoord;
@@ -115,6 +112,9 @@ public class Oefening implements Serializable {
         return true;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return opgave;
+    }
+
 }
