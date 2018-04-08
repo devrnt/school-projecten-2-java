@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import controllers.KlasController;
 import controllers.SessieController;
 import domein.Klas;
 import java.io.IOException;
@@ -20,12 +21,12 @@ public class OverzichtLeerlingenInKlasController extends AnchorPane {
     @FXML
     private ListView<String> leerlingenListView;
 
-    private SessieController sessieController;
+    private KlasController klasController;
     private Klas klas;
 
-    public OverzichtLeerlingenInKlasController(SessieController sessieController, int klasId) {
-        this.sessieController = sessieController;
-        this.klas = sessieController.getKlas(klasId);
+    public OverzichtLeerlingenInKlasController(KlasController klasController, int klasId) {
+        this.klasController = klasController;
+        this.klas = klasController.getKlas(klasId);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/OverzichtLeerlingenInKlas.fxml"));
         loader.setRoot(this);
@@ -39,6 +40,7 @@ public class OverzichtLeerlingenInKlasController extends AnchorPane {
         
         klasLabel.setText(klas.getNaam());
         aantalLlnLabel.setText(Integer.toString(this.klas.getLeerlingen().size()));
+        this.leerlingenListView.setPlaceholder(new Label("Geen leerlingen in deze klas"));
         this.leerlingenListView.setItems(this.klas.getLeerlingen());
 
     }

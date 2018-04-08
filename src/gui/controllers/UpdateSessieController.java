@@ -5,6 +5,7 @@
  */
 package gui.controllers;
 
+import controllers.KlasController;
 import controllers.SessieController;
 import domein.Klas;
 import domein.Sessie;
@@ -67,10 +68,12 @@ public class UpdateSessieController extends AnchorPane {
     private Button bevestigButton;
 
     private SessieController sessieController;
+    private KlasController klasController;
     private Sessie sessie;
 
     public UpdateSessieController(SessieController sessieController, int sessieId) {
         this.sessieController = sessieController;
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
 
         loader.setRoot(this);
@@ -126,8 +129,9 @@ public class UpdateSessieController extends AnchorPane {
 
     @FXML
     private void bekijkLlnButtonClicked(ActionEvent event) {
+        klasController = new KlasController();
         Klas klas = klasChoiceBox.getSelectionModel().getSelectedItem();
-        Scene scene = new Scene(new OverzichtLeerlingenInKlasController(sessieController, klas.getId()));
+        Scene scene = new Scene(new OverzichtLeerlingenInKlasController(klasController, klas.getId()));
         Stage stage = new Stage();
         stage.setTitle("Bekijk leerlingen");
         stage.setScene(scene);
