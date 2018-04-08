@@ -138,4 +138,16 @@ public class BoxController implements Observer {
         return FXCollections.observableArrayList(oefeningRepo.findAll());
     }
 
+    public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies, List<Toegangscode> geselecteerdeToegangscodes) {
+        BreakOutBox box = breakOutBoxRepo.get(id);
+        if (box == null) {
+            throw new NotFoundException("De oefening werd niet gevonden");
+        }
+        box.setNaam(naam);
+        box.setOmschrijving(omschrijving);
+        box.setActies(geselecteerdeActies);
+        box.setOefeningen(geselecteerdeOefeningen);
+        box.setToegangscodes(geselecteerdeToegangscodes);
+        breakOutBoxRepo.update(box);
+    }
 }

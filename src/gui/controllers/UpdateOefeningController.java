@@ -157,7 +157,7 @@ public class UpdateOefeningController extends AnchorPane {
     
     private void terugNaarDetails() {
         Scene scene = new Scene(new DetailsOefeningController(controller, oefening.getId()));
-        Stage stage = (Stage) opgave.getScene().getWindow();
+        Stage stage = (Stage) this.getScene().getWindow();
         stage.setTitle("Details oefening");
         stage.setScene(scene);
         stage.show();
