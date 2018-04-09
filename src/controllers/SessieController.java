@@ -6,10 +6,8 @@ import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -123,7 +121,7 @@ public final class SessieController implements Observer {
      *
      */
     public boolean bestaatSessieNaam(String naam) {
-        Sessie sessie = sessieRepo.getByNaam(naam.toLowerCase());
+        Sessie sessie = sessieRepo.getByNaam(naam);
         return sessie != null;
     }
 

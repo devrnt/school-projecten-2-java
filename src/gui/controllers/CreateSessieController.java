@@ -73,6 +73,7 @@ public class CreateSessieController extends AnchorPane {
 
     public CreateSessieController(SessieController sessieController) {
         this.sessieController = sessieController;
+        klasController = new KlasController();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
 
         loader.setRoot(this);
@@ -111,7 +112,7 @@ public class CreateSessieController extends AnchorPane {
                         .orElse(null);
             }
         });
-        sessieController.getAllKlassen()
+        klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
 
         reactieFoutAntwChoiceBox.setValue("Feedback");

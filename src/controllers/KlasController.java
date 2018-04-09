@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import domein.Klas;
@@ -21,7 +16,7 @@ import repository.KlasDaoJpa;
  *
  * @author devri
  */
-public class KlasController implements Observer {
+public final class KlasController implements Observer {
 
     private KlasDao klasRepo;
     private ObservableList<Klas> klasLijst;
@@ -38,18 +33,18 @@ public class KlasController implements Observer {
         gefilterdeKlasLijst = new FilteredList<>(klasLijst, s -> true);
     }
 
-    public ObservableList<Klas> getAllKlassen() {
-        return gefilterdeKlasLijst.sorted(Comparator.comparing(Klas::getNaam));
-    }
-
-    public Klas getKlas(int id) {
-        return klasRepo.get(id);
-    }
-
+    /**
+     * Maakt nieuwe sessie aan en voegt deze toe aan de databank
+     *
+     * @param klasNaam String met de naam van de klas (uniek)
+     * @param leerlingen Lijst van Strings met leerlingen van de klas
+     * @throws IllegalArgumentException als de klasnaam reeds bestaat
+     *
+     */
     public void createKlas(
             String klasNaam, List<String> leerlingen) {
 
-        if (bestaatSessieNaam(klasNaam)) {
+        if (bestaatKlasNaam(klasNaam)) {
             throw new IllegalArgumentException("Een klas met deze naam bestaat al");
         } else {
             klasRepo.insert(new Klas(klasNaam, leerlingen));
@@ -57,13 +52,43 @@ public class KlasController implements Observer {
         }
     }
 
-    public void close() {
-        GenericDaoJpa.closePersistency();
+    /**
+     * Geeft een klas terug
+     *
+     * @param id id van te op te vragen klas
+     * @return klas
+     */
+    public Klas getKlas(int id) {
+        return klasRepo.get(id);
     }
 
-    public boolean bestaatSessieNaam(String naam) {
-        Klas klas = klasRepo.getByNaam(naam.toLowerCase());
+    /**
+     * Geeft een ObservableList terug die gefiltered kan worden van alle klassen
+     * in de databank
+     *
+     * @return een ObservableList met Klassen
+     */
+    public ObservableList<Klas> getAllKlassen() {
+        return gefilterdeKlasLijst.sorted(Comparator.comparing(Klas::getNaam));
+    }
+
+    /**
+     * Valideert of een klas reeds bestaat
+     *
+     * @param naam van de te valideren klas
+     * @return true als een klas reeds bestaat anders false
+     *
+     */
+    public boolean bestaatKlasNaam(String naam) {
+        Klas klas = klasRepo.getByNaam(naam);
         return klas != null;
+    }
+
+    /**
+     * Sluit de persistentie
+     */
+    public void close() {
+        GenericDaoJpa.closePersistency();
     }
 
     @Override

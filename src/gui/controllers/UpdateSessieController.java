@@ -73,7 +73,8 @@ public class UpdateSessieController extends AnchorPane {
 
     public UpdateSessieController(SessieController sessieController, int sessieId) {
         this.sessieController = sessieController;
-        
+        klasController = new KlasController();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
 
         loader.setRoot(this);
@@ -159,7 +160,7 @@ public class UpdateSessieController extends AnchorPane {
                         .orElse(null);
             }
         });
-        sessieController.getAllKlassen()
+        klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
         klasChoiceBox.setValue(sessie.getKlas());
         // datepicker
