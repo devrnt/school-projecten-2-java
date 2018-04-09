@@ -1,8 +1,6 @@
 package controllers;
 
-import domein.Groepsbewerking;
 import domein.Klas;
-import domein.Oefening;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
@@ -24,7 +22,7 @@ import repository.SessieDaoJpa;
  *
  * @author devri
  */
-public class SessieController implements Observer {
+public final class SessieController implements Observer {
 
     private SessieDao sessieRepo;
     private GenericDao<Klas> klasRepo;
@@ -47,6 +45,19 @@ public class SessieController implements Observer {
         this.klasRepo = klasRepo;
     }
 
+    /**
+     * Maakt nieuwe sessie aan en voegt deze toe aan de databank
+     *
+     * @param naam String met de naam van de sessie (uniek)
+     * @param omschrijving String met de omschrijving van de sessie
+     * @param klas Klas met de klasnaam en de betreffende leerlingen in die klas
+     * @param lesuur int met het lesuur wanneer deze sessie zal plaatsvinden
+     * @param datum Date met de dag wanneer deze sessie geactiveerd kan worden
+     * @param soortOnderwijs SoortOnderwijsEnum voor welke doelgroep deze sessie
+     * is (afstands of dagonderwijs)
+     * @param foutAntwActie String met wat er gebeurt als de groep 3 maal een
+     * fout antwoord ingeeft
+     */
     public void createSessie(
             String naam, String omschrijving,
             Klas klas, int lesuur, Date datum,
@@ -55,25 +66,47 @@ public class SessieController implements Observer {
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
-
             sessieRepo.insert(new Sessie(naam, omschrijving, klas,
                     lesuur, datum, soortOnderwijs, foutAntwActie));
 
         }
     }
 
+    /**
+     * Sluit de persistentie
+     */
     public void close() {
         GenericDaoJpa.closePersistency();
     }
 
+    /**
+     * Geeft een Sessie terug
+     *
+     * @param id id van te op te vragen sessie
+     * @return sessie
+     */
     public Sessie getSessie(int id) {
         return sessieRepo.get(id);
     }
 
+    /**
+     * Geeft een ObservableList terug die gefiltered kan worden van alle sessies
+     * in de databank
+     *
+     * @return een ObservableList met Sessies
+     */
     public ObservableList<Sessie> getAllSessies() {
         return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
     }
 
+    /**
+     * Verwijdert een sessie uit de databank
+     *
+     * @param id id van de te verwijderen sessie
+     * @throws NotFoundException indien er geen sessie werd gevonden met
+     * meegegeven id
+     *
+     */
     public void deleteSessie(int id) {
         Sessie sessie = sessieRepo.get(id);
         if (sessie == null) {
@@ -82,11 +115,32 @@ public class SessieController implements Observer {
         sessieRepo.delete(sessie);
     }
 
+    /**
+     * Valideert of een sessie reeds bestaat
+     *
+     * @param naam van de te valideren sessie
+     * @return true als een sessie reeds bestaat anders false
+     *
+     */
     public boolean bestaatSessieNaam(String naam) {
         Sessie sessie = sessieRepo.getByNaam(naam.toLowerCase());
         return sessie != null;
     }
 
+    /**
+     * Wijzigt een sessie via de setters en past deze wijziging toe in de
+     * databank
+     *
+     * @param id id van de te wijzigen sessie
+     * @param naam
+     * @param omschrijving
+     * @param klas
+     * @param lesuur
+     * @param datum
+     * @param soortOnderwijs
+     * @param foutAntwActie
+     * @throws NotFoundException als de te wijzigen sessie niet gevonden werd
+     */
     public void updateSessie(int id, String naam, String omschrijving,
             Klas klas, int lesuur, Date datum,
             SoortOnderwijsEnum soortOnderwijs, String foutAntwActie
@@ -107,19 +161,13 @@ public class SessieController implements Observer {
         sessieRepo.update(sessie);
     }
 
-    public List<Klas> getAllKlassen() {
-        return FXCollections.observableArrayList(
-                klasRepo.findAll()
-                        .stream()
-                        .sorted(Comparator.comparing(Klas::getNaam))
-                        .collect(Collectors.toList())
-        );
-    }
 
-    public Klas getKlas(int id) {
-        return klasRepo.get(id);
-    }
 
+    /**
+     * Filtert de sessieLijst obv de meegegeven String
+     *
+     * @param toFilter Tekst waarop de lijst moet gefilterd worden
+     */
     public void applyFilter(String toFilter) {
         gefilterdeSessieLijst.setPredicate(sessie -> {
             if (toFilter == null || toFilter.isEmpty()) {
