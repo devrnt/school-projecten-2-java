@@ -102,6 +102,7 @@ public class SessieControllerTest {
     public void verwijderSessieMetFoutId_GooitNotFoundException() {
         int foutId = 90;
         sessieController.deleteSessie(90);
+        Mockito.verify(sessieRepo).delete(Mockito.any(Sessie.class));
     }
     // </editor-fold>
 

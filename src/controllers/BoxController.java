@@ -132,7 +132,7 @@ public class BoxController implements Observer {
     public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies, List<Toegangscode> geselecteerdeToegangscodes) {
         BreakOutBox box = breakOutBoxRepo.get(id);
         if (box == null) {
-            throw new NotFoundException("De oefening werd niet gevonden");
+            throw new NotFoundException("De BreakOutBox werd niet gevonden");
         }
         box.setNaam(naam);
         box.setOmschrijving(omschrijving);

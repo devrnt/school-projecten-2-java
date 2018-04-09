@@ -6,6 +6,7 @@
 package controllers;
 
 import domein.BreakOutBox;
+import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Assert;
@@ -57,7 +58,7 @@ public class BoxControllerTest {
         Assert.assertEquals(2, boxController.getAllBreakOutBoxen().size());
     }
 
-    // <editor-fold desc="=== createBox ===" >
+    // <editor-fold desc="=== createBox ===" defaultstate="collapsed">
     @Test
     public void createBox_voegtNieuweBoxToe() {
         boxController.createBreakOutBox("bob3", "bob omschrijving 3", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
@@ -65,21 +66,51 @@ public class BoxControllerTest {
     }
     // </editor-fold>
 
-    //<editor-fold desc="=== applyFilter ===">
+    // <editor-fold desc="=== updateBox ===" defaultstate="collapsed">
     @Test
-    public void applyFilter_GeenTextReturnsAll(){
+    public void updateBox_wordtGewijzigd() {
+        boxController.updateBreakOutBox(1, "nieuweBox1", "nieuweBox1 omschrijving", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Assert.assertEquals("nieuweBox1", box.getNaam());
+        Mockito.verify(boxRepo).update(Mockito.any(BreakOutBox.class));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void updateBox_BoxNietGevonden_GooitNotFoundException() {
+        int foutId = 8;
+        boxController.updateBreakOutBox(foutId, "boxNietCorr", "foute omschrijving", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="=== deleteSessie ===" defaultstate="collapsed">
+    @Test
+    public void verwijderBoxMetJuistId_VerwijdertBox() {
+        boxController.deleteBreakOutBox(1);
+        Mockito.verify(boxRepo).delete(Mockito.any(BreakOutBox.class));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void verwijderBoxMetFoutId_GooitNotFoundException() {
+        int foutId = 90;
+        boxController.deleteBreakOutBox(foutId);
+        Mockito.verify(boxRepo).delete(Mockito.any(BreakOutBox.class));
+    }
+    // </editor-fold>
+
+    //<editor-fold desc="=== applyFilter ===" defaultstate="collapsed">
+    @Test
+    public void applyFilter_GeenTextReturnsAll() {
         boxController.applyFilter("");
         Assert.assertEquals(2, boxController.getAllBreakOutBoxen().size());
     }
-    
+
     @Test
-    public void applyFilter_ReturnsMatches(){
+    public void applyFilter_ReturnsMatches() {
         boxController.applyFilter("bob 1");
         Assert.assertEquals(1, boxController.getAllBreakOutBoxen().size());
     }
-    
+
     @Test
-    public void applyFilter_WithWhiteSpacesReturnsMatches(){
+    public void applyFilter_WithWhiteSpacesReturnsMatches() {
         boxController.applyFilter(" b o b 1");
         Assert.assertEquals(1, boxController.getAllBreakOutBoxen().size());
     }
