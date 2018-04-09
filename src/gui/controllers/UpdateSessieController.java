@@ -66,6 +66,8 @@ public class UpdateSessieController extends AnchorPane {
     private ChoiceBox<String> reactieFoutAntwChoiceBox;
     @FXML
     private Button bevestigButton;
+    @FXML
+    private Button annuleerBtn;
 
     private SessieController sessieController;
     private KlasController klasController;
@@ -113,11 +115,7 @@ public class UpdateSessieController extends AnchorPane {
             sessieSuccesvolGewijzigd.setHeaderText("Wijzigen van een sessie");
             sessieSuccesvolGewijzigd.setContentText("Sessie is succesvol gewijzigd");
             sessieSuccesvolGewijzigd.showAndWait();
-            Scene scene = new Scene(new BeheerSessiesController(sessieController));
-            Stage stage = (Stage) naamInput.getScene().getWindow();
-            stage.setTitle("Beheer Sessies");
-            stage.setScene(scene);
-            stage.show();
+            terugNaarDetails();
 
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
@@ -180,6 +178,8 @@ public class UpdateSessieController extends AnchorPane {
         klasChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             bekijkLlnButton.setDisable(false);
         });
+        annuleerBtn.setOnAction(event -> terugNaarDetails());
+
     }
 
     // <editor-fold desc="=== Help methodes ===" >
@@ -271,5 +271,12 @@ public class UpdateSessieController extends AnchorPane {
         return true;
     }
 
+    private void terugNaarDetails() {
+        Scene scene = new Scene(new DetailsSessieController(sessieController, sessie.getId()));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Beheer Sessies");
+        stage.setScene(scene);
+        stage.show();
+    }
     // </editor-fold>
 }

@@ -48,6 +48,8 @@ public class DetailsSessieController extends AnchorPane {
     private Label reactieFoutAntw;
     @FXML
     private Label lesuurLabel;
+    @FXML
+    private Button terugBtn;
 
     private SessieController sessieController;
     private Sessie sessie;
@@ -67,7 +69,7 @@ public class DetailsSessieController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        setLabels();
+        initialize();
     }
 
     @FXML
@@ -96,7 +98,7 @@ public class DetailsSessieController extends AnchorPane {
         }
     }
 
-    private void setLabels() {
+    private void initialize() {
         naamLabel.setText(sessie.getNaam());
         omschrijvingLabel.setText(sessie.getOmschrijving());
         klasLabel.setText(sessie.getKlas().getNaam());
@@ -105,6 +107,15 @@ public class DetailsSessieController extends AnchorPane {
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));
         sessiecodeLabel.setText(sessie.getSessieCode());
         lesuurLabel.setText(Integer.toString((sessie.getLesuur())));
+        terugBtn.setOnAction(event -> terugNaarLijst());
+    }
+
+    private void terugNaarLijst() {
+        Scene scene = new Scene(new BeheerSessiesController(sessieController));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Beheer Sessies");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

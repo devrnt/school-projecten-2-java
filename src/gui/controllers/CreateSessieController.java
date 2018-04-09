@@ -66,6 +66,8 @@ public class CreateSessieController extends AnchorPane {
     private ChoiceBox<String> reactieFoutAntwChoiceBox;
     @FXML
     private Button bevestigButton;
+    @FXML
+    private Button annuleerBtn;
 
     private SessieController sessieController;
     private Sessie sessie;
@@ -119,6 +121,9 @@ public class CreateSessieController extends AnchorPane {
         reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
 
         bekijkLlnButton.setDisable(true);
+
+        annuleerBtn.setOnAction(event -> terugNaarLijst());
+
     }
 
     @FXML
@@ -257,6 +262,14 @@ public class CreateSessieController extends AnchorPane {
             return false;
         }
         return true;
+    }
+
+    private void terugNaarLijst() {
+        Scene scene = new Scene(new BeheerSessiesController(sessieController));
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Beheer Sessies");
+        stage.setScene(scene);
+        stage.show();
     }
     // </editor-fold>
 
