@@ -1,7 +1,10 @@
 package gui.controllers;
 
 import controllers.BoxController;
+import domein.Actie;
 import domein.BreakOutBox;
+import domein.Oefening;
+import domein.Toegangscode;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,11 +30,11 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     @FXML
     private Label omschrijvingLabel;
     @FXML
-    private ListView<String> actieList;
+    private ListView<Actie> actieList;
     @FXML
-    private ListView<String> oefeningList;
+    private ListView<Oefening> oefeningList;
     @FXML
-    private ListView<String> toegangscodeList;
+    private ListView<Toegangscode> toegangscodeList;
     @FXML
     private Button wijzigButton;
     @FXML

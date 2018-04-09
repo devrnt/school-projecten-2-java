@@ -70,28 +70,19 @@ public class BoxController implements Observer {
         return breakOutBoxRepo.get(id);
     }
 
-    public ObservableList<String> getActiesByBox(int id) {
+    public ObservableList<Actie> getActiesByBox(int id) {
         List<Actie> acties = breakOutBoxRepo.get(id).getActies();
-        return FXCollections.observableArrayList(acties.stream()
-                .map(Actie::getOmschrijving)
-                .collect(Collectors.toList())
-        );
+        return FXCollections.observableArrayList(acties);
     }
 
-    public ObservableList<String> getOefeningenByBox(int id) {
+    public ObservableList<Oefening> getOefeningenByBox(int id) {
         List<Oefening> oefeningen = breakOutBoxRepo.get(id).getOefeningen();
-        return FXCollections.observableArrayList(oefeningen.stream()
-                .map(Oefening::getOpgave)
-                .collect(Collectors.toList())
-        );
+        return FXCollections.observableArrayList(oefeningen);
     }
 
-    public ObservableList<String> getToegangscodesByBox(int id) {
+    public ObservableList<Toegangscode> getToegangscodesByBox(int id) {
         List<Toegangscode> toegangscodes = breakOutBoxRepo.get(id).getToegangscodes();
-        return FXCollections.observableArrayList(toegangscodes.stream()
-                .map(Toegangscode::getCode)
-                .collect(Collectors.toList())
-        );
+        return FXCollections.observableArrayList(toegangscodes);
     }
 
     public void applyFilter(String toFilter) {
