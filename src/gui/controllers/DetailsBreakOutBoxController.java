@@ -39,6 +39,8 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     private Button wijzigButton;
     @FXML
     private Button verwijderButton;
+    @FXML
+    private Button keerTerugBtn;
 
     private BoxController boxController;
     private BreakOutBox box;
@@ -56,6 +58,8 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         }
         this.box = boxController.GeefBreakOutBox(id);
         init();
+        keerTerugBtn.setOnAction(event -> terugNaarLijst());
+
     }
 
     private void init() {

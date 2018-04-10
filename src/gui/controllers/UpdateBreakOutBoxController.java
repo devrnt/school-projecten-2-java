@@ -38,6 +38,8 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     private Label oefeningenFoutLbl;
     @FXML
     private Label toegangscodesFoutLbl;
+     @FXML
+    private Label wijzigLbl;
     @FXML
     private ListView<Actie> actieList1;
     @FXML
@@ -65,7 +67,7 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
     @FXML
-    private Button annuleerBtn;
+    private Button keerTerugBtn;
 
     private final BoxController boxController;
     private final BreakOutBox box;
@@ -86,6 +88,7 @@ public class UpdateBreakOutBoxController extends AnchorPane {
         box = boxController.GeefBreakOutBox(id);
         naamTxt.setText(box.getNaam());
         omschrijvingTxt.setText(box.getOmschrijving());
+        wijzigLbl.setText("Wijzig box: " + box.getNaam());
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         for (Actie a : box.getActies()) {
@@ -148,7 +151,7 @@ public class UpdateBreakOutBoxController extends AnchorPane {
                 }
             }
         });
-        annuleerBtn.setOnAction(event -> terugNaarDetails());
+        keerTerugBtn.setOnAction(event -> terugNaarDetails());
     }
 
     @FXML
@@ -183,7 +186,7 @@ public class UpdateBreakOutBoxController extends AnchorPane {
 
     private void terugNaarDetails() {
         Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, box.getId()));
-        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
+        Stage stage = (Stage) keerTerugBtn.getScene().getWindow();
         stage.setTitle("Details BreakOutBox");
         stage.setScene(scene);
         stage.show();

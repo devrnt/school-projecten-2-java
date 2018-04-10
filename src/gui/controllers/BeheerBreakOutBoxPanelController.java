@@ -3,15 +3,10 @@ package gui.controllers;
 import controllers.BoxController;
 import domein.BreakOutBox;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,6 +34,8 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private Button detailsButton;
     private BoxController boxController;
     private ObservableList<BreakOutBox> BreakOutBoxen;
+    @FXML
+    private Button keerTerugBtn;
 
     public BeheerBreakOutBoxPanelController(BoxController boxController) {
         this.boxController = boxController;
@@ -58,6 +55,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
         boxTabel.setPlaceholder(new Label("Geen sessies"));
         boxTabel.setItems(BreakOutBoxen);
+        keerTerugBtn.setOnAction(event -> terugNaarMenu());
         initialize();
     }
 
@@ -76,12 +74,21 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 
     @FXML
     private void detailsBtnClicked(ActionEvent event) {
-        int id = boxTabel.getSelectionModel().getSelectedItem().getId();
-        Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, id));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Wijzig oefening");
-        stage.show();
+        if (boxTabel.getSelectionModel().getSelectedItem() != null) {
+            int id = boxTabel.getSelectionModel().getSelectedItem().getId();
+            Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, id));
+            Stage stage = (Stage) this.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Wijzig oefening");
+            stage.show();
+        }
     }
 
+    private void terugNaarMenu() {
+        Scene scene = new Scene(new HomePanelController());
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

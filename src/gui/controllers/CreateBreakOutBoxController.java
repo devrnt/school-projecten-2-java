@@ -64,7 +64,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
     @FXML
-    private Button annuleerBtn;
+    private Button keerTerugBtn;
     private final BoxController boxController;
 
     public CreateBreakOutBoxController(BoxController boxController) {
@@ -86,6 +86,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
         toegangscodeList2.setItems(boxController.getToegangscodes());
 
         //listeners
+        keerTerugBtn.setOnAction(event -> terugNaarLijst());
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
@@ -131,7 +132,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
                 }
             }
         });
-        annuleerBtn.setOnAction(event -> terugNaarLijst());
     }
 
     @FXML
@@ -166,7 +166,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
 
     private void terugNaarLijst() {
         Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
-        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
+        Stage stage = (Stage) keerTerugBtn.getScene().getWindow();
         stage.setTitle("Beheer Oefeningen");
         stage.setScene(scene);
         stage.show();
