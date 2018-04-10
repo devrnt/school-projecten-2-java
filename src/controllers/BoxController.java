@@ -16,7 +16,7 @@ import javafx.collections.transformation.FilteredList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 
-public class BoxController implements Observer {
+public final class BoxController implements Observer {
 
     private GenericDao<BreakOutBox> breakOutBoxRepo;
     private GenericDao<Actie> actieRepo;

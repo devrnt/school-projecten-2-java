@@ -53,10 +53,18 @@ public class BoxControllerTest {
         boxController.setBreakOutBoxRepo(boxRepo);
     }
 
+//<editor-fold defaultstate="getters" desc="comment">
     @Test
     public void getAllBobs_returnsAllBobs() {
         Assert.assertEquals(2, boxController.getAllBreakOutBoxen().size());
     }
+    
+    @Test
+    public void geefBreakOutBox_returnsCorrectBoB(){
+        BreakOutBox box = boxController.GeefBreakOutBox(1);
+        Assert.assertEquals(box, this.box);
+    }
+//</editor-fold>
 
     // <editor-fold desc="=== createBox ===" defaultstate="collapsed">
     @Test

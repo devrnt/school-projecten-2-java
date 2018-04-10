@@ -117,6 +117,12 @@ public class OefeningControllerTest {
     public void getOefeningen_ReturnsOefeningen() {
         Assert.assertEquals(2, controller.getOefeningen().size());
     }
+    
+    @Test
+    public void getOefening_returnsCorrectOefening(){
+        Oefening oefening = controller.getOefening(1);
+        Assert.assertEquals(oefening, this.oefening);
+    }
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="=== applyFilter ===">

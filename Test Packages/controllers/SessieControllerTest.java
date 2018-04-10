@@ -63,10 +63,18 @@ public class SessieControllerTest {
         sessieController.setSessieRepo(sessieRepo);
     }
 
+    //<editor-fold defaultstate="getters" desc="comment">
     @Test
     public void getAllSessies_returnsAllSessies() {
         Assert.assertEquals(2, sessieController.getAllSessies().size());
     }
+    
+    @Test
+    public void getSessie_returnsCorrectSessie(){
+        Sessie sessie = sessieController.getSessie(1);
+        Assert.assertEquals(sessie, this.sessie);
+    }
+//</editor-fold>
 
     // <editor-fold desc="=== createSessie ===" >
     @Test
