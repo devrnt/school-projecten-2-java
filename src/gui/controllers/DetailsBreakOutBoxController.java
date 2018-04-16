@@ -1,13 +1,17 @@
 package gui.controllers;
 
+import com.itextpdf.text.DocumentException;
 import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
 import domein.Toegangscode;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +39,8 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     private ListView<Oefening> oefeningList;
     @FXML
     private ListView<Toegangscode> toegangscodeList;
+    @FXML
+    private Button samenvattingButton;
     @FXML
     private Button wijzigButton;
     @FXML
@@ -74,6 +80,21 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         toegangscodeList.setDisable(true);
     }
 
+    @FXML
+    private void samenvattingBtnClicked(ActionEvent event) throws IOException{
+        
+        try {
+            boxController.createSamenvattingBox(box.getId());
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        verwijderAlert.setTitle("Samenvatting gemaakt!");
+        verwijderAlert.setHeaderText("Succesvol");
+        verwijderAlert.setContentText("De pdf bevind zich in de map Pdf");
+       
+    }
     @FXML
     private void wijzigBtnClicked(ActionEvent event) {
         Scene scene = new Scene(new UpdateBreakOutBoxController(boxController, box.getId()));
