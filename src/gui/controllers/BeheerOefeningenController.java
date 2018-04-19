@@ -39,9 +39,12 @@ public class BeheerOefeningenController extends AnchorPane {
 
     @FXML
     private TableColumn<Oefening, Number> antwoordCol;
-    
+
     @FXML
     private TextField filterText;
+
+    @FXML
+    private Button keerTerugBtn;
 
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
@@ -56,6 +59,7 @@ public class BeheerOefeningenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         antwoordCol.setCellValueFactory(c -> c.getValue().getAntwoordProp());
@@ -90,11 +94,19 @@ public class BeheerOefeningenController extends AnchorPane {
         stage.setTitle("Oefening details");
         stage.show();
     }
-    
+
     @FXML
-    public void filter(KeyEvent event){
+    public void filter(KeyEvent event) {
         String toFilter = filterText.getText();
         controller.applyFilter(toFilter);
+    }
+
+    private void terugNaarMenu() {
+        Scene scene = new Scene(new HomePanelController());
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

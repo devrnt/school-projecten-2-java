@@ -60,6 +60,8 @@ public class BeheerKlassenController extends AnchorPane {
     private TableColumn<Klas, String> klasNaamCol;
     @FXML
     private TableColumn<Klas, String> aantalLlnCol;
+    @FXML
+    private Button keerTerugBtn;
 
     private FileChooser fileChooser;
 
@@ -110,6 +112,7 @@ public class BeheerKlassenController extends AnchorPane {
         sortedKlas.comparatorProperty().bind(klassenTbl.comparatorProperty());
 
         klassenTbl.setItems(sortedKlas);
+        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
     }
 
@@ -200,13 +203,21 @@ public class BeheerKlassenController extends AnchorPane {
             stage.show();
         }
     }
-    
+
     // <editor-fold desc="=== Hulp methodes ===" >
     private boolean isCellLeeg(Cell cell) {
         if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
             return true;
         }
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
+    }
+
+    private void terugNaarMenu() {
+        Scene scene = new Scene(new HomePanelController());
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.show();
     }
     // </editor-fold>
 }

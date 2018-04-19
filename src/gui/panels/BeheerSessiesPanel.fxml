@@ -26,6 +26,14 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="470.0">
+                     <children>
+                        <Button fx:id="keerTerugBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Terug naar Menu" />
+                     </children>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </HBox>
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="600.0">

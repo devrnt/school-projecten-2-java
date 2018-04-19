@@ -42,6 +42,8 @@ public class BeheerSessiesController extends AnchorPane {
     private TextField searchTextField;
     @FXML
     private Button maakSessieButton;
+    @FXML
+    private Button keerTerugBtn;
 
     private SessieController sessieController;
     private ObservableList<Sessie> sessies;
@@ -69,11 +71,11 @@ public class BeheerSessiesController extends AnchorPane {
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
 
         sessieTabel.setPlaceholder(new Label("Geen sessies"));
-        
+
         // zorg dat de kolom gesorteerd kan worden
         SortedList<Sessie> sortedSessies = new SortedList<>(sessies);
         sortedSessies.comparatorProperty().bind(sessieTabel.comparatorProperty());
-        
+
         sessieTabel.setItems(sortedSessies);
 
         detailsBtn.setDisable(true);
@@ -84,6 +86,7 @@ public class BeheerSessiesController extends AnchorPane {
                 detailsBtn.setDisable(false);
             }
         });
+        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
         searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
     }
@@ -116,6 +119,14 @@ public class BeheerSessiesController extends AnchorPane {
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Details sessie");
+        stage.show();
+    }
+
+    private void terugNaarMenu() {
+        Scene scene = new Scene(new HomePanelController());
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setTitle("Menu");
+        stage.setScene(scene);
         stage.show();
     }
     // </editor-fold>

@@ -13,16 +13,25 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="74.0" prefWidth="600.0">
                <children>
                   <Button fx:id="createOefening" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="27.0" prefWidth="167.0" text="Maak nieuwe oefening">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" />
                      </HBox.margin>
                   </Button>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="429.0">
+                     <children>
+                        <Button fx:id="keerTerugBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Terug naar Menu">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="600.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="600.0">
                <children>
                   <TextField fx:id="filterText" onKeyReleased="#filter" promptText="Filter oefeningen...">
                      <HBox.margin>

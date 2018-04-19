@@ -11,7 +11,7 @@
 
 <fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0">
+      <VBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="423.0">
          <children>
             <Label alignment="TOP_LEFT" text="Klassen beheren">
                <font>
@@ -43,6 +43,11 @@
                 <TableColumn fx:id="aantalLlnCol" minWidth="0.0" prefWidth="178.66668701171875" text="Aantal leerlingen" />
               </columns>
             </TableView>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="397.0" layoutY="-3.0" prefHeight="57.0" prefWidth="201.0">
+         <children>
+            <Button fx:id="keerTerugBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Terug naar Menu" />
          </children>
       </VBox>
    </children>
