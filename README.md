@@ -33,3 +33,16 @@ projectenII
 * acties zijn zelfde volgorde voor alle groepen
 * toegcode allemaal anders
 * PDF: per groep volgorde welke oef. + antwoord na groepsbew
+
+## Technical Review 1
+* Oefening is pdf 
+* Sessie heeft omschrijving
+* Sessie lesuur mag weg
+* Sessie is actief als datum van de dag na de startdatum ligt
+* Toegangscodes van volgende oefening wordt gegenereerd bij het aanmaken van de sessie
+* Per groep moeten we ook een 'Pad' laten genereren 
+* Repository  package -- > Dao package
+
+## Presentatie opmerkingen
+* Productie-waardig ipv productwaardig
+* Duidelijk de nadruk leggen op welk deel van de schermen klaar is (functionaliteit of uiterlijk)
