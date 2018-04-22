@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.KlasController;
 import controllers.SessieController;
+import domein.FoutAntwoordActieEnum;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
@@ -57,13 +58,9 @@ public class CreateSessieController extends AnchorPane {
     @FXML
     private Label datumFout;
     @FXML
-    private TextField lesuurInput;
-    @FXML
-    private Label lesuurFout;
-    @FXML
     private ChoiceBox<SoortOnderwijsEnum> soortonderwijsChoiceBox;
     @FXML
-    private ChoiceBox<String> reactieFoutAntwChoiceBox;
+    private ChoiceBox<FoutAntwoordActieEnum> reactieFoutAntwChoiceBox;
     @FXML
     private Button bevestigButton;
     @FXML
@@ -117,8 +114,8 @@ public class CreateSessieController extends AnchorPane {
         klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
 
-        reactieFoutAntwChoiceBox.setValue("Feedback");
-        reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
+        reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
+        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
 
         bekijkLlnButton.setDisable(true);
 
@@ -128,8 +125,8 @@ public class CreateSessieController extends AnchorPane {
 
     @FXML
     private void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout, lesuurFout};
-        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), lesuurInput.getText()};
+        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout};
+        String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
 
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
 
@@ -138,7 +135,7 @@ public class CreateSessieController extends AnchorPane {
         if (inputGeldig) {
             sessieController.createSessie(
                     naamInput.getText(), omschrijvingInput.getText(),
-                    gekozenKlas, Integer.parseInt(lesuurInput.getText()),
+                    gekozenKlas,
                     convertToDate(datumInput.getValue()),
                     soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
                     reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get()
@@ -225,28 +222,17 @@ public class CreateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-                reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
-                reactieFoutAntwChoiceBox.setValue("Feedback");
+        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
+                reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
             if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-                reactieFoutAntwChoiceBox.getItems().add("Feedback");
-                reactieFoutAntwChoiceBox.setValue("Feedback");
+        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback);
+                reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
         });
 
-        lesuurInput.textProperty().addListener((v, oldVal, newVal) -> {
-            if (!getalOfNiet(newVal)) {
-                lesuurFout.setText("Lesuur moet een getal zijn!");
-            } else {
-                int getal = Integer.parseInt(newVal);
-                if (getal < 0 || getal > 10) {
-                    lesuurFout.setText("Lesuur moet tussen 0 en 10 liggen");
-                } else {
-                    lesuurFout.setText("");
-                }
-            }
-        });
+   
     }
 
     private Date convertToDate(LocalDate value) {

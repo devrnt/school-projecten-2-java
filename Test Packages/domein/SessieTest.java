@@ -50,27 +50,4 @@ public class SessieTest {
 
         sessie.setDatum(gisteren);
     }
-
-    @Test
-    public void setSessieLesuurCorrect_werkt() {
-        int lesuur = 5;
-        sessie.setLesuur(lesuur);
-        Assert.assertEquals(lesuur, sessie.getLesuur());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void setSessieLesuurTeHoog_gooitException() {
-        sessie.setLesuur(200);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void setSessieLesuurNegatief_gooitException() {
-        sessie.setLesuur(-5);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void setSessieLesUurNul_gooiException() {
-        sessie.setLesuur(0);
-    }
-
 }

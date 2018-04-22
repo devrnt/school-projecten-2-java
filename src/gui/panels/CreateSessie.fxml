@@ -43,7 +43,6 @@
                 <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Naam:">
@@ -78,20 +77,13 @@
                 </Label>
                 <DatePicker fx:id="datumInput" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <Label text="Lesuur" GridPane.rowIndex="5">
-                    <font>
-                        <Font name="Arial Bold" size="14.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="lesuurInput" maxWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Lesuur (getal)" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label fx:id="lesuurFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                 <ChoiceBox fx:id="soortonderwijsChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label text="Fout antwd" GridPane.rowIndex="6">
+                <Label text="Fout antwd" GridPane.rowIndex="5">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <ChoiceBox fx:id="klasChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Button fx:id="bekijkLlnButton" mnemonicParsing="false" onAction="#bekijkLlnButtonClicked" text="Bekijk leerlingen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             </children>

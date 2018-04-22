@@ -2,6 +2,7 @@ package data;
 
 import domein.Actie;
 import domein.BreakOutBox;
+import domein.FoutAntwoordActieEnum;
 import domein.Groepsbewerking;
 import domein.Klas;
 import domein.Oefening;
@@ -90,11 +91,11 @@ public class PopulateDB {
         for (int i = 0; i < 3; i++) {
             sessieRepo.insert(new Sessie(
                     "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    klas1, 2, c.getTime(), SoortOnderwijsEnum.dagonderwijs, "Feedback"));
+                    klas1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback));
         }
         sessieRepo.insert(new Sessie(
                 "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
-                klas2, 2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, "Feedback"));
+                klas2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback));
 
     }
 }

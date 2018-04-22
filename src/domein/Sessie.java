@@ -44,14 +44,13 @@ public class Sessie implements Serializable {
     private String omschrijving;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Klas klas;
-    private int lesuur;
     @Temporal(TemporalType.DATE)
     private Date datum;
     private String sessieCode;
     @Enumerated(EnumType.STRING)
     private SoortOnderwijsEnum soortOnderwijs;
-    private String foutAntwActie;
-    
+    @Enumerated(EnumType.STRING)
+    private FoutAntwoordActieEnum foutAntwoordActie;
 
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
@@ -62,16 +61,15 @@ public class Sessie implements Serializable {
     }
 
     public Sessie(String naam, String omschrijving,
-            Klas klas, int lesuur,
-            Date datum, SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
+            Klas klas,
+            Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
         setNaam(naam);
         setOmschrijving(omschrijving);
         setKlas(klas);
-        setLesuur(lesuur);
         setDatum(datum);
         setSessieCode();
         setSoortOnderwijs(soortOnderwijs);
-        setFoutAntwActie(foutAntwActie);
+        setFoutAntwoordActie(foutAntwoordActie);
     }
 
     // <editor-fold desc="Getters and Setters" >
@@ -105,18 +103,6 @@ public class Sessie implements Serializable {
     public void setKlas(Klas klas) {
         //controle 
         this.klas = klas;
-    }
-
-    public int getLesuur() {
-        return lesuur;
-    }
-
-    public void setLesuur(int lesuur) {
-        // controle 
-        if (lesuur <= 0 || lesuur > 10) {
-            throw new IllegalArgumentException("Geef een geldig lesuur in, tussen 1 en 10");
-        }
-        this.lesuur = lesuur;
     }
 
     public Date getDatum() {
@@ -171,15 +157,14 @@ public class Sessie implements Serializable {
         return omschrijvingProperty;
     }
 
-    
-     public void setFoutAntwActie(String foutAntwActie) {
-        this.foutAntwActie = foutAntwActie.toLowerCase().trim();
+    public void setFoutAntwoordActie(FoutAntwoordActieEnum foutAntwoordActie) {
+
+        this.foutAntwoordActie = foutAntwoordActie;
     }
-    
-    public String getFoutAntwActie(){
-        return foutAntwActie;
+
+    public FoutAntwoordActieEnum getFoutAntwoordActie() {
+        return foutAntwoordActie;
     }
     // </editor-fold>
 
-   
 }

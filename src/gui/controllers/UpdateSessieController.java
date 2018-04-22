@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.KlasController;
 import controllers.SessieController;
+import domein.FoutAntwoordActieEnum;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
@@ -57,13 +58,9 @@ public class UpdateSessieController extends AnchorPane {
     @FXML
     private Label datumFout;
     @FXML
-    private TextField lesuurInput;
-    @FXML
-    private Label lesuurFout;
-    @FXML
     private ChoiceBox<SoortOnderwijsEnum> soortonderwijsChoiceBox;
     @FXML
-    private ChoiceBox<String> reactieFoutAntwChoiceBox;
+    private ChoiceBox<FoutAntwoordActieEnum> reactieFoutAntwChoiceBox;
     @FXML
     private Button bevestigButton;
     @FXML
@@ -95,8 +92,8 @@ public class UpdateSessieController extends AnchorPane {
 
     @FXML
     public void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout, lesuurFout};
-        String[] inputs = {naamInput.getText(), omschrijvingInput.getText(), lesuurInput.getText()};
+        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout};
+        String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
 
         boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
@@ -104,7 +101,7 @@ public class UpdateSessieController extends AnchorPane {
         if (inputGeldig) {
             sessieController.updateSessie(
                     sessie.getId(), naamInput.getText(),
-                    omschrijvingInput.getText(), gekozenKlas, Integer.parseInt(lesuurInput.getText()),
+                    omschrijvingInput.getText(), gekozenKlas,
                     convertToDate(datumInput.getValue()),
                     soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
                     reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get()
@@ -165,15 +162,13 @@ public class UpdateSessieController extends AnchorPane {
         LocalDate sessieDatum = sessie.getDatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         datumInput.setValue(sessieDatum);
 
-        lesuurInput.setText(String.valueOf(sessie.getLesuur()));
-
         // set the choiceboxes
         Arrays.asList(SoortOnderwijsEnum.values())
                 .forEach(soortOnderwijs -> soortonderwijsChoiceBox.getItems().add(soortOnderwijs));
         soortonderwijsChoiceBox.setValue(sessie.getSoortOnderwijs());
 
-        reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
-        reactieFoutAntwChoiceBox.setValue(sessie.getFoutAntwActie().substring(0, 1).toUpperCase() + sessie.getFoutAntwActie().substring(1));
+        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
+        reactieFoutAntwChoiceBox.setValue(sessie.getFoutAntwoordActie());
 
         klasChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             bekijkLlnButton.setDisable(false);
@@ -232,26 +227,13 @@ public class UpdateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-                reactieFoutAntwChoiceBox.getItems().addAll("Feedback", "Na 3maal blokkeren");
-                reactieFoutAntwChoiceBox.setValue("Feedback");
+                reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
+                reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
             if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-                reactieFoutAntwChoiceBox.getItems().add("Feedback");
-                reactieFoutAntwChoiceBox.setValue("Feedback");
-            }
-        });
-
-        lesuurInput.textProperty().addListener((v, oldVal, newVal) -> {
-            if (!getalOfNiet(newVal)) {
-                lesuurFout.setText("Lesuur moet een getal zijn!");
-            } else {
-                int getal = Integer.parseInt(newVal);
-                if (getal < 0 || getal > 10) {
-                    lesuurFout.setText("Lesuur moet tussen 0 en 10 liggen");
-                } else {
-                    lesuurFout.setText("");
-                }
+                reactieFoutAntwChoiceBox.getItems().add(FoutAntwoordActieEnum.feedback);
+                reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
         });
     }

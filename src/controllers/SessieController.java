@@ -3,6 +3,7 @@ package controllers;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
+import domein.FoutAntwoordActieEnum;
 import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.Date;
@@ -49,23 +50,22 @@ public final class SessieController implements Observer {
      * @param naam String met de naam van de sessie (uniek)
      * @param omschrijving String met de omschrijving van de sessie
      * @param klas Klas met de klasnaam en de betreffende leerlingen in die klas
-     * @param lesuur int met het lesuur wanneer deze sessie zal plaatsvinden
      * @param datum Date met de dag wanneer deze sessie geactiveerd kan worden
      * @param soortOnderwijs SoortOnderwijsEnum voor welke doelgroep deze sessie
      * is (afstands of dagonderwijs)
-     * @param foutAntwActie String met wat er gebeurt als de groep 3 maal een
+     * @param foutAntwoordActie FoutAntwoordActieEnum met wat er gebeurt als de groep 3 maal een
      * fout antwoord ingeeft
      */
     public void createSessie(
             String naam, String omschrijving,
-            Klas klas, int lesuur, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, String foutAntwActie) {
+            Klas klas, Date datum,
+            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
 
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
             sessieRepo.insert(new Sessie(naam, omschrijving, klas,
-                    lesuur, datum, soortOnderwijs, foutAntwActie));
+                    datum, soortOnderwijs, foutAntwoordActie));
 
         }
     }
@@ -133,15 +133,14 @@ public final class SessieController implements Observer {
      * @param naam
      * @param omschrijving
      * @param klas
-     * @param lesuur
      * @param datum
      * @param soortOnderwijs
-     * @param foutAntwActie
+     * @param foutAntwoordActie
      * @throws NotFoundException als de te wijzigen sessie niet gevonden werd
      */
     public void updateSessie(int id, String naam, String omschrijving,
-            Klas klas, int lesuur, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, String foutAntwActie
+            Klas klas, Date datum,
+            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie
     ) {
         Sessie sessie = sessieRepo.get(id);
         if (sessie == null) {
@@ -151,15 +150,12 @@ public final class SessieController implements Observer {
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
-        sessie.setLesuur(lesuur);
         sessie.setDatum(datum);
         sessie.setSoortOnderwijs(soortOnderwijs);
-        sessie.setFoutAntwActie(foutAntwActie);
+        sessie.setFoutAntwoordActie(foutAntwoordActie);
 
         sessieRepo.update(sessie);
     }
-
-
 
     /**
      * Filtert de sessieLijst obv de meegegeven String

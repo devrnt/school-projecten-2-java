@@ -39,7 +39,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Naam:">
@@ -82,12 +81,12 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label text="Sessie code:" GridPane.rowIndex="7">
+                <Label text="Sessie code:" GridPane.rowIndex="6">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <Label fx:id="sessiecodeLabel" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <Label fx:id="sessiecodeLabel" GridPane.columnIndex="1" GridPane.rowIndex="6">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -102,22 +101,12 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label text="Fout antwd" GridPane.rowIndex="6">
+                <Label text="Fout antwd" GridPane.rowIndex="5">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <Label fx:id="reactieFoutAntw" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label text="Lesuur" GridPane.rowIndex="5">
-                    <font>
-                        <Font name="Arial Bold" size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="lesuurLabel" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Label fx:id="reactieFoutAntw" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <font>
                         <Font size="14.0" />
                     </font>
