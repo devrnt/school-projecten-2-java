@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testpackage;
+package repository;
+
+import domein.Klas;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
  * @author devri
  */
-public class TestKlasse {
-    //delete this class
+public interface KlasDao extends GenericDao<Klas> {
+
+    public Klas getByNaam(String naam) throws EntityNotFoundException;
+
 }

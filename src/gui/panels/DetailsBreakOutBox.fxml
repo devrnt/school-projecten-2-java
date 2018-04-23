@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root id="AnchorPane" prefHeight="536.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+            <GridPane prefHeight="100.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" text="Details BreakOutBox" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="keerTerugBtn" mnemonicParsing="false" text="Keer terug naar Boxlijst" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="118.66665649414062" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="457.3333435058594" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Naam:">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="naamLabel" GridPane.columnIndex="1">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Label text="Omschrijving:" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="omschrijvingLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                </GridPane>
+                <VBox alignment="CENTER">
+                    <children>
+                        <Label text="Acties">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="actieList" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER">
+                    <children>
+                        <Label text="Oefeningen">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="oefeningList" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER">
+                    <children>
+                        <Label text="Toegangscodes">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="toegangscodeList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+                    </children>
+                </VBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="samenvattingButton" mnemonicParsing="false" onAction="#samenvattingBtnClicked" text="Samenvatting downloaden" />
+                        <Button fx:id="wijzigButton" mnemonicParsing="false" onAction="#wijzigBtnClicked" text="Wijzig BreakOutBox">
+                            <HBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="verwijderButton" mnemonicParsing="false" onAction="#verwijderBtnClicked" text="Verwijder BreakOutBox">
+                            <HBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</fx:root>
