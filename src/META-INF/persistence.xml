@@ -6,7 +6,6 @@
     <class>domein.Oefening</class>
     <class>domein.Actie</class>
     <class>domein.BreakOutBox</class>
-    <class>domein.Toegangscode</class>
     <class>domein.Sessie</class>
     <class>domein.Klas</class>
     <properties>

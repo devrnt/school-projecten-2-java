@@ -15,11 +15,9 @@ public class StartUpGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         new PopulateDB().run();
-
         Scene scene = new Scene(new HomePanelController());
         primaryStage.setScene(scene);
         primaryStage.setTitle("HOME");
-
         primaryStage.show();
     }
 

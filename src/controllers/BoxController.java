@@ -5,7 +5,6 @@ import com.itextpdf.text.pdf.*;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
-import domein.Toegangscode;
 import exceptions.NotFoundException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -28,7 +26,6 @@ public final class BoxController implements Observer {
     private GenericDao<BreakOutBox> breakOutBoxRepo;
     private GenericDao<Actie> actieRepo;
     private GenericDao<Oefening> oefeningRepo;
-    private GenericDao<Toegangscode> toegangscodeRepo;
 
     private ObservableList<BreakOutBox> boxLijst;
     private FilteredList<BreakOutBox> gefilterdeBoxLijst;
@@ -36,7 +33,6 @@ public final class BoxController implements Observer {
     public BoxController() {
         setBreakOutBoxRepo(new GenericDaoJpa<>(BreakOutBox.class));
         setActieRepo(new GenericDaoJpa<>(Actie.class));
-        setToegangscodeRepo(new GenericDaoJpa<>(Toegangscode.class));
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
     }
 
@@ -55,12 +51,8 @@ public final class BoxController implements Observer {
         this.oefeningRepo = oefeningRepo;
     }
 
-    public void setToegangscodeRepo(GenericDao<Toegangscode> toegangscodeRepo) {
-        this.toegangscodeRepo = toegangscodeRepo;
-    }
-
-    public void createBreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties, List<Toegangscode> toegangscodes) {
-        breakOutBoxRepo.insert(new BreakOutBox(naam, omschrijving, oefeningen, acties, toegangscodes));
+    public void createBreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
+        breakOutBoxRepo.insert(new BreakOutBox(naam, omschrijving, oefeningen, acties));
         // gebruik maken van add?
         boxLijst = FXCollections.observableArrayList(breakOutBoxRepo.findAll());
     }
@@ -87,11 +79,6 @@ public final class BoxController implements Observer {
         return FXCollections.observableArrayList(oefeningen);
     }
 
-    public ObservableList<Toegangscode> getToegangscodesByBox(int id) {
-        List<Toegangscode> toegangscodes = breakOutBoxRepo.get(id).getToegangscodes();
-        return FXCollections.observableArrayList(toegangscodes);
-    }
-
     public void applyFilter(String toFilter) {
         gefilterdeBoxLijst.setPredicate(box -> {
             if (toFilter == null || toFilter.isEmpty()) {
@@ -111,6 +98,7 @@ public final class BoxController implements Observer {
 
     public void deleteBreakOutBox(int boxId) {
         BreakOutBox box = breakOutBoxRepo.get(boxId);
+        
         if (box == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
@@ -128,15 +116,11 @@ public final class BoxController implements Observer {
         return FXCollections.observableArrayList(actieRepo.findAll());
     }
 
-    public ObservableList<Toegangscode> getToegangscodes() {
-        return FXCollections.observableArrayList(toegangscodeRepo.findAll());
-    }
-
     public ObservableList<Oefening> getOefeningen() {
         return FXCollections.observableArrayList(oefeningRepo.findAll());
     }
 
-    public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies, List<Toegangscode> geselecteerdeToegangscodes) {
+    public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies) {
         BreakOutBox box = breakOutBoxRepo.get(id);
         if (box == null) {
             throw new NotFoundException("De BreakOutBox werd niet gevonden");
@@ -145,7 +129,6 @@ public final class BoxController implements Observer {
         box.setOmschrijving(omschrijving);
         box.setActies(geselecteerdeActies);
         box.setOefeningen(geselecteerdeOefeningen);
-        box.setToegangscodes(geselecteerdeToegangscodes);
         breakOutBoxRepo.update(box);
     }
 
@@ -187,11 +170,8 @@ public final class BoxController implements Observer {
         document.add(info);
 
         PdfPTable table = new PdfPTable(5);
-        PdfPCell c1 = new PdfPCell(new Phrase("Toegangscodes"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Oefeningen"));
+        PdfPCell c1 = new PdfPCell(new Phrase("Oefeningen"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -208,13 +188,8 @@ public final class BoxController implements Observer {
         table.addCell(c1);
         table.setHeaderRows(1);
 
-        int size = Integer.max(box.getActies().size(), Integer.max(box.getOefeningen().size(), box.getToegangscodes().size()));
+        int size = Integer.max(box.getActies().size(),box.getOefeningen().size());
         for (int i = 0; i < size; i++) {
-            if (box.getToegangscodes().size() - 1 >= i) {
-                table.addCell(box.getToegangscodes().get(i).getCode());
-            } else {
-                table.addCell("");
-            }
             if (box.getOefeningen().size() - 1 >= i) {
                 table.addCell(box.getOefeningen().get(i).getOpgave());
                 table.addCell(String.valueOf(box.getOefeningen().get(i).getAntwoord()));

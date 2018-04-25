@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="704.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="601.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <GridPane>
               <columnConstraints>
@@ -111,28 +111,6 @@
                            </children>
                         </VBox>
                         <ListView fx:id="oefeningList2" maxWidth="-Infinity" prefHeight="200.0" />
-                     </children>
-                  </HBox>
-                    </children>
-                </VBox>
-                <VBox>
-                    <children>
-                        <Label text="Toegangscodes">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                        </Label>
-                  <Label fx:id="toegangscodesFoutLbl" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="toegangscodeList1" maxWidth="-Infinity" />
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Button fx:id="toegangscodeToevoegenBtn" mnemonicParsing="false" onAction="#voegToegangscodeToeBtn" text="&lt;&lt;&lt;" />
-                              <Button fx:id="toegangscodeVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderToegangscodeBtn" text="&gt;&gt;&gt;" />
-                           </children>
-                        </VBox>
-                        <ListView fx:id="toegangscodeList2" maxWidth="-Infinity" prefHeight="200.0" />
                      </children>
                   </HBox>
                     </children>

@@ -3,7 +3,6 @@ package gui.controllers;
 import controllers.BoxController;
 import domein.Actie;
 import domein.Oefening;
-import domein.Toegangscode;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -36,8 +35,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
     @FXML
     private Label oefeningenFoutLbl;
     @FXML
-    private Label toegangscodesFoutLbl;
-    @FXML
     private ListView<Actie> actieList1;
     @FXML
     private Button actieToevoegenBtn;
@@ -53,14 +50,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private Button oefeningVerwijderenBtn;
     @FXML
     private ListView<Oefening> oefeningList2;
-    @FXML
-    private ListView<Toegangscode> toegangscodeList1;
-    @FXML
-    private Button toegangscodeToevoegenBtn;
-    @FXML
-    private Button toegangscodeVerwijderenBtn;
-    @FXML
-    private ListView<Toegangscode> toegangscodeList2;
     @FXML
     private Button bevestigBtn;
     @FXML
@@ -83,8 +72,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
-        toegangscodeList2.setItems(boxController.getToegangscodes());
-
         //listeners
         keerTerugBtn.setOnAction(event -> terugNaarLijst());
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
@@ -123,30 +110,20 @@ public class CreateBreakOutBoxController extends AnchorPane {
                 }
             }
         });
-        toegangscodeList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (toegangscodeList1.getItems().isEmpty()) {
-                    toegangscodesFoutLbl.setText("Selecteer minstens 1 toegangscode");
-                } else {
-                    toegangscodesFoutLbl.setText("");
-                }
-            }
-        });
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl, toegangscodesFoutLbl};
+        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl};
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        List<Toegangscode> geselecteerdeToegangscodes = toegangscodeList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || geselecteerdeToegangscodes.isEmpty()) {
+        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty()) {
             inputGeldig = false;
         }
 
         if (inputGeldig) {
-            boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies, geselecteerdeToegangscodes);
+            boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
 
             Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
@@ -205,24 +182,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
         if (o != null) {
             oefeningList1.getItems().remove(o);
             oefeningList2.getItems().add(o);
-        }
-    }
-
-    @FXML
-    private void voegToegangscodeToeBtn(ActionEvent event) {
-        Toegangscode t = toegangscodeList2.getSelectionModel().getSelectedItem();
-        if (t != null) {
-            toegangscodeList2.getItems().remove(t);
-            toegangscodeList1.getItems().add(t);
-        }
-    }
-
-    @FXML
-    private void verwijderToegangscodeBtn(ActionEvent event) {
-        Toegangscode t = toegangscodeList1.getSelectionModel().getSelectedItem();
-        if (t != null) {
-            toegangscodeList1.getItems().remove(t);
-            toegangscodeList2.getItems().add(t);
         }
     }
 }

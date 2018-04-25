@@ -4,7 +4,6 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
-import domein.Toegangscode;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +36,6 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     @FXML
     private Label oefeningenFoutLbl;
     @FXML
-    private Label toegangscodesFoutLbl;
-     @FXML
     private Label wijzigLbl;
     @FXML
     private ListView<Actie> actieList1;
@@ -56,14 +53,6 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     private Button oefeningVerwijderenBtn;
     @FXML
     private ListView<Oefening> oefeningList2;
-    @FXML
-    private ListView<Toegangscode> toegangscodeList1;
-    @FXML
-    private Button toegangscodeToevoegenBtn;
-    @FXML
-    private Button toegangscodeVerwijderenBtn;
-    @FXML
-    private ListView<Toegangscode> toegangscodeList2;
     @FXML
     private Button bevestigBtn;
     @FXML
@@ -99,11 +88,6 @@ public class UpdateBreakOutBoxController extends AnchorPane {
         for (Oefening o : box.getOefeningen()) {
             oefeningList2.getItems().remove(o);
             oefeningList1.getItems().add(o);
-        }
-        toegangscodeList2.setItems(boxController.getToegangscodes());
-        for (Toegangscode t : box.getToegangscodes()) {
-            toegangscodeList2.getItems().remove(t);
-            toegangscodeList1.getItems().add(t);
         }
         //listeners
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
@@ -142,37 +126,26 @@ public class UpdateBreakOutBoxController extends AnchorPane {
                 }
             }
         });
-        toegangscodeList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (toegangscodeList1.getItems().isEmpty()) {
-                    toegangscodesFoutLbl.setText("Selecteer minstens 1 toegangscode");
-                } else {
-                    toegangscodesFoutLbl.setText("");
-                }
-            }
-        });
         keerTerugBtn.setOnAction(event -> terugNaarDetails());
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl, toegangscodesFoutLbl};
+        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl};
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        List<Toegangscode> geselecteerdeToegangscodes = toegangscodeList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || geselecteerdeToegangscodes.isEmpty()) {
+        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty()) {
             inputGeldig = false;
         }
 
         if (inputGeldig) {
-            boxController.updateBreakOutBox(box.getId(), naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies, geselecteerdeToegangscodes);
-
-            Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
-            oefeningCreatedSuccess.setTitle("BreakOutBox");
-            oefeningCreatedSuccess.setHeaderText("Wijzigen van een box");
-            oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol gewijwigd");
-            oefeningCreatedSuccess.showAndWait();
+            boxController.updateBreakOutBox(box.getId(), naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
+            Alert BreakOutBoxCreatedSucces = new Alert(Alert.AlertType.INFORMATION);
+            BreakOutBoxCreatedSucces.setTitle("BreakOutBox");
+            BreakOutBoxCreatedSucces.setHeaderText("Wijzigen van een box");
+            BreakOutBoxCreatedSucces.setContentText("BreakOutBox is succesvol gewijwigd");
+            BreakOutBoxCreatedSucces.showAndWait();
             terugNaarDetails();
 
         } else {
@@ -225,24 +198,6 @@ public class UpdateBreakOutBoxController extends AnchorPane {
         if (o != null) {
             oefeningList1.getItems().remove(o);
             oefeningList2.getItems().add(o);
-        }
-    }
-
-    @FXML
-    private void voegToegangscodeToeBtn(ActionEvent event) {
-        Toegangscode t = toegangscodeList2.getSelectionModel().getSelectedItem();
-        if (t != null) {
-            toegangscodeList2.getItems().remove(t);
-            toegangscodeList1.getItems().add(t);
-        }
-    }
-
-    @FXML
-    private void verwijderToegangscodeBtn(ActionEvent event) {
-        Toegangscode t = toegangscodeList1.getSelectionModel().getSelectedItem();
-        if (t != null) {
-            toegangscodeList1.getItems().remove(t);
-            toegangscodeList2.getItems().add(t);
         }
     }
 }

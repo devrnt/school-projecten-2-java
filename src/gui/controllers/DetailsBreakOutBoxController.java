@@ -5,17 +5,13 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
-import domein.Toegangscode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,8 +33,6 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     private ListView<Actie> actieList;
     @FXML
     private ListView<Oefening> oefeningList;
-    @FXML
-    private ListView<Toegangscode> toegangscodeList;
     @FXML
     private Button samenvattingButton;
     @FXML
@@ -76,9 +70,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         oefeningList.setDisable(true);
         actieList.setItems(boxController.getActiesByBox(box.getId()));
         actieList.setDisable(true);
-        toegangscodeList.setItems(boxController.getToegangscodesByBox(box.getId()));
-        toegangscodeList.setDisable(true);
-    }
+          }
 
     @FXML
     private void samenvattingBtnClicked(ActionEvent event) throws IOException{

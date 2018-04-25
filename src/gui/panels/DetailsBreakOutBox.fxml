@@ -88,16 +88,6 @@
                         <ListView fx:id="oefeningList" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
                     </children>
                 </VBox>
-                <VBox alignment="CENTER">
-                    <children>
-                        <Label text="Toegangscodes">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                        </Label>
-                        <ListView fx:id="toegangscodeList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
-                    </children>
-                </VBox>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Button fx:id="samenvattingButton" mnemonicParsing="false" onAction="#samenvattingBtnClicked" text="Samenvatting downloaden" />
