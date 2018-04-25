@@ -35,7 +35,7 @@ public class BoxControllerTest {
         boxRepo = Mockito.mock(GenericDao.class);
 
         // Mocks trainen
-        box = new BreakOutBox("bob1", "bob omschrijving", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        box = new BreakOutBox("bob1", "bob omschrijving", new ArrayList<>(), new ArrayList<>());
         Mockito.when(boxRepo.get(1)).thenReturn(box);
         Mockito.when(boxRepo.get(2)).thenReturn(null);
         Mockito.when(boxRepo.findAll()).thenReturn(
@@ -43,7 +43,7 @@ public class BoxControllerTest {
                         Arrays.asList(
                                 new BreakOutBox[]{
                                     box,
-                                    new BreakOutBox("bob2", "bob omschrijving 2", new ArrayList<>(), new ArrayList<>(), new ArrayList<>())
+                                    new BreakOutBox("bob2", "bob omschrijving 2", new ArrayList<>(), new ArrayList<>())
                                 }
                         )
                 )
@@ -69,7 +69,7 @@ public class BoxControllerTest {
     // <editor-fold desc="=== createBox ===" defaultstate="collapsed">
     @Test
     public void createBox_voegtNieuweBoxToe() {
-        boxController.createBreakOutBox("bob3", "bob omschrijving 3", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        boxController.createBreakOutBox("bob3", "bob omschrijving 3", new ArrayList<>(), new ArrayList<>());
         Mockito.verify(boxRepo).insert(Mockito.any(BreakOutBox.class));
     }
     // </editor-fold>
@@ -77,7 +77,7 @@ public class BoxControllerTest {
     // <editor-fold desc="=== updateBox ===" defaultstate="collapsed">
     @Test
     public void updateBox_wordtGewijzigd() {
-        boxController.updateBreakOutBox(1, "nieuweBox1", "nieuweBox1 omschrijving", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        boxController.updateBreakOutBox(1, "nieuweBox1", "nieuweBox1 omschrijving", new ArrayList<>(), new ArrayList<>());
         Assert.assertEquals("nieuweBox1", box.getNaam());
         Mockito.verify(boxRepo).update(Mockito.any(BreakOutBox.class));
     }
@@ -85,7 +85,7 @@ public class BoxControllerTest {
     @Test(expected = NotFoundException.class)
     public void updateBox_BoxNietGevonden_GooitNotFoundException() {
         int foutId = 8;
-        boxController.updateBreakOutBox(foutId, "boxNietCorr", "foute omschrijving", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        boxController.updateBreakOutBox(foutId, "boxNietCorr", "foute omschrijving", new ArrayList<>(), new ArrayList<>());
     }
     // </editor-fold>
 
