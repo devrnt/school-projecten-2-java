@@ -3,6 +3,7 @@ package controllers;
 import controllers.OefeningController;
 import domein.Groepsbewerking;
 import domein.Oefening;
+import domein.OefeningBeheer;
 import domein.OperatorEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
@@ -117,9 +118,9 @@ public class OefeningControllerTest {
     public void getOefeningen_ReturnsOefeningen() {
         Assert.assertEquals(2, controller.getOefeningen().size());
     }
-    
+
     @Test
-    public void getOefening_returnsCorrectOefening(){
+    public void getOefening_returnsCorrectOefening() {
         Oefening oefening = controller.getOefening(1);
         Assert.assertEquals(oefening, this.oefening);
     }
@@ -144,5 +145,12 @@ public class OefeningControllerTest {
         Assert.assertEquals(1, controller.getOefeningen().size());
     }
 //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="=== getOefeningBeheer ===">
+    @Test
+    public void getOefeningBeheer_returnsOefeningBeheer() {
+        Assert.assertTrue(controller.getOefeningBeheer() instanceof OefeningBeheer);
+    }
+    //</editor-fold>
 
 }
