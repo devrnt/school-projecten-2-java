@@ -65,8 +65,8 @@ public class OefeningControllerTest {
         );
 
         // setter injection mocks
-        controller.setOefeningRepo(oefeningRepo);
-        controller.setGroepsbewerkingRepo(groepsbwRepo);
+        controller.getOefeningBeheer().setOefeningRepo(oefeningRepo);
+        controller.getOefeningBeheer().setGroepsbewerkingRepo(groepsbwRepo);
     }
 
     //<editor-fold defaultstate="collapsed" desc="=== createOefening ===">

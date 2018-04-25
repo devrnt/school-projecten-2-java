@@ -16,11 +16,8 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Opgave " />
-                  <TextField fx:id="opgave" maxWidth="-Infinity" promptText="Typ hier de opgave...">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <Label fx:id="opgaveLabel" />
+                  <Button fx:id="uploadOpgavePdfBtn" mnemonicParsing="false" onAction="#uploadOpgavePdf" text="Kies PDF..." />
                </children>
             </HBox>
             <Label fx:id="opgaveFout" textFill="RED" />
@@ -34,7 +31,8 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Feedback " />
-                  <TextField fx:id="feedback" maxWidth="-Infinity" promptText="Typ hier de feedback..." />
+                  <Label fx:id="feedbackLabel" />
+                  <Button fx:id="uploadFeedbackPdfBtn" mnemonicParsing="false" onAction="#uploadFeedbackPdf" text="Kies PDF..." />
                </children>
             </HBox>
             <Label fx:id="feedbackFout" textFill="RED" />
