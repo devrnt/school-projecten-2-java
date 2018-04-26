@@ -39,8 +39,6 @@ public class DetailsSessieController extends AnchorPane {
     @FXML
     private Label sessiecodeLabel;
     @FXML
-    private Button wijzigBtn;
-    @FXML
     private Button verwijderBtn;
     @FXML
     private Label onderwijsLabel;
@@ -71,15 +69,6 @@ public class DetailsSessieController extends AnchorPane {
     }
 
     @FXML
-    private void wijzigBtnClicked(ActionEvent event) {
-        Scene scene = new Scene(new UpdateSessieController(sessieController, sessie.getId()));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Wijzig sessie");
-        stage.show();
-    }
-
-    @FXML
     private void verwijderBtnClicked(ActionEvent event) {
         Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen sessie");
@@ -104,6 +93,7 @@ public class DetailsSessieController extends AnchorPane {
         onderwijsLabel.setText(sessie.getSoortOnderwijs().toString());
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));
         sessiecodeLabel.setText(sessie.getSessieCode());
+        
         terugBtn.setOnAction(event -> terugNaarLijst());
     }
 

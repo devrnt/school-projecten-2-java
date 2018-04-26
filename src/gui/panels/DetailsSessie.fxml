@@ -118,11 +118,6 @@
         </GridPane>
         <HBox alignment="CENTER" layoutX="-3.0" layoutY="356.0" prefHeight="62.0" prefWidth="606.0">
             <children>
-                <Button fx:id="wijzigBtn" defaultButton="true" mnemonicParsing="false" onAction="#wijzigBtnClicked" text="Wijzig Sessie">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </HBox.margin>
-                </Button>
                 <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" text="Verwijder Sessie">
                     <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

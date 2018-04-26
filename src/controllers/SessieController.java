@@ -4,6 +4,7 @@ import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import domein.FoutAntwoordActieEnum;
+import domein.ISessie;
 import domein.SessieBeheer;
 import exceptions.NotFoundException;
 import java.util.Date;
@@ -106,6 +107,9 @@ public final class SessieController {
     public void applyFilter(String toFilter) {
         sessieBeheer.applyFilter(toFilter);
     }
-    
-    
+
+    public ISessie getISessie() {
+        return new Sessie();
+    }
+
 }
