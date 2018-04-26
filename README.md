@@ -46,3 +46,7 @@ projectenII
 ## Presentatie opmerkingen
 * Productie-waardig ipv productwaardig
 * Duidelijk de nadruk leggen op welk deel van de schermen klaar is (functionaliteit of uiterlijk)
+* ==== TIPS ====
+* Bij de presentatie aan de klant zet op je desktop de jar file van de applicatie en open het zodat het vertrouwelijk overkomt bij de klant
+
+
