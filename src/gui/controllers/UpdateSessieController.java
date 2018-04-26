@@ -184,7 +184,7 @@ public class UpdateSessieController extends AnchorPane {
                 naamFout.setText("Vul sessienaam in");
             } else {
                 String sessieNaam = naamInput.getText();
-                if (sessieController.bestaatSessieNaam(sessieNaam)) {
+                if (sessieController.getSessieBeheer().bestaatSessieNaam(sessieNaam)) {
                     naamFout.setText("Sessienaam bestaat al, vul een andere in!");
                 } else {
                     naamFout.setText("");

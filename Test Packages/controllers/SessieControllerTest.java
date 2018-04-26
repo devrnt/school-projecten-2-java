@@ -61,7 +61,7 @@ public class SessieControllerTest {
         );
 
         // SetterInjection mocks
-        sessieController.setSessieRepo(sessieRepo);
+        sessieController.getSessieBeheer().setSessieRepo(sessieRepo);
     }
 
     //<editor-fold defaultstate="getters" desc="comment">

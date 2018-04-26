@@ -4,44 +4,25 @@ import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import domein.FoutAntwoordActieEnum;
+import domein.SessieBeheer;
 import exceptions.NotFoundException;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import repository.GenericDao;
-import repository.GenericDaoJpa;
-import repository.SessieDao;
-import repository.SessieDaoJpa;
 
 /**
  *
  * @author devri
  */
-public final class SessieController implements Observer {
+public final class SessieController {
 
-    private SessieDao sessieRepo;
-    private GenericDao<Klas> klasRepo;
-    private ObservableList<Sessie> sessieLijst;
-    private FilteredList<Sessie> gefilterdeSessieLijst;
+    private SessieBeheer sessieBeheer;
 
     public SessieController() {
-        setSessieRepo(new SessieDaoJpa(Sessie.class));
-        setKlasRepo(new GenericDaoJpa(Klas.class));
+        sessieBeheer = new SessieBeheer();
     }
 
-    public void setSessieRepo(SessieDao sessieRepo) {
-        this.sessieRepo = sessieRepo;
-        this.sessieRepo.addObserver(this);
-        sessieLijst = FXCollections.observableArrayList(sessieRepo.findAll());
-        gefilterdeSessieLijst = new FilteredList<>(sessieLijst, s -> true);
-    }
-
-    public void setKlasRepo(GenericDaoJpa klasRepo) {
-        this.klasRepo = klasRepo;
+    public SessieBeheer getSessieBeheer() {
+        return sessieBeheer;
     }
 
     /**
@@ -53,28 +34,16 @@ public final class SessieController implements Observer {
      * @param datum Date met de dag wanneer deze sessie geactiveerd kan worden
      * @param soortOnderwijs SoortOnderwijsEnum voor welke doelgroep deze sessie
      * is (afstands of dagonderwijs)
-     * @param foutAntwoordActie FoutAntwoordActieEnum met wat er gebeurt als de groep 3 maal een
-     * fout antwoord ingeeft
+     * @param foutAntwoordActie FoutAntwoordActieEnum met wat er gebeurt als de
+     * groep 3 maal een fout antwoord ingeeft
      */
     public void createSessie(
             String naam, String omschrijving,
             Klas klas, Date datum,
             SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
 
-        if (bestaatSessieNaam(naam)) {
-            throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
-        } else {
-            sessieRepo.insert(new Sessie(naam, omschrijving, klas,
-                    datum, soortOnderwijs, foutAntwoordActie));
+        sessieBeheer.createSessie(naam, omschrijving, klas, datum, soortOnderwijs, foutAntwoordActie);
 
-        }
-    }
-
-    /**
-     * Sluit de persistentie
-     */
-    public void close() {
-        GenericDaoJpa.closePersistency();
     }
 
     /**
@@ -84,7 +53,7 @@ public final class SessieController implements Observer {
      * @return sessie
      */
     public Sessie getSessie(int id) {
-        return sessieRepo.get(id);
+        return sessieBeheer.getSessie(id);
     }
 
     /**
@@ -94,7 +63,7 @@ public final class SessieController implements Observer {
      * @return een ObservableList met Sessies
      */
     public ObservableList<Sessie> getAllSessies() {
-        return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
+        return sessieBeheer.getAllSessies();
     }
 
     /**
@@ -106,23 +75,7 @@ public final class SessieController implements Observer {
      *
      */
     public void deleteSessie(int id) {
-        Sessie sessie = sessieRepo.get(id);
-        if (sessie == null) {
-            throw new NotFoundException("De sessie werd niet gevonden");
-        }
-        sessieRepo.delete(sessie);
-    }
-
-    /**
-     * Valideert of een sessie reeds bestaat
-     *
-     * @param naam van de te valideren sessie
-     * @return true als een sessie reeds bestaat anders false
-     *
-     */
-    public boolean bestaatSessieNaam(String naam) {
-        Sessie sessie = sessieRepo.getByNaam(naam);
-        return sessie != null;
+        sessieBeheer.deleteSessie(id);
     }
 
     /**
@@ -140,21 +93,9 @@ public final class SessieController implements Observer {
      */
     public void updateSessie(int id, String naam, String omschrijving,
             Klas klas, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie
-    ) {
-        Sessie sessie = sessieRepo.get(id);
-        if (sessie == null) {
-            throw new NotFoundException("De sessie werd niet gevonden");
-        }
+            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
 
-        sessie.setNaam(naam);
-        sessie.setOmschrijving(omschrijving);
-        sessie.setKlas(klas);
-        sessie.setDatum(datum);
-        sessie.setSoortOnderwijs(soortOnderwijs);
-        sessie.setFoutAntwoordActie(foutAntwoordActie);
-
-        sessieRepo.update(sessie);
+        sessieBeheer.updateSessie(id, naam, omschrijving, klas, datum, soortOnderwijs, foutAntwoordActie);
     }
 
     /**
@@ -163,26 +104,8 @@ public final class SessieController implements Observer {
      * @param toFilter Tekst waarop de lijst moet gefilterd worden
      */
     public void applyFilter(String toFilter) {
-        gefilterdeSessieLijst.setPredicate(sessie -> {
-            if (toFilter == null || toFilter.isEmpty()) {
-                return true;
-            }
-            String lowerCaseFilter = toFilter.toLowerCase();
-            lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
-
-            if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                return true;
-            } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
-                return true;
-            }
-            return false; // No matches
-        });
+        sessieBeheer.applyFilter(toFilter);
     }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        sessieLijst.clear();
-        sessieLijst.addAll(sessieRepo.findAll());
-    }
-
+    
+    
 }

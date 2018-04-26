@@ -179,7 +179,7 @@ public class CreateSessieController extends AnchorPane {
                 naamFout.setText("Vul sessienaam in");
             } else {
                 String sessieNaam = naamInput.getText();
-                if (sessieController.bestaatSessieNaam(sessieNaam)) {
+                if (sessieController.getSessieBeheer().bestaatSessieNaam(sessieNaam)) {
                     naamFout.setText("Sessienaam bestaat al, vul een andere in!");
                 } else {
                     naamFout.setText("");
@@ -222,17 +222,16 @@ public class CreateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
+                reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
                 reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
             if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
-        reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback);
+                reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback);
                 reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
             }
         });
 
-   
     }
 
     private Date convertToDate(LocalDate value) {
