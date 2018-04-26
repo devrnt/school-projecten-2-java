@@ -40,9 +40,27 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
 
-        Oefening oefening1 = new Oefening("~/Documents/Rekenen/hoofdrekenen1.pdf", 400, "~/Documents/Feedback/feedbackRekenen.pdf", groepbwRepo.findAll());
-        Oefening oefening2 = new Oefening("~/Documents/Meetkunde/meetkunde2.pdf", 25, "~/Documents/Feedback/feedbackMeetkunde.pdf", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
-        Oefening oefening3 = new Oefening("~/Documents/Cijferen/cijferen2.pdf", 140, "~/Documents/Feedback/feedbackCijferen.pdf", new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
+        Oefening oefening1 = new Oefening(
+                "~/Documents/Rekenen/hoofdrekenen1.pdf", 
+                400, 
+                "~/Documents/Feedback/feedbackRekenen.pdf", 
+                "Hoofdrekenen",
+                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
+                groepbwRepo.findAll());
+        Oefening oefening2 = new Oefening(
+                "~/Documents/Meetkunde/meetkunde2.pdf", 
+                25, 
+                "~/Documents/Feedback/feedbackMeetkunde.pdf", 
+                "Meetkunde",
+                new ArrayList<String>(Arrays.asList(new String[]{"D202", "C106"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
+        Oefening oefening3 = new Oefening(
+                "~/Documents/Cijferen/cijferen2.pdf", 
+                140, 
+                "~/Documents/Feedback/feedbackCijferen.pdf", 
+                "Cijferen",
+                new ArrayList<String>(Arrays.asList(new String[]{"D102", "A402"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
         oefeningRepo.insert(oefening3);

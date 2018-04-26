@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -48,6 +49,7 @@ public class BeheerOefeningenController extends AnchorPane {
 
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
+        
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerOefeningenPanel.fxml"));
 

@@ -28,8 +28,8 @@ public final class OefeningController {
      * @param groepsbewerkingen Lijst met bijhorende groepsbewerkingen
      *
      */
-    public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
-        oefeningBeheer.createOefening(opgave, antwoord, feedback, groepsbewerkingen);
+    public void createOefening(String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
+        oefeningBeheer.createOefening(opgave, antwoord, feedback, vak, doelstellingen, groepsbewerkingen);
     }
 
     /**
@@ -42,8 +42,8 @@ public final class OefeningController {
      * @param feedback
      * @param groepsbewerkingen
      */
-    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
-        oefeningBeheer.updateOefening(oefId, opgave, antwoord, feedback, groepsbewerkingen);
+    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
+        oefeningBeheer.updateOefening(oefId, opgave, antwoord, feedback, vak, doelstellingen, groepsbewerkingen);
     }
 
     /**

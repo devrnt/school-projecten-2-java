@@ -12,7 +12,7 @@ public class StartUp {
     public static void main(String[] args) {
         OefeningController controller = new OefeningController();
         new PopulateDB().run();
-        controller.createOefening("oef", 0, "feed", null);
+//        controller.createOefening("oef", 0, "feed", null);
         SessieController sessieController = new SessieController();
         
         controller.close();    

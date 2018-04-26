@@ -7,13 +7,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -35,7 +36,7 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Button uploadOpgavePdfBtn;
     @FXML
-    private Label opgaveFout;
+    private Label opgaveFoutLabel;
 
     @FXML
     private TextField antwoord;
@@ -47,7 +48,21 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Button uploadFeedbackPdfBtn;
     @FXML
-    private Label feedbackFout;
+    private Label feedbackFoutLabel;
+    
+    @FXML
+    private TextField vakTextField;
+    @FXML
+    private Label vakFoutLabel;
+    
+    @FXML
+    private TextField doelstellingTextField;
+    @FXML
+    private Button addDoelstellingBtn;
+    @FXML
+    private ListView<String> doelstellingenListView;
+    @FXML
+    private Label doelstellingFoutLabel;
 
     @FXML
     private ListView<Groepsbewerking> groepsbewerkingen;
@@ -87,12 +102,12 @@ public class CreateOefeningController extends AnchorPane {
         groepsbewerkingen.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         groepsbewerkingen.getSelectionModel().selectFirst();
 
+                
         // listeners voor validatie
         antwoord.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (!newValue) {
                 if (antwoord.getText() == null || antwoord.getText().trim().length() == 0) {
                     antwoordFout.setText("Geef een antwoord in");
-
                 } else {
                     try {
                         Integer.parseInt(antwoord.getText());
@@ -113,11 +128,23 @@ public class CreateOefeningController extends AnchorPane {
                 }
             }
         });
-
+        
+        vakTextField.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                String text = vakTextField.getText();
+                if (text == null || text.trim().length() == 0) {
+                    vakFoutLabel.setText("Geef een vak in");
+                } else {
+                    vakFoutLabel.setText("");
+                }
+            }
+        });
+        
         annuleerBtn.setOnAction(event -> terugNaarLijst());
+        
 
     }
-
+    
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
         Oefening oefening = controller.getOefening(id);
@@ -126,31 +153,48 @@ public class CreateOefeningController extends AnchorPane {
         antwoord.setText(Integer.toString(oefening.getAntwoord()));
         feedbackLabel.setText(oefening.getFeedback());
         feedbackFile = new File(oefening.getFeedback());
+        vakTextField.setText(oefening.getVak());
+        doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
+    }
+    
+    @FXML
+    protected void addDoelstelling(ActionEvent event){
+        String doelstelling = doelstellingTextField.getText();
+        if (!doelstelling.isEmpty()){
+            doelstellingenListView.getItems().add(doelstelling);
+            doelstellingFoutLabel.setText("");
+        } else {
+            doelstellingFoutLabel.setText("Geef een doelstelling");
+        }
     }
 
     @FXML
     protected void uploadOpgavePdf(ActionEvent event) {
-        opgaveFile = uploadPdf(opgaveLabel);
+        opgaveFile = uploadPdf(opgaveLabel, opgaveFoutLabel);
+        
     }
 
     @FXML
     protected void uploadFeedbackPdf(ActionEvent event) {
-        feedbackFile = uploadPdf(feedbackLabel);
+        feedbackFile = uploadPdf(feedbackLabel, feedbackFoutLabel);
     }
 
     @FXML
     public void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {opgaveFout, antwoordFout, feedbackFout, groepsbewerkingenFout};
+        Label[] foutLabels = {opgaveFoutLabel, antwoordFout, feedbackFoutLabel, groepsbewerkingenFout};
         List<Groepsbewerking> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
-        boolean inputAanwezig = !opgaveLabel.getText().isEmpty() && !feedbackLabel.getText().isEmpty() && !antwoord.getText().isEmpty();
+        checkInputs();
+        
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
-        if (inputAanwezig && inputGeldig) {
+        if (inputGeldig) {
             controller.createOefening(
                     opgaveFile.getAbsolutePath(),
                     Integer.parseInt(antwoord.getText()),
                     feedbackFile.getAbsolutePath(),
+                    vakTextField.getText(),
+                    doelstellingenListView.getItems().stream().collect(Collectors.toList()),
                     geselecteerdeItems
             );
             showSuccessAlert();
@@ -167,10 +211,13 @@ public class CreateOefeningController extends AnchorPane {
         stage.show();
     }
 
-    private File uploadPdf(Label label) {
+    private File uploadPdf(Label textLabel, Label foutLabel) {
         File file = filechooser.showOpenDialog((Stage) annuleerBtn.getScene().getWindow());
-        if (file != null) {
-            label.setText(file.getAbsolutePath());
+        if (file == null || !file.getName().toLowerCase().endsWith(".pdf")){
+            foutLabel.setText("Selecteer een opgave in PDF formaat");
+        } else {
+            textLabel.setText(file.getAbsolutePath());
+            foutLabel.setText("");
         }
         return file;
     }
@@ -190,6 +237,30 @@ public class CreateOefeningController extends AnchorPane {
         invalidInput.setHeaderText("Er zijn nog ongeldige velden");
         invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
         invalidInput.showAndWait();
+    }
+
+    private void checkInputs() {
+        String antwoordText = antwoord.getText();
+        String vakText = vakTextField.getText();
+        int aantalDoelstelling = doelstellingenListView.getItems().size();
+        
+        if (antwoordText == null || antwoordText.trim().isEmpty())
+            antwoordFout.setText("Geef een antwoord in");
+        try {
+            Integer.parseInt(antwoordText);
+        } catch (NumberFormatException e){
+            antwoordFout.setText("Antwoord moet een getal zijn");
+        }
+        if (vakText == null || vakText.trim().isEmpty())
+            vakFoutLabel.setText("Geef een vak in");
+        if (aantalDoelstelling == 0)
+            doelstellingFoutLabel.setText("Geef minstens 1 doelstelling in");
+        
+        if (opgaveFile == null || !opgaveFile.getAbsolutePath().toLowerCase().endsWith(".pdf"))
+            opgaveFoutLabel.setText("Bestand moet in PDF formaat zijn");
+        
+        if (feedbackFile == null || !feedbackFile.getAbsolutePath().toLowerCase().endsWith(".pdf"))
+            feedbackFoutLabel.setText("Bestand moet in PDF formaat zijn");
     }
 
 }

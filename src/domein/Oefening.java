@@ -31,6 +31,8 @@ public class Oefening implements Serializable {
     private String opgave;
     private int antwoord;
     private String feedback;
+    private String vak;
+    private List<String> doelstellingen;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Groepsbewerking> groepsbewerkingen;
 //    @Transient
@@ -38,10 +40,12 @@ public class Oefening implements Serializable {
 //    @Transient
 //    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
 
-    public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
+    public Oefening(String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
         setOpgave(opgave);
         setAntwoord(antwoord);
         setFeedback(feedback);
+        setVak(vak);
+        setDoelstellingen(doelstellingen);
         setGroepsbewerkingen(groepsbewerkingen);
     }
 
@@ -90,6 +94,24 @@ public class Oefening implements Serializable {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
+    public String getVak() {
+        return vak;
+    }
+
+    public void setVak(String vak) {
+        this.vak = vak;
+    }
+
+    public List<String> getDoelstellingen() {
+        return doelstellingen;
+    }
+
+    public void setDoelstellingen(List<String> doelstellingen) {
+        this.doelstellingen = doelstellingen;
+    }
+    
+    
 
     public void setGroepsbewerkingen(List<Groepsbewerking> groepsbewerkingen) {
         this.groepsbewerkingen = groepsbewerkingen;

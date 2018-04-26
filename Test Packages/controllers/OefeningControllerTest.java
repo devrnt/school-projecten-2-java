@@ -39,15 +39,15 @@ public class OefeningControllerTest {
         groepsbwRepo = Mockito.mock(GroepsbewerkingDao.class);
 
         // trainen mocks
-        oefening = new Oefening("opgave", 0, "feedback", new ArrayList<>());
+        oefening = new Oefening("opgave", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
         Mockito.when(oefeningRepo.get(1)).thenReturn(oefening);
         Mockito.when(oefeningRepo.get(2)).thenReturn(null);
         Mockito.when(oefeningRepo.findAll()).thenReturn(
                 new ArrayList<>(
                         Arrays.asList(
                                 new Oefening[]{
-                                    new Oefening("opgave1", 1, "feedback1", new ArrayList<>()),
-                                    new Oefening("opgave2", 1, "feedback2", new ArrayList<>())
+                                    new Oefening("opgave1", 1, "feedback1", "vak1", new ArrayList<>(), new ArrayList<>()),
+                                    new Oefening("opgave2", 1, "feedback2", "vak2", new ArrayList<>(), new ArrayList<>())
 
                                 }
                         )
@@ -73,7 +73,7 @@ public class OefeningControllerTest {
     //<editor-fold defaultstate="collapsed" desc="=== createOefening ===">
     @Test
     public void createOefening_AddsNewOefening() {
-        controller.createOefening("opgave", 0, "feedback", new ArrayList<>());
+        controller.createOefening("opgave", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
         Mockito.verify(oefeningRepo).insert(Mockito.any(Oefening.class));
     }
     //</editor-fold>
@@ -81,14 +81,14 @@ public class OefeningControllerTest {
     //<editor-fold defaultstate="collapsed" desc="=== updateOefening ===">
     @Test
     public void updateOefening_changesAndPersistsOefening() {
-        controller.updateOefening(1, "opgaveUpdate", 0, "feedback", new ArrayList<>());
+        controller.updateOefening(1, "opgaveUpdate", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
         Assert.assertEquals("opgaveUpdate", oefening.getOpgave());
         Mockito.verify(oefeningRepo).update(Mockito.any(Oefening.class));
     }
 
     @Test(expected = NotFoundException.class)
     public void updateOefening_oefeningNotFound_throwsNotFoundException() {
-        controller.updateOefening(2, "opgave2", 0, "feedback", new ArrayList<>());
+        controller.updateOefening(2, "opgave2", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
     }
 //</editor-fold>
 

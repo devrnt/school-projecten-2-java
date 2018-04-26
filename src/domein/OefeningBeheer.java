@@ -39,11 +39,11 @@ public final class OefeningBeheer implements Observer {
         gefilterdeOefeningenLijst = new FilteredList<>(oefeningenLijst, o -> true);
     }
 
-    public void createOefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
-        oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, groepsbewerkingen));
+    public void createOefening(String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
+        oefeningRepo.insert(new Oefening(opgave, antwoord, feedback, vak, doelstellingen, groepsbewerkingen));
     }
     
-    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
+    public void updateOefening(int oefId, String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
         Oefening oefening = oefeningRepo.get(oefId);
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
@@ -51,7 +51,10 @@ public final class OefeningBeheer implements Observer {
         oefening.setOpgave(opgave);
         oefening.setAntwoord(antwoord);
         oefening.setFeedback(feedback);
+        oefening.setVak(vak);
+        oefening.setDoelstellingen(doelstellingen);
         oefening.setGroepsbewerkingen(groepsbewerkingen);
+        
 
         oefeningRepo.update(oefening);
     }
