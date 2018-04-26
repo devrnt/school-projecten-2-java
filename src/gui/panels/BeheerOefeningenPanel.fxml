@@ -41,10 +41,11 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="260.0" prefWidth="600.0">
                <children>
-                  <TableView fx:id="oefeningenTable" prefHeight="240.0" prefWidth="608.0">
+                  <TableView fx:id="oefeningenTable" prefHeight="226.0" prefWidth="602.0">
                     <columns>
-                      <TableColumn fx:id="opgaveCol" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="429.0" text="Opgave" />
-                      <TableColumn fx:id="antwoordCol" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="170.0" text="Antwoord" />
+                      <TableColumn fx:id="opgaveCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="253.0" text="Opgave" />
+                      <TableColumn fx:id="vakCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="98.0" text="Vak" />
+                        <TableColumn fx:id="doelstellingenCol" prefWidth="238.0" text="Doelstellingen" />
                     </columns>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

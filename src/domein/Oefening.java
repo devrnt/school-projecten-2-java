@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -59,6 +58,14 @@ public class Oefening implements Serializable {
 
     public SimpleIntegerProperty getAntwoordProp() {
         return new SimpleIntegerProperty(antwoord);
+    }
+    
+    public SimpleStringProperty getVakProp(){
+        return new SimpleStringProperty(vak);
+    }
+    
+    public SimpleStringProperty getDoelstellingenProp(){
+        return new SimpleStringProperty(doelstellingen.toString().substring(1, doelstellingen.toString().length() - 1));
     }
 
     public int getAntwoord() {

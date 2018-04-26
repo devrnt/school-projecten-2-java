@@ -39,7 +39,10 @@ public class BeheerOefeningenController extends AnchorPane {
     private TableColumn<Oefening, String> opgaveCol;
 
     @FXML
-    private TableColumn<Oefening, Number> antwoordCol;
+    private TableColumn<Oefening, String> vakCol;
+    
+    @FXML
+    private TableColumn<Oefening, String> doelstellingenCol;
 
     @FXML
     private TextField filterText;
@@ -64,7 +67,8 @@ public class BeheerOefeningenController extends AnchorPane {
         keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
-        antwoordCol.setCellValueFactory(c -> c.getValue().getAntwoordProp());
+        vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
+        doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
         oefeningenTable.setItems(controller.getOefeningen());
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         detailsBtn.setDisable(true);

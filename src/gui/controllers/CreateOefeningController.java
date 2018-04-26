@@ -74,10 +74,13 @@ public class CreateOefeningController extends AnchorPane {
 
     @FXML
     private Button annuleerBtn;
+    
+    private Oefening oefening;
 
     private final FileChooser filechooser = new FileChooser();
     private File opgaveFile;
     private File feedbackFile;
+    private Alert bevestigAlert;
 
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
@@ -142,12 +145,16 @@ public class CreateOefeningController extends AnchorPane {
         
         annuleerBtn.setOnAction(event -> terugNaarLijst());
         
+        bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
+        bevestigAlert.setTitle("Beheer oefeningen");
+        bevestigAlert.setHeaderText("Aanmaken oefening");
+        bevestigAlert.setContentText("Oefening is succesvol aangemaakt");
 
     }
     
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
-        Oefening oefening = controller.getOefening(id);
+        oefening = controller.getOefening(id);
         opgaveLabel.setText(oefening.getOpgave());
         opgaveFile = new File(oefening.getOpgave());
         antwoord.setText(Integer.toString(oefening.getAntwoord()));
@@ -155,6 +162,10 @@ public class CreateOefeningController extends AnchorPane {
         feedbackFile = new File(oefening.getFeedback());
         vakTextField.setText(oefening.getVak());
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
+        bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
+        bevestigAlert.setTitle("Beheer oefeningen");
+        bevestigAlert.setHeaderText("Wijzigen oefening");
+        bevestigAlert.setContentText("Oefening is succesvol gewijzigd");
     }
     
     @FXML
@@ -189,14 +200,25 @@ public class CreateOefeningController extends AnchorPane {
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
         if (inputGeldig) {
-            controller.createOefening(
+            if (oefening == null){
+                controller.createOefening(
                     opgaveFile.getAbsolutePath(),
                     Integer.parseInt(antwoord.getText()),
                     feedbackFile.getAbsolutePath(),
                     vakTextField.getText(),
                     doelstellingenListView.getItems().stream().collect(Collectors.toList()),
-                    geselecteerdeItems
-            );
+                    geselecteerdeItems);
+            } else {
+                controller.updateOefening(
+                    oefening.getId(),
+                    opgaveFile.getAbsolutePath(),
+                    Integer.parseInt(antwoord.getText()),
+                    feedbackFile.getAbsolutePath(),
+                    vakTextField.getText(),
+                    doelstellingenListView.getItems().stream().collect(Collectors.toList()),
+                    geselecteerdeItems);
+            }
+            
             showSuccessAlert();
         } else {
             showErrorAlert();
@@ -223,11 +245,7 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     private void showSuccessAlert() {
-        Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
-        oefeningCreatedSuccess.setTitle("Oefening");
-        oefeningCreatedSuccess.setHeaderText("Aanmaken van een oefening");
-        oefeningCreatedSuccess.setContentText("Oefening is succesvol aangemaakt");
-        oefeningCreatedSuccess.showAndWait();
+        bevestigAlert.showAndWait();
         terugNaarLijst();
     }
 
