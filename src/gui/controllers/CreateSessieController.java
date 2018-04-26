@@ -8,6 +8,7 @@ package gui.controllers;
 import controllers.KlasController;
 import controllers.SessieController;
 import domein.FoutAntwoordActieEnum;
+import domein.ISessie;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
@@ -201,20 +202,21 @@ public class CreateSessieController extends AnchorPane {
         // date picker
         datumInput.setOnAction(event -> {
             try {
+                // object for validation
+                ISessie validation = sessieController.getISessie();
                 LocalDate datumInputVal = datumInput.getValue();
                 Date gekozenDag = Date.from(datumInputVal.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                // controle: datum moet na vandaag zijn
-                LocalDate vandaagLoc = LocalDate.now(ZoneId.systemDefault());
-                Date vandaag = Date.from(vandaagLoc.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-                if (gekozenDag.before(vandaag)) {
-                    datumFout.setText("Datum moet in het heden/toekomst liggen");
-                } else {
+                try {
+                    validation.setDatum(gekozenDag);
+                    // if no exception is thrown
                     datumFout.setText("");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Exception is trown");
+                    datumFout.setText(e.getMessage());
                 }
             } catch (NullPointerException e) {
-                datumFout.setText("Geef een datum in");
+                System.out.println(e);
             }
         });
 

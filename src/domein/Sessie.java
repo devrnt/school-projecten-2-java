@@ -35,7 +35,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Sessie.findAll",
             query = "SELECT s FROM Sessie s")
 })
-public class Sessie implements Serializable {
+public class Sessie implements Serializable, ISessie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -141,6 +141,7 @@ public class Sessie implements Serializable {
         return soortOnderwijs;
     }
 
+    @Override
     public void setSoortOnderwijs(SoortOnderwijsEnum soortOnderwijs) {
         if (Arrays.asList(SoortOnderwijsEnum.values()).contains(soortOnderwijs)) {
             this.soortOnderwijs = soortOnderwijs;
