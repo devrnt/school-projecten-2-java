@@ -51,7 +51,7 @@ projectenII
 
 ## Analyse - Eind document
 Vul de use cases aan:
-[]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
-[]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
+- [ ]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
+- [ ]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
 
 
