@@ -49,4 +49,9 @@ projectenII
 * ==== TIPS ====
 * Bij de presentatie aan de klant zet op je desktop de jar file van de applicatie en open het zodat het vertrouwelijk overkomt bij de klant
 
+## Analyse - Eind document
+Vul de use cases aan:
+[]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
+[]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
+
 
