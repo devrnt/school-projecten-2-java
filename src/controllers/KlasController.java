@@ -1,6 +1,7 @@
 package controllers;
 
 import domein.Klas;
+import domein.Leerling;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -42,7 +43,7 @@ public final class KlasController implements Observer {
      *
      */
     public void createKlas(
-            String klasNaam, List<String> leerlingen) {
+            String klasNaam, List<Leerling> leerlingen) {
 
         if (bestaatKlasNaam(klasNaam)) {
             throw new IllegalArgumentException("Een klas met deze naam bestaat al");

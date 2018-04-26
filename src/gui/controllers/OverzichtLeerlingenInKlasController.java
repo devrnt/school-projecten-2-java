@@ -1,13 +1,15 @@
 package gui.controllers;
 
 import controllers.KlasController;
-import controllers.SessieController;
 import domein.Klas;
+import domein.Leerling;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
 public class OverzichtLeerlingenInKlasController extends AnchorPane {
@@ -19,7 +21,13 @@ public class OverzichtLeerlingenInKlasController extends AnchorPane {
     private Label aantalLlnLabel;
 
     @FXML
-    private ListView<String> leerlingenListView;
+    private TableView<Leerling> leerlingenTbl;
+
+    @FXML
+    private TableColumn<Leerling, String> voornaamCol;
+
+    @FXML
+    private TableColumn<Leerling, String> naamCol;
 
     private KlasController klasController;
     private Klas klas;
@@ -37,12 +45,21 @@ public class OverzichtLeerlingenInKlasController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
+        initialize();
+
+    }
+
+    private void initialize() {
         klasLabel.setText(klas.getNaam());
         aantalLlnLabel.setText(Integer.toString(this.klas.getLeerlingen().size()));
-        this.leerlingenListView.setPlaceholder(new Label("Geen leerlingen in deze klas"));
-        this.leerlingenListView.setItems(this.klas.getLeerlingen());
-
+        
+        naamCol.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
+        voornaamCol.setCellValueFactory(cell -> cell.getValue().getVoornaamProperty());
+        
+        leerlingenTbl.setPlaceholder(new Label("Geen leerlingen in deze klas"));
+        
+        leerlingenTbl.setItems(klas.getLeerlingen());
     }
 
 }
