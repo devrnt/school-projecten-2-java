@@ -1,6 +1,5 @@
 package controllers;
 
-import controllers.OefeningController;
 import domein.Groepsbewerking;
 import domein.Oefening;
 import domein.OefeningBeheer;
@@ -8,7 +7,6 @@ import domein.OperatorEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
