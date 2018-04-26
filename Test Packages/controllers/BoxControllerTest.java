@@ -6,6 +6,7 @@
 package controllers;
 
 import domein.BreakOutBox;
+import domein.BreakOutBoxBeheer;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class BoxControllerTest {
         );
 
         // SetterInjection mocks
-        boxController.setBreakOutBoxRepo(boxRepo);
+        boxController.getBoxBeheer().setBreakOutBoxRepo(boxRepo);
     }
 
 //<editor-fold defaultstate="getters" desc="comment">
@@ -123,4 +124,11 @@ public class BoxControllerTest {
         Assert.assertEquals(1, boxController.getAllBreakOutBoxen().size());
     }
     // </editor-fold>
+    
+     //<editor-fold defaultstate="collapsed" desc="=== getBreakOutBoxBeheer ===">
+    @Test
+    public void getBreakOutBoxBeheer_returnsBreakOutBoxBeheer() {
+        Assert.assertTrue(boxController.getBoxBeheer()instanceof BreakOutBoxBeheer);
+    }
+    //</editor-fold>
 }

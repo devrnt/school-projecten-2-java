@@ -57,18 +57,12 @@ public class PopulateDB {
         List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
         List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2, actie3}));
         List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2, actie3}));
-//        Toegangscode toegc1 = new Toegangscode("code1");
-//        Toegangscode toegc2 = new Toegangscode("code2");
-//        Toegangscode toegc3 = new Toegangscode("code3");
-//        List<Toegangscode> toegangscodes1 = new ArrayList<>(Arrays.asList(new Toegangscode[]{toegc1, toegc2}));
-//        List<Toegangscode> toegangscodes2 = new ArrayList<>(Arrays.asList(new Toegangscode[]{toegc1, toegc3}));
-//        List<Toegangscode> toegangscodes3 = new ArrayList<>(Arrays.asList(new Toegangscode[]{toegc1}));
-//        BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1, toegangscodes1);
-//        BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2, toegangscodes2);
-//        BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3, toegangscodes3);
-//        boxRepo.insert(box1);
-//        boxRepo.insert(box2);
-//        boxRepo.insert(box3);
+        BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1);
+        BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2);
+        BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3);
+        boxRepo.insert(box1);
+        boxRepo.insert(box2);
+        boxRepo.insert(box3);
 
         /*=== Data voor sessiebeheer === */
         Calendar c = Calendar.getInstance();
