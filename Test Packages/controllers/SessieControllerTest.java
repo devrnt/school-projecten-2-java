@@ -8,6 +8,7 @@ package controllers;
 import domein.FoutAntwoordActieEnum;
 import domein.Klas;
 import domein.Sessie;
+import domein.SessieBeheer;
 import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
@@ -127,5 +128,13 @@ public class SessieControllerTest {
         sessieController.applyFilter("sessie 1");
         Assert.assertEquals(1, sessieController.getAllSessies().size());
     }
-//</editor-fold>
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="=== getOefeningBeheer ===">
+    @Test
+    public void getSessieBeheer_returnsSessieBeheer() {
+        Assert.assertTrue(sessieController.getSessieBeheer() instanceof SessieBeheer);
+    }
+    //</editor-fold>
+
 }
