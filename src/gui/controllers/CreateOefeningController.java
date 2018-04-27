@@ -3,6 +3,8 @@ package gui.controllers;
 import controllers.OefeningController;
 import domein.Groepsbewerking;
 import domein.Oefening;
+import gui.events.AnnuleerEvent;
+import gui.events.DetailsEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -143,7 +146,10 @@ public class CreateOefeningController extends AnchorPane {
             }
         });
         
-        annuleerBtn.setOnAction(event -> terugNaarLijst());
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
+            this.fireEvent(annuleerEvent);
+        });
         
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
@@ -154,7 +160,7 @@ public class CreateOefeningController extends AnchorPane {
     
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
-        oefening = controller.getById(id);
+        oefening = controller.getOefening(id);
         opgaveLabel.setText(oefening.getOpgave());
         opgaveFile = new File(oefening.getOpgave());
         antwoord.setText(Integer.toString(oefening.getAntwoord()));
@@ -218,19 +224,10 @@ public class CreateOefeningController extends AnchorPane {
                     doelstellingenListView.getItems().stream().collect(Collectors.toList()),
                     geselecteerdeItems);
             }
-            
             showSuccessAlert();
         } else {
             showErrorAlert();
         }
-    }
-
-    private void terugNaarLijst() {
-//        Scene scene = new Scene(new BeheerOefeningenController(controller.));
-//        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
-//        stage.setTitle("Beheer Oefeningen");
-//        stage.setScene(scene);
-//        stage.show();
     }
 
     private File uploadPdf(Label textLabel, Label foutLabel) {
@@ -246,7 +243,7 @@ public class CreateOefeningController extends AnchorPane {
 
     private void showSuccessAlert() {
         bevestigAlert.showAndWait();
-        terugNaarLijst();
+        toonDetails();
     }
 
     private void showErrorAlert() {
@@ -279,6 +276,11 @@ public class CreateOefeningController extends AnchorPane {
         
         if (feedbackFile == null || !feedbackFile.getAbsolutePath().toLowerCase().endsWith(".pdf"))
             feedbackFoutLabel.setText("Bestand moet in PDF formaat zijn");
+    }
+    
+    private void toonDetails(){
+        Event beheerEvent = new DetailsEvent(oefening == null ? -1 : oefening.getId());
+        this.fireEvent(beheerEvent);
     }
 
 }

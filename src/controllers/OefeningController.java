@@ -9,7 +9,7 @@ import java.util.Observable;
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
 
-public final class OefeningController implements Controller {
+public final class OefeningController {
     private OefeningBeheer oefeningBeheer;
     public OefeningController() {
         oefeningBeheer = new OefeningBeheer();
@@ -84,7 +84,7 @@ public final class OefeningController implements Controller {
      * @param id id van te op te vragen Oefening
      * @return een Oefening
      */
-    public Oefening getById(int id) {
+    public Oefening getOefening(int id) {
         return oefeningBeheer.getOefening(id);
     }
 

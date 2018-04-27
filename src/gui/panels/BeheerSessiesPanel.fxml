@@ -6,74 +6,87 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="999.0" prefWidth="996.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="400.0" prefWidth="600.0">
+      <GridPane prefHeight="999.0" prefWidth="996.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
+            <VBox prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overzicht Sessies">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Text>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="470.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
                      <children>
-                        <Button fx:id="keerTerugBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Terug naar Menu" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overzicht Sessies">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="470.0">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </HBox>
                      </children>
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="maakSessieButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakSessieButtonClicked" prefHeight="27.0" prefWidth="114.0" text="Nieuwe Sessie">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, Omschrijving...">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="244.0" prefWidth="600.0">
+                     <children>
+                        <TableView fx:id="sessieTabel" onMouseClicked="#dubbelKlik" prefHeight="219.0" prefWidth="600.0">
+                          <columns>
+                            <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
+                            <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="detailsBtn" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Details">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
                   </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="600.0">
-               <children>
-                  <Button fx:id="maakSessieButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakSessieButtonClicked" text="Nieuwe Sessie">
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, Omschrijving...">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-            </HBox>
-            <HBox prefHeight="244.0" prefWidth="600.0">
-               <children>
-                  <TableView fx:id="sessieTabel" onMouseClicked="#dubbelKlik" prefHeight="219.0" prefWidth="600.0">
-                    <columns>
-                      <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
-                      <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
-                    </columns>
-                  </TableView>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
-               <children>
-                  <Button fx:id="detailsBtn" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Details">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            </VBox>
+            <StackPane fx:id="detailsStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" />
          </children>
-      </VBox>
+      </GridPane>
    </children>
 </fx:root>

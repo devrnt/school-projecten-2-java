@@ -85,7 +85,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     }
 
     private void terugNaarMenu() {
-        Scene scene = new Scene(new HomePanelController());
+        Scene scene = new Scene(new MenuPanelController());
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setTitle("Menu");
         stage.setScene(scene);

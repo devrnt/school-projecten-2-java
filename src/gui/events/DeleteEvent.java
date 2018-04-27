@@ -7,14 +7,14 @@ import javafx.event.EventType;
  *
  * @author sam
  */
-public class BeheerEvent extends Event {
+public class DeleteEvent extends Event {
     
     private int id;
     
-    public static final EventType<BeheerEvent> BEHEER = new EventType(ANY, "BEHEER");
+    public static final EventType<DeleteEvent> DELETE = new EventType(ANY, "DELETE");
     
-    public BeheerEvent(int id) {
-        super(BeheerEvent.BEHEER);
+    public DeleteEvent(int id) {
+        super(DeleteEvent.DELETE);
         this.id = id;
     }
 

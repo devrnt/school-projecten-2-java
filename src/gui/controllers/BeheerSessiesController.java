@@ -7,10 +7,12 @@ package gui.controllers;
 
 import controllers.SessieController;
 import domein.Sessie;
+import gui.events.DeleteEvent;
 import java.io.IOException;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +32,8 @@ import javafx.stage.Stage;
  * @author devri
  */
 public class BeheerSessiesController extends AnchorPane {
+    @FXML
+    private StackPane detailsStackPane; 
 
     @FXML
     private TableView<Sessie> sessieTabel;
@@ -42,8 +47,6 @@ public class BeheerSessiesController extends AnchorPane {
     private TextField searchTextField;
     @FXML
     private Button maakSessieButton;
-    @FXML
-    private Button keerTerugBtn;
 
     private SessieController sessieController;
     private ObservableList<Sessie> sessies;
@@ -86,44 +89,43 @@ public class BeheerSessiesController extends AnchorPane {
                 detailsBtn.setDisable(false);
             }
         });
-        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
         searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
+        
+        // eventhandlers
+        this.addEventHandler(DeleteEvent.DELETE, event -> {
+            detailsStackPane.getChildren().clear();
+            sessieController.deleteSessie(event.getId());
+        });
     }
 
     @FXML
     private void dubbelKlik(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            gaNaarSessieDetails();
+            toonSessieDetails();
         }
     }
 
     @FXML
     private void detailsBtnClicked(ActionEvent event) {
-        gaNaarSessieDetails();
+        toonSessieDetails();
     }
 
     @FXML
     private void maakSessieButtonClicked(ActionEvent event) {
-        Scene scene = new Scene(new CreateSessieController(sessieController));
-        Stage stage = (Stage) maakSessieButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Aanmaken van een nieuwe sessie");
-        stage.show();
+        detailsStackPane.getChildren().clear();
+        detailsStackPane.getChildren().add(new CreateSessieController(sessieController));
     }
 
     // <editor-fold desc="=== Help methodes ===" >
-    private void gaNaarSessieDetails() {
+    private void toonSessieDetails() {
         int sessieId = sessieTabel.getSelectionModel().getSelectedItem().getId();
-        Scene scene = new Scene(new DetailsSessieController(sessieController, sessieId));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Details sessie");
-        stage.show();
+        detailsStackPane.getChildren().clear();
+        detailsStackPane.getChildren().add(new DetailsSessieController(sessieController.getSessie(sessieId)));
     }
 
     private void terugNaarMenu() {
-        Scene scene = new Scene(new HomePanelController());
+        Scene scene = new Scene(new MenuPanelController());
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setTitle("Menu");
         stage.setScene(scene);
