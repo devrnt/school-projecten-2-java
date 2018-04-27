@@ -12,6 +12,8 @@ import domein.ISessie;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
+import gui.events.AnnuleerEvent;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -120,7 +123,10 @@ public class CreateSessieController extends AnchorPane {
 
         bekijkLlnButton.setDisable(true);
 
-        annuleerBtn.setOnAction(event -> terugNaarLijst());
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
+        });
 
     }
 
@@ -147,11 +153,8 @@ public class CreateSessieController extends AnchorPane {
             sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een sessie");
             sessieSuccesvolGewijzigd.setContentText("Sessie is succesvol aangemaakt");
             sessieSuccesvolGewijzigd.showAndWait();
-            Scene scene = new Scene(new BeheerSessiesController(sessieController));
-            Stage stage = (Stage) this.getScene().getWindow();
-            stage.setTitle("Beheer Sessies");
-            stage.setScene(scene);
-            stage.show();
+            Event detailsEvent = new DetailsEvent(-1);
+            this.fireEvent(detailsEvent);
 
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
@@ -249,14 +252,6 @@ public class CreateSessieController extends AnchorPane {
             return false;
         }
         return true;
-    }
-
-    private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerSessiesController(sessieController));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Beheer Sessies");
-        stage.setScene(scene);
-        stage.show();
     }
     // </editor-fold>
 

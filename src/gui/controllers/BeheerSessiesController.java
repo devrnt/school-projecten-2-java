@@ -7,21 +7,23 @@ package gui.controllers;
 
 import controllers.SessieController;
 import domein.Sessie;
+import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
+import gui.events.DetailsEvent;
+import gui.events.WijzigEvent;
 import java.io.IOException;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -41,8 +43,7 @@ public class BeheerSessiesController extends AnchorPane {
     private TableColumn<Sessie, String> naamCol;
     @FXML
     private TableColumn<Sessie, String> omschrijvingCol;
-    @FXML
-    private Button detailsBtn;
+
     @FXML
     private TextField searchTextField;
     @FXML
@@ -50,6 +51,7 @@ public class BeheerSessiesController extends AnchorPane {
 
     private SessieController sessieController;
     private ObservableList<Sessie> sessies;
+    private ObservableList<Node> children;
 
     public BeheerSessiesController(SessieController sessieController) {
         this.sessieController = sessieController;
@@ -64,8 +66,12 @@ public class BeheerSessiesController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        
+        children = detailsStackPane.getChildren();
 
         initialize();
+        
+        voegEventHandlersToe();
     }
 
     public final void initialize() {
@@ -81,12 +87,12 @@ public class BeheerSessiesController extends AnchorPane {
 
         sessieTabel.setItems(sortedSessies);
 
-        detailsBtn.setDisable(true);
 
-        // als er geen sessie is geselecteerd in de table disable details knop
+        // toont de geselecteerde sessie meteen in het detailvenster
         sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
-                detailsBtn.setDisable(false);
+                children.clear();
+                children.add(new DetailsSessieController(newval));
             }
         });
 
@@ -97,18 +103,6 @@ public class BeheerSessiesController extends AnchorPane {
             detailsStackPane.getChildren().clear();
             sessieController.deleteSessie(event.getId());
         });
-    }
-
-    @FXML
-    private void dubbelKlik(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-            toonSessieDetails();
-        }
-    }
-
-    @FXML
-    private void detailsBtnClicked(ActionEvent event) {
-        toonSessieDetails();
     }
 
     @FXML
@@ -130,6 +124,34 @@ public class BeheerSessiesController extends AnchorPane {
         stage.setTitle("Menu");
         stage.setScene(scene);
         stage.show();
+    }
+    
+    private void voegEventHandlersToe(){
+        this.addEventHandler(WijzigEvent.WIJZIG, event -> {
+            children.clear();
+            children.add(new CreateSessieController(sessieController));
+        });
+        
+        this.addEventHandler(DeleteEvent.DELETE, event -> {
+            children.clear();
+            sessieController.deleteSessie(event.getId());
+        });
+        
+        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+            children.clear();
+            if (event.getId() < 0){
+                int size = sessies.size();
+                children.add(new DetailsSessieController(sessies.get(size - 1)));
+            } else {
+                children.add(new DetailsSessieController(sessieController.getSessie(event.getId())));
+            }
+        });
+        
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+            children.clear();
+            if (event.getId() >= 0)
+                children.add(new DetailsSessieController(sessieController.getSessie(event.getId())));
+        });
     }
     // </editor-fold>
 

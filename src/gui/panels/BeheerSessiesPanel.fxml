@@ -66,7 +66,7 @@
                   </HBox>
                   <HBox prefHeight="244.0" prefWidth="600.0">
                      <children>
-                        <TableView fx:id="sessieTabel" onMouseClicked="#dubbelKlik" prefHeight="219.0" prefWidth="600.0">
+                        <TableView fx:id="sessieTabel" prefHeight="219.0" prefWidth="600.0">
                           <columns>
                             <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
                             <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
@@ -74,15 +74,7 @@
                         </TableView>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
-                     <children>
-                        <Button fx:id="detailsBtn" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#detailsBtnClicked" text="Details">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" />
                </children>
             </VBox>
             <StackPane fx:id="detailsStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" />

@@ -23,7 +23,6 @@
                         <Insets left="15.0" />
                     </HBox.margin>
                 </Text>
-                <Button fx:id="terugBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Terug naar lijst" />
             </children>
         </HBox>
         <GridPane layoutY="68.0" prefHeight="296.0" prefWidth="606.0" AnchorPane.leftAnchor="0.0">
