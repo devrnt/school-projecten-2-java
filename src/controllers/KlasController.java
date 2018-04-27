@@ -1,6 +1,8 @@
 package controllers;
 
 import domein.Klas;
+import domein.KlasBeheer;
+import domein.Leerling;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -16,21 +18,16 @@ import repository.KlasDaoJpa;
  *
  * @author devri
  */
-public final class KlasController implements Observer {
+public final class KlasController {
 
-    private KlasDao klasRepo;
-    private ObservableList<Klas> klasLijst;
-    private FilteredList<Klas> gefilterdeKlasLijst;
+    private KlasBeheer klasBeheer;
 
     public KlasController() {
-        setKlasRepo(new KlasDaoJpa(Klas.class));
+        klasBeheer = new KlasBeheer();
     }
 
-    public void setKlasRepo(KlasDaoJpa klasRepo) {
-        this.klasRepo = klasRepo;
-        this.klasRepo.addObserver(this);
-        klasLijst = FXCollections.observableArrayList(klasRepo.findAll());
-        gefilterdeKlasLijst = new FilteredList<>(klasLijst, s -> true);
+    public KlasBeheer getKlasBeheer() {
+        return klasBeheer;
     }
 
     /**
@@ -42,13 +39,12 @@ public final class KlasController implements Observer {
      *
      */
     public void createKlas(
-            String klasNaam, List<String> leerlingen) {
+            String klasNaam, List<Leerling> leerlingen) {
 
-        if (bestaatKlasNaam(klasNaam)) {
+        if (getKlasBeheer().bestaatKlasNaam(klasNaam)) {
             throw new IllegalArgumentException("Een klas met deze naam bestaat al");
         } else {
-            klasRepo.insert(new Klas(klasNaam, leerlingen));
-
+            klasBeheer.createKlas(klasNaam, leerlingen);
         }
     }
 
@@ -59,7 +55,7 @@ public final class KlasController implements Observer {
      * @return klas
      */
     public Klas getKlas(int id) {
-        return klasRepo.get(id);
+        return klasBeheer.getKlas(id);
     }
 
     /**
@@ -69,32 +65,6 @@ public final class KlasController implements Observer {
      * @return een ObservableList met Klassen
      */
     public ObservableList<Klas> getAllKlassen() {
-        return gefilterdeKlasLijst.sorted(Comparator.comparing(Klas::getNaam));
+        return klasBeheer.getAllKlassen();
     }
-
-    /**
-     * Valideert of een klas reeds bestaat
-     *
-     * @param naam van de te valideren klas
-     * @return true als een klas reeds bestaat anders false
-     *
-     */
-    public boolean bestaatKlasNaam(String naam) {
-        Klas klas = klasRepo.getByNaam(naam);
-        return klas != null;
-    }
-
-    /**
-     * Sluit de persistentie
-     */
-    public void close() {
-        GenericDaoJpa.closePersistency();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        klasLijst.clear();
-        klasLijst.addAll(klasRepo.findAll());
-    }
-
 }

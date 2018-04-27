@@ -8,6 +8,7 @@ package gui.controllers;
 import controllers.KlasController;
 import controllers.SessieController;
 import domein.Klas;
+import domein.Leerling;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -162,14 +163,18 @@ public class BeheerKlassenController extends AnchorPane {
                 } else {
                     // overige kolommen met de leerlingen
                     if (!isCellLeeg(cell)) {
-                        String leerling = dataFormatter.formatCellValue(cell);
+                        String leerlingS = dataFormatter.formatCellValue(cell);
+                        String[] volledigeNaam = leerlingS.split(",");
+                        String voornaam = volledigeNaam[0];
+                        String naam = volledigeNaam[1];
+                        Leerling leerling = new Leerling(voornaam, naam);
                         try {
                             klas.voegLeerlingToe(leerling);
 
                         } catch (IllegalArgumentException e) {
                             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
                             invalidInput.setTitle("Leerling bestaat al");
-                            invalidInput.setHeaderText("De leerling " + leerling + " bestaat reeds");
+                            invalidInput.setHeaderText("De leerling " + leerling.getVolledigeNaam() + " bestaat reeds");
                             invalidInput.setContentText("Deze leerling werd niet toegevoegd");
                             invalidInput.showAndWait();
                         }

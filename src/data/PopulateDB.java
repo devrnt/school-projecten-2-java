@@ -5,6 +5,7 @@ import domein.BreakOutBox;
 import domein.FoutAntwoordActieEnum;
 import domein.Groepsbewerking;
 import domein.Klas;
+import domein.Leerling;
 import domein.Oefening;
 import domein.OperatorEnum;
 import domein.Sessie;
@@ -41,25 +42,25 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking4);
 
         Oefening oefening1 = new Oefening(
-                "~/Documents/Rekenen/hoofdrekenen1.pdf", 
-                400, 
-                "~/Documents/Feedback/feedbackRekenen.pdf", 
+                "~/Documents/Rekenen/hoofdrekenen1.pdf",
+                400,
+                "~/Documents/Feedback/feedbackRekenen.pdf",
                 "Hoofdrekenen",
                 new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
                 groepbwRepo.findAll());
         Oefening oefening2 = new Oefening(
-                "~/Documents/Meetkunde/meetkunde2.pdf", 
-                25, 
-                "~/Documents/Feedback/feedbackMeetkunde.pdf", 
+                "~/Documents/Meetkunde/meetkunde2.pdf",
+                25,
+                "~/Documents/Feedback/feedbackMeetkunde.pdf",
                 "Meetkunde",
                 new ArrayList<String>(Arrays.asList(new String[]{"D202", "C106"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening(
-                "~/Documents/Cijferen/cijferen2.pdf", 
-                140, 
-                "~/Documents/Feedback/feedbackCijferen.pdf", 
+                "~/Documents/Cijferen/cijferen2.pdf",
+                140,
+                "~/Documents/Feedback/feedbackCijferen.pdf",
                 "Cijferen",
-                new ArrayList<String>(Arrays.asList(new String[]{"D102", "A402"})),
+                new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
@@ -90,13 +91,15 @@ public class PopulateDB {
         Klas klas1 = new Klas("2A1");
         Klas klas2 = new Klas("2B1");
 
-        String[] llnKlas1 = {"Jan", "Piet", "Joris", "Corneel"};
-        for (String lln : llnKlas1) {
+        Leerling[] llnKlas1 = {new Leerling("Jan", "De Timmerman"), new Leerling("Piet", "Vansteenkiste"), new Leerling("Joris", "Corneels"), new Leerling("Conreel", "De Grote")};
+
+        for (Leerling lln : llnKlas1) {
             klas1.voegLeerlingToe(lln);
         }
 
-        String[] llnKlas2 = {"Niels", "Pepijn", "Robin", "Petra"};
-        for (String lln : llnKlas2) {
+        Leerling[] llnKlas2 = {new Leerling("Niels", "Bel"), new Leerling("Pepijn", "War"), new Leerling("Robin", "Wijn"), new Leerling("Petra", "De Vos")};
+
+        for (Leerling lln : llnKlas2) {
             klas2.voegLeerlingToe(lln);
         }
 
