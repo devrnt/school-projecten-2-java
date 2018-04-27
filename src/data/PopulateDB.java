@@ -29,6 +29,7 @@ public class PopulateDB {
         GenericDao<Groepsbewerking> groepbwRepo = new GenericDaoJpa<>(Groepsbewerking.class);
         GenericDao<Oefening> oefeningRepo = new GenericDaoJpa<>(Oefening.class);
         GenericDao<BreakOutBox> boxRepo = new GenericDaoJpa<>(BreakOutBox.class);
+        GenericDao<Actie> actieRepo = new GenericDaoJpa<>(Actie.class);
         GenericDao<Sessie> sessieRepo = new GenericDaoJpa<>(Sessie.class);
 
         /* === Data voor oefeningenbeheer === */
@@ -66,22 +67,30 @@ public class PopulateDB {
         oefeningRepo.insert(oefening2);
         oefeningRepo.insert(oefening3);
 
-        /* === Data voor boxbeheer === */
-        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
-        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
-        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
+       
+/* === Data voor boxbeheer === */
+        /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
+        
+        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2}));
+        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening3}));
+        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2, oefening3}));
         Actie actie1 = new Actie("actie1");
         Actie actie2 = new Actie("actie2");
-        Actie actie3 = new Actie("actie1");
-        List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
-        List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2, actie3}));
-        List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2, actie3}));
+        Actie actie3 = new Actie("actie3");
+        actieRepo.insert(actie1);
+        actieRepo.insert(actie2);
+        actieRepo.insert(actie3);
+                
+        List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
+        List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
+        List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
         BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1);
         BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2);
         BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3);
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
+
 
         /*=== Data voor sessiebeheer === */
         Calendar c = Calendar.getInstance();

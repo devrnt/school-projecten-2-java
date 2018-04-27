@@ -4,10 +4,12 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,8 +63,9 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     private final BoxController boxController;
     private final BreakOutBox box;
 
-    public UpdateBreakOutBoxController(BoxController boxController, int id) {
+    public UpdateBreakOutBoxController(BreakOutBox box, BoxController boxController) {
         this.boxController = boxController;
+        this.box = box;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
 
         loader.setRoot(this);
@@ -74,10 +77,8 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             throw new RuntimeException(e);
         }
         //waarde vullen
-        box = boxController.GeefBreakOutBox(id);
         naamTxt.setText(box.getNaam());
         omschrijvingTxt.setText(box.getOmschrijving());
-        wijzigLbl.setText("Wijzig box: " + box.getNaam());
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         for (Actie a : box.getActies()) {
@@ -126,16 +127,17 @@ public class UpdateBreakOutBoxController extends AnchorPane {
                 }
             }
         });
-        keerTerugBtn.setOnAction(event -> terugNaarDetails());
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl};
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
+        boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty()) {
+        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || naamTxt.getText().isEmpty() || omschrijvingTxt.getText().isEmpty()) {
+            inputGeldig = false;
+        }
+        if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
             inputGeldig = false;
         }
 
@@ -158,11 +160,8 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     }
 
     private void terugNaarDetails() {
-        Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, box.getId()));
-        Stage stage = (Stage) keerTerugBtn.getScene().getWindow();
-        stage.setTitle("Details BreakOutBox");
-        stage.setScene(scene);
-        stage.show();
+        Event beheerEvent = new DetailsEvent(box == null ? -1 : box.getId());
+        this.fireEvent(beheerEvent);
     }
 
     @FXML

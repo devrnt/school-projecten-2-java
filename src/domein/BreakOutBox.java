@@ -3,6 +3,7 @@ package domein;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,10 +40,14 @@ public class BreakOutBox implements Serializable {
     private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
 
     public BreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
-        setNaam(naam);
-        setOmschrijving(omschrijving);
-        setOefeningen(oefeningen);
-        setActies(acties);
+        if (oefeningen.size() == acties.size() + 1) {
+            setNaam(naam);
+            setOmschrijving(omschrijving);
+            setOefeningen(oefeningen);
+            setActies(acties);
+        } else {
+            throw new IllegalArgumentException("#Oefeningen is niet 1 meer dan #Acties");
+        }
     }
 
     protected BreakOutBox() {
@@ -59,7 +64,7 @@ public class BreakOutBox implements Serializable {
 
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
-        omschrijvingProperty.set(naam);
+        omschrijvingProperty.set(omschrijving);
     }
 
     public void setOefeningen(List<Oefening> oefeningen) {
@@ -69,6 +74,7 @@ public class BreakOutBox implements Serializable {
     public void setActies(List<Actie> acties) {
         this.acties = acties;
     }
+
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
@@ -95,5 +101,5 @@ public class BreakOutBox implements Serializable {
 
     public List<Actie> getActies() {
         return acties;
-    }
+    }   
 }
