@@ -23,7 +23,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="oefeningBeheerBtn" minWidth="200.0" mnemonicParsing="false" onAction="#oefeningBeheerBtnClicked" text="Beheer Oefeningen">
+                  <Button fx:id="oefeningBeheerBtn" minWidth="200.0" mnemonicParsing="false" text="Beheer Oefeningen">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -32,7 +32,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="boxBeheerBtn" minWidth="200.0" mnemonicParsing="false" onAction="#boxBeheerBtnClicked" text="Beheer BreakoutBoxes">
+                  <Button fx:id="boxBeheerBtn" minWidth="200.0" mnemonicParsing="false" text="Beheer BreakoutBoxes">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -41,7 +41,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="sessieBeheerBtn" minWidth="200.0" mnemonicParsing="false" onAction="#sessieBeheerBtnClicked" text="Beheer Sessies">
+                  <Button fx:id="sessieBeheerBtn" minWidth="200.0" mnemonicParsing="false" text="Beheer Sessies">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -50,7 +50,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="beheerKlassenBtn" minWidth="200.0" mnemonicParsing="false" onAction="#beheerKlassenBtnClicked" text="Beheer Klassen" />
+                  <Button fx:id="beheerKlassenBtn" minWidth="200.0" mnemonicParsing="false" text="Beheer Klassen" />
                </children>
             </HBox>
          </children>

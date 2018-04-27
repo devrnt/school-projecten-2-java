@@ -5,12 +5,12 @@ import domein.Oefening;
 import domein.OefeningBeheer;
 import exceptions.NotFoundException;
 import java.util.List;
+import java.util.Observable;
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
 
-public final class OefeningController {
+public final class OefeningController implements Controller {
     private OefeningBeheer oefeningBeheer;
-
     public OefeningController() {
         oefeningBeheer = new OefeningBeheer();
     }
@@ -84,7 +84,7 @@ public final class OefeningController {
      * @param id id van te op te vragen Oefening
      * @return een Oefening
      */
-    public Oefening getOefening(int id) {
+    public Oefening getById(int id) {
         return oefeningBeheer.getOefening(id);
     }
 

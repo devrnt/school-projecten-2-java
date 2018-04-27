@@ -3,6 +3,8 @@ package gui.controllers;
 import controllers.OefeningController;
 import domein.Oefening;
 import java.io.IOException;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +27,18 @@ public class DetailsOefeningController extends AnchorPane {
 
     @FXML
     private Label opgaveLabel;
-    @FXML
-    private Label antwoordLabel;
+    
     @FXML
     private Label feedbackLabel;
+    
+    @FXML
+    private Label antwoordLabel;
+    
+    @FXML
+    private Label vakLabel;
+    
+    @FXML
+    private ListView<String> doelstellingenListView;
 
     @FXML
     private ListView<String> groepsbewerkingen;
@@ -44,8 +54,7 @@ public class DetailsOefeningController extends AnchorPane {
 
     private Oefening oefening;
 
-    public DetailsOefeningController(OefeningController controller, int id) {
-        this.controller = controller;
+    public DetailsOefeningController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsOefening.fxml"));
 
         loader.setRoot(this);
@@ -57,16 +66,27 @@ public class DetailsOefeningController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        oefening = controller.getOefening(id);
-        opgaveLabel.setText(oefening.getOpgave());
-        antwoordLabel.setText(Integer.toString(oefening.getAntwoord()));
-        feedbackLabel.setText(oefening.getFeedback());
-
-        groepsbewerkingen.setItems(controller.getGroepsbewerkingenByOefening(id));
-        groepsbewerkingen.setDisable(true);
-
         terugBtn.setOnAction(event -> terugNaarLijst());
 
+    }
+    
+    public void setOefening(Oefening oefening){
+        oefening = oefening;
+        opgaveLabel.setText(oefening.getOpgave());
+        feedbackLabel.setText(oefening.getFeedback());
+        antwoordLabel.setText(Integer.toString(oefening.getAntwoord()));
+        vakLabel.setText(oefening.getVak());
+        
+        doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
+        doelstellingenListView.setDisable(true);
+
+        groepsbewerkingen.getItems().addAll(FXCollections.observableArrayList(
+                oefening.getGroepsbewerkingen()
+                        .stream()
+                        .map(gb -> gb.getOmschrijving())
+                        .collect(Collectors.toList())
+        ));
+        groepsbewerkingen.setDisable(true);
     }
 
     @FXML
@@ -93,11 +113,11 @@ public class DetailsOefeningController extends AnchorPane {
     }
 
     private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerOefeningenController(controller));
-        Stage stage = (Stage) wijzigBtn.getScene().getWindow();
-        stage.setTitle("Beheer Oefeningen");
-        stage.setScene(scene);
-        stage.show();
+//        Scene scene = new Scene(new BeheerOefeningenController(controller));
+//        Stage stage = (Stage) wijzigBtn.getScene().getWindow();
+//        stage.setTitle("Beheer Oefeningen");
+//        stage.setScene(scene);
+//        stage.show();
     }
 
 //    @FXML

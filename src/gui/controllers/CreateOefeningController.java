@@ -154,7 +154,7 @@ public class CreateOefeningController extends AnchorPane {
     
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
-        oefening = controller.getOefening(id);
+        oefening = controller.getById(id);
         opgaveLabel.setText(oefening.getOpgave());
         opgaveFile = new File(oefening.getOpgave());
         antwoord.setText(Integer.toString(oefening.getAntwoord()));
@@ -226,11 +226,11 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerOefeningenController(controller));
-        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
-        stage.setTitle("Beheer Oefeningen");
-        stage.setScene(scene);
-        stage.show();
+//        Scene scene = new Scene(new BeheerOefeningenController(controller.));
+//        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
+//        stage.setTitle("Beheer Oefeningen");
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     private File uploadPdf(Label textLabel, Label foutLabel) {

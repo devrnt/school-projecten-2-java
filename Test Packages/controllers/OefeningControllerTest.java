@@ -119,7 +119,7 @@ public class OefeningControllerTest {
 
     @Test
     public void getOefening_returnsCorrectOefening() {
-        Oefening oefening = controller.getOefening(1);
+        Oefening oefening = controller.getById(1);
         Assert.assertEquals(oefening, this.oefening);
     }
 //</editor-fold>

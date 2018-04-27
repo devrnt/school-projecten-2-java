@@ -27,21 +27,11 @@
                   <Label text="Opgave: ">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                   <Label fx:id="opgaveLabel" />
                </children>
             </HBox>
-            <Label fx:id="opgaveFout" textFill="RED" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label text="Antwoord: ">
-                     <font>
-                        <Font name="Arial Bold" size="14.0" />
-                     </font></Label>
-                  <Label fx:id="antwoordLabel" />
-               </children>
-            </HBox>
-            <Label fx:id="antwoordFout" textFill="RED" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Feedback:  ">
@@ -51,7 +41,39 @@
                   <Label fx:id="feedbackLabel" />
                </children>
             </HBox>
-            <Label fx:id="feedbackFout" textFill="RED" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Antwoord: ">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="antwoordLabel" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Vak:">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="vakLabel" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Doelstellingen">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="groepsbewerkingenFout1" textFill="#fc0000">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
             <VBox alignment="CENTER">
                <children>
                   <Label text="Groepsbewerkingen">
