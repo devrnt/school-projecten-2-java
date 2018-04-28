@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root id="AnchorPane" prefHeight="999.0" prefWidth="996.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="999.0" prefWidth="996.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <GridPane prefHeight="999.0" prefWidth="996.0">
         <columnConstraints>
@@ -42,21 +42,24 @@
                                       <Insets />
                                   </opaqueInsets>
                                   <HBox.margin>
-                                      <Insets right="15.0" />
+                                      <Insets left="15.0" />
                                   </HBox.margin>
                               </TextField>
                      </children>
                   </HBox>
-                      <HBox maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="600.0">
+                      <HBox maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
                           <children>
                               <TableView fx:id="boxTabel" prefHeight="500.0" prefWidth="600.0">
                                   <columns>
-                                      <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
-                                      <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
+                                      <TableColumn fx:id="naamCol" editable="false" prefWidth="-1.0" text="Naam" />
+                                      <TableColumn fx:id="omschrijvingCol" editable="false" prefWidth="431.6666564941406" text="Omschrijving" />
                                   </columns>
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                               </TableView>
                           </children>
                       </HBox>

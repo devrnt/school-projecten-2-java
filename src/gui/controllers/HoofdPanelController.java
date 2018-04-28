@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.BoxController;
+import controllers.KlasController;
 import controllers.OefeningController;
 import controllers.SessieController;
 import gui.events.MenuEvent;
@@ -46,6 +47,7 @@ public class HoofdPanelController extends AnchorPane {
             new BeheerOefeningenController(new OefeningController()),
             new BeheerBreakOutBoxPanelController(new BoxController()),
             new BeheerSessiesController(new SessieController()),
+            new BeheerKlassenController(new KlasController())
         };
 
         // zet alle beheercomponents op onzichtbaar

@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -112,9 +113,13 @@ public class BeheerOefeningenController extends AnchorPane {
             children.add(new CreateOefeningController(controller, event.getId()));
         });
         
-        this.addEventHandler(DeleteEvent.DELETE, event -> {
-            children.clear();
-            controller.deleteOefening(event.getId());
+        this.addEventHandler(DeleteEvent.DELETE, event -> {           
+            try {
+                controller.deleteOefening(event.getId());
+                children.clear();
+            } catch (RuntimeException e) {
+                showDeleteFailedAlert();               
+            }
         });
         
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
@@ -132,6 +137,14 @@ public class BeheerOefeningenController extends AnchorPane {
             if (event.getId() >= 0)
                 children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
         });
+    }
+
+    private void showDeleteFailedAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Oefening beheren");
+        alert.setHeaderText("Oefening verwijderen");
+        alert.setContentText("Oefening kan niet verwijderd worden omdat deze nog in een box voorkomt!");
+        alert.showAndWait();
     }
 
 }

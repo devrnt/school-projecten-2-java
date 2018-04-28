@@ -11,84 +11,139 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" minWidth="-Infinity" prefHeight="418.0" prefWidth="394.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane prefHeight="400.0" prefWidth="600.0">
+      <GridPane hgap="5.0" pickOnBounds="false" prefHeight="600.0" prefWidth="400.0" scaleShape="false" snapToPixel="false" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="147.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="374.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="146.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="99.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="85.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="187.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="84.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="117.0" minHeight="0.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="207.0" minHeight="0.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="240.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="286.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="204.0" minHeight="0.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="opgaveLabel" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Opgave " />
-                  <Label fx:id="opgaveFoutLabel" textFill="#f80000" />
+                  <Label text="Opgave: ">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
                   <Button fx:id="uploadOpgavePdfBtn" mnemonicParsing="false" onAction="#uploadOpgavePdf" text="Kies PDF..." />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                <children>
-                  <Label text="Feedback " />
-                  <Label fx:id="feedbackLabel" />
+                  <Label fx:id="opgaveLabel" />
+                  <Label fx:id="opgaveFoutLabel" textFill="#f80000" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Feedback:  ">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
                   <Button fx:id="uploadFeedbackPdfBtn" mnemonicParsing="false" onAction="#uploadFeedbackPdf" text="Kies PDF..." />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="feedbackLabel" />
                   <Label fx:id="feedbackFoutLabel" textFill="RED" />
                </children>
             </HBox>
-            <Label fx:id="opgaveFout" textFill="RED" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <Label text="Antwoord " />
+                  <Label text="Antwoord: " />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+               <children>
                   <TextField fx:id="antwoord" maxWidth="-Infinity" promptText="Typ hier het antwoord..." />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+               <children>
                   <Label fx:id="antwoordFout" textFill="RED" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Label text="Vak " />
+                  <Label text="Vak: " />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <children>
                   <TextField fx:id="vakTextField" maxWidth="-Infinity" promptText="Typ hier het vak..." />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+               <children>
                   <Label fx:id="vakFoutLabel" textFill="RED" />
                </children>
             </HBox>
-            <Label fx:id="feedbackFout" textFill="RED" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
                <children>
-                  <Label text="Doelstellingen" />
+                  <Label text="Doelstellingen: " />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
+               <children>
                   <TextField fx:id="doelstellingTextField" maxWidth="-Infinity" promptText="Typ hier een doelstelling..." />
                   <Button fx:id="addDoelstellingBtn" mnemonicParsing="false" onAction="#addDoelstelling" text="+" />
                </children>
             </HBox>
-            <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="104.0" prefWidth="200.0" />
-            <Label fx:id="doelstellingFoutLabel" textFill="RED" />
-            <VBox alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                <children>
-                  <Label text="Selecteer de gewenste groepsbewerkingen" />
-                  <ListView fx:id="groepsbewerkingen" maxWidth="-Infinity" prefHeight="131.0" prefWidth="200.0" />
-                  <Label fx:id="groepsbewerkingenFout" textFill="#fc0000">
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="10.0" />
-                     </VBox.margin>
-                  </Label>
+                  <Label fx:id="doelstellingFoutLabel" textFill="RED" />
                </children>
-            </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
+               <children>
+                  <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="104.0" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="9" GridPane.rowSpan="2">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="198.0" prefWidth="400.0">
+                     <children>
+                        <Label text="Selecteer de gewenste groepsbewerkingen" />
+                        <ListView fx:id="groepsbewerkingen" maxWidth="-Infinity" prefHeight="131.0" prefWidth="200.0" />
+                        <Label fx:id="groepsbewerkingenFout" textFill="#fc0000">
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="11">
                <children>
                   <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="Bevestig">
                      <HBox.margin>
@@ -103,6 +158,9 @@
                </children>
             </HBox>
          </children>
-      </VBox>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </GridPane>
    </children>
 </fx:root>
