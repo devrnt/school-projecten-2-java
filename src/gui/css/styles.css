@@ -16,6 +16,11 @@ menuItems: #3F3F3F
     -fx-background-color: white;
 }
 
+.title {
+    -fx-font-size: 19px;
+    -fx-text-fill: #0747a6;
+}
+
 .list-cell {
     -fx-padding: 20px 10px;
     -fx-font-size: 1.1em;

@@ -40,7 +40,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="103.0" prefWidth="511.0" GridPane.columnSpan="2">
                      <children>
-                        <Label text="Beheer Oefeningen" textFill="#0747a6">
+                        <Label styleClass="title" text="Beheer Oefeningen" textFill="#0747a6">
                            <font>
                               <Font size="19.0" />
                            </font>
