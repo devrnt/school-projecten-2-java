@@ -13,10 +13,16 @@ menuItems: #3F3F3F
 .root {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI";
+    -fx-background-color: white;
+}
+
+.title {
+    -fx-font-size: 19px;
+    -fx-text-fill: #0747a6;
 }
 
 .list-cell {
-    -fx-padding: 15px 10px;
+    -fx-padding: 20px 10px;
     -fx-font-size: 1.1em;
     -fx-background-color: transparent;
     /*-fx-cursor: hand*/;
@@ -27,4 +33,37 @@ menuItems: #3F3F3F
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: #E0E0E0;
     -fx-text-fill: #0747a6; 
+}
+
+.list-cell-header {
+    -fx-background-color:#E0E0E0;
+    -fx-size: 35;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color:#a8a8a8;
+    -fx-font-weight: 700;
+}
+
+
+/*.table-view-cell-header {
+    -fx-background-color:#E0E0E0;
+    -fx-size: 35;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color:#a8a8a8;
+    -fx-font-weight: 700;
+}*/
+
+.button-success {
+    -fx-text-fill: white;
+    -fx-font-size: 1.1em;
+    -fx-background-color: #28BB66;
+    -fx-padding: 5px 10px;
+    -fx-cursor: hand;
+}
+
+.text-field {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-radius: 2 ;
+    -fx-background-color: #F4F5F7;
+    -fx-font-size: 0.95em;
+    -fx-padding: 8px 10px;
 }

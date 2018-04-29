@@ -37,10 +37,10 @@ public class MenuPanelController extends AnchorPane {
     private final double WIDTH = 17;
     private final double HEIGHT = 17;
 
-    private Image oefeningIco = new Image("/assets/icons/oefeningIcon.png");
-    private Image boxIco = new Image("/assets/icons/boxIcon.png");
-    private Image sessieIco = new Image("/assets/icons/sessieIcon.png");
-    private Image klasIco = new Image("/assets/icons/klasIcon.png");
+    private Image oefeningIco = new Image("/assets/icons/menu/oefeningIcon.png");
+    private Image boxIco = new Image("/assets/icons/menu/boxIcon.png");
+    private Image sessieIco = new Image("/assets/icons/menu/sessieIcon.png");
+    private Image klasIco = new Image("/assets/icons/menu/klasIcon.png");
 
     private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco};
 
