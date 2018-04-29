@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -71,6 +72,10 @@ public class CreateOefeningController extends AnchorPane {
     private ListView<Groepsbewerking> groepsbewerkingen;
     @FXML
     private Label groepsbewerkingenFout;
+    @FXML
+    private ChoiceBox groepsbwChoiceBox;
+    @FXML
+    private Button groepsbwButton;
 
     @FXML
     private Button bevestigBtn;
@@ -103,10 +108,11 @@ public class CreateOefeningController extends AnchorPane {
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.PDF", "*.pdf");
         filechooser.getExtensionFilters().add(filter);
 
-        // listview
-        groepsbewerkingen.setItems(controller.getGroepsbewerkingen());
-        groepsbewerkingen.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        groepsbewerkingen.getSelectionModel().selectFirst();
+        // choicebox
+        groepsbwChoiceBox.setItems(controller.getGroepsbewerkingen());
+        groepsbwChoiceBox.getSelectionModel().selectFirst();
+        
+        
 
                 
         // listeners voor validatie
@@ -146,9 +152,15 @@ public class CreateOefeningController extends AnchorPane {
             }
         });
         
+        
+        // acties voor buttons
         annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
             this.fireEvent(annuleerEvent);
+        });
+        
+        groepsbwButton.setOnAction(event -> {
+            groepsbewerkingen.getItems().add(((Groepsbewerking)groepsbwChoiceBox.getSelectionModel().getSelectedItem()));
         });
         
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -168,6 +180,7 @@ public class CreateOefeningController extends AnchorPane {
         feedbackFile = new File(oefening.getFeedback());
         vakTextField.setText(oefening.getVak());
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
+        
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
         bevestigAlert.setHeaderText("Wijzigen oefening");
@@ -199,7 +212,6 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     public void bevestigClicked(ActionEvent event) {
         Label[] foutLabels = {opgaveFoutLabel, antwoordFout, feedbackFoutLabel, groepsbewerkingenFout};
-        List<Groepsbewerking> geselecteerdeItems = groepsbewerkingen.getSelectionModel().getSelectedItems();
 
         checkInputs();
         
@@ -213,7 +225,7 @@ public class CreateOefeningController extends AnchorPane {
                     feedbackFile.getAbsolutePath(),
                     vakTextField.getText(),
                     doelstellingenListView.getItems().stream().collect(Collectors.toList()),
-                    geselecteerdeItems);
+                    groepsbewerkingen.getItems().stream().collect(Collectors.toList()));
             } else {
                 controller.updateOefening(
                     oefening.getId(),
@@ -222,7 +234,7 @@ public class CreateOefeningController extends AnchorPane {
                     feedbackFile.getAbsolutePath(),
                     vakTextField.getText(),
                     doelstellingenListView.getItems().stream().collect(Collectors.toList()),
-                    geselecteerdeItems);
+                    groepsbewerkingen.getItems().stream().collect(Collectors.toList()));
             }
             showSuccessAlert();
         } else {

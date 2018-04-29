@@ -74,7 +74,7 @@ public final class OefeningController {
      * @param oefeningId id van de te op te vragen Oefening
      * @return Lijst van omschrijvingen (String) van Groepsbewerkingen
      */
-    public ObservableList<String> getGroepsbewerkingenByOefening(int oefeningId) {
+    public ObservableList<Groepsbewerking> getGroepsbewerkingenByOefening(int oefeningId) {
         return oefeningBeheer.getGroepsbewerkingenByOefening(oefeningId);
     }
 

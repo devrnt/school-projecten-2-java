@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root id="AnchorPane" prefHeight="1024.0" prefWidth="1280.0" style="-fx-background-color: white;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: white;" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="1024.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.0" minWidth="120.0" prefWidth="284.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="999.0" minWidth="417.0" prefWidth="996.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.0" minWidth="120.0" prefWidth="197.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1083.0" minWidth="417.0" prefWidth="1083.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <StackPane fx:id="menuStackPane" />
+            <StackPane fx:id="menuStackPane" maxWidth="-Infinity" prefWidth="300.0" />
             <StackPane fx:id="beheerStackPane" GridPane.columnIndex="1">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
