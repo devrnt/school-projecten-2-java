@@ -1,5 +1,6 @@
 package controllers;
 
+import domein.BreakOutBox;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
@@ -32,18 +33,20 @@ public final class SessieController {
      * @param naam String met de naam van de sessie (uniek)
      * @param omschrijving String met de omschrijving van de sessie
      * @param klas Klas met de klasnaam en de betreffende leerlingen in die klas
+     * @param box
      * @param datum Date met de dag wanneer deze sessie geactiveerd kan worden
      * @param soortOnderwijs SoortOnderwijsEnum voor welke doelgroep deze sessie
      * is (afstands of dagonderwijs)
      * @param foutAntwoordActie FoutAntwoordActieEnum met wat er gebeurt als de
      * groep 3 maal een fout antwoord ingeeft
+     * @param isGedaan
      */
     public void createSessie(
             String naam, String omschrijving,
-            Klas klas, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
+            Klas klas, BreakOutBox box, Date datum,
+            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan) {
 
-        sessieBeheer.createSessie(naam, omschrijving, klas, datum, soortOnderwijs, foutAntwoordActie);
+        sessieBeheer.createSessie(naam, omschrijving, klas, box, datum, soortOnderwijs, foutAntwoordActie, isGedaan);
 
     }
 
@@ -87,16 +90,17 @@ public final class SessieController {
      * @param naam
      * @param omschrijving
      * @param klas
+     * @param box
      * @param datum
      * @param soortOnderwijs
      * @param foutAntwoordActie
      * @throws NotFoundException als de te wijzigen sessie niet gevonden werd
      */
     public void updateSessie(int id, String naam, String omschrijving,
-            Klas klas, Date datum,
+            Klas klas, BreakOutBox box, Date datum,
             SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
 
-        sessieBeheer.updateSessie(id, naam, omschrijving, klas, datum, soortOnderwijs, foutAntwoordActie);
+        sessieBeheer.updateSessie(id, naam, omschrijving, klas, box, datum, soortOnderwijs, foutAntwoordActie);
     }
 
     /**

@@ -41,15 +41,15 @@ public final class SessieBeheer implements Observer {
     }
 
     public void createSessie(
-            String naam, String omschrijving,
-            Klas klas, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
+            String naam, String omschrijving, Klas klas,
+            BreakOutBox box, Date datum, SoortOnderwijsEnum soortOnderwijs,
+            FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan) {
 
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
-            sessieRepo.insert(new Sessie(naam, omschrijving, klas,
-                    datum, soortOnderwijs, foutAntwoordActie));
+            sessieRepo.insert(new Sessie(naam, omschrijving, klas, box,
+                    datum, soortOnderwijs, foutAntwoordActie, isGedaan));
 
         }
     }
@@ -73,6 +73,10 @@ public final class SessieBeheer implements Observer {
         }
         sessieRepo.delete(sessie);
     }
+    public boolean isBoxGedaan(BreakOutBox box) {
+        //dit moet beter -Yanis
+        return sessieLijst.stream().anyMatch(t -> t.getBox() == box);
+    }
 
     public boolean bestaatSessieNaam(String naam) {
         Sessie sessie = sessieRepo.getByNaam(naam);
@@ -80,7 +84,7 @@ public final class SessieBeheer implements Observer {
     }
 
     public void updateSessie(int id, String naam, String omschrijving,
-            Klas klas, Date datum,
+            Klas klas, BreakOutBox box, Date datum,
             SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie
     ) {
         Sessie sessie = sessieRepo.get(id);

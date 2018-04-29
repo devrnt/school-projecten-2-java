@@ -5,8 +5,10 @@
  */
 package controllers;
 
+import domein.BreakOutBox;
 import domein.FoutAntwoordActieEnum;
 import domein.Klas;
+import domein.Oefening;
 import domein.Sessie;
 import domein.SessieBeheer;
 import domein.SoortOnderwijsEnum;
@@ -45,8 +47,8 @@ public class SessieControllerTest {
         // Mocks trainen
         //tijdelijk
         sessie = new Sessie("Sessie 1", "Omschrijving Sessie 1",
-                new Klas(), c.getTime(),
-                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback
+                new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", new ArrayList<Oefening>(), new ArrayList<>()), c.getTime(),
+                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false
         );
         Mockito.when(sessieRepo.get(1)).thenReturn(sessie);
         Mockito.when(sessieRepo.get(2)).thenReturn(null);
@@ -55,7 +57,7 @@ public class SessieControllerTest {
                         Arrays.asList(
                                 new Sessie[]{
                                     sessie,
-                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback)
+                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), new BreakOutBox("legeBox", "legeOmscrijving", new ArrayList<Oefening>(), new ArrayList<>()), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false)
                                 }
                         )
                 )
@@ -81,7 +83,7 @@ public class SessieControllerTest {
     // <editor-fold desc="=== createSessie ===" >
     @Test
     public void createSessie_voegtNieuweSessieToe() {
-        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
+        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", new ArrayList<Oefening>(), new ArrayList<>()), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false);
         Mockito.verify(sessieRepo).insert(Mockito.any(Sessie.class));
     }
     // </editor-fold>
@@ -89,7 +91,7 @@ public class SessieControllerTest {
     // <editor-fold desc="=== updateSessie ===" >
     @Test
     public void updateSessie_wordtGewijzigd() {
-        sessieController.updateSessie(1, "sessie89", "omschrijving", new Klas(), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
+        sessieController.updateSessie(1, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", new ArrayList<Oefening>(), new ArrayList<>()), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
         Assert.assertEquals("sessie89", sessie.getNaam());
         Mockito.verify(sessieRepo).update(Mockito.any(Sessie.class));
     }
@@ -97,7 +99,7 @@ public class SessieControllerTest {
     @Test(expected = NotFoundException.class)
     public void updateSessie_sessieNietGevonden_GooitNotFoundException() {
         int foutId = 8;
-        sessieController.updateSessie(foutId, "sessie89", "omschrijving", new Klas(), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
+        sessieController.updateSessie(foutId, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", new ArrayList<Oefening>(), new ArrayList<>()), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
     }
     // </editor-fold>
 

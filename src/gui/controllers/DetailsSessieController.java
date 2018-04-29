@@ -5,7 +5,6 @@
  */
 package gui.controllers;
 
-import controllers.SessieController;
 import domein.Sessie;
 import gui.events.DeleteEvent;
 import java.io.IOException;
@@ -15,13 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -46,6 +43,8 @@ public class DetailsSessieController extends AnchorPane {
     private Label onderwijsLabel;
     @FXML
     private Label reactieFoutAntw;
+    @FXML
+    private Label boxLabel;
 
     private Sessie sessie;
 
@@ -86,7 +85,8 @@ public class DetailsSessieController extends AnchorPane {
         onderwijsLabel.setText(sessie.getSoortOnderwijs().toString());
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));
         sessiecodeLabel.setText(sessie.getSessieCode());
-        
+        boxLabel.setText(sessie.getBoxNaam());
+
     }
 
 }

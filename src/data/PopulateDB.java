@@ -73,14 +73,11 @@ public class PopulateDB {
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)})));
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
-        oefeningRepo.insert(oefening3);        
+        oefeningRepo.insert(oefening3);
         oefeningRepo.insert(oefening4);
 
-
-       
-/* === Data voor boxbeheer === */
-        /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
-        
+        /* === Data voor boxbeheer === */
+ /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
         List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2}));
         List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening3}));
         List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2, oefening3}));
@@ -90,7 +87,7 @@ public class PopulateDB {
         actieRepo.insert(actie1);
         actieRepo.insert(actie2);
         actieRepo.insert(actie3);
-                
+
         List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
         List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
         List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
@@ -125,11 +122,11 @@ public class PopulateDB {
         for (int i = 0; i < 3; i++) {
             sessieRepo.insert(new Sessie(
                     "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    klas1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback));
+                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
         }
         sessieRepo.insert(new Sessie(
                 "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
-                klas2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback));
+                klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));
 
     }
 }

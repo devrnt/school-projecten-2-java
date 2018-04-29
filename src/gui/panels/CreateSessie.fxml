@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="624.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="624.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="620.0">
             <children>
@@ -41,6 +41,7 @@
                 <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="65.33331298828125" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="42.66668701171875" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
@@ -70,22 +71,28 @@
                     </font>
                 </Label>
                 <Label fx:id="klasFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <Label text="Datum:" GridPane.rowIndex="4">
+                <Label text="Datum:" GridPane.rowIndex="5">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <DatePicker fx:id="datumInput" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <DatePicker fx:id="datumInput" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                 <ChoiceBox fx:id="soortonderwijsChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label text="Fout antwd" GridPane.rowIndex="5">
+                <Label text="Fout antwd" GridPane.rowIndex="6">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <ChoiceBox fx:id="klasChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Button fx:id="bekijkLlnButton" mnemonicParsing="false" onAction="#bekijkLlnButtonClicked" text="Bekijk leerlingen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label text="Box:" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="boxChoiceBox" prefHeight="25.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
             <padding>
                 <Insets left="25.0" right="25.0" />
