@@ -95,12 +95,9 @@ public final class OefeningBeheer implements Observer {
         return FXCollections.observableArrayList(groepsbewerkingRepo.findAll());
     }
 
-    public ObservableList<String> getGroepsbewerkingenByOefening(int oefeningId) {
+    public ObservableList<Groepsbewerking> getGroepsbewerkingenByOefening(int oefeningId) {
         List<Groepsbewerking> groepsbewerkingen = oefeningRepo.get(oefeningId).getGroepsbewerkingen();
-        return FXCollections.observableArrayList(groepsbewerkingen.stream()
-                .map(Groepsbewerking::getOmschrijving)
-                .collect(Collectors.toList())
-        );
+        return FXCollections.observableArrayList(groepsbewerkingen);
     }
     
 }

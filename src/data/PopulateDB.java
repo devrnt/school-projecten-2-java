@@ -63,9 +63,19 @@ public class PopulateDB {
                 "Cijferen",
                 new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
+        /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
+        Oefening oefening4 = new Oefening(
+                "~/Documents/Vraagstukken/vraagstukken5.pdf",
+                140,
+                "~/Documents/Feedback/feedbackVraagstukken.pdf",
+                "Vraagstukken",
+                new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)})));
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
-        oefeningRepo.insert(oefening3);
+        oefeningRepo.insert(oefening3);        
+        oefeningRepo.insert(oefening4);
+
 
        
 /* === Data voor boxbeheer === */
