@@ -5,18 +5,18 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="999.0" prefWidth="996.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="999.0" prefWidth="996.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -27,56 +27,72 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox prefHeight="400.0" prefWidth="600.0">
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="89.33332824707031" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="394.66666412353516" minHeight="10.0" prefHeight="64.66665649414062" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="460.6666717529297" minHeight="10.0" prefHeight="446.3333435058594" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0" GridPane.columnSpan="2">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overzicht Sessies">
+                        <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" text="Overzicht Sessies">
                            <font>
                               <Font size="19.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets />
                            </HBox.margin>
                         </Text>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="470.0">
-                           <HBox.margin>
-                              <Insets right="15.0" />
-                           </HBox.margin>
-                        </HBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="600.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="600.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="maakSessieButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakSessieButtonClicked" prefHeight="27.0" prefWidth="114.0" text="Nieuwe Sessie">
+                        <Button fx:id="maakSessieButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakSessieButtonClicked" prefHeight="37.0" prefWidth="127.0" styleClass="button-success" text="NIEUW">
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets />
                            </HBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0">
+                                 <image>
+                                    <Image url="@../../assets/icons/createIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, Omschrijving...">
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, omschrijving...">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                            <HBox.margin>
-                              <Insets right="15.0" />
+                              <Insets />
                            </HBox.margin>
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox prefHeight="244.0" prefWidth="600.0">
+                  <HBox prefHeight="244.0" prefWidth="600.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                      <children>
-                        <TableView fx:id="sessieTabel" prefHeight="219.0" prefWidth="600.0">
+                        <TableView fx:id="sessieTabel" prefHeight="219.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="naamCol" prefWidth="168.33334350585938" text="Naam" />
-                            <TableColumn fx:id="omschrijvingCol" prefWidth="431.6666564941406" text="Omschrijving" />
+                            <TableColumn fx:id="omschrijvingCol" prefWidth="298.0" text="Omschrijving" />
                           </columns>
                         </TableView>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" />
                </children>
-            </VBox>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </GridPane>
             <StackPane fx:id="detailsStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
