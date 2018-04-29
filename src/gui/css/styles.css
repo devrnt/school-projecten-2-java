@@ -2,4 +2,29 @@
     Created on : Apr 28, 2018, 4:49:17 PM
     Author     : sam
 */
+/*
+blauw: #0747a6
+groen: #28BB66
+grijs: #F4F5F7
+donkergrijs: #E0E0E0
+menuItems: #3F3F3F
+*/
 
+.root {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI";
+}
+
+.list-cell {
+    -fx-padding: 15px 10px;
+    -fx-font-size: 1.1em;
+    -fx-background-color: transparent;
+    /*-fx-cursor: hand*/;
+    -fx-background-insets: 0;
+    -fx-text-fill: #3F3F3F;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #0747a6; 
+}

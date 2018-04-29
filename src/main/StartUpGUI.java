@@ -18,6 +18,13 @@ public class StartUpGUI extends Application {
         new PopulateDB().run();
 //        Scene scene = new Scene(new HomePanelController());
         Scene scene = new Scene(new HoofdPanelController());
+
+        // font family
+        //scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Oxygen");
+        
+        // global stylesheet
+        scene.getStylesheets().add(getClass().getResource("/gui/css/styles.css").toExternalForm());
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("BreakoutBox");
         primaryStage.setMaximized(true);
