@@ -39,7 +39,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private StackPane detailsStackPane;
 
     private BoxController boxController;
-    private ObservableList<Node> children;
+    private final ObservableList<Node> children;
 
     public BeheerBreakOutBoxPanelController(BoxController boxController) {
         this.boxController = boxController;
