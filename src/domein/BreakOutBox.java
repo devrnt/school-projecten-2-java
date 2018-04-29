@@ -40,7 +40,7 @@ public class BreakOutBox implements Serializable {
     private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
 
     public BreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
-        if (oefeningen.size() == acties.size() + 1) {
+        if (oefeningen.size() == acties.size() + 1 && acties.size() > 0) {
             setNaam(naam);
             setOmschrijving(omschrijving);
             setOefeningen(oefeningen);
