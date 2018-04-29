@@ -20,7 +20,7 @@
           <RowConstraints maxHeight="522.0" minHeight="10.0" prefHeight="522.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="100.0" prefWidth="300.0">
+            <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="100.0" prefWidth="300.0" style="-fx-background-color: #0747a6;">
                <children>
                   <Label text="BreakoutBox" textFill="WHITE">
                      <font>
@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="487.0" prefWidth="347.0" style="-fx-background-color: #F4F5F7;" GridPane.rowIndex="1">
                <children>
-                  <ListView fx:id="menuListView" prefHeight="414.0" prefWidth="300.0" stylesheets="@../css/styles.css" />
+                  <ListView fx:id="menuListView" prefHeight="511.0" prefWidth="281.0" style="-fx-background-color: transparent;" stylesheets="@../css/styles.css" />
                </children>
             </HBox>
          </children>
