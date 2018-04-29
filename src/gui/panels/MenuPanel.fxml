@@ -16,11 +16,11 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="73.66667175292969" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="503.0" minHeight="10.0" prefHeight="448.3333282470703" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="227.0" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="522.0" minHeight="10.0" prefHeight="522.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox alignment="CENTER" prefHeight="128.0" prefWidth="300.0" style="-fx-background-color: #0747a6;">
+            <HBox alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="100.0" prefWidth="300.0">
                <children>
                   <Label text="BreakoutBox" textFill="WHITE">
                      <font>
@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="487.0" prefWidth="347.0" style="-fx-background-color: #F4F5F7;" GridPane.rowIndex="1">
                <children>
-                  <ListView fx:id="menuListView" prefHeight="487.0" prefWidth="306.0" style="-fx-background-color: transparent;" styleClass="list-cell" stylesheets="@../css/styles.css" />
+                  <ListView fx:id="menuListView" prefHeight="414.0" prefWidth="300.0" stylesheets="@../css/styles.css" />
                </children>
             </HBox>
          </children>
