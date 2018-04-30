@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -73,6 +74,7 @@ public class DetailsOefeningController extends AnchorPane {
 
         if (oefening != null) {
             setDetails();
+            setTooltips();
         }
     }
 
@@ -92,6 +94,19 @@ public class DetailsOefeningController extends AnchorPane {
                         .collect(Collectors.toList())
         ));
         groepsbewerkingen.setDisable(true);
+    }
+
+    private void setTooltips() {
+        // add tooltips to display full document path
+        Tooltip opgaveTt = new Tooltip();
+        opgaveTt.setText(oefening.getOpgave());
+
+        Tooltip feedbackTt = new Tooltip();
+        feedbackTt.setText(oefening.getFeedback());
+
+        opgaveLabel.setTooltip(opgaveTt);
+        feedbackLabel.setTooltip(feedbackTt);
+
     }
 
     @FXML
