@@ -62,12 +62,14 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Button addDoelstellingBtn;
     @FXML
+    private Button doelstellingRemoveBtn;
+    @FXML
     private ListView<String> doelstellingenListView;
     @FXML
     private Label doelstellingFoutLabel;
 
     @FXML
-    private ListView<Groepsbewerking> groepsbewerkingen;
+    private ListView<Groepsbewerking> groepsbewerkingenListView;
     @FXML
     private Label groepsbewerkingenFout;
     @FXML
@@ -90,7 +92,7 @@ public class CreateOefeningController extends AnchorPane {
     private File feedbackFile;
     private Alert bevestigAlert;
     private ObservableList<Groepsbewerking> gbws;
-    
+
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
@@ -103,7 +105,7 @@ public class CreateOefeningController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         gbws = controller.getGroepsbewerkingen();
 
         //filechooser
@@ -114,68 +116,12 @@ public class CreateOefeningController extends AnchorPane {
         // choicebox
         groepsbwChoiceBox.setItems(gbws.sorted());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
-        
-        
 
         // listeners voor validatie
-        antwoord.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (antwoord.getText() == null || antwoord.getText().trim().length() == 0) {
-                    antwoordFout.setText("Geef een antwoord in");
-                } else {
-                    try {
-                        Integer.parseInt(antwoord.getText());
-                        antwoordFout.setText("");
-                    } catch (NumberFormatException e) {
-                        antwoordFout.setText("Antwoord moet een getal zijn");
-                    }
-                }
-            }
-        });
-
-        groepsbewerkingen.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (groepsbewerkingen.getSelectionModel().getSelectedItems() == null) {
-                    groepsbewerkingenFout.setText("Selecteer minstens 1 groepsbewerking");
-                } else {
-                    groepsbewerkingenFout.setText("");
-                }
-            }
-        });
-
-        vakTextField.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                String text = vakTextField.getText();
-                if (text == null || text.trim().length() == 0) {
-                    vakFoutLabel.setText("Geef een vak in");
-                } else {
-                    vakFoutLabel.setText("");
-                }
-            }
-        });
+        addListeners();
 
         // acties voor buttons
-        annuleerBtn.setOnAction(event -> {
-            Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
-            this.fireEvent(annuleerEvent);
-        });
-
-        groepsbwButton.setOnAction(event -> {
-            Groepsbewerking gbw = groepsbwChoiceBox.getSelectionModel().getSelectedItem();
-            groepsbewerkingen.getItems().add(gbw);
-            gbws.remove(gbw);
-            groepsbwChoiceBox.getSelectionModel().selectFirst();
-        });
-
-        groepsbwRemoveButton.setOnAction(event -> {
-            Groepsbewerking gbw = groepsbewerkingen.getSelectionModel().getSelectedItem();
-            if (gbw != null) {
-                gbws.add(gbw);
-                groepsbewerkingen.getItems().remove(gbw);
-            } else {
-                groepsbewerkingenFout.setText("Selecteer een groepsbewerking om te verwijderen");
-            }
-        });
+        setButtonActions();
 
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
@@ -194,10 +140,9 @@ public class CreateOefeningController extends AnchorPane {
         feedbackFile = new File(oefening.getFeedback());
         vakTextField.setText(oefening.getVak());
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
-        groepsbewerkingen.setItems(FXCollections.observableArrayList(oefening.getGroepsbewerkingen()));
+        groepsbewerkingenListView.setItems(FXCollections.observableArrayList(oefening.getGroepsbewerkingen()));
         gbws.removeAll(oefening.getGroepsbewerkingen());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
-        
 
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
@@ -208,12 +153,10 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     protected void addDoelstelling(ActionEvent event) {
         String doelstelling = doelstellingTextField.getText();
-        if (!doelstelling.isEmpty()) {
-            doelstellingenListView.getItems().add(doelstelling);
-            doelstellingFoutLabel.setText("");
-        } else {
-            doelstellingFoutLabel.setText("Geef een doelstelling");
-        }
+        doelstellingenListView.getItems().add(doelstelling);
+        doelstellingTextField.setText("");
+        doelstellingFoutLabel.setText("");
+        addDoelstellingBtn.setDisable(true);
     }
 
     @FXML
@@ -237,22 +180,20 @@ public class CreateOefeningController extends AnchorPane {
 
         if (inputGeldig) {
             if (oefening == null) {
-                controller.createOefening(
-                        opgaveFile.getAbsolutePath(),
+                controller.createOefening(opgaveFile.getAbsolutePath(),
                         Integer.parseInt(antwoord.getText()),
                         feedbackFile.getAbsolutePath(),
                         vakTextField.getText(),
                         doelstellingenListView.getItems().stream().collect(Collectors.toList()),
-                        groepsbewerkingen.getItems().stream().collect(Collectors.toList()));
+                        groepsbewerkingenListView.getItems().stream().collect(Collectors.toList()));
             } else {
-                controller.updateOefening(
-                        oefening.getId(),
+                controller.updateOefening(oefening.getId(),
                         opgaveFile.getAbsolutePath(),
                         Integer.parseInt(antwoord.getText()),
                         feedbackFile.getAbsolutePath(),
                         vakTextField.getText(),
                         doelstellingenListView.getItems().stream().collect(Collectors.toList()),
-                        groepsbewerkingen.getItems().stream().collect(Collectors.toList()));
+                        groepsbewerkingenListView.getItems().stream().collect(Collectors.toList()));
             }
             showSuccessAlert();
         } else {
@@ -288,6 +229,7 @@ public class CreateOefeningController extends AnchorPane {
         String antwoordText = antwoord.getText();
         String vakText = vakTextField.getText();
         int aantalDoelstelling = doelstellingenListView.getItems().size();
+        int aantalGroepsbewerkingen = groepsbewerkingenListView.getItems().size();
 
         if (antwoordText == null || antwoordText.trim().isEmpty()) {
             antwoordFout.setText("Geef een antwoord in");
@@ -304,6 +246,10 @@ public class CreateOefeningController extends AnchorPane {
             doelstellingFoutLabel.setText("Geef minstens 1 doelstelling in");
         }
 
+        if (aantalGroepsbewerkingen == 0) {
+            groepsbewerkingenFout.setText("Voeg minstens 1 groepsbewerking toe");
+        }
+
         if (opgaveFile == null || !opgaveFile.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
             opgaveFoutLabel.setText("Bestand moet in PDF formaat zijn");
         }
@@ -316,6 +262,111 @@ public class CreateOefeningController extends AnchorPane {
     private void toonDetails() {
         Event beheerEvent = new DetailsEvent(oefening == null ? -1 : oefening.getId());
         this.fireEvent(beheerEvent);
+    }
+
+    private void addListeners() {
+        antwoord.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (antwoord.getText() == null || antwoord.getText().trim().length() == 0) {
+                    antwoordFout.setText("Geef een antwoord in");
+                } else {
+                    try {
+                        Integer.parseInt(antwoord.getText());
+                        antwoordFout.setText("");
+                    } catch (NumberFormatException e) {
+                        antwoordFout.setText("Antwoord moet een getal zijn");
+                    }
+                }
+            }
+        });
+
+        groepsbewerkingenListView.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (groepsbewerkingenListView.getSelectionModel().getSelectedItems() == null) {
+                    groepsbewerkingenFout.setText("Selecteer minstens 1 groepsbewerking");
+                } else {
+                    groepsbewerkingenFout.setText("");
+                }
+            }
+        });
+
+        vakTextField.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                String text = vakTextField.getText();
+                if (text == null || text.trim().length() == 0) {
+                    vakFoutLabel.setText("Geef een vak in");
+                } else {
+                    vakFoutLabel.setText("");
+                }
+            }
+        });
+
+        doelstellingTextField.setOnKeyReleased(event -> {
+            String text = doelstellingTextField.getText();
+            addDoelstellingBtn.setDisable(text == null || text.trim().length() == 0);
+        });
+
+        groepsbewerkingenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
+            if (newvalue != null) {
+                groepsbwRemoveButton.setDisable(false);
+            }
+        });
+    }
+
+    private void setButtonActions() {
+        addDoelstellingBtn.setDisable(true);
+        doelstellingRemoveBtn.setDisable(true);
+
+        doelstellingRemoveBtn.setOnAction(event -> {
+            int index = doelstellingenListView.getSelectionModel().getSelectedIndex();
+            doelstellingenListView.getItems().remove(index);
+            if (doelstellingenListView.getItems().isEmpty()) {
+                doelstellingRemoveBtn.setDisable(true);
+            }
+            doelstellingenListView.getSelectionModel().clearSelection();
+            doelstellingRemoveBtn.setDisable(true);
+        });
+
+        doelstellingenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
+            if (newvalue != null) {
+                doelstellingRemoveBtn.setDisable(false);
+            }
+        });
+
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
+            this.fireEvent(annuleerEvent);
+        });
+
+        groepsbwButton.setOnAction(event -> {
+            Groepsbewerking gbw = groepsbwChoiceBox.getSelectionModel().getSelectedItem();
+            groepsbewerkingenListView.getItems().add(gbw);
+            groepsbewerkingenFout.setText("");
+            gbws.remove(gbw);
+            if (groepsbwChoiceBox.getItems().isEmpty()) {
+                groepsbwButton.setDisable(true);
+                groepsbwChoiceBox.setDisable(true);
+            } else {
+                groepsbwChoiceBox.getSelectionModel().selectFirst();
+            }
+        });
+
+        groepsbwRemoveButton.setDisable(true);
+
+        groepsbwRemoveButton.setOnAction(event -> {
+            Groepsbewerking gbw = groepsbewerkingenListView.getSelectionModel().getSelectedItem();
+            gbws.add(gbw);
+            groepsbwChoiceBox.getSelectionModel().selectFirst();
+            groepsbewerkingenListView.getItems().remove(gbw);
+            if (groepsbewerkingenListView.getItems().isEmpty()) {
+                groepsbwRemoveButton.setDisable(true);
+            }
+            groepsbwButton.setDisable(false);
+            groepsbwChoiceBox.setDisable(false);
+            groepsbewerkingenListView.getSelectionModel().clearSelection();
+            groepsbwRemoveButton.setDisable(true);
+
+        });
     }
 
 }

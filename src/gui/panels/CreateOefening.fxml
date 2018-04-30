@@ -15,11 +15,11 @@
 
 <fx:root id="AnchorPane" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane hgap="5.0" pickOnBounds="false" prefHeight="600.0" prefWidth="400.0" scaleShape="false" snapToPixel="false" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane pickOnBounds="false" prefHeight="600.0" prefWidth="400.0" scaleShape="false" snapToPixel="false" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="137.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="87.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="146.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="84.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="155.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
@@ -29,11 +29,11 @@
             <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="207.0" minHeight="0.0" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="240.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="286.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="256.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="204.0" minHeight="0.0" prefHeight="102.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="204.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -45,7 +45,7 @@
                      </font></Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <Button fx:id="uploadOpgavePdfBtn" mnemonicParsing="false" onAction="#uploadOpgavePdf" text="Kies PDF..." />
                </children>
@@ -65,7 +65,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Button fx:id="uploadFeedbackPdfBtn" mnemonicParsing="false" onAction="#uploadFeedbackPdf" text="Kies PDF..." />
                </children>
@@ -132,14 +132,19 @@
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
                <children>
                   <Label fx:id="doelstellingFoutLabel" textFill="RED" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                <children>
                   <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="104.0" prefWidth="200.0" />
+                  <Button fx:id="doelstellingRemoveBtn" mnemonicParsing="false" text="-">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
@@ -161,14 +166,14 @@
                   </Button>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11">
                <children>
                   <Label fx:id="groepsbewerkingenFout" textFill="#fc0000" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11">
+            <HBox prefHeight="100.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10">
                <children>
-                  <ListView fx:id="groepsbewerkingen" maxWidth="-Infinity" prefHeight="121.0" prefWidth="200.0" />
+                  <ListView fx:id="groepsbewerkingenListView" maxWidth="-Infinity" prefHeight="121.0" prefWidth="200.0" />
                   <Button fx:id="groepsbwRemoveButton" mnemonicParsing="false" text="-">
                      <HBox.margin>
                         <Insets left="5.0" />

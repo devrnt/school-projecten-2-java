@@ -4,7 +4,6 @@ import exceptions.NotFoundException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -80,7 +79,11 @@ public final class OefeningBeheer implements Observer {
             if (toFilter == null || toFilter.isEmpty()) {
                 return true;
             }
-            return o.getOpgave().replaceAll("\\s+", "").toLowerCase().contains(toFilter.replaceAll("\\s+", "").toLowerCase());
+            return o.getOpgave().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+                    || o.getVak().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+                    || o.getDoelstellingen()
+                            .stream()
+                            .anyMatch(d -> d.toLowerCase().contains(toFilter.trim().toLowerCase()));
         });
 
     }
