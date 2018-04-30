@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="300.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="300.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="400.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="487.0" prefWidth="347.0" style="-fx-background-color: #F4F5F7;" GridPane.rowIndex="1">
                <children>
-                  <ListView fx:id="menuListView" prefHeight="511.0" prefWidth="281.0" style="-fx-background-color: transparent;" stylesheets="@../css/styles.css" />
+                  <ListView id="menu" fx:id="menuListView" prefHeight="511.0" prefWidth="281.0" style="-fx-background-color: transparent;" styleClass="custom-list-cell" stylesheets="@../css/styles.css" />
                </children>
             </HBox>
          </children>

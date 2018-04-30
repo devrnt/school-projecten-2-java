@@ -20,6 +20,7 @@
       <GridPane prefHeight="567.0" prefWidth="610.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="89.33332824707031" vgrow="SOMETIMES" />
@@ -31,7 +32,7 @@
                   <children>
                       <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" prefHeight="40.0" prefWidth="130.0" text="VERWIJDER">
                           <HBox.margin>
-                              <Insets left="90.0" />
+                              <Insets left="82.0" />
                           </HBox.margin>
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0">
@@ -62,8 +63,8 @@
               <GridPane prefHeight="296.0" prefWidth="606.0" GridPane.rowIndex="1">
                   <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="66.66665649414062" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="177.33334350585938" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="302.66668701171875" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="175.6666259765625" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="306.3333740234375" />
                   </columnConstraints>
                   <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

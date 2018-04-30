@@ -22,7 +22,7 @@ menuItems:    #3F3F3F
     -fx-text-fill: #0747a6;
 }
 
-.list-cell {
+#menu .list-cell{
     -fx-padding: 20px 10px;
     -fx-font-size: 1.1em;
     -fx-background-color: transparent;
@@ -31,7 +31,7 @@ menuItems:    #3F3F3F
     -fx-text-fill: #3F3F3F;
 }
 
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
+#menu .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: #E0E0E0;
     -fx-text-fill: #0747a6; 
 }
@@ -59,6 +59,8 @@ menuItems:    #3F3F3F
     -fx-font-size: 1.1em;
     -fx-padding: 7px 10px;
     -fx-cursor: hand;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 130px;
 }
 
 .btn-danger {
