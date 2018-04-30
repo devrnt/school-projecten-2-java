@@ -30,7 +30,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
                <children>
-                  <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Details Sessie">
+                  <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Details Oefening">
                      <font>
                         <Font size="19.0" />
                      </font>

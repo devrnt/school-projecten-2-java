@@ -36,14 +36,38 @@ menuItems:    #3F3F3F
     -fx-text-fill: #0747a6; 
 }
 
-.list-cell-header {
-    -fx-background-color:#E0E0E0;
-    -fx-size: 35;
-    -fx-border-width: 0 0 0 1;
-    -fx-border-color:#a8a8a8;
-    -fx-font-weight: 700;
+.table-view:focused {
+    -fx-background-color: transparent ,-fx-box-border,-fx-control-inner-background;
+
+}
+.table-view {
+    -fx-border-width: 0 1 1 1;
+    -fx-border-color: #E0E0E0;
 }
 
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, white;
+    -fx-border-width: 0 0 0 0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:selected, .table-row-cell:odd:selected{
+    -fx-background-color:#0747a6;
+    -fx-text-background-color: whitesmoke;
+
+}
+
+
+.table-row-cell:odd{
+    -fx-background-color: #F4F5F7;
+    -fx-border-width: 0 0 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color:#E0E0E0;
+    -fx-border-width: 0 0 0 0;
+    -fx-font-weight: 600;
+}
 
 /*.table-view-cell-header {
     -fx-background-color:#E0E0E0;
