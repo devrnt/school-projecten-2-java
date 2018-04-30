@@ -63,6 +63,9 @@ public class BeheerKlassenController extends AnchorPane {
     private TableColumn<Klas, String> aantalLlnCol;
     @FXML
     private Button keerTerugBtn;
+    @FXML
+    private Button nieuweKlasBtn;
+    
 
     private FileChooser fileChooser;
 
@@ -208,7 +211,15 @@ public class BeheerKlassenController extends AnchorPane {
             stage.show();
         }
     }
-
+    @FXML
+    private void nieuweKlasBtnClicked(ActionEvent event){
+        Scene scene = new Scene(new CreateKlasController(klasController));
+        Stage stage = (Stage) nieuweKlasBtn.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Wijzig BreakOutBox");
+        stage.show();
+    }
+    
     // <editor-fold desc="=== Hulp methodes ===" >
     private boolean isCellLeeg(Cell cell) {
         if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
