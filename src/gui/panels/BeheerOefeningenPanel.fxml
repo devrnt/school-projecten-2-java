@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -52,7 +53,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="600.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="createOefening" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="37.0" prefWidth="127.0" styleClass="button-success" text="NIEUW">
+                        <Button fx:id="createOefening" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -63,12 +64,16 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-success" />
+                           </styleClass>
                         </Button>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling...">
+                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="text-fld">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

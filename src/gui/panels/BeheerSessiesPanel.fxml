@@ -65,15 +65,15 @@
                               </ImageView>
                            </graphic>
                            <styleClass>
-                              <String fx:value="button" />
-                              <String fx:value="button-success" />
+                              <String fx:value="btn-success" />
+                              <String fx:value="btn" />
                            </styleClass>
                         </Button>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, omschrijving...">
+                        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="174.0" promptText="Naam, omschrijving..." styleClass="text-fld">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>

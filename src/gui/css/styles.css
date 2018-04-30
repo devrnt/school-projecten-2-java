@@ -54,22 +54,22 @@ menuItems:    #3F3F3F
 }*/
 
 /* ==== BUTTONS ==== */
-.button {
+.btn {
     -fx-text-fill: white;
     -fx-font-size: 1.1em;
     -fx-padding: 7px 10px;
     -fx-cursor: hand;
 }
 
-.button-danger {
+.btn-danger {
     -fx-background-color: #C62828;
 }
 
-.button-success {
+.btn-success {
     -fx-background-color: #28BB66;
 }
 
-.text-field {
+.text-fld {
     -fx-background-color: -fx-text-box-border, -fx-background ;
     -fx-background-radius: 2 ;
     -fx-background-color: #F4F5F7;

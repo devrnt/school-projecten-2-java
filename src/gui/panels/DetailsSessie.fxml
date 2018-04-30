@@ -33,10 +33,6 @@
                           <HBox.margin>
                               <Insets left="90.0" />
                           </HBox.margin>
-                     <styleClass>
-                        <String fx:value="button" />
-                        <String fx:value="button-danger" />
-                     </styleClass>
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0">
                            <image>
@@ -44,6 +40,10 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <styleClass>
+                        <String fx:value="btn-danger" />
+                        <String fx:value="btn" />
+                     </styleClass>
                       </Button>
                   </children>
               </HBox>
