@@ -3,11 +3,12 @@
     Author     : sam
 */
 /*
-blauw: #0747a6
-groen: #28BB66
-grijs: #F4F5F7
-donkergrijs: #E0E0E0
-menuItems: #3F3F3F
+blauw:        #0747a6
+groen:        #28BB66
+grijs:        #F4F5F7
+rood:         #C62828
+donkergrijs:  #E0E0E0
+menuItems:    #3F3F3F
 */
 
 .root {
@@ -52,12 +53,20 @@ menuItems: #3F3F3F
     -fx-font-weight: 700;
 }*/
 
-.button-success {
+/* ==== BUTTONS ==== */
+.button {
     -fx-text-fill: white;
     -fx-font-size: 1.1em;
-    -fx-background-color: #28BB66;
-    -fx-padding: 5px 10px;
+    -fx-padding: 7px 10px;
     -fx-cursor: hand;
+}
+
+.button-danger {
+    -fx-background-color: #C62828;
+}
+
+.button-success {
+    -fx-background-color: #28BB66;
 }
 
 .text-field {
