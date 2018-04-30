@@ -5,11 +5,14 @@
  */
 package controllers;
 
+import domein.Actie;
 import domein.BreakOutBox;
 import domein.BreakOutBoxBeheer;
+import domein.Oefening;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -36,7 +39,13 @@ public class BoxControllerTest {
         boxRepo = Mockito.mock(GenericDao.class);
 
         // Mocks trainen
-        box = new BreakOutBox("bob1", "bob omschrijving", new ArrayList<>(), new ArrayList<>());
+        List<Oefening> oef = new ArrayList<Oefening>();
+        List<Actie> act = new ArrayList<Actie>();
+        oef.add(new Oefening());
+        oef.add(new Oefening());
+        act.add(new Actie("o"));
+
+        box = new BreakOutBox("bob1", "bob omschrijving", oef, act);
         Mockito.when(boxRepo.get(1)).thenReturn(box);
         Mockito.when(boxRepo.get(2)).thenReturn(null);
         Mockito.when(boxRepo.findAll()).thenReturn(
@@ -44,7 +53,7 @@ public class BoxControllerTest {
                         Arrays.asList(
                                 new BreakOutBox[]{
                                     box,
-                                    new BreakOutBox("bob2", "bob omschrijving 2", new ArrayList<>(), new ArrayList<>())
+                                    new BreakOutBox("bob2", "bob omschrijving 2", oef, act)
                                 }
                         )
                 )
@@ -59,9 +68,9 @@ public class BoxControllerTest {
     public void getAllBobs_returnsAllBobs() {
         Assert.assertEquals(2, boxController.getAllBreakOutBoxen().size());
     }
-    
+
     @Test
-    public void geefBreakOutBox_returnsCorrectBoB(){
+    public void geefBreakOutBox_returnsCorrectBoB() {
         BreakOutBox box = boxController.GeefBreakOutBox(1);
         Assert.assertEquals(box, this.box);
     }
@@ -70,7 +79,12 @@ public class BoxControllerTest {
     // <editor-fold desc="=== createBox ===" defaultstate="collapsed">
     @Test
     public void createBox_voegtNieuweBoxToe() {
-        boxController.createBreakOutBox("bob3", "bob omschrijving 3", new ArrayList<>(), new ArrayList<>());
+        List<Oefening> oef = new ArrayList<Oefening>();
+        List<Actie> act = new ArrayList<Actie>();
+        oef.add(new Oefening());
+        oef.add(new Oefening());
+        act.add(new Actie("o"));
+        boxController.createBreakOutBox("bob3", "bob omschrijving 3", oef, act);
         Mockito.verify(boxRepo).insert(Mockito.any(BreakOutBox.class));
     }
     // </editor-fold>
@@ -124,11 +138,11 @@ public class BoxControllerTest {
         Assert.assertEquals(1, boxController.getAllBreakOutBoxen().size());
     }
     // </editor-fold>
-    
-     //<editor-fold defaultstate="collapsed" desc="=== getBreakOutBoxBeheer ===">
+
+    //<editor-fold defaultstate="collapsed" desc="=== getBreakOutBoxBeheer ===">
     @Test
     public void getBreakOutBoxBeheer_returnsBreakOutBoxBeheer() {
-        Assert.assertTrue(boxController.getBoxBeheer()instanceof BreakOutBoxBeheer);
+        Assert.assertTrue(boxController.getBoxBeheer() instanceof BreakOutBoxBeheer);
     }
     //</editor-fold>
 }

@@ -5,21 +5,20 @@
  */
 package gui.controllers;
 
-import controllers.SessieController;
 import domein.Sessie;
+import gui.events.DeleteEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -45,15 +44,12 @@ public class DetailsSessieController extends AnchorPane {
     @FXML
     private Label reactieFoutAntw;
     @FXML
-    private Button terugBtn;
+    private Label boxLabel;
 
-    private SessieController sessieController;
     private Sessie sessie;
 
-    public DetailsSessieController(SessieController sessieController, int id) {
-        this.sessieController = sessieController;
-
-        sessie = this.sessieController.getSessie(id);
+    public DetailsSessieController(Sessie sessie) {
+        this.sessie = sessie;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsSessie.fxml"));
         loader.setRoot(this);
@@ -76,12 +72,8 @@ public class DetailsSessieController extends AnchorPane {
         verwijderAlert.setContentText("Weet u zeker dat u deze sessie wilt verwijderen?");
         Optional<ButtonType> result = verwijderAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            sessieController.deleteSessie(sessie.getId());
-            Scene scene = new Scene(new BeheerSessiesController(sessieController));
-            Stage stage = (Stage) this.getScene().getWindow();
-            stage.setTitle("Beheer Sessies");
-            stage.setScene(scene);
-            stage.show();
+            Event deleteEvent = new DeleteEvent(sessie.getId());
+            this.fireEvent(deleteEvent);
         }
     }
 
@@ -93,16 +85,8 @@ public class DetailsSessieController extends AnchorPane {
         onderwijsLabel.setText(sessie.getSoortOnderwijs().toString());
         datumLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(sessie.getDatum()));
         sessiecodeLabel.setText(sessie.getSessieCode());
-        
-        terugBtn.setOnAction(event -> terugNaarLijst());
-    }
+        boxLabel.setText(sessie.getBoxNaam());
 
-    private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerSessiesController(sessieController));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Beheer Sessies");
-        stage.setScene(scene);
-        stage.show();
     }
 
 }

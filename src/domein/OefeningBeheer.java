@@ -4,7 +4,6 @@ import exceptions.NotFoundException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -80,7 +79,11 @@ public final class OefeningBeheer implements Observer {
             if (toFilter == null || toFilter.isEmpty()) {
                 return true;
             }
-            return o.getOpgave().replaceAll("\\s+", "").toLowerCase().contains(toFilter.replaceAll("\\s+", "").toLowerCase());
+            return o.getOpgave().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+                    || o.getVak().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+                    || o.getDoelstellingen()
+                            .stream()
+                            .anyMatch(d -> d.toLowerCase().contains(toFilter.trim().toLowerCase()));
         });
 
     }
@@ -95,12 +98,9 @@ public final class OefeningBeheer implements Observer {
         return FXCollections.observableArrayList(groepsbewerkingRepo.findAll());
     }
 
-    public ObservableList<String> getGroepsbewerkingenByOefening(int oefeningId) {
+    public ObservableList<Groepsbewerking> getGroepsbewerkingenByOefening(int oefeningId) {
         List<Groepsbewerking> groepsbewerkingen = oefeningRepo.get(oefeningId).getGroepsbewerkingen();
-        return FXCollections.observableArrayList(groepsbewerkingen.stream()
-                .map(Groepsbewerking::getOmschrijving)
-                .collect(Collectors.toList())
-        );
+        return FXCollections.observableArrayList(groepsbewerkingen);
     }
     
 }

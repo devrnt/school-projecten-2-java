@@ -4,10 +4,13 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
+import gui.events.AnnuleerEvent;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class UpdateBreakOutBoxController extends AnchorPane {
 
@@ -56,13 +58,14 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     @FXML
     private Button bevestigBtn;
     @FXML
-    private Button keerTerugBtn;
+    private Button annuleerBtn;
 
     private final BoxController boxController;
     private final BreakOutBox box;
 
-    public UpdateBreakOutBoxController(BoxController boxController, int id) {
+    public UpdateBreakOutBoxController(BreakOutBox box, BoxController boxController) {
         this.boxController = boxController;
+        this.box = box;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
 
         loader.setRoot(this);
@@ -74,10 +77,8 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             throw new RuntimeException(e);
         }
         //waarde vullen
-        box = boxController.GeefBreakOutBox(id);
         naamTxt.setText(box.getNaam());
         omschrijvingTxt.setText(box.getOmschrijving());
-        wijzigLbl.setText("Wijzig box: " + box.getNaam());
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         for (Actie a : box.getActies()) {
@@ -90,52 +91,18 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             oefeningList1.getItems().add(o);
         }
         //listeners
-        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                    naamFoutLbl.setText("Geef een naam in");
-                } else {
-                    naamFoutLbl.setText("");
-                }
-            }
-        });
-        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
-                } else {
-                    omschrijvingFoutLbl.setText("");
-                }
-            }
-        });
-        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (actieList1.getItems().isEmpty()) {
-                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
-                } else {
-                    actiesFoutLbl.setText("");
-                }
-            }
-        });
-        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (oefeningList1.getItems().isEmpty()) {
-                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-                } else {
-                    oefeningenFoutLbl.setText("");
-                }
-            }
-        });
-        keerTerugBtn.setOnAction(event -> terugNaarDetails());
+        maakListeners();
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl};
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
+        boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty()) {
+        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || naamTxt.getText().isEmpty() || omschrijvingTxt.getText().isEmpty()) {
+            inputGeldig = false;
+        }
+        if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
             inputGeldig = false;
         }
 
@@ -155,14 +122,6 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             invalidInput.setContentText("Pas de invoer aan zodat deze geldig worden");
             invalidInput.showAndWait();
         }
-    }
-
-    private void terugNaarDetails() {
-        Scene scene = new Scene(new DetailsBreakOutBoxController(boxController, box.getId()));
-        Stage stage = (Stage) keerTerugBtn.getScene().getWindow();
-        stage.setTitle("Details BreakOutBox");
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
@@ -199,5 +158,53 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             oefeningList1.getItems().remove(o);
             oefeningList2.getItems().add(o);
         }
+    }
+
+    private void maakListeners() {
+        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
+                    naamFoutLbl.setText("Geef een naam in");
+                } else {
+                    naamFoutLbl.setText("");
+                }
+            }
+        });
+        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
+                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
+                } else {
+                    omschrijvingFoutLbl.setText("");
+                }
+            }
+        });
+        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (actieList1.getItems().isEmpty()) {
+                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
+                } else {
+                    actiesFoutLbl.setText("");
+                }
+            }
+        });
+        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (oefeningList1.getItems().isEmpty()) {
+                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
+                } else {
+                    oefeningenFoutLbl.setText("");
+                }
+            }
+        });
+        annuleerBtn.setOnAction(event -> {
+            terugNaarDetails();
+
+        });
+    }
+
+    private void terugNaarDetails() {
+        Event annuleerEvent = new AnnuleerEvent(box.getId());
+        this.fireEvent(annuleerEvent);
     }
 }

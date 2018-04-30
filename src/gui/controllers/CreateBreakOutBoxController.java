@@ -3,10 +3,13 @@ package gui.controllers;
 import controllers.BoxController;
 import domein.Actie;
 import domein.Oefening;
+import gui.events.AnnuleerEvent;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -55,6 +58,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
     @FXML
     private Button keerTerugBtn;
     private final BoxController boxController;
+    @FXML
+    private Button annuleerBtn;
 
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
@@ -73,55 +78,20 @@ public class CreateBreakOutBoxController extends AnchorPane {
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
         //listeners
-        keerTerugBtn.setOnAction(event -> terugNaarLijst());
-        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                    naamFoutLbl.setText("Geef een naam in");
-                } else {
-                    naamFoutLbl.setText("");
-                }
-            }
-        });
-        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
-                } else {
-                    omschrijvingFoutLbl.setText("");
-                }
-            }
-        });
-        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (actieList1.getItems().isEmpty()) {
-                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
-                } else {
-                    actiesFoutLbl.setText("");
-                }
-            }
-        });
-        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (oefeningList1.getItems().isEmpty()) {
-                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-                } else {
-                    oefeningenFoutLbl.setText("");
-                }
-            }
-        });
+        maakListeners();
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFoutLbl, omschrijvingFoutLbl, actiesFoutLbl, oefeningenFoutLbl};
-        boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
+        boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty()) {
+        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || naamTxt.getText().isEmpty() || omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
         }
-
+        if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
+            inputGeldig = false;
+        }
         if (inputGeldig) {
             boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
 
@@ -142,11 +112,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
     }
 
     private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
-        Stage stage = (Stage) keerTerugBtn.getScene().getWindow();
-        stage.setTitle("Beheer Oefeningen");
-        stage.setScene(scene);
-        stage.show();
+        Event beheerEvent = new DetailsEvent(-1);
+        this.fireEvent(beheerEvent);
     }
 
     @FXML
@@ -183,5 +150,48 @@ public class CreateBreakOutBoxController extends AnchorPane {
             oefeningList1.getItems().remove(o);
             oefeningList2.getItems().add(o);
         }
+    }
+
+    private void maakListeners() {
+        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
+                    naamFoutLbl.setText("Geef een naam in");
+                } else {
+                    naamFoutLbl.setText("");
+                }
+            }
+        });
+        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
+                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
+                } else {
+                    omschrijvingFoutLbl.setText("");
+                }
+            }
+        });
+        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (actieList1.getItems().isEmpty()) {
+                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
+                } else {
+                    actiesFoutLbl.setText("");
+                }
+            }
+        });
+        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (oefeningList1.getItems().isEmpty()) {
+                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
+                } else {
+                    oefeningenFoutLbl.setText("");
+                }
+            }
+        });
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
+        });
     }
 }

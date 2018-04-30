@@ -5,59 +5,106 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="600.0" prefWidth="400.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="149.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="231.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="328.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="328.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="328.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="328.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="230.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="464.0" minHeight="0.0" prefHeight="245.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="887.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="terugBtn" mnemonicParsing="false" text="Terug naar lijst">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="44.0" prefWidth="78.0">
                <children>
                   <Label text="Opgave: ">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
-                     </font></Label>
-                  <Label fx:id="opgaveLabel" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
-            <Label fx:id="opgaveFout" textFill="RED" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Label fx:id="opgaveLabel" />
+               </children></HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Feedback: ">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font></Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="feedbackLabel" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
                   <Label text="Antwoord: ">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font></Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
                   <Label fx:id="antwoordLabel" />
                </children>
             </HBox>
-            <Label fx:id="antwoordFout" textFill="RED" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <Label text="Feedback:  ">
+                  <Label text="Vak: ">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font></Label>
-                  <Label fx:id="feedbackLabel" />
                </children>
             </HBox>
-            <Label fx:id="feedbackFout" textFill="RED" />
-            <VBox alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label text="Groepsbewerkingen">
+                  <Label fx:id="vakLabel" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <children>
+                  <Label text="Doelstellingen: ">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
+               <children>
+                  <Label text="Groepsbewerkingen: ">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font></Label>
+               </children>
+            </HBox>
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
                   <ListView fx:id="groepsbewerkingen" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
                   <Label fx:id="groepsbewerkingenFout" textFill="#fc0000">
                      <VBox.margin>
@@ -66,21 +113,31 @@
                   </Label>
                </children>
             </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <GridPane GridPane.columnSpan="2" GridPane.rowIndex="6">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Button fx:id="wijzigBtn" mnemonicParsing="false" onAction="#wijzigBtnClicked" text="Wijzig oefening">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" text="Verwijder oefening">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="wijzigBtn" mnemonicParsing="false" onAction="#wijzigBtnClicked" text="Wijzig oefening" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" text="Verwijder oefening" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </GridPane>
          </children>
-      </VBox>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </GridPane>
    </children>
 </fx:root>

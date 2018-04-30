@@ -29,6 +29,7 @@ public class PopulateDB {
         GenericDao<Groepsbewerking> groepbwRepo = new GenericDaoJpa<>(Groepsbewerking.class);
         GenericDao<Oefening> oefeningRepo = new GenericDaoJpa<>(Oefening.class);
         GenericDao<BreakOutBox> boxRepo = new GenericDaoJpa<>(BreakOutBox.class);
+        GenericDao<Actie> actieRepo = new GenericDaoJpa<>(Actie.class);
         GenericDao<Sessie> sessieRepo = new GenericDaoJpa<>(Sessie.class);
 
         /* === Data voor oefeningenbeheer === */
@@ -62,26 +63,41 @@ public class PopulateDB {
                 "Cijferen",
                 new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
+        /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
+        Oefening oefening4 = new Oefening(
+                "~/Documents/Vraagstukken/vraagstukken5.pdf",
+                140,
+                "~/Documents/Feedback/feedbackVraagstukken.pdf",
+                "Vraagstukken",
+                new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)})));
         oefeningRepo.insert(oefening1);
         oefeningRepo.insert(oefening2);
         oefeningRepo.insert(oefening3);
+        oefeningRepo.insert(oefening4);
 
         /* === Data voor boxbeheer === */
-        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
-        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
-        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1}));
+ /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
+        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2}));
+        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening3}));
+        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2, oefening3}));
         Actie actie1 = new Actie("actie1");
         Actie actie2 = new Actie("actie2");
-        Actie actie3 = new Actie("actie1");
-        List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
-        List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2, actie3}));
-        List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2, actie3}));
+        Actie actie3 = new Actie("actie3");
+        actieRepo.insert(actie1);
+        actieRepo.insert(actie2);
+        actieRepo.insert(actie3);
+
+        List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
+        List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
+        List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
         BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1);
         BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2);
         BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3);
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
+
 
         /*=== Data voor sessiebeheer === */
         Calendar c = Calendar.getInstance();
@@ -106,11 +122,11 @@ public class PopulateDB {
         for (int i = 0; i < 3; i++) {
             sessieRepo.insert(new Sessie(
                     "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    klas1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback));
+                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
         }
         sessieRepo.insert(new Sessie(
                 "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
-                klas2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback));
+                klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));
 
     }
 }

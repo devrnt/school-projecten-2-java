@@ -2,11 +2,17 @@ package gui.controllers;
 
 import controllers.OefeningController;
 import domein.Oefening;
+import gui.events.AnnuleerEvent;
+import gui.events.DeleteEvent;
+import gui.events.DetailsEvent;
+import gui.events.WijzigEvent;
 import java.io.IOException;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,7 +21,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -23,8 +28,6 @@ import javafx.stage.Stage;
  * @author sam
  */
 public class BeheerOefeningenController extends AnchorPane {
-
-    private OefeningController controller;
 
     @FXML
     private Button createOefening;
@@ -48,11 +51,14 @@ public class BeheerOefeningenController extends AnchorPane {
     private TextField filterText;
 
     @FXML
-    private Button keerTerugBtn;
+    private StackPane detailsStackPane;
+    
+    private ObservableList<Node> children;
+    
+    private OefeningController controller;
 
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
-        
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerOefeningenPanel.fxml"));
 
@@ -64,55 +70,81 @@ public class BeheerOefeningenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        keerTerugBtn.setOnAction(event -> terugNaarMenu());
+        
+        children = detailsStackPane.getChildren();
 
-        opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
-        vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
-        doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
-        oefeningenTable.setItems(controller.getOefeningen());
-        oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
-        detailsBtn.setDisable(true);
-        oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
-            if (newval != null) {
-                detailsBtn.setDisable(false);
-            }
-        });
-
+        stelTableViewIn();
+        
+        voegEventHandlersToe();
     }
 
     @FXML
     public void createOefeningClicked(ActionEvent event) {
-
-        Scene scene = new Scene(new CreateOefeningController(controller));
-        Stage stage = (Stage) createOefening.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Aanmaken van een oefening");
-        stage.show();
-
+        children.clear();
+        children.add(new CreateOefeningController(controller));
     }
 
-    @FXML
-    public void detailsBtnClicked(ActionEvent event) {
-        int id = oefeningenTable.getSelectionModel().getSelectedItem().getId();
-        Scene scene = new Scene(new DetailsOefeningController(controller, id));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Oefening details");
-        stage.show();
-    }
+
 
     @FXML
     public void filter(KeyEvent event) {
         String toFilter = filterText.getText();
         controller.applyFilter(toFilter);
+        
+    }
+    
+    private void stelTableViewIn(){
+        opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
+        vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
+        doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
+        oefeningenTable.setItems(controller.getOefeningen());
+        oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
+        oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
+            if (newval != null) {
+                children.clear();
+                children.add(new DetailsOefeningController(newval));
+            }
+        });
+    }
+    
+    private void voegEventHandlersToe(){
+        this.addEventHandler(WijzigEvent.WIJZIG, event -> {
+            children.clear();
+            children.add(new CreateOefeningController(controller, event.getId()));
+        });
+        
+        this.addEventHandler(DeleteEvent.DELETE, event -> {           
+            try {
+                controller.deleteOefening(event.getId());
+                children.clear();
+            } catch (RuntimeException e) {
+                showDeleteFailedAlert();               
+            }
+        });
+        
+        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+            children.clear();
+            if (event.getId() < 0){
+                int size = controller.getOefeningen().size();
+                children.add(new DetailsOefeningController(controller.getOefeningen().get(size - 1)));
+            } else {
+                children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
+            }
+        });
+        
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+            children.clear();
+            if (event.getId() >= 0)
+                children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
+        });
     }
 
-    private void terugNaarMenu() {
-        Scene scene = new Scene(new HomePanelController());
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.show();
+    private void showDeleteFailedAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Oefening beheren");
+        alert.setHeaderText("Oefening verwijderen");
+        alert.setContentText("Oefening kan niet verwijderd worden omdat deze nog in een box voorkomt!");
+        alert.showAndWait();
     }
 
 }
