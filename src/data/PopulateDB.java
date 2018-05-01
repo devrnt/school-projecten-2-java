@@ -43,21 +43,21 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking4);
 
         Oefening oefening1 = new Oefening(
-                "~/Documents/Rekenen/hoofdrekenen1.pdf",
+                "~/Documents/Rekenen/rekensommen.pdf",
                 400,
                 "~/Documents/Feedback/feedbackRekenen.pdf",
                 "Hoofdrekenen",
                 new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
                 groepbwRepo.findAll());
         Oefening oefening2 = new Oefening(
-                "~/Documents/Meetkunde/meetkunde2.pdf",
+                "~/Documents/Meetkunde/pythagorasOef.pdf",
                 25,
                 "~/Documents/Feedback/feedbackMeetkunde.pdf",
                 "Meetkunde",
                 new ArrayList<String>(Arrays.asList(new String[]{"D202", "C106"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening(
-                "~/Documents/Cijferen/cijferen2.pdf",
+                "~/Documents/Cijferen/staartdeling.pdf",
                 140,
                 "~/Documents/Feedback/feedbackCijferen.pdf",
                 "Cijferen",
@@ -65,7 +65,7 @@ public class PopulateDB {
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
         /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
         Oefening oefening4 = new Oefening(
-                "~/Documents/Vraagstukken/vraagstukken5.pdf",
+                "~/Documents/Vraagstukken/problemenOef.pdf",
                 140,
                 "~/Documents/Feedback/feedbackVraagstukken.pdf",
                 "Vraagstukken",

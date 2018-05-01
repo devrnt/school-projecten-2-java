@@ -133,18 +133,21 @@ public class CreateOefeningController extends AnchorPane {
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
         oefening = controller.getOefening(id);
-        opgaveLabel.setText(oefening.getOpgave());
+        
         opgaveFile = new File(oefening.getOpgave());
-        antwoord.setText(Integer.toString(oefening.getAntwoord()));
-        feedbackLabel.setText(oefening.getFeedback());
+        opgaveLabel.setText(opgaveFile.getName());
         feedbackFile = new File(oefening.getFeedback());
+        feedbackLabel.setText(feedbackFile.getName());
+        
+        antwoord.setText(Integer.toString(oefening.getAntwoord()));         
         vakTextField.setText(oefening.getVak());
+        
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
+        
         groepsbewerkingenListView.setItems(FXCollections.observableArrayList(oefening.getGroepsbewerkingen()));
         gbws.removeAll(oefening.getGroepsbewerkingen());
         groepsbwButton.setDisable(gbws.isEmpty());        
         groepsbwChoiceBox.setDisable(gbws.isEmpty());
-
         groepsbwChoiceBox.getSelectionModel().selectFirst();
 
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -209,7 +212,7 @@ public class CreateOefeningController extends AnchorPane {
         if (file == null || !file.getName().toLowerCase().endsWith(".pdf")) {
             foutLabel.setText("Selecteer een opgave in PDF formaat");
         } else {
-            textLabel.setText(file.getAbsolutePath());
+            textLabel.setText(file.getName());
             foutLabel.setText("");
         }
         return file;

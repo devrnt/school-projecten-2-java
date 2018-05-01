@@ -1,5 +1,6 @@
 package domein;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -53,7 +54,7 @@ public class Oefening implements Serializable {
     }
 
     public SimpleStringProperty getOpgaveProp() {
-        return new SimpleStringProperty(opgave);
+        return new SimpleStringProperty(new File(opgave).getName());
     }
 
     public SimpleIntegerProperty getAntwoordProp() {
