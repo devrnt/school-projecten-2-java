@@ -117,13 +117,13 @@ menuItems:    #3F3F3F
     -fx-background-color:#ededed;
 }
 
-.btn-accent{
+.btn-accent {
     -fx-background-color: #0747a6;
-     -fx-pref-height: INITIAL;
-    -fx-pref-width: INITIAL;
+    -fx-pref-height: INHERIT;
+    -fx-pref-width: INHERIT;
     -fx-padding: 5px 5px;
-
 }
+
 
 .text-fld {
     -fx-background-color: -fx-text-box-border, -fx-background ;
