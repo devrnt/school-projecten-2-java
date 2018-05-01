@@ -112,6 +112,7 @@ public class CreateOefeningController extends AnchorPane {
         // enkel pdf's
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.PDF", "*.pdf");
         filechooser.getExtensionFilters().add(filter);
+        
 
         // choicebox
         groepsbwChoiceBox.setItems(gbws.sorted());
@@ -131,7 +132,8 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     public CreateOefeningController(OefeningController controller, int id) {
-        this(controller);
+        this(controller);       
+        
         oefening = controller.getOefening(id);
         
         opgaveFile = new File(oefening.getOpgave());
@@ -167,12 +169,16 @@ public class CreateOefeningController extends AnchorPane {
 
     @FXML
     protected void uploadOpgavePdf(ActionEvent event) {
+        if (opgaveFile != null)
+            filechooser.setInitialDirectory(opgaveFile.getParentFile());
         opgaveFile = uploadPdf(opgaveLabel, opgaveFoutLabel);
 
     }
 
     @FXML
     protected void uploadFeedbackPdf(ActionEvent event) {
+        if (feedbackFile != null)
+            filechooser.setInitialDirectory(feedbackFile);
         feedbackFile = uploadPdf(feedbackLabel, feedbackFoutLabel);
     }
 
@@ -210,6 +216,7 @@ public class CreateOefeningController extends AnchorPane {
     private File uploadPdf(Label textLabel, Label foutLabel) {
         File file = filechooser.showOpenDialog((Stage) annuleerBtn.getScene().getWindow());
         if (file == null || !file.getName().toLowerCase().endsWith(".pdf")) {
+            textLabel.setText("");
             foutLabel.setText("Selecteer een opgave in PDF formaat");
         } else {
             textLabel.setText(file.getName());

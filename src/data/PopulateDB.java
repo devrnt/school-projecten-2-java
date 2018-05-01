@@ -41,33 +41,35 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking2);
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
+        
+        String pad = "/Users/sam/NetBeansProjects/java-g16/src/data/";
 
         Oefening oefening1 = new Oefening(
-                "~/Documents/Rekenen/rekensommen.pdf",
+                pad + "rekensommen.pdf",
                 400,
-                "~/Documents/Feedback/feedbackRekenen.pdf",
+                pad + "feedbackRekenen.pdf",
                 "Hoofdrekenen",
                 new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
                 groepbwRepo.findAll());
         Oefening oefening2 = new Oefening(
-                "~/Documents/Meetkunde/pythagorasOef.pdf",
+                pad + "pythagoras.pdf",
                 25,
-                "~/Documents/Feedback/feedbackMeetkunde.pdf",
+                pad + "feedbackMeetkunde.pdf",
                 "Meetkunde",
                 new ArrayList<String>(Arrays.asList(new String[]{"D202", "C106"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
         Oefening oefening3 = new Oefening(
-                "~/Documents/Cijferen/staartdeling.pdf",
+                pad + "staartdeling.pdf",
                 140,
-                "~/Documents/Feedback/feedbackCijferen.pdf",
+                pad + "feedbackCijferen.pdf",
                 "Cijferen",
                 new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
         /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
         Oefening oefening4 = new Oefening(
-                "~/Documents/Vraagstukken/problemenOef.pdf",
+                pad + "problemen.pdf",
                 140,
-                "~/Documents/Feedback/feedbackVraagstukken.pdf",
+                pad + "feedbackVraagstukken.pdf",
                 "Vraagstukken",
                 new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)})));
