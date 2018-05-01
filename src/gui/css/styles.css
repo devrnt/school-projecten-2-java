@@ -19,7 +19,7 @@ menuItems:    #3F3F3F
 
 .title {
     -fx-font-size: 19px;
-    -fx-text-fill: #0747a6;
+    -fx-fill: #0747a6;
 }
 
 #menu .list-cell{
@@ -115,6 +115,14 @@ menuItems:    #3F3F3F
 
 .btn-default:hover {
     -fx-background-color:#ededed;
+}
+
+.btn-accent{
+    -fx-background-color: #0747a6;
+     -fx-pref-height: INITIAL;
+    -fx-pref-width: INITIAL;
+    -fx-padding: 5px 5px;
+
 }
 
 .text-fld {

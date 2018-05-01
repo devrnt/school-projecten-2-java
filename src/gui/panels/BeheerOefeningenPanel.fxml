@@ -34,7 +34,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="310.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="89.33332824707031" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="68.66667175292969" minHeight="0.0" prefHeight="62.33332824707031" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="772.0" minHeight="10.0" prefHeight="444.6666717529297" vgrow="SOMETIMES" />
               </rowConstraints>
@@ -84,8 +84,8 @@
                      <children>
                         <TableView fx:id="oefeningenTable" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="180.33331298828125" prefWidth="226.33331298828125" styleClass="table-view-cell-header" text="Opgave" />
-                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" styleClass="table-view-cell-header" text="Vak" />
+                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="180.33331298828125" prefWidth="223.3333740234375" styleClass="table-view-cell-header" text="Opgave" />
+                            <TableColumn fx:id="vakCol" editable="false" maxWidth="137.99996948242188" minWidth="100.0" prefWidth="128.6666259765625" styleClass="table-view-cell-header" text="Vak" />
                               <TableColumn fx:id="doelstellingenCol" maxWidth="126.0" minWidth="125.0" prefWidth="126.0" styleClass="table-view-cell-header" text="Doelstellingen" />
                           </columns>
                            <HBox.margin>
