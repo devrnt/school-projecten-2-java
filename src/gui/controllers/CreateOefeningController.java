@@ -142,6 +142,9 @@ public class CreateOefeningController extends AnchorPane {
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
         groepsbewerkingenListView.setItems(FXCollections.observableArrayList(oefening.getGroepsbewerkingen()));
         gbws.removeAll(oefening.getGroepsbewerkingen());
+        groepsbwButton.setDisable(gbws.isEmpty());        
+        groepsbwChoiceBox.setDisable(gbws.isEmpty());
+
         groepsbwChoiceBox.getSelectionModel().selectFirst();
 
         bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -314,9 +317,15 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     private void setButtonActions() {
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
+            this.fireEvent(annuleerEvent);
+        });
+        
+        //<editor-fold defaultstate="collapsed" desc="doelstellingen">
         addDoelstellingBtn.setDisable(true);
         doelstellingRemoveBtn.setDisable(true);
-
+        
         doelstellingRemoveBtn.setOnAction(event -> {
             int index = doelstellingenListView.getSelectionModel().getSelectedIndex();
             doelstellingenListView.getItems().remove(index);
@@ -326,18 +335,15 @@ public class CreateOefeningController extends AnchorPane {
             doelstellingenListView.getSelectionModel().clearSelection();
             doelstellingRemoveBtn.setDisable(true);
         });
-
+        
         doelstellingenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
             if (newvalue != null) {
                 doelstellingRemoveBtn.setDisable(false);
             }
         });
+//</editor-fold>
 
-        annuleerBtn.setOnAction(event -> {
-            Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
-            this.fireEvent(annuleerEvent);
-        });
-
+        //<editor-fold defaultstate="collapsed" desc="groepsbewerkingen">
         groepsbwButton.setOnAction(event -> {
             Groepsbewerking gbw = groepsbwChoiceBox.getSelectionModel().getSelectedItem();
             groepsbewerkingenListView.getItems().add(gbw);
@@ -350,9 +356,9 @@ public class CreateOefeningController extends AnchorPane {
                 groepsbwChoiceBox.getSelectionModel().selectFirst();
             }
         });
-
+        
         groepsbwRemoveButton.setDisable(true);
-
+        
         groepsbwRemoveButton.setOnAction(event -> {
             Groepsbewerking gbw = groepsbewerkingenListView.getSelectionModel().getSelectedItem();
             gbws.add(gbw);
@@ -365,8 +371,9 @@ public class CreateOefeningController extends AnchorPane {
             groepsbwChoiceBox.setDisable(false);
             groepsbewerkingenListView.getSelectionModel().clearSelection();
             groepsbwRemoveButton.setDisable(true);
-
+            
         });
+//</editor-fold>
     }
 
 }
