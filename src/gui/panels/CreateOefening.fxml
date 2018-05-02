@@ -293,7 +293,7 @@
                   </HBox>
                </children>
                <padding>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets top="10.0" />
                </padding>
             </GridPane>
          </children>
