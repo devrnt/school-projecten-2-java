@@ -12,8 +12,9 @@ menuItems:    #3F3F3F
 */
 
 .root {
+    /* bump this up to enlarge the 'screen' */
     -fx-font-size: 10pt;
-    -fx-font-family: "Roboto";
+    -fx-font-family: "Calibra";
     -fx-background-color: white;
     -fx-focus-color: #F4F5F7;
     -fx-faint-focus-color: #F4F5F7;

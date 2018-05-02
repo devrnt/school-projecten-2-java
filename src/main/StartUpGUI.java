@@ -20,7 +20,7 @@ public class StartUpGUI extends Application {
         Scene scene = new Scene(new HoofdPanelController());
 
         // font family
-        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
+        //scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Noto+Sans");
         
         // global stylesheet
         scene.getStylesheets().add(getClass().getResource("/gui/css/styles.css").toExternalForm());
