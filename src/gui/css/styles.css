@@ -13,7 +13,7 @@ menuItems:    #3F3F3F
 
 .root {
     -fx-font-size: 10pt;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Roboto";
     -fx-background-color: white;
     -fx-focus-color: #F4F5F7;
     -fx-faint-focus-color: #F4F5F7;
@@ -176,4 +176,27 @@ menuItems:    #3F3F3F
     -fx-background-color: #F4F5F7;
     -fx-font-size: 0.95em;
     -fx-padding: 8px 10px;
+}
+.text-area {
+    -fx-border-width: 0 0 0 0;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-radius: 2;
+    -fx-border-width: 0 0 0 0;
+    -fx-background-color: #F4F5F7;
+    -fx-font-size: 0.95em;
+    -fx-padding: 8px 10px;
+}
+
+.date-picker {
+
+    -fx-background-color: #E0E0E0;
+}
+
+.date-picker > .text-field {
+    -fx-background-color:#E0E0E0;
 }
