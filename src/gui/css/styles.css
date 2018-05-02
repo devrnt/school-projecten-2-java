@@ -15,6 +15,8 @@ menuItems:    #3F3F3F
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI";
     -fx-background-color: white;
+    -fx-focus-color: #F4F5F7;
+    -fx-faint-focus-color: #F4F5F7;
 }
 
 .title {
@@ -29,7 +31,6 @@ menuItems:    #3F3F3F
     -fx-cursor: hand;
     -fx-background-insets: 0;
     -fx-text-fill: #3F3F3F;
-
 }
 
 #menu .list-cell:hover {
@@ -102,6 +103,24 @@ menuItems:    #3F3F3F
     -fx-scale-x: 0.97;
 }
 
+.btn-small {
+    -fx-padding: 0px 0px;
+    -fx-pref-height: 15px;
+    -fx-pref-width: 80px;
+}
+
+.btn-medium {
+    -fx-padding: 5px 5px;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 100px;
+}
+
+.btn-square {    
+    -fx-padding: 5px 7px;
+    -fx-pref-height: 20px;
+    -fx-pref-width: 20px;
+}
+
 .btn-danger {
     -fx-background-color: #C62828;
 }
@@ -131,10 +150,26 @@ menuItems:    #3F3F3F
     -fx-background-color: #0747a6;
     -fx-pref-height: INHERIT;
     -fx-pref-width: INHERIT;
-    -fx-padding: 5px 5px;
+    -fx-padding: 3px 5px;
 }
 
 
+/* ==== CHOICEBOX ==== */
+.choice-box .menu-item:focused { 
+    -fx-background-color: #0747a6;
+}
+.choice-box .menu-item > .label { 
+    -fx-text-fill: black; 
+}
+.choice-box .menu-item:focused > .label { 
+    -fx-text-fill: white; 
+}
+.choice-box {
+    -fx-background-color: #E0E0E0;
+    -fx-mark-color: #3f3f3f;
+}
+
+/* ==== TEXTINPUT ==== */
 .text-fld {
     -fx-background-color: -fx-text-box-border, -fx-background ;
     -fx-background-radius: 2 ;
