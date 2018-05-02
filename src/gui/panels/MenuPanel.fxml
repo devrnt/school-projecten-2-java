@@ -31,7 +31,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="487.0" prefWidth="347.0" style="-fx-background-color: #F4F5F7;" GridPane.rowIndex="1">
                <children>
-                  <ListView id="menu" fx:id="menuListView" prefHeight="511.0" prefWidth="281.0" style="-fx-background-color: transparent;" styleClass="custom-list-cell" stylesheets="@../css/styles.css" />
+                  <ListView id="menu" fx:id="menuListView" prefHeight="511.0" prefWidth="237.0" style="-fx-background-color: transparent;" styleClass="custom-list-cell" stylesheets="@../css/styles.css" />
                </children>
             </HBox>
          </children>

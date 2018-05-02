@@ -26,9 +26,19 @@ menuItems:    #3F3F3F
     -fx-padding: 20px 10px;
     -fx-font-size: 1.1em;
     -fx-background-color: transparent;
-    /*-fx-cursor: hand*/;
+    -fx-cursor: hand;
     -fx-background-insets: 0;
     -fx-text-fill: #3F3F3F;
+
+}
+
+#menu .list-cell:hover {
+    -fx-background-color: #E8E8E8;
+}
+
+#menu .list-cell:empty {
+    -fx-background-color: #F4F5F7;
+    -fx-cursor:DEFAULT;
 }
 
 #menu .list-cell:filled:selected:focused, .list-cell:filled:selected {
