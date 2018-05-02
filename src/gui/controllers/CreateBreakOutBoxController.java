@@ -63,6 +63,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
 
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
 
         loader.setRoot(this);
@@ -86,12 +87,36 @@ public class CreateBreakOutBoxController extends AnchorPane {
         boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        if (geselecteerdeActies.isEmpty() || geselecteerdeOefeningen.isEmpty() || naamTxt.getText().isEmpty() || omschrijvingTxt.getText().isEmpty()) {
+
+        if (geselecteerdeActies.isEmpty()) {
+            actiesFoutLbl.setText("Selecteer minstens 1 actie!");
             inputGeldig = false;
+        } else {
+            actiesFoutLbl.setText("");
+        }
+        if (geselecteerdeOefeningen.isEmpty()) {
+            inputGeldig = false;
+            oefeningenFoutLbl.setText("Selecteer minstens 1 oefening!");
+        } else {
+            oefeningenFoutLbl.setText("");
+        }
+        if (naamTxt.getText().isEmpty()) {
+            inputGeldig = false;
+
+            naamFoutLbl.setText("Voer een naam in!");
+        } else {
+            naamFoutLbl.setText("");
+        }
+        if (omschrijvingTxt.getText().isEmpty()) {
+            inputGeldig = false;
+
+            omschrijvingFoutLbl.setText("Voer een omschrijving in!");
+        } else {
+            omschrijvingFoutLbl.setText("");
         }
         if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
-            inputGeldig = false;
-        }
+            actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal Oefeningen moet gelijk zijn aan aantal Acties + 1.");
+            inputGeldig = false;        }
         if (inputGeldig) {
             boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
 
@@ -154,39 +179,45 @@ public class CreateBreakOutBoxController extends AnchorPane {
 
     private void maakListeners() {
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                    naamFoutLbl.setText("Geef een naam in");
-                } else {
-                    naamFoutLbl.setText("");
-                }
+            if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
+                naamFoutLbl.setText("Voer een naam in!");
+            } else {
+                naamFoutLbl.setText("");
             }
         });
         omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
-                } else {
-                    omschrijvingFoutLbl.setText("");
-                }
+            if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
+                omschrijvingFoutLbl.setText("Voer een omschrijving in!");
+            } else {
+                omschrijvingFoutLbl.setText("");
             }
         });
-        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (actieList1.getItems().isEmpty()) {
-                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
-                } else {
-                    actiesFoutLbl.setText("");
-                }
+        actieToevoegenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (actieList1.getItems().isEmpty()) {
+                actiesFoutLbl.setText("Selecteer minstens 1 actie");
+            } else {
+                actiesFoutLbl.setText("");
             }
         });
-        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (oefeningList1.getItems().isEmpty()) {
-                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-                } else {
-                    oefeningenFoutLbl.setText("");
-                }
+        actieVerwijderenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (actieList1.getItems().isEmpty()) {
+                actiesFoutLbl.setText("Selecteer minstens 1 actie");
+            } else {
+                actiesFoutLbl.setText("");
+            }
+        });
+        oefeningToevoegenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (oefeningList1.getItems().isEmpty()) {
+                oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
+            } else {
+                oefeningenFoutLbl.setText("");
+            }
+        });
+        oefeningVerwijderenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (oefeningList1.getItems().isEmpty()) {
+                oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
+            } else {
+                oefeningenFoutLbl.setText("");
             }
         });
         annuleerBtn.setOnAction(event -> {
