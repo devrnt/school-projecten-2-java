@@ -99,6 +99,9 @@ public class PopulateDB {
         oefeningRepo.insert(oefening2);
         oefeningRepo.insert(oefening3);
         oefeningRepo.insert(oefening4);
+        oefeningRepo.insert(oefening11);
+        oefeningRepo.insert(oefening12);
+        oefeningRepo.insert(oefening13);
 
         /* === Data voor boxbeheer === */
  /* === #Oefeningen moet 1 meer zijn dan het #Acties === */

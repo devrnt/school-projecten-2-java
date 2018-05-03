@@ -145,7 +145,7 @@ public class Oefening implements Serializable {
 
     @Override
     public String toString() {
-        return opgave;
+        return new File(opgave).getName();
     }
 
 }

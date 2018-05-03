@@ -51,7 +51,7 @@ public final class BreakOutBoxBeheer implements Observer {
     public void createBreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
         breakOutBoxRepo.insert(new BreakOutBox(naam, omschrijving, oefeningen, acties));
         // gebruik maken van add?
-        boxLijst = FXCollections.observableArrayList(breakOutBoxRepo.findAll());
+       //  boxLijst = FXCollections.observableArrayList(breakOutBoxRepo.findAll());
     }
     
     public void close() {
@@ -59,7 +59,7 @@ public final class BreakOutBoxBeheer implements Observer {
     }
     
     public ObservableList<BreakOutBox> getAllBreakOutBoxen() {
-        return gefilterdeBoxLijst.sorted(Comparator.comparing(BreakOutBox::getNaam));
+        return gefilterdeBoxLijst;
     }
     
     public BreakOutBox GeefBreakOutBox(int id) {

@@ -78,6 +78,11 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
         try {
             boxController.createSamenvattingBox(box.getId());
+            Alert pdfcreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+            pdfcreatedAlert.setTitle("Details BreakOutBox");
+            pdfcreatedAlert.setHeaderText("Downloaden PDF");
+            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is gedownload.");
+            pdfcreatedAlert.showAndWait();
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,7 +108,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");
         verwijderAlert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
-               Event deleteEvent = new DeleteEvent(box.getId());
+                Event deleteEvent = new DeleteEvent(box.getId());
                 this.fireEvent(deleteEvent);
             }
         });
