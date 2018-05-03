@@ -9,6 +9,10 @@ import controllers.KlasController;
 import controllers.SessieController;
 import domein.Klas;
 import domein.Leerling;
+import gui.events.AnnuleerEvent;
+import gui.events.DeleteEvent;
+import gui.events.DetailsEvent;
+import gui.events.WijzigEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -75,6 +80,9 @@ public class BeheerKlassenController extends AnchorPane {
     private ObservableList<Klas> klassen;
 
     private KlasController klasController;
+    
+        private ObservableList<Node> children;
+
 
     public BeheerKlassenController(KlasController klasController) {
         this.klasController = klasController;
@@ -89,9 +97,11 @@ public class BeheerKlassenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        children = detailsStackPane.getChildren();
 
         initialize();
         configureFileChooser();
+        voegEventHandlersToe();
 
     }
 
@@ -233,6 +243,36 @@ public class BeheerKlassenController extends AnchorPane {
         }
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
     }
+     private void voegEventHandlersToe() {
+//        this.addEventHandler(WijzigEvent.WIJZIG, event -> {
+//            children.clear();
+//            children.add(new UpdateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+//        });
+//
+//        this.addEventHandler(DeleteEvent.DELETE, event -> {
+//            children.clear();
+//            boxController.deleteBreakOutBox(event.getId());
+//            
+//        });
+//
+//        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+//            children.clear();
+//            if (event.getId() < 0) {
+//                int size = boxController.getAllBreakOutBoxen().size();
+//                children.add(new DetailsBreakOutBoxController(boxController.getAllBreakOutBoxen().get(size - 1), boxController));
+//            } else {
+//                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+//            }
+//        });
+
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+            children.clear();
+//            if (event.getId() >= 0) {
+//                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+//            }
+        });
+    }
+
 
 //    private void terugNaarMenu() {
 //        Scene scene = new Scene(new MenuPanelController());
