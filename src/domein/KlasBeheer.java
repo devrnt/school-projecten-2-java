@@ -68,4 +68,8 @@ public final class KlasBeheer implements Observer {
         klasLijst.addAll(klasRepo.findAll());
     }
 
+    public void verwijderKlas(int id) {
+         klasRepo.delete(klasRepo.get(id));
+    }
+
 }

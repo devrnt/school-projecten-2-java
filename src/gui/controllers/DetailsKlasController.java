@@ -6,9 +6,16 @@
 package gui.controllers;
 import domein.Klas;
 import domein.Leerling;
+import gui.events.DeleteEvent;
 import java.io.IOException;
+import java.util.Optional;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -26,6 +33,9 @@ public class DetailsKlasController extends AnchorPane {
     private ListView<String> voorNaamList;
     @FXML
     private ListView<String> familieNaamList;
+    @FXML
+    private Button verwijderButton;
+    
 
     private Klas klas;
 
@@ -49,6 +59,18 @@ public class DetailsKlasController extends AnchorPane {
         for (Leerling leerling : klas.getLeerlingen()) {
             voorNaamList.getItems().add(leerling.getVoornaam());
             familieNaamList.getItems().add(leerling.getNaam());
+        }
+    }
+       @FXML
+    private void verwijderBtnClicked(ActionEvent event) {
+        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        verwijderAlert.setTitle("Verwijderen klas");
+        verwijderAlert.setHeaderText("Bevestigen");
+        verwijderAlert.setContentText("Weet u zeker dat u deze klas wilt verwijderen?");
+        Optional<ButtonType> result = verwijderAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Event deleteEvent = new DeleteEvent(klas.getId());
+            this.fireEvent(deleteEvent);
         }
     }
 

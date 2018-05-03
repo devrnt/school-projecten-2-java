@@ -69,6 +69,6 @@ public final class KlasController {
     }
 
     public void deleteKlas(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       klasBeheer.verwijderKlas(id);
     }
 }
