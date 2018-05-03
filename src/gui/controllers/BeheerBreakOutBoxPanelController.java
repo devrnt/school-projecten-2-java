@@ -28,6 +28,8 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     @FXML
     private Button maakBoxButton;
     @FXML
+    private Button kopieBoxButton;
+    @FXML
     private TextField searchTextField;
     @FXML
     private TableView<BreakOutBox> boxTabel;
@@ -104,6 +106,14 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void maakBreakOutBoxButtonClicked(ActionEvent event) {
         children.clear();
         children.add(new CreateBreakOutBoxController(boxController));
+    }
+
+    @FXML
+    private void kopieBreakOutBoxButtonClicked(ActionEvent event) {
+        if (boxTabel.getSelectionModel().getSelectedItem() != null) {
+            children.clear();
+            children.add(new CreateBreakOutBoxController(boxController, boxTabel.getSelectionModel().getSelectedItem()));
+        }
     }
 
     @FXML

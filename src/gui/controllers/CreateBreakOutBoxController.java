@@ -2,27 +2,26 @@ package gui.controllers;
 
 import controllers.BoxController;
 import domein.Actie;
+import domein.BreakOutBox;
 import domein.Oefening;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class CreateBreakOutBoxController extends AnchorPane {
-
+    
     @FXML
     private AnchorPane AnchorPane;
     @FXML
@@ -60,15 +59,15 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private final BoxController boxController;
     @FXML
     private Button annuleerBtn;
-
+    
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
-
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-
+        
         loader.setRoot(this);
         loader.setController(this);
-
+        
         try {
             loader.load();
         } catch (IOException e) {
@@ -81,13 +80,45 @@ public class CreateBreakOutBoxController extends AnchorPane {
         //listeners
         maakListeners();
     }
+    
+    public CreateBreakOutBoxController(BoxController boxController, BreakOutBox box) {
+        this.boxController = boxController;
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
+        
+        loader.setRoot(this);
+        loader.setController(this);
+        
+        try {
+            loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        //listviews vullen
+        actieList2.setItems(boxController.getActies());
+        oefeningList2.setItems(boxController.getOefeningen());
+        naamTxt.setText(box.getNaam() + "Kopie");
+        omschrijvingTxt.setText(box.getOmschrijving());
+        for (Oefening o : boxController.getOefeningenByBox(box.getId())) {
+            oefeningList2.getItems().remove(o);
+            oefeningList1.getItems().add(o);
+        }
+        for (Actie a : boxController.getActiesByBox(box.getId())) {
+            actieList2.getItems().remove(a);
+            actieList1.getItems().add(a);
+            
+        }
+        //listeners
+        maakListeners();
+    }
+    
     @FXML
     private void bevestigClicked(ActionEvent event) {
         boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-
+        
         if (geselecteerdeActies.isEmpty()) {
             actiesFoutLbl.setText("Selecteer minstens 1 actie!");
             inputGeldig = false;
@@ -102,31 +133,32 @@ public class CreateBreakOutBoxController extends AnchorPane {
         }
         if (naamTxt.getText().isEmpty()) {
             inputGeldig = false;
-
+            
             naamFoutLbl.setText("Voer een naam in!");
         } else {
             naamFoutLbl.setText("");
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
-
+            
             omschrijvingFoutLbl.setText("Voer een omschrijving in!");
         } else {
             omschrijvingFoutLbl.setText("");
         }
         if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
             actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal Oefeningen moet gelijk zijn aan aantal Acties + 1.");
-            inputGeldig = false;        }
+            inputGeldig = false;
+        }
         if (inputGeldig) {
             boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
-
+            
             Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
             oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
             oefeningCreatedSuccess.showAndWait();
             terugNaarLijst();
-
+            
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
             invalidInput.setTitle("Box aanmaken");
@@ -135,12 +167,12 @@ public class CreateBreakOutBoxController extends AnchorPane {
             invalidInput.showAndWait();
         }
     }
-
+    
     private void terugNaarLijst() {
         Event beheerEvent = new DetailsEvent(-1);
         this.fireEvent(beheerEvent);
     }
-
+    
     @FXML
     private void voegActieToeBtn(ActionEvent event) {
         Actie a = actieList2.getSelectionModel().getSelectedItem();
@@ -149,7 +181,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             actieList1.getItems().add(a);
         }
     }
-
+    
     @FXML
     private void verwijderActieBtn(ActionEvent event) {
         Actie a = actieList1.getSelectionModel().getSelectedItem();
@@ -158,7 +190,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             actieList2.getItems().add(a);
         }
     }
-
+    
     @FXML
     private void voegOefeningToeBtn(ActionEvent event) {
         Oefening o = oefeningList2.getSelectionModel().getSelectedItem();
@@ -167,7 +199,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             oefeningList1.getItems().add(o);
         }
     }
-
+    
     @FXML
     private void verwijderOefeningBtn(ActionEvent event) {
         Oefening o = oefeningList1.getSelectionModel().getSelectedItem();
@@ -176,7 +208,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             oefeningList2.getItems().add(o);
         }
     }
-
+    
     private void maakListeners() {
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {

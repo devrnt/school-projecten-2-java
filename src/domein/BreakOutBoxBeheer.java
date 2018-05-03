@@ -189,9 +189,9 @@ public final class BreakOutBoxBeheer implements Observer {
         int size = Integer.max(box.getActies().size(), box.getOefeningen().size());
         for (int i = 0; i < size; i++) {
             if (box.getOefeningen().size() - 1 >= i) {
-                table.addCell(box.getOefeningen().get(i).getOpgave());
+                table.addCell(new File(box.getOefeningen().get(i).getOpgave()).getName());
                 table.addCell(String.valueOf(box.getOefeningen().get(i).getAntwoord()));
-                table.addCell(box.getOefeningen().get(i).getFeedback());
+                table.addCell(new File(box.getOefeningen().get(i).getFeedback()).getName());
             } else {
                 table.addCell("");
                 table.addCell("");
