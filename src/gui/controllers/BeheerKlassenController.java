@@ -81,7 +81,7 @@ public class BeheerKlassenController extends AnchorPane {
 
     private KlasController klasController;
     
-        private ObservableList<Node> children;
+    private ObservableList<Node> children;
 
 
     public BeheerKlassenController(KlasController klasController) {
@@ -129,6 +129,12 @@ public class BeheerKlassenController extends AnchorPane {
         sortedKlas.comparatorProperty().bind(klassenTbl.comparatorProperty());
 
         klassenTbl.setItems(sortedKlas);
+        klassenTbl.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
+            if (newval != null) {
+                children.clear();
+                children.add(new DetailsKlasController(newval));
+            }
+        });
 //        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
     }
@@ -244,32 +250,29 @@ public class BeheerKlassenController extends AnchorPane {
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
     }
      private void voegEventHandlersToe() {
-//        this.addEventHandler(WijzigEvent.WIJZIG, event -> {
-//            children.clear();
-//            children.add(new UpdateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
-//        });
-//
-//        this.addEventHandler(DeleteEvent.DELETE, event -> {
-//            children.clear();
-//            boxController.deleteBreakOutBox(event.getId());
-//            
-//        });
-//
-//        this.addEventHandler(DetailsEvent.DETAILS, event -> {
-//            children.clear();
-//            if (event.getId() < 0) {
-//                int size = boxController.getAllBreakOutBoxen().size();
-//                children.add(new DetailsBreakOutBoxController(boxController.getAllBreakOutBoxen().get(size - 1), boxController));
-//            } else {
-//                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
-//            }
-//        });
+       
+
+        this.addEventHandler(DeleteEvent.DELETE, event -> {
+            children.clear();
+            klasController.deleteKlas(event.getId());
+            
+        });
+
+        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+            children.clear();
+            if (event.getId() < 0) {
+                int size = klasController.getAllKlassen().size();
+                children.add(new DetailsKlasController(klasController.getAllKlassen().get(size - 1)));
+            } else {
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+            }
+        });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
-//            if (event.getId() >= 0) {
-//                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
-//            }
+            if (event.getId() >= 0) {
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+            }
         });
     }
 

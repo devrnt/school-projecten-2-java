@@ -67,4 +67,8 @@ public final class KlasController {
     public ObservableList<Klas> getAllKlassen() {
         return klasBeheer.getAllKlassen();
     }
+
+    public void deleteKlas(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
