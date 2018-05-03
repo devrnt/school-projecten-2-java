@@ -10,6 +10,7 @@ import domein.Oefening;
 import domein.OperatorEnum;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
+import java.text.SimpleDateFormat;
 //import domein.Toegangscode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +42,7 @@ public class PopulateDB {
         groepbwRepo.insert(groepsbewerking2);
         groepbwRepo.insert(groepsbewerking3);
         groepbwRepo.insert(groepsbewerking4);
-        
+
         String pad = "/Users/sam/NetBeansProjects/java-g16/src/data/";
 
         Oefening oefening1 = new Oefening(
@@ -114,9 +115,9 @@ public class PopulateDB {
         List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
         List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
         List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
-        BreakOutBox box1 = new BreakOutBox("Box1", "Omsch1", oefeningen1, acties1);
-        BreakOutBox box2 = new BreakOutBox("Box2", "Omsch2", oefeningen2, acties2);
-        BreakOutBox box3 = new BreakOutBox("Box3", "Omsch3", oefeningen3, acties3);
+        BreakOutBox box1 = new BreakOutBox("Box vermenigvuldigen en delen", "Vermenigvuldigen en delen", oefeningen1, acties1);
+        BreakOutBox box2 = new BreakOutBox("Box optellen en aftrekken", "Optellen en aftrekken", oefeningen2, acties2);
+        BreakOutBox box3 = new BreakOutBox("Box alle opdrachten", "Alle wiskunde met vragen over optellen en aftrekken, vermenigvuldigen en delen", oefeningen3, acties3);
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
@@ -130,25 +131,40 @@ public class PopulateDB {
         Klas klas1 = new Klas("2A1");
         Klas klas2 = new Klas("2B1");
 
-        Leerling[] llnKlas1 = {new Leerling("Jan", "De Timmerman"), new Leerling("Piet", "Vansteenkiste"), new Leerling("Joris", "Corneels"), new Leerling("Conreel", "De Grote")};
+        Leerling[] llnKlas1 = {
+            new Leerling("Jan", "De Timmerman"),
+            new Leerling("Pieter", "Vansteenkiste"),
+            new Leerling("Joris", "De Praeter"),
+            new Leerling("Corneel", "De Grote")
+        };
 
         for (Leerling lln : llnKlas1) {
             klas1.voegLeerlingToe(lln);
         }
 
-        Leerling[] llnKlas2 = {new Leerling("Niels", "Bel"), new Leerling("Pepijn", "War"), new Leerling("Robin", "Wijn"), new Leerling("Petra", "De Vos")};
+        Leerling[] llnKlas2 = {
+            new Leerling("Anja", "De Neef"),
+            new Leerling("Pepijn", "Waershot"),
+            new Leerling("Robin", "De Kleine"),
+            new Leerling("Petra", "De Vos")};
 
         for (Leerling lln : llnKlas2) {
             klas2.voegLeerlingToe(lln);
         }
 
-        for (int i = 0; i < 3; i++) {
-            sessieRepo.insert(new Sessie(
-                    "sessie " + i, "Sessie " + i + " omschrijving hier...",
-                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
-        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+
         sessieRepo.insert(new Sessie(
-                "sessie " + 4, "Sessie " + 4 + " omschrijving hier...",
+                "sessie_" + klas1.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
+                klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
+        sessieRepo.insert(new Sessie(
+                "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op 28/12",
+                klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
+         sessieRepo.insert(new Sessie(
+                    "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
+                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
+        sessieRepo.insert(new Sessie(
+                "sessie_" + 4, "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
                 klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));
 
     }

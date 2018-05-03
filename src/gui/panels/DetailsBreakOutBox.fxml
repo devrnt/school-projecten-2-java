@@ -41,8 +41,8 @@
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints maxHeight="55.0" minHeight="1.3333282470703125" prefHeight="7.3333282470703125" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="83.66667175292969" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="77.33334350585938" minHeight="0.0" prefHeight="52.666656494140625" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="83.66667175292969" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="77.33334350585938" minHeight="0.0" prefHeight="58.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="155.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="152.0" vgrow="SOMETIMES" />
               </rowConstraints>
@@ -62,7 +62,7 @@
                                 <Font name="Arial Bold" size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="omschrijvingLabel" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Label fx:id="omschrijvingLabel" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                             <font>
                                 <Font size="14.0" />
                             </font>

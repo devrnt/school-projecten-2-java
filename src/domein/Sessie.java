@@ -36,7 +36,7 @@ import javax.persistence.Transient;
             query = "SELECT s FROM Sessie s")
 })
 public class Sessie implements Serializable, ISessie {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -58,10 +58,10 @@ public class Sessie implements Serializable, ISessie {
     private Boolean isGedaan;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private BreakOutBox box;
-    
+
     public Sessie() {
     }
-    
+
     public Sessie(String naam, String omschrijving,
             Klas klas, BreakOutBox box,
             Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isgedaan) {
@@ -80,25 +80,25 @@ public class Sessie implements Serializable, ISessie {
     public int getId() {
         return id;
     }
-    
+
     public String getNaam() {
         return naam;
     }
-    
+
     public void setNaam(String naam) {
         this.naam = naam;
         naamProperty.set(naam);
     }
-    
+
     public String getOmschrijving() {
         return omschrijving;
     }
-    
+
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
         omschrijvingProperty.set(omschrijving);
     }
-    
+
     public Klas getKlas() {
         return klas;
     }
@@ -108,43 +108,61 @@ public class Sessie implements Serializable, ISessie {
         //controle 
         this.klas = klas;
     }
-    
+
     public Date getDatum() {
         return datum;
     }
-    
+
     public void setDatum(Date datum) {
         // controle: datum moet na vandaag zijn
         Calendar cal = Calendar.getInstance();
+        cal.setTime(datum);
         
-        Date vandaag = cal.getTime();
-        if (datum.before(vandaag)) {
+        int gekozenDag = cal.get(Calendar.DAY_OF_MONTH);
+        Calendar huidig = Calendar.getInstance();
+        
+        int huidigeDag = huidig.get(Calendar.DAY_OF_MONTH);
+        
+        if (gekozenDag < huidigeDag) {
             throw new IllegalArgumentException("Datum moet in de toekomst liggen");
         } else {
             this.datum = datum;
         }
+
+
+        /*  Date vandaag = cal.getTime();
+
+    if (datum.before (vandaag) 
+        ) {
+            throw new IllegalArgumentException("Datum moet in de toekomst liggen");
+    }
+
+    
+        else {
+            this.datum = datum;
+    }*/
     }
 
     public Boolean getIsGedaan() {
         return isGedaan;
     }
-    
+
     public void setIsGedaan(Boolean isGedaan) {
         this.isGedaan = isGedaan;
     }
-    
+
     public void setBox(BreakOutBox box) {
         this.box = box;
     }
-    
+
     public String getBoxNaam() {
         return this.box.getNaam();
     }
-    
+
     public BreakOutBox getBox() {
         return box;
     }
-    
+
     public void setSessieCode() {
         int min = 1;
         int max = 10;
@@ -156,15 +174,15 @@ public class Sessie implements Serializable, ISessie {
         }
         this.sessieCode = temp;
     }
-    
+
     public String getSessieCode() {
         return sessieCode;
     }
-    
+
     public SoortOnderwijsEnum getSoortOnderwijs() {
         return soortOnderwijs;
     }
-    
+
     @Override
     public void setSoortOnderwijs(SoortOnderwijsEnum soortOnderwijs) {
         if (Arrays.asList(SoortOnderwijsEnum.values()).contains(soortOnderwijs)) {
@@ -173,20 +191,20 @@ public class Sessie implements Serializable, ISessie {
             throw new IllegalArgumentException("Geen geldig onderwijstype");
         }
     }
-    
+
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
-    
+
     public SimpleStringProperty getOmschrijvingProperty() {
         return omschrijvingProperty;
     }
-    
+
     public void setFoutAntwoordActie(FoutAntwoordActieEnum foutAntwoordActie) {
-        
+
         this.foutAntwoordActie = foutAntwoordActie;
     }
-    
+
     public FoutAntwoordActieEnum getFoutAntwoordActie() {
         return foutAntwoordActie;
     }
