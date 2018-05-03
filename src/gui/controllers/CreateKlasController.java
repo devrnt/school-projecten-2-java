@@ -9,6 +9,7 @@ import controllers.BoxController;
 import controllers.KlasController;
 import domein.Actie;
 import domein.Leerling;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -92,11 +95,14 @@ private Label fouteKlasnaamLbl;
      
      @FXML
      private void klasAanmakenBtnClicked(ActionEvent event){
-        klasController.createKlas(klasNaamTxt.toString(), tempList);
-         Stage stage = (Stage) annuleerBtn.getScene().getWindow();
-        stage.setScene(new Scene(new BeheerKlassenController(new KlasController())));
-        stage.setTitle("Beheer klassen");
-        stage.show();
+        klasController.createKlas(klasNaamTxt.getText(), tempList);
+                Alert sessieSuccesvolGewijzigd = new Alert(Alert.AlertType.INFORMATION);
+            sessieSuccesvolGewijzigd.setTitle("Sessie");
+            sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een klas");
+            sessieSuccesvolGewijzigd.setContentText("klas is succesvol aangemaakt");
+            sessieSuccesvolGewijzigd.showAndWait();
+            Event detailsEvent = new DetailsEvent(-1);
+            this.fireEvent(detailsEvent);
          
      }
      @FXML
@@ -112,11 +118,9 @@ private Label fouteKlasnaamLbl;
         if (klasController.bestaatKlas(naam)) {
             klasAanmakenBtn.setDisable(Boolean.TRUE);
             fouteKlasnaamLbl.setText("Klasnaam bestaat al");
-            System.out.println(klasNaamTxt.toString()+"True");
         } else{
             klasAanmakenBtn.setDisable(Boolean.FALSE);
              fouteKlasnaamLbl.setText("");
-             System.out.println(klasNaamTxt.toString()+"False");
         }
     }
     
