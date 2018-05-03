@@ -69,7 +69,9 @@ public final class KlasBeheer implements Observer {
     }
 
     public void verwijderKlas(int id) {
-         klasRepo.delete(klasRepo.get(id));
+//Door de Vreemde sleutels kunnen we klas niet verwijderen         
+//klasRepo.delete(klasRepo.get(id));
+        System.out.println("Klas kan niet verwijdert worden door de vreemde sleutels");
     }
 
 }

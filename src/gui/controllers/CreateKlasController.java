@@ -9,16 +9,21 @@ import controllers.BoxController;
 import controllers.KlasController;
 import domein.Actie;
 import domein.Leerling;
+import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -43,13 +48,15 @@ public class CreateKlasController extends AnchorPane{
    private Button klasAanmakenBtn;
    @FXML
    private Button annuleerBtn;
-      
+   @FXML
+private Label fouteKlasnaamLbl;   
    @FXML
    private ListView<String> voorNaamList;
    @FXML
    private ListView <String> familieNaamList;
    
    private List<Leerling> tempList;
+   
   
    
     
@@ -67,7 +74,14 @@ public class CreateKlasController extends AnchorPane{
         }
         tempList =  new ArrayList<>();
        
-
+            klasNaamTxt.textProperty().addListener((ObservableValue<? extends String> ob, String oldValue, String newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                fouteKlasnaamLbl.setText("Vul sessienaam in");
+            } else {
+                String sessieNaam = klasNaamTxt.getText();
+               checkKlasNaam(sessieNaam);
+            }
+        });
         
      }
      @FXML
@@ -81,11 +95,14 @@ public class CreateKlasController extends AnchorPane{
      
      @FXML
      private void klasAanmakenBtnClicked(ActionEvent event){
-        klasController.createKlas(klasNaamTxt.toString(), tempList);
-         Stage stage = (Stage) annuleerBtn.getScene().getWindow();
-        stage.setScene(new Scene(new BeheerKlassenController(new KlasController())));
-        stage.setTitle("Beheer klassen");
-        stage.show();
+        klasController.createKlas(klasNaamTxt.getText(), tempList);
+                Alert sessieSuccesvolGewijzigd = new Alert(Alert.AlertType.INFORMATION);
+            sessieSuccesvolGewijzigd.setTitle("Sessie");
+            sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een klas");
+            sessieSuccesvolGewijzigd.setContentText("klas is succesvol aangemaakt");
+            sessieSuccesvolGewijzigd.showAndWait();
+            Event detailsEvent = new DetailsEvent(-1);
+            this.fireEvent(detailsEvent);
          
      }
      @FXML
@@ -95,6 +112,19 @@ public class CreateKlasController extends AnchorPane{
         stage.setTitle("Beheer klassen");
         stage.show();
     }
+     
+    @FXML
+    private void checkKlasNaam(String naam){
+        if (klasController.bestaatKlas(naam)) {
+            klasAanmakenBtn.setDisable(Boolean.TRUE);
+            fouteKlasnaamLbl.setText("Klasnaam bestaat al");
+        } else{
+            klasAanmakenBtn.setDisable(Boolean.FALSE);
+             fouteKlasnaamLbl.setText("");
+        }
+    }
+    
+
      
      }
      
