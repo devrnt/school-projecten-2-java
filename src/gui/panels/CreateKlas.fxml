@@ -12,44 +12,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="600.0" prefWidth="429.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="423.0">
+      <VBox prefHeight="600.0" prefWidth="429.0">
          <children>
-            <Label alignment="TOP_LEFT" text="Klas aanmaken">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <padding>
-                  <Insets left="15.0" />
-               </padding>
-            </Label>
-         </children>
-      </VBox>
-      <Label layoutX="222.0" layoutY="123.0" />
-      <VBox layoutX="-1.0" layoutY="64.0" prefHeight="335.0" prefWidth="600.0">
-         <children>
-            <GridPane alignment="CENTER" prefHeight="85.0" prefWidth="600.0">
+            <GridPane prefHeight="200.0" prefWidth="246.0">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="146.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="209.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="292.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="77.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="143.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="230.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="55.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="51.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="272.0" minHeight="0.0" prefHeight="46.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="175.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="211.0" minHeight="10.0" prefHeight="11.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="266.0" minHeight="5.0" prefHeight="9.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="320.0" minHeight="0.0" prefHeight="16.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Klasnaam:" />
-                  <TextField fx:id="klasNaamTxt" promptText="Gelieve klasnaam in te geven" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Label text="Naam leerling: " GridPane.rowIndex="1" />
-                  <TextField fx:id="voorNaamTxt" promptText="Voornaam" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="familieNaamTxt" promptText="Familienaam" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="llnToevoegenBtn" mnemonicParsing="false" onAction="#llnToevoegenBtnClicked" text="Ok" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Label alignment="TOP_LEFT" text="Klas aanmaken">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Klasnaam:" GridPane.rowIndex="1" />
+                  <TextField fx:id="klasNaamTxt" promptText="Gelieve klasnaam in te geven" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Label text="Naam leerling: " GridPane.rowIndex="2" />
+                  <TextField fx:id="voorNaamTxt" prefHeight="69.0" prefWidth="145.0" promptText="Voornaam" GridPane.rowIndex="3" />
+                  <TextField fx:id="familieNaamTxt" prefHeight="600.0" prefWidth="429.0" promptText="Familienaam" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="llnToevoegenBtn" mnemonicParsing="false" onAction="#llnToevoegenBtnClicked" text="Ok" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <GridPane prefHeight="236.0" prefWidth="600.0">
+            <GridPane prefHeight="373.0" prefWidth="348.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="79.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="441.0" minWidth="10.0" prefWidth="230.0" />
@@ -73,6 +69,6 @@
             </GridPane>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="397.0" layoutY="-3.0" prefHeight="57.0" prefWidth="201.0" />
+      <VBox prefHeight="200.0" prefWidth="100.0" />
    </children>
 </fx:root>

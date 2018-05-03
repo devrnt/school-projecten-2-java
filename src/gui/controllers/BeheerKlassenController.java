@@ -31,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -65,6 +66,8 @@ public class BeheerKlassenController extends AnchorPane {
     private Button keerTerugBtn;
     @FXML
     private Button nieuweKlasBtn;
+    @FXML
+    private StackPane detailsStackPane;
     
 
     private FileChooser fileChooser;
@@ -116,7 +119,7 @@ public class BeheerKlassenController extends AnchorPane {
         sortedKlas.comparatorProperty().bind(klassenTbl.comparatorProperty());
 
         klassenTbl.setItems(sortedKlas);
-        keerTerugBtn.setOnAction(event -> terugNaarMenu());
+//        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
     }
 
@@ -213,11 +216,14 @@ public class BeheerKlassenController extends AnchorPane {
     }
     @FXML
     private void nieuweKlasBtnClicked(ActionEvent event){
-        Scene scene = new Scene(new CreateKlasController(klasController));
-        Stage stage = (Stage) nieuweKlasBtn.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Wijzig BreakOutBox");
-        stage.show();
+//        Scene scene = new Scene(new CreateKlasController(klasController));
+//        Stage stage = (Stage) nieuweKlasBtn.getScene().getWindow();
+//        stage.setScene(scene);
+//        stage.setTitle("Wijzig BreakOutBox");
+//        stage.show();
+        detailsStackPane.getChildren().clear();
+        detailsStackPane.getChildren().add(new CreateKlasController(klasController));
+
     }
     
     // <editor-fold desc="=== Hulp methodes ===" >
@@ -228,12 +234,12 @@ public class BeheerKlassenController extends AnchorPane {
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
     }
 
-    private void terugNaarMenu() {
-        Scene scene = new Scene(new MenuPanelController());
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.show();
-    }
+//    private void terugNaarMenu() {
+//        Scene scene = new Scene(new MenuPanelController());
+//        Stage stage = (Stage) this.getScene().getWindow();
+//        stage.setTitle("Menu");
+//        stage.setScene(scene);
+//        stage.show();
+//    }
     // </editor-fold>
 }

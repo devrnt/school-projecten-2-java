@@ -46,9 +46,8 @@ public class CreateKlasController extends AnchorPane{
       
    @FXML
    private ListView<String> voorNaamList;
-   
    @FXML
-   private ListView<String> familieNaamList;
+   private ListView <String> familieNaamList;
    
    private List<Leerling> tempList;
   
@@ -68,8 +67,6 @@ public class CreateKlasController extends AnchorPane{
         }
         tempList =  new ArrayList<>();
        
-//         voorNaamList.setItems(FXCollections.observableArrayList(voornaamTempList));
-//         familieNaamList.setItems(FXCollections.observableArrayList(familieNaamTempList));
 
         
      }
