@@ -121,6 +121,7 @@ public class CreateSessieController extends AnchorPane {
                         .orElse(null);
             }
         });
+
         boxChoiceBox.setConverter(new StringConverter<BreakOutBox>() {
             @Override
             public String toString(BreakOutBox box) {
@@ -136,10 +137,12 @@ public class CreateSessieController extends AnchorPane {
                         .orElse(null);
             }
         });
+
         klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
         boxController.getAllBreakOutBoxen()
                 .forEach(box -> boxChoiceBox.getItems().add(box));
+
         reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
         reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
 
@@ -149,6 +152,12 @@ public class CreateSessieController extends AnchorPane {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
         });
+
+        boxChoiceBox.getSelectionModel().selectFirst();
+        soortonderwijsChoiceBox.getSelectionModel().selectFirst();
+        soortonderwijsChoiceBox.getSelectionModel().selectFirst();
+        klasChoiceBox.getSelectionModel().selectFirst();
+        reactieFoutAntwChoiceBox.getSelectionModel().selectFirst();
 
     }
 
