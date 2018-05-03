@@ -51,6 +51,27 @@ public class PopulateDB {
                 "Hoofdrekenen",
                 new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
                 groepbwRepo.findAll());
+        Oefening oefening11 = new Oefening(
+                pad + "rekensommen.pdf",
+                400,
+                pad + "feedbackRekenen.pdf",
+                "Hoofdrekenen",
+                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "c106"})),
+                groepbwRepo.findAll());
+        Oefening oefening12 = new Oefening(
+                pad + "rekensommen.pdf",
+                400,
+                pad + "feedbackRekenen.pdf",
+                "Hoofdrekenen",
+                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "C107"})),
+                groepbwRepo.findAll());
+        Oefening oefening13 = new Oefening(
+                pad + "rekensommen.pdf",
+                400,
+                pad + "feedbackRekenen.pdf",
+                "Hoofdrekenen",
+                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "C108"})),
+                groepbwRepo.findAll());
         Oefening oefening2 = new Oefening(
                 pad + "pythagoras.pdf",
                 25,
