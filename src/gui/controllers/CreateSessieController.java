@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -158,6 +159,10 @@ public class CreateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectFirst();
         klasChoiceBox.getSelectionModel().selectFirst();
         reactieFoutAntwChoiceBox.getSelectionModel().selectFirst();
+        
+        LocalDate ndd = LocalDate.now();
+        
+        datumInput.setValue(ndd);
 
     }
 
@@ -240,6 +245,7 @@ public class CreateSessieController extends AnchorPane {
                 // object for validation
                 ISessie validation = sessieController.getISessie();
                 LocalDate datumInputVal = datumInput.getValue();
+                
                 Date gekozenDag = Date.from(datumInputVal.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                 try {
