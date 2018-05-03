@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="999.0" prefWidth="996.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -84,9 +84,9 @@
                      <children>
                         <TableView fx:id="oefeningenTable" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="180.33331298828125" prefWidth="223.3333740234375" styleClass="table-view-cell-header" text="Opgave" />
-                            <TableColumn fx:id="vakCol" editable="false" maxWidth="137.99996948242188" minWidth="100.0" prefWidth="128.6666259765625" styleClass="table-view-cell-header" text="Vak" />
-                              <TableColumn fx:id="doelstellingenCol" maxWidth="126.0" minWidth="125.0" prefWidth="126.0" styleClass="table-view-cell-header" text="Doelstellingen" />
+                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" styleClass="table-view-cell-header" text="Opgave" />
+                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-1.0" minWidth="65.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Vak" />
+                              <TableColumn fx:id="doelstellingenCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Doelstellingen" />
                           </columns>
                            <HBox.margin>
                               <Insets />
