@@ -71,4 +71,7 @@ public final class KlasController {
     public void deleteKlas(int id) {
        klasBeheer.verwijderKlas(id);
     }
+
+    public boolean bestaatKlas(String toString) {
+return klasBeheer.bestaatKlasNaam(toString);    }
 }
