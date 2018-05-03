@@ -8,6 +8,7 @@ package gui.controllers;
 import controllers.BoxController;
 import controllers.KlasController;
 import domein.Actie;
+import domein.Klas;
 import domein.Leerling;
 import gui.events.DetailsEvent;
 import java.io.IOException;
@@ -25,6 +26,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -50,11 +53,14 @@ public class CreateKlasController extends AnchorPane{
    private Button annuleerBtn;
    @FXML
 private Label fouteKlasnaamLbl;   
+       @FXML
+    private TableView<Leerling> leerlingenTbl;
    @FXML
-   private ListView<String> voorNaamList;
-   @FXML
-   private ListView <String> familieNaamList;
+    private TableColumn<Leerling, String> voorNaamList;
+    @FXML
+    private TableColumn<Leerling, String> familieNaamList;
    
+  
    private List<Leerling> tempList;
    
   
@@ -72,8 +78,12 @@ private Label fouteKlasnaamLbl;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        tempList =  new ArrayList<>();
-       
+        tempList = new ArrayList<>();
+        
+          leerlingenTbl.setItems(FXCollections.observableArrayList( tempList));
+        voorNaamList.setCellValueFactory(cell -> cell.getValue().getVoornaamProperty());
+        familieNaamList.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
+        
             klasNaamTxt.textProperty().addListener((ObservableValue<? extends String> ob, String oldValue, String newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
                 fouteKlasnaamLbl.setText("Vul sessienaam in");
@@ -88,8 +98,7 @@ private Label fouteKlasnaamLbl;
      private void llnToevoegenBtnClicked(ActionEvent event){
          Leerling leerling = new Leerling(voorNaamTxt.getText(),familieNaamTxt.getText());
          tempList.add(leerling);
-         voorNaamList.getItems().add(leerling.getVoornaam());
-         familieNaamList.getItems().add(leerling.getNaam());
+         leerlingenTbl.getItems().add(leerling);
          System.out.println(tempList.size());
      }
      
