@@ -46,3 +46,9 @@ projectenII
 ## Presentatie opmerkingen
 * Productie-waardig ipv productwaardig
 * Duidelijk de nadruk leggen op welk deel van de schermen klaar is (functionaliteit of uiterlijk)
+
+## Presentatie klant - Sprint 2 Opmerkingen
+* Herbekijken Alert boxes
+* Default alert actie op annuleer
+* Acties bij Box autocomplete
+* Foutmeldingen niet uitroepingsteken 
