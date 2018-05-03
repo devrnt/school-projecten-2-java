@@ -215,7 +215,7 @@ public class BeheerKlassenController extends AnchorPane {
                 invalidInput.showAndWait();
             }
         }
-        gekozenBestandLbl.setText("Geen");
+        gekozenBestandLbl.setText(file.getName());
 
     }
 

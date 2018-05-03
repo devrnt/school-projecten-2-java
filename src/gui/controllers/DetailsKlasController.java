@@ -9,6 +9,7 @@ import domein.Leerling;
 import gui.events.DeleteEvent;
 import java.io.IOException;
 import java.util.Optional;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -28,11 +31,12 @@ public class DetailsKlasController extends AnchorPane {
 
     @FXML
     private Label klasNaamLbl;
-
+       @FXML
+    private TableView<Leerling> leerlingenTbl;
+   @FXML
+    private TableColumn<Leerling, String> voorNaamList;
     @FXML
-    private ListView<String> voorNaamList;
-    @FXML
-    private ListView<String> familieNaamList;
+    private TableColumn<Leerling, String> familieNaamList;
     @FXML
     private Button verwijderButton;
     
@@ -55,11 +59,14 @@ public class DetailsKlasController extends AnchorPane {
     }
 
     private void initialize() {
+                  leerlingenTbl.setItems(FXCollections.observableArrayList( klas.getLeerlingen()));
+        voorNaamList.setCellValueFactory(cell -> cell.getValue().getVoornaamProperty());
+        familieNaamList.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
         klasNaamLbl.setText(klas.getNaam());
-        for (Leerling leerling : klas.getLeerlingen()) {
-            voorNaamList.getItems().add(leerling.getVoornaam());
-            familieNaamList.getItems().add(leerling.getNaam());
-        }
+//        for (Leerling leerling : klas.getLeerlingen()) {
+//            voorNaamList.getItems().add(leerling.getVoornaam());
+//            familieNaamList.getItems().add(leerling.getNaam());
+//        }
     }
        @FXML
     private void verwijderBtnClicked(ActionEvent event) {
