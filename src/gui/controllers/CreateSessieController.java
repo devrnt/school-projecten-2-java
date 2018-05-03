@@ -174,7 +174,7 @@ public class CreateSessieController extends AnchorPane {
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
 
-        boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
+        boolean inputGeldig = true;//(Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
 
         if (inputGeldig) {
             sessieController.createSessie(

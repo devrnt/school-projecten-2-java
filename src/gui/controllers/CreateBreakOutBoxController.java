@@ -21,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class CreateBreakOutBoxController extends AnchorPane {
-    
+
     @FXML
     private AnchorPane AnchorPane;
     @FXML
@@ -59,15 +59,15 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private final BoxController boxController;
     @FXML
     private Button annuleerBtn;
-    
+
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-        
+
         loader.setRoot(this);
         loader.setController(this);
-        
+
         try {
             loader.load();
         } catch (IOException e) {
@@ -78,17 +78,17 @@ public class CreateBreakOutBoxController extends AnchorPane {
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
         //listeners
-        maakListeners();
+        //maakListeners();
     }
-    
+
     public CreateBreakOutBoxController(BoxController boxController, BreakOutBox box) {
         this.boxController = boxController;
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-        
+
         loader.setRoot(this);
         loader.setController(this);
-        
+
         try {
             loader.load();
         } catch (IOException e) {
@@ -107,18 +107,23 @@ public class CreateBreakOutBoxController extends AnchorPane {
         for (Actie a : boxController.getActiesByBox(box.getId())) {
             actieList2.getItems().remove(a);
             actieList1.getItems().add(a);
-            
+
         }
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
+        });
+
         //listeners
-        maakListeners();
+        //maakListeners();
     }
-    
+
     @FXML
     private void bevestigClicked(ActionEvent event) {
         boolean inputGeldig = true;
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-        
+
         if (geselecteerdeActies.isEmpty()) {
             actiesFoutLbl.setText("Selecteer minstens 1 actie!");
             inputGeldig = false;
@@ -133,14 +138,14 @@ public class CreateBreakOutBoxController extends AnchorPane {
         }
         if (naamTxt.getText().isEmpty()) {
             inputGeldig = false;
-            
+
             naamFoutLbl.setText("Voer een naam in!");
         } else {
             naamFoutLbl.setText("");
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
-            
+
             omschrijvingFoutLbl.setText("Voer een omschrijving in!");
         } else {
             omschrijvingFoutLbl.setText("");
@@ -151,14 +156,14 @@ public class CreateBreakOutBoxController extends AnchorPane {
         }
         if (inputGeldig) {
             boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
-            
+
             Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
             oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
             oefeningCreatedSuccess.showAndWait();
             terugNaarLijst();
-            
+
         } else {
             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
             invalidInput.setTitle("Box aanmaken");
@@ -167,12 +172,12 @@ public class CreateBreakOutBoxController extends AnchorPane {
             invalidInput.showAndWait();
         }
     }
-    
+
     private void terugNaarLijst() {
         Event beheerEvent = new DetailsEvent(-1);
         this.fireEvent(beheerEvent);
     }
-    
+
     @FXML
     private void voegActieToeBtn(ActionEvent event) {
         Actie a = actieList2.getSelectionModel().getSelectedItem();
@@ -181,7 +186,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             actieList1.getItems().add(a);
         }
     }
-    
+
     @FXML
     private void verwijderActieBtn(ActionEvent event) {
         Actie a = actieList1.getSelectionModel().getSelectedItem();
@@ -190,7 +195,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             actieList2.getItems().add(a);
         }
     }
-    
+
     @FXML
     private void voegOefeningToeBtn(ActionEvent event) {
         Oefening o = oefeningList2.getSelectionModel().getSelectedItem();
@@ -199,7 +204,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             oefeningList1.getItems().add(o);
         }
     }
-    
+
     @FXML
     private void verwijderOefeningBtn(ActionEvent event) {
         Oefening o = oefeningList1.getSelectionModel().getSelectedItem();
@@ -208,7 +213,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             oefeningList2.getItems().add(o);
         }
     }
-    
+
     private void maakListeners() {
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
@@ -252,9 +257,6 @@ public class CreateBreakOutBoxController extends AnchorPane {
                 oefeningenFoutLbl.setText("");
             }
         });
-        annuleerBtn.setOnAction(event -> {
-            Event annuleerEvent = new AnnuleerEvent(-1);
-            this.fireEvent(annuleerEvent);
-        });
+
     }
 }
