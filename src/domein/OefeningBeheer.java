@@ -109,12 +109,12 @@ public final class OefeningBeheer implements Observer {
         return FXCollections.observableArrayList(oefeningenLijst.stream().map(o -> o.getVak()).collect(Collectors.toSet()));
     }
     
-    public ObservableList<String> getDoelstellinge(){
+    public ObservableList<String> getDoelstellingen(){
         return FXCollections.observableArrayList(
                 oefeningenLijst.stream()
                         .map(o -> o.getDoelstellingen())
                         .flatMap(List::stream)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toSet()));
     }
     
 }

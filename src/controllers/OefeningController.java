@@ -97,6 +97,15 @@ public final class OefeningController {
         return oefeningBeheer.getVakken();
     }
     
+    /**
+     * Geeft een lijst terug van alle doelstellingen die al gebruikt geweest zijn
+     * in een oefening
+     * @return een lijst van doelstellingen
+     */
+    public List<String> getDoelstellingen(){
+        return oefeningBeheer.getDoelstellingen();
+    }
+    
     
 
     /**

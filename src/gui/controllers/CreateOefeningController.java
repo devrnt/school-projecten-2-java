@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -53,15 +55,15 @@ public class CreateOefeningController extends AnchorPane {
     @FXML
     private Label feedbackFoutLabel;
 
-    @FXML
     private TextField vakTextField;
     @FXML
     private Label vakFoutLabel;
     @FXML
-    private ContextMenu vakContextMenu;
+    private ComboBox<String> vakComboBox;
 
+    private TextField doelstellingTextField;  
     @FXML
-    private TextField doelstellingTextField;
+    private ComboBox<String> doelstellingComboBox;
     @FXML
     private Button addDoelstellingBtn;
     @FXML
@@ -70,8 +72,6 @@ public class CreateOefeningController extends AnchorPane {
     private ListView<String> doelstellingenListView;
     @FXML
     private Label doelstellingFoutLabel;
-    @FXML
-    private ContextMenu doelstContextMenu;
 
     @FXML
     private ListView<Groepsbewerking> groepsbewerkingenListView;
@@ -97,6 +97,8 @@ public class CreateOefeningController extends AnchorPane {
     private File feedbackFile;
     private Alert bevestigAlert;
     private ObservableList<Groepsbewerking> gbws;
+    private FilteredList<String> vakken;
+    private FilteredList<String> doelstellingen;
 
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
@@ -112,18 +114,35 @@ public class CreateOefeningController extends AnchorPane {
         }
 
         gbws = controller.getGroepsbewerkingen();
+        vakken = FXCollections.observableArrayList(controller.getVakken()).filtered(v -> true);
+        doelstellingen = FXCollections.observableArrayList(controller.getDoelstellingen()).filtered(v -> true);
 
         //filechooser
         // enkel pdf's
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.PDF", "*.pdf");
         filechooser.getExtensionFilters().add(filter);
-        
 
         // choicebox
         groepsbwChoiceBox.setItems(gbws.sorted());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
+
+        // combobox
+        vakTextField = vakComboBox.getEditor();
+        vakComboBox.setItems(vakken.sorted());
+
+        vakTextField.setOnKeyReleased(event -> {
+            String text = vakTextField.getText().trim().toLowerCase();
+            if (text == null || text.isEmpty()) {
+                vakken.setPredicate(v -> true);
+                vakComboBox.hide();
+            } else {
+                vakken.setPredicate(v -> v.toLowerCase().startsWith(text));
+                vakComboBox.show();
+            }
+        });
         
-        
+        doelstellingTextField = doelstellingComboBox.getEditor();
+        doelstellingComboBox.setItems(doelstellingen.sorted());
 
         // listeners voor validatie
         addListeners();
@@ -139,23 +158,23 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     public CreateOefeningController(OefeningController controller, int id) {
-        this(controller);       
-        
+        this(controller);
+
         oefening = controller.getOefening(id);
-        
+
         opgaveFile = new File(oefening.getOpgave());
         opgaveLabel.setText(opgaveFile.getName());
         feedbackFile = new File(oefening.getFeedback());
         feedbackLabel.setText(feedbackFile.getName());
-        
-        antwoord.setText(Integer.toString(oefening.getAntwoord()));         
+
+        antwoord.setText(Integer.toString(oefening.getAntwoord()));
         vakTextField.setText(oefening.getVak());
-        
+
         doelstellingenListView.getItems().addAll(FXCollections.observableArrayList(oefening.getDoelstellingen()));
-        
+
         groepsbewerkingenListView.setItems(FXCollections.observableArrayList(oefening.getGroepsbewerkingen()));
         gbws.removeAll(oefening.getGroepsbewerkingen());
-        groepsbwButton.setDisable(gbws.isEmpty());        
+        groepsbwButton.setDisable(gbws.isEmpty());
         groepsbwChoiceBox.setDisable(gbws.isEmpty());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
 
@@ -176,16 +195,18 @@ public class CreateOefeningController extends AnchorPane {
 
     @FXML
     protected void uploadOpgavePdf(ActionEvent event) {
-        if (opgaveFile != null)
+        if (opgaveFile != null) {
             filechooser.setInitialDirectory(opgaveFile.getParentFile());
+        }
         opgaveFile = uploadPdf(opgaveLabel, opgaveFoutLabel);
 
     }
 
     @FXML
     protected void uploadFeedbackPdf(ActionEvent event) {
-        if (feedbackFile != null)
+        if (feedbackFile != null) {
             filechooser.setInitialDirectory(feedbackFile);
+        }
         feedbackFile = uploadPdf(feedbackLabel, feedbackFoutLabel);
     }
 
@@ -322,8 +343,17 @@ public class CreateOefeningController extends AnchorPane {
         });
 
         doelstellingTextField.setOnKeyReleased(event -> {
-            String text = doelstellingTextField.getText();
-            addDoelstellingBtn.setDisable(text == null || text.trim().length() == 0);
+            String text = doelstellingTextField.getText().trim().toLowerCase();
+            addDoelstellingBtn.setDisable(text == null || text.isEmpty());
+            if (text == null || text.isEmpty()) {
+                doelstellingen.setPredicate(d -> true);
+                doelstellingComboBox.hide();
+            } else {
+                int matches = (int) controller.getDoelstellingen().stream().filter(d -> d.toLowerCase().startsWith(text)).count();
+                doelstellingen.setPredicate(d -> d.toLowerCase().startsWith(text));
+                doelstellingComboBox.show();
+                
+            }
         });
 
         groepsbewerkingenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
@@ -338,11 +368,11 @@ public class CreateOefeningController extends AnchorPane {
             Event annuleerEvent = new AnnuleerEvent(oefening == null ? -1 : oefening.getId());
             this.fireEvent(annuleerEvent);
         });
-        
+
         //<editor-fold defaultstate="collapsed" desc="doelstellingen">
         addDoelstellingBtn.setDisable(true);
         doelstellingRemoveBtn.setDisable(true);
-        
+
         doelstellingRemoveBtn.setOnAction(event -> {
             int index = doelstellingenListView.getSelectionModel().getSelectedIndex();
             doelstellingenListView.getItems().remove(index);
@@ -352,7 +382,7 @@ public class CreateOefeningController extends AnchorPane {
             doelstellingenListView.getSelectionModel().clearSelection();
             doelstellingRemoveBtn.setDisable(true);
         });
-        
+
         doelstellingenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
             if (newvalue != null) {
                 doelstellingRemoveBtn.setDisable(false);
@@ -373,9 +403,9 @@ public class CreateOefeningController extends AnchorPane {
                 groepsbwChoiceBox.getSelectionModel().selectFirst();
             }
         });
-        
+
         groepsbwRemoveButton.setDisable(true);
-        
+
         groepsbwRemoveButton.setOnAction(event -> {
             Groepsbewerking gbw = groepsbewerkingenListView.getSelectionModel().getSelectedItem();
             gbws.add(gbw);
@@ -388,7 +418,7 @@ public class CreateOefeningController extends AnchorPane {
             groepsbwChoiceBox.setDisable(false);
             groepsbewerkingenListView.getSelectionModel().clearSelection();
             groepsbwRemoveButton.setDisable(true);
-            
+
         });
 //</editor-fold>
     }

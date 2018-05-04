@@ -201,3 +201,7 @@ menuItems:    #3F3F3F
 .date-picker > .text-field {
     -fx-background-color:#E0E0E0;
 }
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}
