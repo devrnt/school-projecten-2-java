@@ -117,6 +117,7 @@ public class DetailsOefeningController extends AnchorPane {
         verwijderAlert.setTitle("Verwijderen oefening");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze oefening wil verwijderen?");
+        
         verwijderAlert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
                 Event deleteEvent = new DeleteEvent(oefening.getId());

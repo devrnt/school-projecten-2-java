@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -56,6 +57,8 @@ public class CreateOefeningController extends AnchorPane {
     private TextField vakTextField;
     @FXML
     private Label vakFoutLabel;
+    @FXML
+    private ContextMenu vakContextMenu;
 
     @FXML
     private TextField doelstellingTextField;
@@ -67,6 +70,8 @@ public class CreateOefeningController extends AnchorPane {
     private ListView<String> doelstellingenListView;
     @FXML
     private Label doelstellingFoutLabel;
+    @FXML
+    private ContextMenu doelstContextMenu;
 
     @FXML
     private ListView<Groepsbewerking> groepsbewerkingenListView;
@@ -117,6 +122,8 @@ public class CreateOefeningController extends AnchorPane {
         // choicebox
         groepsbwChoiceBox.setItems(gbws.sorted());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
+        
+        
 
         // listeners voor validatie
         addListeners();

@@ -1,9 +1,11 @@
 package domein;
 
 import exceptions.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -101,6 +103,18 @@ public final class OefeningBeheer implements Observer {
     public ObservableList<Groepsbewerking> getGroepsbewerkingenByOefening(int oefeningId) {
         List<Groepsbewerking> groepsbewerkingen = oefeningRepo.get(oefeningId).getGroepsbewerkingen();
         return FXCollections.observableArrayList(groepsbewerkingen);
+    }
+    
+    public ObservableList<String> getVakken(){
+        return FXCollections.observableArrayList(oefeningenLijst.stream().map(o -> o.getVak()).collect(Collectors.toSet()));
+    }
+    
+    public ObservableList<String> getDoelstellinge(){
+        return FXCollections.observableArrayList(
+                oefeningenLijst.stream()
+                        .map(o -> o.getDoelstellingen())
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList()));
     }
     
 }
