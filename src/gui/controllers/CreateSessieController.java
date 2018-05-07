@@ -147,7 +147,7 @@ public class CreateSessieController extends AnchorPane {
         reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
         reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
 
-        bekijkLlnButton.setDisable(true);
+        //bekijkLlnButton.setDisable(true);
 
         annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(-1);
