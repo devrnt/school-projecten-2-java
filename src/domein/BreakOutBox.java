@@ -3,6 +3,7 @@ package domein;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import javax.persistence.Transient;
 
 public class BreakOutBox implements Serializable {
 
-//Een Bob bestaat uit oefeningen, acties en toegangscodes die uit vooraf gedefinieerde lijsten worden geselecteerd.
+//Een Bob bestaat uit oefeningen en acties die uit vooraf gedefinieerde lijsten worden geselecteerd.
 //Het aantal oefeningen en acties is gelijk binnen 1 BoB, maar de laatste actie ligt vast als “zoeken naar schatkist”. 
 //(dus de te kiezen acties is minstens # oefeningen -1, want de laatste ligt vast)
     @Id
@@ -33,19 +34,20 @@ public class BreakOutBox implements Serializable {
     private List<Oefening> oefeningen;
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Actie> acties;
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private List<Toegangscode> toegangscodes;
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
 
-    public BreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties, List<Toegangscode> toegangscodes) {
-        setNaam(naam);
-        setOmschrijving(omschrijving);
-        setOefeningen(oefeningen);
-        setActies(acties);
-        setToegangscodes(toegangscodes);
+    public BreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
+        if (oefeningen.size() == acties.size() + 1 && acties.size() > 0) {
+            setNaam(naam);
+            setOmschrijving(omschrijving);
+            setOefeningen(oefeningen);
+            setActies(acties);
+        } else {
+            throw new IllegalArgumentException("#Oefeningen is niet 1 meer dan #Acties");
+        }
     }
 
     protected BreakOutBox() {
@@ -62,7 +64,7 @@ public class BreakOutBox implements Serializable {
 
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
-        omschrijvingProperty.set(naam);
+        omschrijvingProperty.set(omschrijving);
     }
 
     public void setOefeningen(List<Oefening> oefeningen) {
@@ -71,10 +73,6 @@ public class BreakOutBox implements Serializable {
 
     public void setActies(List<Actie> acties) {
         this.acties = acties;
-    }
-
-    public void setToegangscodes(List<Toegangscode> toegangscodes) {
-        this.toegangscodes = toegangscodes;
     }
 
     public SimpleStringProperty getNaamProperty() {
@@ -103,10 +101,5 @@ public class BreakOutBox implements Serializable {
 
     public List<Actie> getActies() {
         return acties;
-    }
-
-    public List<Toegangscode> getToegangscodes() {
-        return toegangscodes;
-    }
-
+    }   
 }

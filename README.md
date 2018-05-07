@@ -47,6 +47,15 @@ projectenII
 * Productie-waardig ipv productwaardig
 * Duidelijk de nadruk leggen op welk deel van de schermen klaar is (functionaliteit of uiterlijk)
 
+* ==== TIPS ====
+* Bij de presentatie aan de klant zet op je desktop de jar file van de applicatie en open het zodat het vertrouwelijk overkomt bij de klant
+
+## Analyse - Eind document
+Vul de use cases aan:
+- [ ]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
+- [ ]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
+
+
 ## Presentatie klant - Sprint 2 Opmerkingen
 * Herbekijken Alert boxes
 * Default alert actie op annuleer

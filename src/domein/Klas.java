@@ -11,12 +11,15 @@ import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import sun.java2d.pipe.SpanShapeRenderer.Simple;
 
@@ -36,7 +39,8 @@ public class Klas implements Serializable {
     private int id;
     private String naam;
     //tijdelijk een list van strings
-    private List<String> leerlingen;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Leerling> leerlingen;
 
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
@@ -52,9 +56,9 @@ public class Klas implements Serializable {
         leerlingen = new ArrayList<>();
     }
 
-    public Klas(String naam, List<String> leerlingen) {
+    public Klas(String naam, List<Leerling> leerlingen) {
         setNaam(naam);
-        this.leerlingen = leerlingen;
+        setLeerlingen(leerlingen);
     }
 
     // <editor-fold desc="Getters and Setters" >
@@ -71,11 +75,11 @@ public class Klas implements Serializable {
         naamProperty.set(naam);
     }
 
-    public ObservableList<String> getLeerlingen() {
+    public ObservableList<Leerling> getLeerlingen() {
         return FXCollections.observableArrayList(leerlingen);
     }
 
-    public void setLeerlingen(List<String> leerlingen) {
+    public void setLeerlingen(List<Leerling> leerlingen) {
         this.leerlingen = leerlingen;
     }
 
@@ -92,16 +96,23 @@ public class Klas implements Serializable {
     }
 
     // </editor-fold>
-    public void voegLeerlingToe(String leerling) {
-        if (leerlingen.stream().anyMatch(l -> l.trim().equalsIgnoreCase(leerling))) {
-            throw new IllegalArgumentException("Leerling bestaat al.");
+    public void voegLeerlingToe(Leerling leerling) {
+        if (bevatVolledigeNaam(leerling)) {
+            throw new IllegalArgumentException("Leerling met deze naam bestaat al.");
         } else {
             leerlingen.add(leerling);
         }
 
     }
 
-    public void verwijderLeerling(String leerling) {
+    public void verwijderLeerling(Leerling leerling) {
         leerlingen.remove(leerling);
+    }
+
+    private boolean bevatVolledigeNaam(Leerling leerling) {
+        return leerlingen
+                .stream()
+                .map(Leerling.class::cast)
+                .anyMatch(l -> l.getNaam().equalsIgnoreCase(leerling.getNaam()) || l.getVoornaam().equalsIgnoreCase(leerling.getNaam()));
     }
 }

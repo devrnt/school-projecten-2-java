@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,101 +16,82 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="704.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="601.0" prefWidth="500.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                      <Label fx:id="wijzigLbl" alignment="CENTER" text="Maak een nieuwe BreakOutBox" GridPane.halignment="CENTER">
-                          <font>
-                              <Font name="System Bold" size="24.0" />
-                          </font>
-                      </Label>
-                  <Button fx:id="keerTerugBtn" mnemonicParsing="false" text="Keer terug naar Boxlijst" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-                <GridPane prefHeight="150.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="118.66665649414062" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="457.3333435058594" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+      <GridPane prefHeight="601.0" prefWidth="500.0" vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="168.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="443.0" minWidth="10.0" prefWidth="402.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="104.66667175292969" minHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="116.0" minHeight="0.0" prefHeight="10.666656494140625" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="388.3333435058594" minHeight="10.0" prefHeight="37.33332824707031" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="397.99998474121094" minHeight="0.0" prefHeight="13.666671752929688" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="270.6666564941406" minHeight="10.0" prefHeight="205.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="202.33331298828125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="65.99996948242188" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+                  <Label alignment="CENTER" text="Naam:">
+                      <font>
+                          <Font name="Arial Bold" size="14.0" />
+                      </font>
+                  </Label>
+                  <Label text="Omschrijving:" GridPane.rowIndex="2">
+                      <font>
+                          <Font name="Arial Bold" size="14.0" />
+                      </font>
+                  </Label>
+            <Label fx:id="naamFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="naamTxt" maxWidth="359.0" prefHeight="28.0" prefWidth="359.0" promptText="Typ hier de naam in..." styleClass="text-fld" GridPane.columnIndex="1" />
+            <TextField fx:id="omschrijvingTxt" prefHeight="28.0" prefWidth="210.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="omschrijvingFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="4">
                     <children>
-                        <Label text="Naam:">
+                        <Label text="Oefeningen:">
                             <font>
                                 <Font name="Arial Bold" size="14.0" />
                             </font>
                         </Label>
-                        <Label text="Omschrijving:" GridPane.rowIndex="1">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                        </Label>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-                     <children>
-                        <TextField fx:id="naamTxt" maxWidth="250.0" />
-                        <Label fx:id="naamFoutLbl" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <TextField fx:id="omschrijvingTxt" />
-                        <Label fx:id="omschrijvingFoutLbl" />
-                     </children>
-                  </VBox>
-                    </children>
-                    <padding>
-                        <Insets left="20.0" right="20.0" />
-                    </padding>
-                </GridPane>
-                <VBox>
-                    <children>
-                        <Label text="Acties">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                        </Label>
-                  <Label fx:id="actiesFoutLbl" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                              <ListView fx:id="actieList1" maxWidth="-Infinity" />
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Button fx:id="actieToevoegenBtn" mnemonicParsing="false" onAction="#voegActieToeBtn" text="&lt;&lt;&lt;" />
-                              <Button fx:id="actieVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderActieBtn" text="&gt;&gt;&gt;" />
-                           </children>
-                        </VBox>
-                        <ListView fx:id="actieList2" maxWidth="-Infinity" prefHeight="200.0" />
-                     </children>
-                  </HBox>
-                    </children>
-                </VBox>
-                <VBox>
-                    <children>
-                        <Label text="Oefeningen">
-                            <font>
-                                <Font name="Arial Bold" size="14.0" />
-                            </font>
-                        </Label>
-                  <Label fx:id="oefeningenFoutLbl" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Label fx:id="oefeningenFoutLbl" textFill="#ff6d6d" />
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0">
                      <children>
                         <ListView fx:id="oefeningList1" maxWidth="-Infinity" />
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="165.0" prefWidth="70.0">
                            <children>
-                              <Button fx:id="oefeningToevoegenBtn" mnemonicParsing="false" onAction="#voegOefeningToeBtn" text="&lt;&lt;&lt;" />
-                              <Button fx:id="oefeningVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderOefeningBtn" text="&gt;&gt;&gt;" />
+                              <Button fx:id="oefeningToevoegenBtn" mnemonicParsing="false" onAction="#voegOefeningToeBtn" prefHeight="31.0" prefWidth="37.0">
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="btn-square" />
+                                    <String fx:value="btn-default" />
+                                 </styleClass>
+                                 <graphic>
+                                    <ImageView fitHeight="11.0" fitWidth="11.0">
+                                       <image>
+                                          <Image url="@../../assets/icons/arrowLeft.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin></Button>
+                              <Button fx:id="oefeningVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderOefeningBtn">
+                                 <graphic>
+                                    <ImageView fitHeight="11.0" fitWidth="11.0">
+                                       <image>
+                                          <Image url="@../../assets/icons/arrowRight.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="btn-square" />
+                                    <String fx:value="btn-default" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Button>
                            </children>
                         </VBox>
                         <ListView fx:id="oefeningList2" maxWidth="-Infinity" prefHeight="200.0" />
@@ -115,38 +99,85 @@
                   </HBox>
                     </children>
                 </VBox>
-                <VBox>
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="5">
                     <children>
-                        <Label text="Toegangscodes">
+                        <Label text="Acties:">
                             <font>
                                 <Font name="Arial Bold" size="14.0" />
                             </font>
                         </Label>
-                  <Label fx:id="toegangscodesFoutLbl" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Label fx:id="actiesFoutLbl" textFill="#ff6d6d" />
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="toegangscodeList1" maxWidth="-Infinity" />
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                              <ListView fx:id="actieList1" maxWidth="-Infinity" prefHeight="162.0" prefWidth="265.0" />
+                        <VBox alignment="CENTER" prefHeight="162.0" prefWidth="87.0">
                            <children>
-                              <Button fx:id="toegangscodeToevoegenBtn" mnemonicParsing="false" onAction="#voegToegangscodeToeBtn" text="&lt;&lt;&lt;" />
-                              <Button fx:id="toegangscodeVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderToegangscodeBtn" text="&gt;&gt;&gt;" />
+                              <Button fx:id="actieToevoegenBtn" mnemonicParsing="false" onAction="#voegActieToeBtn">
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="btn-square" />
+                                    <String fx:value="btn-default" />
+                                 </styleClass>
+                                 <graphic>
+                                    <ImageView fitHeight="11.0" fitWidth="11.0">
+                                       <image>
+                                          <Image url="@../../assets/icons/arrowLeft.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin></Button>
+                              <Button fx:id="actieVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderActieBtn">
+                                 <graphic>
+                                    <ImageView fitHeight="11.0" fitWidth="11.0">
+                                       <image>
+                                          <Image url="@../../assets/icons/arrowRight.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <styleClass>
+                                    <String fx:value="btn" />
+                                    <String fx:value="btn-square" />
+                                    <String fx:value="btn-default" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets top="2.0" />
+                                 </VBox.margin></Button>
                            </children>
                         </VBox>
-                        <ListView fx:id="toegangscodeList2" maxWidth="-Infinity" prefHeight="200.0" />
+                        <ListView fx:id="actieList2" maxWidth="-Infinity" prefHeight="162.0" prefWidth="261.0" />
                      </children>
                   </HBox>
                     </children>
                 </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <children>
-                  <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="Bevestig">
+                  <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="BEVESTIG">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-medium" />
+                        <String fx:value="btn-success" />
+                     </styleClass>
                   </Button>
+                  <Button fx:id="annuleerBtn" mnemonicParsing="false" text="ANNULEER">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-medium" />
+                        <String fx:value="btn-default" />
+                     </styleClass></Button>
                </children>
             </HBox>
-            </children>
-        </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="15.0" right="15.0" top="10.0" />
+         </padding>
+      </GridPane>
     </children>
 </fx:root>

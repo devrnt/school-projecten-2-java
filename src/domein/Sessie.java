@@ -35,7 +35,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Sessie.findAll",
             query = "SELECT s FROM Sessie s")
 })
-public class Sessie implements Serializable {
+public class Sessie implements Serializable, ISessie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,30 +46,34 @@ public class Sessie implements Serializable {
     private Klas klas;
     @Temporal(TemporalType.DATE)
     private Date datum;
-    private String sessieCode;
     @Enumerated(EnumType.STRING)
     private SoortOnderwijsEnum soortOnderwijs;
     @Enumerated(EnumType.STRING)
     private FoutAntwoordActieEnum foutAntwoordActie;
-
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
+    private String sessieCode;
+    private Boolean isGedaan;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private BreakOutBox box;
 
     public Sessie() {
     }
 
     public Sessie(String naam, String omschrijving,
-            Klas klas,
-            Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie) {
+            Klas klas, BreakOutBox box,
+            Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isgedaan) {
         setNaam(naam);
         setOmschrijving(omschrijving);
         setKlas(klas);
+        setBox(box);
         setDatum(datum);
         setSessieCode();
         setSoortOnderwijs(soortOnderwijs);
         setFoutAntwoordActie(foutAntwoordActie);
+        setIsGedaan(isgedaan);
     }
 
     // <editor-fold desc="Getters and Setters" >
@@ -112,13 +116,51 @@ public class Sessie implements Serializable {
     public void setDatum(Date datum) {
         // controle: datum moet na vandaag zijn
         Calendar cal = Calendar.getInstance();
-
-        Date vandaag = cal.getTime();
-        if (datum.before(vandaag)) {
+        cal.setTime(datum);
+        
+        int gekozenDag = cal.get(Calendar.DAY_OF_MONTH);
+        Calendar huidig = Calendar.getInstance();
+        
+        int huidigeDag = huidig.get(Calendar.DAY_OF_MONTH);
+        
+        if (gekozenDag < huidigeDag) {
             throw new IllegalArgumentException("Datum moet in de toekomst liggen");
         } else {
             this.datum = datum;
         }
+
+
+        /*  Date vandaag = cal.getTime();
+
+    if (datum.before (vandaag) 
+        ) {
+            throw new IllegalArgumentException("Datum moet in de toekomst liggen");
+    }
+
+    
+        else {
+            this.datum = datum;
+    }*/
+    }
+
+    public Boolean getIsGedaan() {
+        return isGedaan;
+    }
+
+    public void setIsGedaan(Boolean isGedaan) {
+        this.isGedaan = isGedaan;
+    }
+
+    public void setBox(BreakOutBox box) {
+        this.box = box;
+    }
+
+    public String getBoxNaam() {
+        return this.box.getNaam();
+    }
+
+    public BreakOutBox getBox() {
+        return box;
     }
 
     public void setSessieCode() {
@@ -141,6 +183,7 @@ public class Sessie implements Serializable {
         return soortOnderwijs;
     }
 
+    @Override
     public void setSoortOnderwijs(SoortOnderwijsEnum soortOnderwijs) {
         if (Arrays.asList(SoortOnderwijsEnum.values()).contains(soortOnderwijs)) {
             this.soortOnderwijs = soortOnderwijs;

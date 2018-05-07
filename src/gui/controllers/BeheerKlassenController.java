@@ -8,6 +8,11 @@ package gui.controllers;
 import controllers.KlasController;
 import controllers.SessieController;
 import domein.Klas;
+import domein.Leerling;
+import gui.events.AnnuleerEvent;
+import gui.events.DeleteEvent;
+import gui.events.DetailsEvent;
+import gui.events.WijzigEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -62,12 +69,20 @@ public class BeheerKlassenController extends AnchorPane {
     private TableColumn<Klas, String> aantalLlnCol;
     @FXML
     private Button keerTerugBtn;
+    @FXML
+    private Button nieuweKlasBtn;
+    @FXML
+    private StackPane detailsStackPane;
+    
 
     private FileChooser fileChooser;
 
     private ObservableList<Klas> klassen;
 
     private KlasController klasController;
+    
+    private ObservableList<Node> children;
+
 
     public BeheerKlassenController(KlasController klasController) {
         this.klasController = klasController;
@@ -82,9 +97,11 @@ public class BeheerKlassenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        children = detailsStackPane.getChildren();
 
         initialize();
         configureFileChooser();
+        voegEventHandlersToe();
 
     }
 
@@ -112,7 +129,13 @@ public class BeheerKlassenController extends AnchorPane {
         sortedKlas.comparatorProperty().bind(klassenTbl.comparatorProperty());
 
         klassenTbl.setItems(sortedKlas);
-        keerTerugBtn.setOnAction(event -> terugNaarMenu());
+        klassenTbl.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
+            if (newval != null) {
+                children.clear();
+                children.add(new DetailsKlasController(newval));
+            }
+        });
+//        keerTerugBtn.setOnAction(event -> terugNaarMenu());
 
     }
 
@@ -162,14 +185,18 @@ public class BeheerKlassenController extends AnchorPane {
                 } else {
                     // overige kolommen met de leerlingen
                     if (!isCellLeeg(cell)) {
-                        String leerling = dataFormatter.formatCellValue(cell);
+                        String leerlingS = dataFormatter.formatCellValue(cell);
+                        String[] volledigeNaam = leerlingS.split(",");
+                        String voornaam = volledigeNaam[0];
+                        String naam = volledigeNaam[1];
+                        Leerling leerling = new Leerling(voornaam, naam);
                         try {
                             klas.voegLeerlingToe(leerling);
 
                         } catch (IllegalArgumentException e) {
                             Alert invalidInput = new Alert(Alert.AlertType.ERROR);
                             invalidInput.setTitle("Leerling bestaat al");
-                            invalidInput.setHeaderText("De leerling " + leerling + " bestaat reeds");
+                            invalidInput.setHeaderText("De leerling " + leerling.getVolledigeNaam() + " bestaat reeds");
                             invalidInput.setContentText("Deze leerling werd niet toegevoegd");
                             invalidInput.showAndWait();
                         }
@@ -188,7 +215,7 @@ public class BeheerKlassenController extends AnchorPane {
                 invalidInput.showAndWait();
             }
         }
-        gekozenBestandLbl.setText("Geen");
+        gekozenBestandLbl.setText(file.getName());
 
     }
 
@@ -203,7 +230,18 @@ public class BeheerKlassenController extends AnchorPane {
             stage.show();
         }
     }
+    @FXML
+    private void nieuweKlasBtnClicked(ActionEvent event){
+//        Scene scene = new Scene(new CreateKlasController(klasController));
+//        Stage stage = (Stage) nieuweKlasBtn.getScene().getWindow();
+//        stage.setScene(scene);
+//        stage.setTitle("Wijzig BreakOutBox");
+//        stage.show();
+        detailsStackPane.getChildren().clear();
+        detailsStackPane.getChildren().add(new CreateKlasController(klasController));
 
+    }
+    
     // <editor-fold desc="=== Hulp methodes ===" >
     private boolean isCellLeeg(Cell cell) {
         if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
@@ -211,13 +249,40 @@ public class BeheerKlassenController extends AnchorPane {
         }
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
     }
+     private void voegEventHandlersToe() {
+       
 
-    private void terugNaarMenu() {
-        Scene scene = new Scene(new HomePanelController());
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.show();
+        this.addEventHandler(DeleteEvent.DELETE, event -> {
+            children.clear();
+            klasController.deleteKlas(event.getId());
+            
+        });
+
+        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+            children.clear();
+            if (event.getId() < 0) {
+                int size = klasController.getAllKlassen().size();
+                children.add(new DetailsKlasController(klasController.getAllKlassen().get(size - 1)));
+            } else {
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+            }
+        });
+
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+            children.clear();
+            if (event.getId() >= 0) {
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+            }
+        });
     }
+
+
+//    private void terugNaarMenu() {
+//        Scene scene = new Scene(new MenuPanelController());
+//        Stage stage = (Stage) this.getScene().getWindow();
+//        stage.setTitle("Menu");
+//        stage.setScene(scene);
+//        stage.show();
+//    }
     // </editor-fold>
 }

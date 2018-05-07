@@ -1,0 +1,207 @@
+/* 
+    Created on : Apr 28, 2018, 4:49:17 PM
+    Author     : sam
+*/
+/*
+blauw:        #0747a6
+groen:        #28BB66
+grijs:        #F4F5F7
+rood:         #C62828
+donkergrijs:  #E0E0E0
+menuItems:    #3F3F3F
+*/
+
+.root {
+    /* bump this up to enlarge the 'screen' */
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segou UI";
+    -fx-background-color: white;
+    -fx-focus-color: #F4F5F7;
+    -fx-faint-focus-color: #F4F5F7;
+}
+
+.title {
+    -fx-font-size: 19px;
+    -fx-fill: #0747a6;
+}
+
+#menu .list-cell{
+    -fx-padding: 20px 10px;
+    -fx-font-size: 1.1em;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-insets: 0;
+    -fx-text-fill: #3F3F3F;
+}
+
+#menu .list-cell:hover {
+    -fx-background-color: #E8E8E8;
+}
+
+#menu .list-cell:empty {
+    -fx-background-color: #F4F5F7;
+    -fx-cursor:DEFAULT;
+}
+
+#menu .list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #0747a6; 
+}
+
+.table-view:focused {
+    -fx-background-color: transparent ,-fx-box-border,-fx-control-inner-background;
+
+}
+.table-view {
+    -fx-border-width: 0 1 1 1;
+    -fx-border-color: #E0E0E0;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, white;
+    -fx-border-width: 0 0 0 0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:selected, .table-row-cell:odd:selected{
+    -fx-background-color:#0747a6;
+    -fx-text-background-color: whitesmoke;
+
+}
+
+
+.table-row-cell:odd{
+    -fx-background-color: #F4F5F7;
+    -fx-border-width: 0 0 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color:#E0E0E0;
+    -fx-border-width: 0 0 0 0;
+    -fx-font-weight: 600;
+}
+
+/*.table-view-cell-header {
+    -fx-background-color:#E0E0E0;
+    -fx-size: 35;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color:#a8a8a8;
+    -fx-font-weight: 700;
+}*/
+
+/* ==== BUTTONS ==== */
+.btn {
+    -fx-text-fill: white;
+    -fx-font-size: 1.1em;
+    -fx-padding: 7px 10px;
+    -fx-cursor: hand;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 130px;
+}
+
+.btn:hover {
+    -fx-scale-y: 0.97;
+    -fx-scale-x: 0.97;
+}
+
+.btn-small {
+    -fx-padding: 0px 0px;
+    -fx-pref-height: 15px;
+    -fx-pref-width: 80px;
+}
+
+.btn-medium {
+    -fx-padding: 5px 5px;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 100px;
+}
+
+.btn-square {    
+    -fx-padding: 5px 7px;
+    -fx-pref-height: 20px;
+    -fx-pref-width: 20px;
+}
+
+.btn-danger {
+    -fx-background-color: #C62828;
+}
+.btn-danger:hover {
+    -fx-background-color: #B22323;
+}
+
+.btn-success {
+    -fx-background-color: #28BB66;
+}
+
+.btn-success:hover {
+    -fx-background-color: #21A559;
+}
+
+.btn-default {
+    -fx-background-color: #F4F5F7;
+    -fx-text-fill: #333333;
+    -fx-border-color: #cccccc;
+}
+
+.btn-default:hover {
+    -fx-background-color:#ededed;
+}
+
+.btn-accent {
+    -fx-background-color: #0747a6;
+    -fx-pref-height: INHERIT;
+    -fx-pref-width: INHERIT;
+    -fx-padding: 3px 5px;
+}
+
+
+/* ==== CHOICEBOX ==== */
+.choice-box .menu-item:focused { 
+    -fx-background-color: #0747a6;
+}
+.choice-box .menu-item > .label { 
+    -fx-text-fill: black; 
+}
+.choice-box .menu-item:focused > .label { 
+    -fx-text-fill: white; 
+}
+.choice-box {
+    -fx-background-color: #E0E0E0;
+    -fx-mark-color: #3f3f3f;
+}
+
+/* ==== TEXTINPUT ==== */
+.text-fld {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-radius: 2 ;
+    -fx-background-color: #F4F5F7;
+    -fx-font-size: 0.95em;
+    -fx-padding: 8px 10px;
+}
+.text-area {
+    -fx-border-width: 0 0 0 0;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-radius: 2;
+    -fx-border-width: 0 0 0 0;
+    -fx-background-color: #F4F5F7;
+    -fx-font-size: 0.95em;
+    -fx-padding: 8px 10px;
+}
+
+.date-picker {
+
+    -fx-background-color: #E0E0E0;
+}
+
+.date-picker > .text-field {
+    -fx-background-color:#E0E0E0;
+}
+
+.list-cell:empty {
+    -fx-opacity: 0;
+}

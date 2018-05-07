@@ -1,5 +1,6 @@
 package domein;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -30,6 +31,8 @@ public class Oefening implements Serializable {
     private String opgave;
     private int antwoord;
     private String feedback;
+    private String vak;
+    private List<String> doelstellingen;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Groepsbewerking> groepsbewerkingen;
 //    @Transient
@@ -37,10 +40,12 @@ public class Oefening implements Serializable {
 //    @Transient
 //    private SimpleIntegerProperty antwoordProp = new SimpleIntegerProperty();
 
-    public Oefening(String opgave, int antwoord, String feedback, List<Groepsbewerking> groepsbewerkingen) {
+    public Oefening(String opgave, int antwoord, String feedback, String vak, List<String> doelstellingen, List<Groepsbewerking> groepsbewerkingen) {
         setOpgave(opgave);
         setAntwoord(antwoord);
         setFeedback(feedback);
+        setVak(vak);
+        setDoelstellingen(doelstellingen);
         setGroepsbewerkingen(groepsbewerkingen);
     }
 
@@ -49,11 +54,19 @@ public class Oefening implements Serializable {
     }
 
     public SimpleStringProperty getOpgaveProp() {
-        return new SimpleStringProperty(opgave);
+        return new SimpleStringProperty(new File(opgave).getName());
     }
 
     public SimpleIntegerProperty getAntwoordProp() {
         return new SimpleIntegerProperty(antwoord);
+    }
+    
+    public SimpleStringProperty getVakProp(){
+        return new SimpleStringProperty(vak);
+    }
+    
+    public SimpleStringProperty getDoelstellingenProp(){
+        return new SimpleStringProperty(doelstellingen.toString().substring(1, doelstellingen.toString().length() - 1));
     }
 
     public int getAntwoord() {
@@ -90,6 +103,24 @@ public class Oefening implements Serializable {
         this.feedback = feedback;
     }
 
+    public String getVak() {
+        return vak;
+    }
+
+    public void setVak(String vak) {
+        this.vak = vak;
+    }
+
+    public List<String> getDoelstellingen() {
+        return doelstellingen;
+    }
+
+    public void setDoelstellingen(List<String> doelstellingen) {
+        this.doelstellingen = doelstellingen;
+    }
+    
+    
+
     public void setGroepsbewerkingen(List<Groepsbewerking> groepsbewerkingen) {
         this.groepsbewerkingen = groepsbewerkingen;
     }
@@ -114,7 +145,7 @@ public class Oefening implements Serializable {
 
     @Override
     public String toString() {
-        return opgave;
+        return new File(opgave).getName();
     }
 
 }

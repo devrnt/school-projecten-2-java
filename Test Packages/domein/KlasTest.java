@@ -16,10 +16,12 @@ import org.junit.Test;
 public class KlasTest {
 
     private Klas klas;
+    private Leerling leerling;
 
     @Before
     public void before() {
         klas = new Klas("Klas1");
+        leerling = new Leerling();
     }
 
     @Test
@@ -29,24 +31,27 @@ public class KlasTest {
 
     @Test
     public void nieuweLeerling_VoegtLeerlingToeAanKlas() {
-        String naam = "Jan";
-        klas.voegLeerlingToe(naam);
-        Assert.assertTrue(klas.getLeerlingen().contains(naam));
+        leerling.setVoornaam("Jan");
+        leerling.setNaam("Timmermans");
+        klas.voegLeerlingToe(leerling);
+        Assert.assertTrue(klas.getLeerlingen().contains(leerling));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void bestaandeLeerlingToevoegen_GooitIllegalArgumentException() {
-        String naam1 = "Jan";
-        String naam2 = "Jan".toLowerCase();
-        klas.voegLeerlingToe(naam1);
-        klas.voegLeerlingToe(naam2);
+        leerling.setVoornaam("Jan");
+        leerling.setNaam("Timmermans");
+        klas.voegLeerlingToe(leerling);
+        Leerling leerling2 = new Leerling("Jan".toLowerCase(), "Timmermans".toLowerCase());
+        klas.voegLeerlingToe(leerling2);
     }
 
     @Test
     public void leerlingVerwijderen_VerwijdertLeerling() {
-        String naam = "Jan";
-        klas.voegLeerlingToe(naam);
-        klas.verwijderLeerling(naam);
+        leerling.setVoornaam("Jan");
+        leerling.setNaam("Timmermans");
+        klas.voegLeerlingToe(leerling);
+        klas.verwijderLeerling(leerling);
         Assert.assertTrue(klas.getLeerlingen().isEmpty());
     }
 }

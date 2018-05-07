@@ -5,25 +5,22 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
-import domein.Toegangscode;
+import gui.events.DeleteEvent;
+import gui.events.WijzigEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class DetailsBreakOutBoxController extends AnchorPane {
 
@@ -38,70 +35,69 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     @FXML
     private ListView<Oefening> oefeningList;
     @FXML
-    private ListView<Toegangscode> toegangscodeList;
-    @FXML
     private Button samenvattingButton;
     @FXML
     private Button wijzigButton;
     @FXML
     private Button verwijderButton;
-    @FXML
-    private Button keerTerugBtn;
 
-    private BoxController boxController;
     private BreakOutBox box;
+    private BoxController boxController;
 
-    public DetailsBreakOutBoxController(BoxController boxController, int id) {
-        this.boxController = boxController;
+    public DetailsBreakOutBoxController(BreakOutBox box, BoxController boxController) {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsBreakOutBox.fxml"));
         loader.setRoot(this);
         loader.setController(this);
-
         try {
             loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.box = boxController.GeefBreakOutBox(id);
-        init();
-        keerTerugBtn.setOnAction(event -> terugNaarLijst());
-
+        this.box = box;
+        this.boxController = boxController;
+        if (box != null) {
+            init();
+        }
+        if (boxController.isBoxGedaan(box)) {
+            verwijderButton.setDisable(true);
+        }
     }
 
     private void init() {
         naamLabel.setText(box.getNaam());
         omschrijvingLabel.setText(box.getOmschrijving());
-
         oefeningList.setItems(boxController.getOefeningenByBox(box.getId()));
         oefeningList.setDisable(true);
         actieList.setItems(boxController.getActiesByBox(box.getId()));
         actieList.setDisable(true);
-        toegangscodeList.setItems(boxController.getToegangscodesByBox(box.getId()));
-        toegangscodeList.setDisable(true);
     }
 
     @FXML
-    private void samenvattingBtnClicked(ActionEvent event) throws IOException{
-        
+    private void samenvattingBtnClicked(ActionEvent event) throws IOException {
+
         try {
             boxController.createSamenvattingBox(box.getId());
+            Alert pdfcreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+            pdfcreatedAlert.setTitle("Details BreakOutBox");
+            pdfcreatedAlert.setHeaderText("Downloaden PDF");
+            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is gedownload.");
+            pdfcreatedAlert.showAndWait();
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-         Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Samenvatting gemaakt!");
         verwijderAlert.setHeaderText("Succesvol");
         verwijderAlert.setContentText("De pdf bevind zich in de map Pdf");
-       
+
     }
+
     @FXML
     private void wijzigBtnClicked(ActionEvent event) {
-        Scene scene = new Scene(new UpdateBreakOutBoxController(boxController, box.getId()));
-        Stage stage = (Stage) wijzigButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Wijzig BreakOutBox");
-        stage.show();
+        Event wijzigEvent = new WijzigEvent(box.getId());
+        this.fireEvent(wijzigEvent);
     }
 
     @FXML
@@ -112,18 +108,17 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");
         verwijderAlert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
-                System.out.println("test");
-                boxController.deleteBreakOutBox(box.getId());
-                terugNaarLijst();
+                Event deleteEvent = new DeleteEvent(box.getId());
+                this.fireEvent(deleteEvent);
             }
         });
     }
 
-    private void terugNaarLijst() {
-        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Beheer Oefeningen");
-        stage.setScene(scene);
-        stage.show();
-    }
+//    private void terugNaarLijst() {
+//        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
+//        Stage stage = (Stage) this.getScene().getWindow();
+//        stage.setTitle("Beheer Oefeningen");
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 }

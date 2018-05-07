@@ -15,6 +15,5 @@ import org.junit.runners.Suite;
     domein.KlasTest.class,
     domein.SessieTest.class
 })
-public class BreakoutBoxTestSuite {
-    
+public class BreakoutBoxTestSuite {   
 }
