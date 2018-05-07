@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="999.0" prefWidth="996.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -73,7 +73,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="text-fld">
+                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="search-fld">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

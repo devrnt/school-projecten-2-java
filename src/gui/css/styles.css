@@ -171,7 +171,8 @@ menuItems:    #3F3F3F
 }
 
 /* ==== TEXTINPUT ==== */
-.text-fld {
+.text-fld,
+.search-fld {
     -fx-min-width: 195px;
 
     -fx-background-color: -fx-text-box-border, -fx-background ;
@@ -181,7 +182,9 @@ menuItems:    #3F3F3F
     -fx-padding: 8px 10px;
     -fx-background-padding: 5px;
     -fx-background-size: 14px;
+}
 
+.search-fld {
     /* search icon */
     -fx-background-image:url('magnifierIcon.png');
     -fx-background-repeat: no-repeat;
