@@ -172,11 +172,20 @@ menuItems:    #3F3F3F
 
 /* ==== TEXTINPUT ==== */
 .text-fld {
+    -fx-min-width: 195px;
+
     -fx-background-color: -fx-text-box-border, -fx-background ;
     -fx-background-radius: 2 ;
     -fx-background-color: #F4F5F7;
     -fx-font-size: 0.95em;
     -fx-padding: 8px 10px;
+    -fx-background-padding: 5px;
+    -fx-background-size: 14px;
+
+    /* search icon */
+    -fx-background-image:url('magnifierIcon.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 170px, center;
 }
 .text-area {
     -fx-border-width: 0 0 0 0;
