@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -174,7 +173,7 @@ public class CreateSessieController extends AnchorPane {
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
 
-        boolean inputGeldig = true;//(Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
+        boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> !l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.isEmpty()));
 
         if (inputGeldig) {
             sessieController.createSessie(
