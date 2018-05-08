@@ -47,6 +47,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -194,7 +195,7 @@ public class BeheerKlassenController extends AnchorPane {
                             klas.voegLeerlingToe(leerling);
 
                         } catch (IllegalArgumentException e) {
-                            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+                            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
                             invalidInput.setTitle("Leerling bestaat al");
                             invalidInput.setHeaderText("De leerling " + leerling.getVolledigeNaam() + " bestaat reeds");
                             invalidInput.setContentText("Deze leerling werd niet toegevoegd");
@@ -208,7 +209,7 @@ public class BeheerKlassenController extends AnchorPane {
             try {
                 klasController.createKlas(klas.getNaam(), klas.getLeerlingen().stream().collect(Collectors.toList()));
             } catch (IllegalArgumentException e) {
-                Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+                AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
                 invalidInput.setTitle("Klas lezen");
                 invalidInput.setHeaderText("De klas " + klas.getNaam() + " bestaat reeds");
                 invalidInput.setContentText("Deze klas werd niet toegevoegd");

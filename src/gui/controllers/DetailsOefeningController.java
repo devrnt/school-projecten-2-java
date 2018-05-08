@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 /**
  *
@@ -113,7 +114,7 @@ public class DetailsOefeningController extends AnchorPane {
 
     @FXML
     public void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen oefening");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze oefening wil verwijderen?");

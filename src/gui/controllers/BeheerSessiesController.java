@@ -97,12 +97,6 @@ public class BeheerSessiesController extends AnchorPane {
         });
 
         searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
-        
-        // eventhandlers
-        this.addEventHandler(DeleteEvent.DELETE, event -> {
-            detailsStackPane.getChildren().clear();
-            sessieController.deleteSessie(event.getId());
-        });
     }
 
     @FXML

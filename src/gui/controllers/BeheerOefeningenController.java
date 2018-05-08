@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -140,7 +141,7 @@ public class BeheerOefeningenController extends AnchorPane {
     }
 
     private void showDeleteFailedAlert() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        AlertCS alert = new AlertCS(Alert.AlertType.WARNING);
         alert.setTitle("Oefening beheren");
         alert.setHeaderText("Oefening verwijderen");
         alert.setContentText("Oefening kan niet verwijderd worden omdat deze nog in een box voorkomt!");

@@ -32,12 +32,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import utils.AlertCS;
 
 /**
  *
@@ -147,7 +149,6 @@ public class CreateSessieController extends AnchorPane {
         reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
 
         //bekijkLlnButton.setDisable(true);
-
         annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
@@ -158,9 +159,9 @@ public class CreateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectFirst();
         klasChoiceBox.getSelectionModel().selectFirst();
         reactieFoutAntwChoiceBox.getSelectionModel().selectFirst();
-        
+
         LocalDate ndd = LocalDate.now();
-        
+
         datumInput.setValue(ndd);
 
     }
@@ -173,7 +174,7 @@ public class CreateSessieController extends AnchorPane {
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
 
-        boolean inputGeldig = (Arrays.stream(foutLabels).allMatch(l -> !l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.isEmpty()));
+        boolean inputGeldig = true;//(Arrays.stream(foutLabels).allMatch(l -> !l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.isEmpty()));
 
         if (inputGeldig) {
             sessieController.createSessie(
@@ -184,7 +185,7 @@ public class CreateSessieController extends AnchorPane {
                     reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false
             );
 
-            Alert sessieSuccesvolGewijzigd = new Alert(Alert.AlertType.INFORMATION);
+            AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
             sessieSuccesvolGewijzigd.setTitle("Sessie");
             sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een sessie");
             sessieSuccesvolGewijzigd.setContentText("Sessie is succesvol aangemaakt");
@@ -193,7 +194,7 @@ public class CreateSessieController extends AnchorPane {
             this.fireEvent(detailsEvent);
 
         } else {
-            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
             invalidInput.setTitle("Sessie aanmaken");
             invalidInput.setHeaderText("Niet alle velden zijn geldig!");
             invalidInput.setContentText("Vul alle velden correct in.");
@@ -244,7 +245,7 @@ public class CreateSessieController extends AnchorPane {
                 // object for validation
                 ISessie validation = sessieController.getISessie();
                 LocalDate datumInputVal = datumInput.getValue();
-                
+
                 Date gekozenDag = Date.from(datumInputVal.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                 try {

@@ -22,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 /**
  *
@@ -70,7 +71,7 @@ public class DetailsKlasController extends AnchorPane {
     }
        @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen klas");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze klas wilt verwijderen?");

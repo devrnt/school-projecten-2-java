@@ -21,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 public class DetailsBreakOutBoxController extends AnchorPane {
 
@@ -78,7 +79,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
         try {
             boxController.createSamenvattingBox(box.getId());
-            Alert pdfcreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+            AlertCS pdfcreatedAlert = new AlertCS(Alert.AlertType.INFORMATION);
             pdfcreatedAlert.setTitle("Details BreakOutBox");
             pdfcreatedAlert.setHeaderText("Downloaden PDF");
             pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is gedownload.");
@@ -87,7 +88,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Samenvatting gemaakt!");
         verwijderAlert.setHeaderText("Succesvol");
         verwijderAlert.setContentText("De pdf bevind zich in de map Pdf");
@@ -102,7 +103,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen BreakOutBox");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");

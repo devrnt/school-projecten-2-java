@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utils.AlertCS;
 
 /**
  *
@@ -90,7 +91,7 @@ public class CreateOefeningController extends AnchorPane {
     private final FileChooser filechooser = new FileChooser();
     private File opgaveFile;
     private File feedbackFile;
-    private Alert bevestigAlert;
+    private AlertCS bevestigAlert;
     private ObservableList<Groepsbewerking> gbws;
 
     public CreateOefeningController(OefeningController controller) {
@@ -124,7 +125,7 @@ public class CreateOefeningController extends AnchorPane {
         // acties voor buttons
         setButtonActions();
 
-        bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
+        bevestigAlert = new AlertCS(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
         bevestigAlert.setHeaderText("Aanmaken oefening");
         bevestigAlert.setContentText("Oefening is succesvol aangemaakt");
@@ -152,7 +153,7 @@ public class CreateOefeningController extends AnchorPane {
         groepsbwChoiceBox.setDisable(gbws.isEmpty());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
 
-        bevestigAlert = new Alert(Alert.AlertType.INFORMATION);
+        bevestigAlert = new AlertCS(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
         bevestigAlert.setHeaderText("Wijzigen oefening");
         bevestigAlert.setContentText("Oefening is succesvol gewijzigd");
@@ -231,7 +232,7 @@ public class CreateOefeningController extends AnchorPane {
     }
 
     private void showErrorAlert() {
-        Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+        AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
         invalidInput.setTitle("Oefening aanmaken");
         invalidInput.setHeaderText("Er zijn nog ongeldige velden");
         invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");

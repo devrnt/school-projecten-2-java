@@ -73,6 +73,7 @@ public final class SessieBeheer implements Observer {
         }
         sessieRepo.delete(sessie);
     }
+
     public boolean isBoxGedaan(BreakOutBox box) {
         //dit moet beter -Yanis
         return sessieLijst.stream().anyMatch(t -> t.getBox() == box);

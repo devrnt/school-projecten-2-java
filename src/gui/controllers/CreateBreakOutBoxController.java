@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 public class CreateBreakOutBoxController extends AnchorPane {
 
@@ -157,7 +158,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
         if (inputGeldig) {
             boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
 
-            Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
+            AlertCS oefeningCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
             oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
@@ -165,7 +166,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             terugNaarLijst();
 
         } else {
-            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
             invalidInput.setTitle("Box aanmaken");
             invalidInput.setHeaderText("Er zijn nog ongeldige velden");
             invalidInput.setContentText("Pas de invoer aan zodat deze geldig worden");

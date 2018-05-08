@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -66,15 +67,16 @@ public class DetailsSessieController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen sessie");
         verwijderAlert.setHeaderText("Bevestigen");
         verwijderAlert.setContentText("Weet u zeker dat u deze sessie wilt verwijderen?");
-        Optional<ButtonType> result = verwijderAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Event deleteEvent = new DeleteEvent(sessie.getId());
-            this.fireEvent(deleteEvent);
-        }
+        verwijderAlert.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                Event deleteEvent = new DeleteEvent(sessie.getId());
+                this.fireEvent(deleteEvent);
+            }
+        });
     }
 
     private void initialize() {
