@@ -43,6 +43,7 @@
                   <RowConstraints maxHeight="55.0" minHeight="1.3333282470703125" prefHeight="7.3333282470703125" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="83.66667175292969" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="77.33334350585938" minHeight="0.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50.0" minHeight="20.0" prefHeight="35.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="155.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="152.0" vgrow="SOMETIMES" />
               </rowConstraints>
@@ -67,18 +68,18 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <Label text="Acties:" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                        <Label text="Acties:" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
                             <font>
                                 <Font name="Arial Bold" size="14.0" />
                             </font>
                         </Label>
-                        <ListView fx:id="actieList" maxWidth="-Infinity" prefHeight="140.0" prefWidth="408.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Label text="Oefeningen:" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                        <ListView fx:id="actieList" maxWidth="-Infinity" prefHeight="140.0" prefWidth="408.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label text="Oefeningen:" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="TOP">
                             <font>
                                 <Font name="Arial Bold" size="14.0" />
                             </font>
                         </Label>
-                        <ListView fx:id="oefeningList" maxWidth="-Infinity" prefHeight="120.0" prefWidth="343.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <ListView fx:id="oefeningList" maxWidth="-Infinity" prefHeight="120.0" prefWidth="343.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../../assets/icons/details/nameIcon.png" />
@@ -89,12 +90,12 @@
                         <Image url="@../../assets/icons/details/descriptionIcon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                  <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
                      <image>
                         <Image url="@../../assets/icons/details/actionIcon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                  <ImageView fitHeight="13.0" fitWidth="13.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
                      <image>
                         <Image url="@../../assets/icons/details/exercisesIcon.png" />
                      </image>
@@ -112,6 +113,21 @@
                         <String fx:value="btn-accent" />
                      </styleClass>
                   </Button>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <image>
+                        <Image url="@../../assets/icons/details/educationIcon.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="Onderwijs:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="soortOnderwijsLabel" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" />

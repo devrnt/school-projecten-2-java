@@ -4,18 +4,18 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
+import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -60,7 +60,8 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     private Button bevestigBtn;
     @FXML
     private Button annuleerBtn;
-
+    @FXML
+    private ChoiceBox<SoortOnderwijsEnum> soortOnderwijsChoiceBox;
     private final BoxController boxController;
     private final BreakOutBox box;
 
@@ -114,7 +115,7 @@ public class UpdateBreakOutBoxController extends AnchorPane {
             BreakOutBoxCreatedSucces.setHeaderText("Wijzigen van een box");
             BreakOutBoxCreatedSucces.setContentText("BreakOutBox is succesvol gewijwigd");
             BreakOutBoxCreatedSucces.showAndWait();
-            terugNaarDetails();
+            terugNaarLijst();
 
         } else {
             AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
@@ -162,50 +163,33 @@ public class UpdateBreakOutBoxController extends AnchorPane {
     }
 
     private void maakListeners() {
-        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                    naamFoutLbl.setText("Geef een naam in");
-                } else {
-                    naamFoutLbl.setText("");
-                }
+        // listener for choicebox sleect change
+        soortOnderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            if (newVal == SoortOnderwijsEnum.dagonderwijs) {
+                actieList1.setDisable(false);
+                actieList2.setDisable(false);
+                actieToevoegenBtn.setDisable(false);
+                actieVerwijderenBtn.setDisable(false);
             }
-        });
-        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                    omschrijvingFoutLbl.setText("Geef een omschrijving in");
-                } else {
-                    omschrijvingFoutLbl.setText("");
-                }
-            }
-        });
-        actieList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (actieList1.getItems().isEmpty()) {
-                    actiesFoutLbl.setText("Selecteer minstens 1 actie");
-                } else {
-                    actiesFoutLbl.setText("");
-                }
-            }
-        });
-        oefeningList1.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (!newValue) {
-                if (oefeningList1.getItems().isEmpty()) {
-                    oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-                } else {
-                    oefeningenFoutLbl.setText("");
-                }
+            if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
+                actieList1.setDisable(true);
+                actieList2.setDisable(true);
+                actieToevoegenBtn.setDisable(true);
+                actieVerwijderenBtn.setDisable(true);
             }
         });
         annuleerBtn.setOnAction(event -> {
-            terugNaarDetails();
-
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
+        });
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
         });
     }
 
-    private void terugNaarDetails() {
-        Event annuleerEvent = new AnnuleerEvent(box.getId());
-        this.fireEvent(annuleerEvent);
+    private void terugNaarLijst() {
+        Event beheerEvent = new DetailsEvent(-1);
+        this.fireEvent(beheerEvent);
     }
 }

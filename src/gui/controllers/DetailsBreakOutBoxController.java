@@ -32,6 +32,8 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     @FXML
     private Label omschrijvingLabel;
     @FXML
+    private Label soortOnderwijsLabel;
+    @FXML
     private ListView<Actie> actieList;
     @FXML
     private ListView<Oefening> oefeningList;
@@ -68,10 +70,12 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     private void init() {
         naamLabel.setText(box.getNaam());
         omschrijvingLabel.setText(box.getOmschrijving());
+        soortOnderwijsLabel.setText(box.getSoortOnderwijs());
         oefeningList.setItems(boxController.getOefeningenByBox(box.getId()));
         oefeningList.setDisable(true);
         actieList.setItems(boxController.getActiesByBox(box.getId()));
         actieList.setDisable(true);
+
     }
 
     @FXML
