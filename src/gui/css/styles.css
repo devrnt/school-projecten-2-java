@@ -96,7 +96,7 @@ menuItems:    #3F3F3F
     -fx-padding: 7px 10px;
     -fx-cursor: hand;
     -fx-pref-height: 40px;
-    -fx-pref-width: 130px;
+    -fx-pref-width: 120px;
 }
 
 .btn:hover {
