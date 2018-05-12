@@ -7,6 +7,7 @@ import domein.BreakOutBox;
 import domein.BreakOutBoxBeheer;
 import domein.Oefening;
 import domein.SessieBeheer;
+import domein.SoortOnderwijsEnum;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +26,8 @@ public final class BoxController {
         return boxBeheer;
     }
 
-    public void createBreakOutBox(String naam, String omschrijving, List<Oefening> oefeningen, List<Actie> acties) {
-        boxBeheer.createBreakOutBox(naam, omschrijving, oefeningen, acties);
+    public void createBreakOutBox(String naam, String omschrijving, SoortOnderwijsEnum soortOnderwijs, List<Oefening> oefeningen, List<Actie> acties) {
+        boxBeheer.createBreakOutBox(naam, omschrijving, soortOnderwijs, oefeningen, acties);
     }
 
     public void close() {

@@ -118,9 +118,9 @@ public class PopulateDB {
         List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
         List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
         List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
-        BreakOutBox box1 = new BreakOutBox("Box vermenigvuldigen en delen", "Vermenigvuldigen en delen", oefeningen1, acties1);
-        BreakOutBox box2 = new BreakOutBox("Box optellen en aftrekken", "Optellen en aftrekken", oefeningen2, acties2);
-        BreakOutBox box3 = new BreakOutBox("Box alle opdrachten", "Alle wiskunde met vragen over optellen en aftrekken, vermenigvuldigen en delen", oefeningen3, acties3);
+        BreakOutBox box1 = new BreakOutBox("Box vermenigvuldigen en delen", "Vermenigvuldigen en delen", SoortOnderwijsEnum.dagonderwijs, oefeningen1, acties1);
+        BreakOutBox box2 = new BreakOutBox("Box optellen en aftrekken", "Optellen en aftrekken", SoortOnderwijsEnum.dagonderwijs, oefeningen2, acties2);
+        BreakOutBox box3 = new BreakOutBox("Box alle opdrachten", "Alle wiskunde met vragen over optellen en aftrekken, vermenigvuldigen en delen", SoortOnderwijsEnum.dagonderwijs, oefeningen3, acties3);
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
@@ -163,9 +163,9 @@ public class PopulateDB {
         sessieRepo.insert(new Sessie(
                 "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op 28/12",
                 klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
-         sessieRepo.insert(new Sessie(
-                    "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
-                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
+        sessieRepo.insert(new Sessie(
+                "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
+                klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
         sessieRepo.insert(new Sessie(
                 "sessie_" + 4, "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
                 klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));

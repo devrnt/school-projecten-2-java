@@ -4,9 +4,11 @@ import controllers.BoxController;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
+import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -60,6 +62,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private final BoxController boxController;
     @FXML
     private Button annuleerBtn;
+    @FXML
+    private ChoiceBox<SoortOnderwijsEnum> soortOnderwijsChoiceBox;
 
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
@@ -78,8 +82,13 @@ public class CreateBreakOutBoxController extends AnchorPane {
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
+        //choicebox
+        soortOnderwijsChoiceBox.setValue(SoortOnderwijsEnum.dagonderwijs);
+        Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
+        soortOnderwijsChoiceBox.getSelectionModel().selectFirst();
+
         //listeners
-        //maakListeners();
+        maakListeners();
     }
 
     public CreateBreakOutBoxController(BoxController boxController, BreakOutBox box) {
@@ -110,13 +119,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
             actieList1.getItems().add(a);
 
         }
-        annuleerBtn.setOnAction(event -> {
-            Event annuleerEvent = new AnnuleerEvent(-1);
-            this.fireEvent(annuleerEvent);
-        });
-
         //listeners
-        //maakListeners();
+        maakListeners();
     }
 
     @FXML
@@ -156,8 +160,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             inputGeldig = false;
         }
         if (inputGeldig) {
-            boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), geselecteerdeOefeningen, geselecteerdeActies);
-
+            boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
             AlertCS oefeningCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
@@ -216,48 +219,24 @@ public class CreateBreakOutBoxController extends AnchorPane {
     }
 
     private void maakListeners() {
-        naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                naamFoutLbl.setText("Voer een naam in");
-            } else {
-                naamFoutLbl.setText("");
+        // listener for choicebox sleect change
+        soortOnderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            if (newVal == SoortOnderwijsEnum.dagonderwijs) {
+                actieList1.setDisable(false);
+                actieList2.setDisable(false);
+                actieToevoegenBtn.setDisable(false);
+                actieVerwijderenBtn.setDisable(false);
+            }
+            if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
+                actieList1.setDisable(true);
+                actieList2.setDisable(true);
+                actieToevoegenBtn.setDisable(true);
+                actieVerwijderenBtn.setDisable(true);
             }
         });
-        omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                omschrijvingFoutLbl.setText("Voer een omschrijving in");
-            } else {
-                omschrijvingFoutLbl.setText("");
-            }
+        annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
         });
-        actieToevoegenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (actieList1.getItems().isEmpty()) {
-                actiesFoutLbl.setText("Selecteer minstens 1 actie");
-            } else {
-                actiesFoutLbl.setText("");
-            }
-        });
-        actieVerwijderenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (actieList1.getItems().isEmpty()) {
-                actiesFoutLbl.setText("Selecteer minstens 1 actie");
-            } else {
-                actiesFoutLbl.setText("");
-            }
-        });
-        oefeningToevoegenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (oefeningList1.getItems().isEmpty()) {
-                oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-            } else {
-                oefeningenFoutLbl.setText("");
-            }
-        });
-        oefeningVerwijderenBtn.focusedProperty().addListener((ob, oldValue, newValue) -> {
-            if (oefeningList1.getItems().isEmpty()) {
-                oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-            } else {
-                oefeningenFoutLbl.setText("");
-            }
-        });
-
     }
 }

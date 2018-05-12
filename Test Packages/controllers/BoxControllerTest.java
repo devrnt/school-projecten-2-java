@@ -9,6 +9,7 @@ import domein.Actie;
 import domein.BreakOutBox;
 import domein.BreakOutBoxBeheer;
 import domein.Oefening;
+import domein.SoortOnderwijsEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class BoxControllerTest {
         oef.add(new Oefening());
         act.add(new Actie("o"));
 
-        box = new BreakOutBox("bob1", "bob omschrijving", oef, act);
+        box = new BreakOutBox("bob1", "bob omschrijving", SoortOnderwijsEnum.dagonderwijs, oef, act);
         Mockito.when(boxRepo.get(1)).thenReturn(box);
         Mockito.when(boxRepo.get(2)).thenReturn(null);
         Mockito.when(boxRepo.findAll()).thenReturn(
@@ -53,7 +54,7 @@ public class BoxControllerTest {
                         Arrays.asList(
                                 new BreakOutBox[]{
                                     box,
-                                    new BreakOutBox("bob2", "bob omschrijving 2", oef, act)
+                                    new BreakOutBox("bob2", "bob omschrijving 2", SoortOnderwijsEnum.dagonderwijs, oef, act)
                                 }
                         )
                 )
@@ -84,7 +85,7 @@ public class BoxControllerTest {
         oef.add(new Oefening());
         oef.add(new Oefening());
         act.add(new Actie("o"));
-        boxController.createBreakOutBox("bob3", "bob omschrijving 3", oef, act);
+        boxController.createBreakOutBox("bob3", "bob omschrijving 3", SoortOnderwijsEnum.dagonderwijs, oef, act);
         Mockito.verify(boxRepo).insert(Mockito.any(BreakOutBox.class));
     }
     // </editor-fold>
