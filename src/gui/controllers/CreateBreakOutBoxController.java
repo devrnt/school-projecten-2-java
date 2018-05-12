@@ -164,7 +164,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             AlertCS oefeningCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
             oefeningCreatedSuccess.setTitle("BreakOutBox");
             oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
-            oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
+            oefeningCreatedSuccess.setContentText("BreakOutBox  " + naamTxt.getText() + " is succesvol aangemaakt");
             oefeningCreatedSuccess.showAndWait();
             terugNaarLijst();
 

@@ -144,7 +144,7 @@ public class BeheerOefeningenController extends AnchorPane {
         AlertCS alert = new AlertCS(Alert.AlertType.WARNING);
         alert.setTitle("Oefening beheren");
         alert.setHeaderText("Oefening verwijderen");
-        alert.setContentText("Oefening kan niet verwijderd worden omdat deze nog in een box voorkomt!");
+        alert.setContentText("Oefening kan niet verwijderd worden omdat deze nog in een box voorkomt");
         alert.showAndWait();
     }
 

@@ -86,7 +86,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
             AlertCS pdfcreatedAlert = new AlertCS(Alert.AlertType.INFORMATION);
             pdfcreatedAlert.setTitle("Details BreakOutBox");
             pdfcreatedAlert.setHeaderText("Downloaden PDF");
-            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is gedownload.");
+            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is opgeslagen.");
             pdfcreatedAlert.showAndWait();
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +95,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Samenvatting gemaakt!");
         verwijderAlert.setHeaderText("Succesvol");
-        verwijderAlert.setContentText("De pdf bevind zich in de map Pdf");
+        verwijderAlert.setContentText("De pdf bevindt zich in de map pdf");
 
     }
 
@@ -110,7 +110,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen BreakOutBox");
         verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");
+        verwijderAlert.setContentText("Weet u zeker dat u box " + box.getNaam() + " wilt verwijderen?");
         verwijderAlert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
                 Event deleteEvent = new DeleteEvent(box.getId());

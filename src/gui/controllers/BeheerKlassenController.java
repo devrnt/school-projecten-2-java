@@ -212,7 +212,7 @@ public class BeheerKlassenController extends AnchorPane {
                 AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
                 invalidInput.setTitle("Klas lezen");
                 invalidInput.setHeaderText("De klas " + klas.getNaam() + " bestaat reeds");
-                invalidInput.setContentText("Deze klas werd niet toegevoegd");
+                invalidInput.setContentText("De klas werd niet toegevoegd");
                 invalidInput.showAndWait();
             }
         }

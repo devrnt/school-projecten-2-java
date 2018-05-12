@@ -128,7 +128,7 @@ public class CreateOefeningController extends AnchorPane {
         bevestigAlert = new AlertCS(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer oefeningen");
         bevestigAlert.setHeaderText("Aanmaken oefening");
-        bevestigAlert.setContentText("Oefening is succesvol aangemaakt");
+        bevestigAlert.setContentText("Oefening++  is succesvol aangemaakt");
 
     }
 

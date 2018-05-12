@@ -74,7 +74,7 @@ public class DetailsKlasController extends AnchorPane {
         AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen klas");
         verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze klas wilt verwijderen?");
+        verwijderAlert.setContentText("Weet u zeker dat u klas "+klas.getNaam()+" wilt verwijderen?");
         Optional<ButtonType> result = verwijderAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Event deleteEvent = new DeleteEvent(klas.getId());
