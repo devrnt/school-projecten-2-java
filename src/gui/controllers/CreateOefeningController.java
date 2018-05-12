@@ -218,7 +218,7 @@ public class CreateOefeningController extends AnchorPane {
         File file = filechooser.showOpenDialog((Stage) annuleerBtn.getScene().getWindow());
         if (file == null || !file.getName().toLowerCase().endsWith(".pdf")) {
             textLabel.setText("");
-            foutLabel.setText("Selecteer een opgave in PDF formaat");
+            foutLabel.setText("Selecteer een opgave");
         } else {
             textLabel.setText(file.getName());
             foutLabel.setText("");

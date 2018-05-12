@@ -126,33 +126,33 @@ public class CreateBreakOutBoxController extends AnchorPane {
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
 
         if (geselecteerdeActies.isEmpty()) {
-            actiesFoutLbl.setText("Selecteer minstens 1 actie!");
+            actiesFoutLbl.setText("Selecteer minstens 1 actie");
             inputGeldig = false;
         } else {
             actiesFoutLbl.setText("");
         }
         if (geselecteerdeOefeningen.isEmpty()) {
             inputGeldig = false;
-            oefeningenFoutLbl.setText("Selecteer minstens 1 oefening!");
+            oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
         } else {
             oefeningenFoutLbl.setText("");
         }
         if (naamTxt.getText().isEmpty()) {
             inputGeldig = false;
 
-            naamFoutLbl.setText("Voer een naam in!");
+            naamFoutLbl.setText("Voer een naam in");
         } else {
             naamFoutLbl.setText("");
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
 
-            omschrijvingFoutLbl.setText("Voer een omschrijving in!");
+            omschrijvingFoutLbl.setText("Voer een omschrijving in");
         } else {
             omschrijvingFoutLbl.setText("");
         }
         if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
-            actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal Oefeningen moet gelijk zijn aan aantal Acties + 1.");
+            actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal oefeningen moet gelijk zijn aan  aantal acties + 1");
             inputGeldig = false;
         }
         if (inputGeldig) {
@@ -218,14 +218,14 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private void maakListeners() {
         naamTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (naamTxt.getText() == null || naamTxt.getText().trim().length() == 0) {
-                naamFoutLbl.setText("Voer een naam in!");
+                naamFoutLbl.setText("Voer een naam in");
             } else {
                 naamFoutLbl.setText("");
             }
         });
         omschrijvingTxt.focusedProperty().addListener((ob, oldValue, newValue) -> {
             if (omschrijvingTxt.getText() == null || omschrijvingTxt.getText().trim().length() == 0) {
-                omschrijvingFoutLbl.setText("Voer een omschrijving in!");
+                omschrijvingFoutLbl.setText("Voer een omschrijving in");
             } else {
                 omschrijvingFoutLbl.setText("");
             }

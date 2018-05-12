@@ -168,14 +168,12 @@ public class CreateSessieController extends AnchorPane {
 
     @FXML
     private void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout};
+        Label[] foutLabels = {naamFout, omschrijvingFout, datumFout};
         String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
 
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
-
-        boolean inputGeldig = true;//(Arrays.stream(foutLabels).allMatch(l -> !l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.isEmpty()));
-
+        boolean inputGeldig = Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()) && Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         if (inputGeldig) {
             sessieController.createSessie(
                     naamInput.getText(), omschrijvingInput.getText(),
@@ -196,8 +194,8 @@ public class CreateSessieController extends AnchorPane {
         } else {
             AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
             invalidInput.setTitle("Sessie aanmaken");
-            invalidInput.setHeaderText("Niet alle velden zijn geldig!");
-            invalidInput.setContentText("Vul alle velden correct in.");
+            invalidInput.setHeaderText("Niet alle velden zijn geldig");
+            invalidInput.setContentText("Vul alle velden correct in");
             invalidInput.showAndWait();
         }
     }
@@ -221,7 +219,7 @@ public class CreateSessieController extends AnchorPane {
             } else {
                 String sessieNaam = naamInput.getText();
                 if (sessieController.getSessieBeheer().bestaatSessieNaam(sessieNaam)) {
-                    naamFout.setText("Sessienaam bestaat al, vul een andere in!");
+                    naamFout.setText("Sessienaam bestaat al");
                 } else {
                     naamFout.setText("");
                 }
@@ -261,7 +259,7 @@ public class CreateSessieController extends AnchorPane {
             }
         });
 
-        // listener for choicebox sleect change
+        // listener for choicebox select change
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();

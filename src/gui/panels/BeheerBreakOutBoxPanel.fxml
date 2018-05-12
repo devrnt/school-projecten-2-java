@@ -50,7 +50,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                              <Button fx:id="maakBoxButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakBreakOutBoxButtonClicked" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
+                              <Button fx:id="maakBoxButton" alignment="CENTER" mnemonicParsing="false" onAction="#maakBreakOutBoxButtonClicked" prefHeight="37.0" prefWidth="108.0" text="NIEUW">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0">
                                  <image>
@@ -72,6 +72,13 @@
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0">
+                                 <image>
+                                    <Image url="@../../assets/icons/duplicateIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
                      </children>
                   </HBox>
