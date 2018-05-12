@@ -92,7 +92,7 @@ public class DetailsSessieController extends AnchorPane {
         StringSelection selection = new StringSelection(code);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
-        kopieerLabel.setText("Code '" + code + "' succesvol gekopieerd.");
+        kopieerLabel.setText("Code  succesvol gekopieerd.");
     }
 
     private void initialize() {
