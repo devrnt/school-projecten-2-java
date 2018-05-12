@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -118,13 +119,14 @@ public final class BreakOutBoxBeheer implements Observer {
         return FXCollections.observableArrayList(oefeningRepo.findAll());
     }
 
-    public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies) {
+    public void updateBreakOutBox(int id, String naam, String omschrijving, SoortOnderwijsEnum onderwijs, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies) {
         BreakOutBox box = breakOutBoxRepo.get(id);
         if (box == null) {
             throw new NotFoundException("De BreakOutBox werd niet gevonden");
         }
         box.setNaam(naam);
         box.setOmschrijving(omschrijving);
+        box.setSoortOnderwijs(onderwijs);
         box.setActies(geselecteerdeActies);
         box.setOefeningen(geselecteerdeOefeningen);
         breakOutBoxRepo.update(box);

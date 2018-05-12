@@ -59,31 +59,31 @@ public class CreateBreakOutBoxController extends AnchorPane {
     private Button bevestigBtn;
     @FXML
     private Button keerTerugBtn;
-    private final BoxController boxController;
     @FXML
     private Button annuleerBtn;
     @FXML
     private ChoiceBox<SoortOnderwijsEnum> soortOnderwijsChoiceBox;
+    private final BoxController boxController;
+    private final BreakOutBox box;
+    private final Boolean isUpdate;
 
     public CreateBreakOutBoxController(BoxController boxController) {
         this.boxController = boxController;
+        this.box = null;
+        this.isUpdate = false;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-
         loader.setRoot(this);
         loader.setController(this);
-
         try {
             loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
         //choicebox
-        soortOnderwijsChoiceBox.setValue(SoortOnderwijsEnum.dagonderwijs);
         Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
         soortOnderwijsChoiceBox.getSelectionModel().selectFirst();
 
@@ -91,33 +91,40 @@ public class CreateBreakOutBoxController extends AnchorPane {
         maakListeners();
     }
 
-    public CreateBreakOutBoxController(BoxController boxController, BreakOutBox box) {
+    public CreateBreakOutBoxController(BreakOutBox box, BoxController boxController, Boolean isUpdate) {
         this.boxController = boxController;
-
+        this.box = box;
+        this.isUpdate = isUpdate;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-
         loader.setRoot(this);
         loader.setController(this);
-
         try {
             loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        //waarde vullen
+        if (isUpdate) {
+            naamTxt.setText(box.getNaam());
+        } else {
+            naamTxt.setText(box.getNaam() + " kopie");
+        }
+        omschrijvingTxt.setText(box.getOmschrijving());
         //listviews vullen
         actieList2.setItems(boxController.getActies());
+        for (Actie a : box.getActies()) {
+            actieList2.getItems().remove(a);
+            actieList1.getItems().add(a);
+        }
         oefeningList2.setItems(boxController.getOefeningen());
-        naamTxt.setText(box.getNaam() + "Kopie");
-        omschrijvingTxt.setText(box.getOmschrijving());
-        for (Oefening o : boxController.getOefeningenByBox(box.getId())) {
+        for (Oefening o : box.getOefeningen()) {
             oefeningList2.getItems().remove(o);
             oefeningList1.getItems().add(o);
         }
-        for (Actie a : boxController.getActiesByBox(box.getId())) {
-            actieList2.getItems().remove(a);
-            actieList1.getItems().add(a);
-
+        Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
+        soortOnderwijsChoiceBox.setValue(this.box.getSoortOnderwijsEnum());
+        if (this.box.getSoortOnderwijsEnum() == SoortOnderwijsEnum.afstandsonderwijs) {
+            setActiesDisabled(true);
         }
         //listeners
         maakListeners();
@@ -125,52 +132,34 @@ public class CreateBreakOutBoxController extends AnchorPane {
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
-        boolean inputGeldig = true;
+        SoortOnderwijsEnum onderwijs = soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem();
         List<Actie> geselecteerdeActies = actieList1.getItems();
         List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
-
-        if (geselecteerdeActies.isEmpty()) {
-            actiesFoutLbl.setText("Selecteer minstens 1 actie");
-            inputGeldig = false;
-        } else {
-            actiesFoutLbl.setText("");
-        }
-        if (geselecteerdeOefeningen.isEmpty()) {
-            inputGeldig = false;
-            oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
-        } else {
-            oefeningenFoutLbl.setText("");
-        }
-        if (naamTxt.getText().isEmpty()) {
-            inputGeldig = false;
-
-            naamFoutLbl.setText("Voer een naam in");
-        } else {
-            naamFoutLbl.setText("");
-        }
-        if (omschrijvingTxt.getText().isEmpty()) {
-            inputGeldig = false;
-
-            omschrijvingFoutLbl.setText("Voer een omschrijving in");
-        } else {
-            omschrijvingFoutLbl.setText("");
-        }
-        if (geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
-            actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal oefeningen moet gelijk zijn aan  aantal acties + 1");
-            inputGeldig = false;
-        }
-        if (inputGeldig) {
-            boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
-            AlertCS oefeningCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
-            oefeningCreatedSuccess.setTitle("BreakOutBox");
-            oefeningCreatedSuccess.setHeaderText("Aanmaken van een box");
-            oefeningCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
-            oefeningCreatedSuccess.showAndWait();
-            terugNaarLijst();
-
+        if (checkInput()) {
+            if (this.isUpdate) {
+                boxController.updateBreakOutBox(box.getId(), naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
+                AlertCS boxChangedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
+                boxChangedSuccess.setTitle("BreakOutBox");
+                boxChangedSuccess.setHeaderText("Wijzigen van een box");
+                boxChangedSuccess.setContentText("BreakOutBox is succesvol gewijwigd");
+                boxChangedSuccess.showAndWait();
+                terugNaarLijst();
+            } else {
+                boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
+                AlertCS boxCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
+                boxCreatedSuccess.setTitle("BreakOutBox");
+                boxCreatedSuccess.setHeaderText("Aanmaken van een box");
+                boxCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
+                boxCreatedSuccess.showAndWait();
+                terugNaarLijst();
+            }
         } else {
             AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
-            invalidInput.setTitle("Box aanmaken");
+            if (this.isUpdate) {
+                invalidInput.setTitle("Box aanmaken");
+            } else {
+                invalidInput.setTitle("Box wijzigen");
+            }
             invalidInput.setHeaderText("Er zijn nog ongeldige velden");
             invalidInput.setContentText("Pas de invoer aan zodat deze geldig worden");
             invalidInput.showAndWait();
@@ -222,21 +211,59 @@ public class CreateBreakOutBoxController extends AnchorPane {
         // listener for choicebox sleect change
         soortOnderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
-                actieList1.setDisable(false);
-                actieList2.setDisable(false);
-                actieToevoegenBtn.setDisable(false);
-                actieVerwijderenBtn.setDisable(false);
+                setActiesDisabled(false);
             }
             if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
-                actieList1.setDisable(true);
-                actieList2.setDisable(true);
-                actieToevoegenBtn.setDisable(true);
-                actieVerwijderenBtn.setDisable(true);
+                setActiesDisabled(true);
             }
         });
         annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
         });
+    }
+
+    private void setActiesDisabled(Boolean bool) {
+        actieList1.setDisable(bool);
+        actieList2.setDisable(bool);
+        actieToevoegenBtn.setDisable(bool);
+        actieVerwijderenBtn.setDisable(bool);
+    }
+
+    private boolean checkInput() {
+        SoortOnderwijsEnum onderwijs = soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem();
+        List<Actie> geselecteerdeActies = actieList1.getItems();
+        List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
+        boolean inputGeldig = true;
+        if (naamTxt.getText().isEmpty()) {
+            inputGeldig = false;
+            naamFoutLbl.setText("Voer een naam in");
+        } else {
+            naamFoutLbl.setText("");
+        }
+        if (omschrijvingTxt.getText().isEmpty()) {
+            inputGeldig = false;
+
+            omschrijvingFoutLbl.setText("Voer een omschrijving in");
+        } else {
+            omschrijvingFoutLbl.setText("");
+        }
+        if (geselecteerdeOefeningen.isEmpty()) {
+            inputGeldig = false;
+            oefeningenFoutLbl.setText("Selecteer minstens 1 oefening");
+        } else {
+            oefeningenFoutLbl.setText("");
+        }
+        if (onderwijs == SoortOnderwijsEnum.dagonderwijs && geselecteerdeActies.isEmpty()) {
+            actiesFoutLbl.setText("Selecteer minstens 1 actie");
+            inputGeldig = false;
+        } else {
+            actiesFoutLbl.setText("");
+        }
+        if (onderwijs == SoortOnderwijsEnum.dagonderwijs && geselecteerdeActies.size() != geselecteerdeOefeningen.size() - 1) {
+            actiesFoutLbl.setText(actiesFoutLbl.getText() + "Aantal oefeningen moet gelijk zijn aan  aantal acties + 1");
+            inputGeldig = false;
+        }
+        return inputGeldig;
     }
 }

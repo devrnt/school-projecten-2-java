@@ -66,8 +66,8 @@ public final class BoxController {
         return boxBeheer.getOefeningen();
     }
 
-    public void updateBreakOutBox(int id, String naam, String omschrijving, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies) {
-        boxBeheer.updateBreakOutBox(id, naam, omschrijving, geselecteerdeOefeningen, geselecteerdeActies);
+    public void updateBreakOutBox(int id, String naam, String omschrijving, SoortOnderwijsEnum onderwijs, List<Oefening> geselecteerdeOefeningen, List<Actie> geselecteerdeActies) {
+        boxBeheer.updateBreakOutBox(id, naam, omschrijving, onderwijs, geselecteerdeOefeningen, geselecteerdeActies);
     }
 
     public void createSamenvattingBox(int id) throws IOException, FileNotFoundException, DocumentException {

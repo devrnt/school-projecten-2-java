@@ -76,7 +76,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new UpdateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+            children.add(new CreateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController, true));
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
@@ -112,7 +112,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void kopieBreakOutBoxButtonClicked(ActionEvent event) {
         if (boxTabel.getSelectionModel().getSelectedItem() != null) {
             children.clear();
-            children.add(new CreateBreakOutBoxController(boxController, boxTabel.getSelectionModel().getSelectedItem()));
+            children.add(new CreateBreakOutBoxController(boxTabel.getSelectionModel().getSelectedItem(), boxController, false));
         }
     }
 
