@@ -12,10 +12,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="567.0" prefWidth="610.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="567.0" prefWidth="610.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <GridPane prefHeight="567.0" prefWidth="610.0">
         <columnConstraints>
@@ -55,6 +56,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
                       <Label text="Naam:" GridPane.columnIndex="1">
@@ -180,6 +183,24 @@
                         <Image url="@../../assets/icons/details/keysIcon.png" />
                      </image>
                   </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                     <children>
+                        <Button fx:id="kopieerBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#kopieerBtnClicked" prefHeight="40.0" text="Kopieer Sessie Code">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0">
+                                 <image>
+                                    <Image url="@../../assets/icons/details/copyIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-accent" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Label fx:id="kopieerLabel" GridPane.columnIndex="2" GridPane.rowIndex="9" />
                   </children>
                <padding>
                   <Insets left="15.0" right="15.0" />

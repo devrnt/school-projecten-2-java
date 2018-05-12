@@ -7,6 +7,9 @@ package gui.controllers;
 
 import domein.Sessie;
 import gui.events.DeleteEvent;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
@@ -40,6 +43,10 @@ public class DetailsSessieController extends AnchorPane {
     private Label sessiecodeLabel;
     @FXML
     private Button verwijderBtn;
+    @FXML
+    private Button kopieerBtn;
+    @FXML
+    private Label kopieerLabel;
     @FXML
     private Label onderwijsLabel;
     @FXML
@@ -77,6 +84,15 @@ public class DetailsSessieController extends AnchorPane {
                 this.fireEvent(deleteEvent);
             }
         });
+    }
+
+    @FXML
+    private void kopieerBtnClicked(ActionEvent event) {
+        String code = sessiecodeLabel.getText();
+        StringSelection selection = new StringSelection(code);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+        kopieerLabel.setText("Code '" + code + "' succesvol gekopieerd.");
     }
 
     private void initialize() {
