@@ -186,7 +186,7 @@ public class CreateSessieController extends AnchorPane {
             AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
             sessieSuccesvolGewijzigd.setTitle("Sessie");
             sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een sessie");
-            sessieSuccesvolGewijzigd.setContentText("Sessie is succesvol aangemaakt");
+            sessieSuccesvolGewijzigd.setContentText("Sessie " + naamInput.getText() + " is succesvol aangemaakt");
             sessieSuccesvolGewijzigd.showAndWait();
             Event detailsEvent = new DetailsEvent(-1);
             this.fireEvent(detailsEvent);

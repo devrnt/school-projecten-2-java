@@ -141,7 +141,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
                 AlertCS boxChangedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
                 boxChangedSuccess.setTitle("BreakOutBox");
                 boxChangedSuccess.setHeaderText("Wijzigen van een box");
-                boxChangedSuccess.setContentText("BreakOutBox is succesvol gewijwigd");
+                boxChangedSuccess.setContentText("BreakOutBox  " + naamTxt.getText() + " is succesvol aangemaakt");
                 boxChangedSuccess.showAndWait();
                 terugNaarLijst();
             } else {
@@ -243,8 +243,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
-
-            omschrijvingFoutLbl.setText("Voer een omschrijving in");
+            naamFoutLbl.setText("Voer een naam in");
         } else {
             omschrijvingFoutLbl.setText("");
         }

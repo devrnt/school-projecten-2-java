@@ -77,7 +77,7 @@ public class DetailsSessieController extends AnchorPane {
         AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
         verwijderAlert.setTitle("Verwijderen sessie");
         verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze sessie wilt verwijderen?");
+        verwijderAlert.setContentText("Weet u zeker dat u sessie " + sessie.getNaam() + " wilt verwijderen?");
         verwijderAlert.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
                 Event deleteEvent = new DeleteEvent(sessie.getId());

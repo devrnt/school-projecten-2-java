@@ -106,7 +106,7 @@ public class CreateKlasController extends AnchorPane {
         AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
         sessieSuccesvolGewijzigd.setTitle("Sessie");
         sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een klas");
-        sessieSuccesvolGewijzigd.setContentText("klas is succesvol aangemaakt");
+        sessieSuccesvolGewijzigd.setContentText("Klas " +klasNaamTxt.getText()+ " is succesvol aangemaakt");
         sessieSuccesvolGewijzigd.showAndWait();
         Event detailsEvent = new DetailsEvent(-1);
         this.fireEvent(detailsEvent);
