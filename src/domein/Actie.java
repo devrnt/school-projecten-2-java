@@ -20,8 +20,8 @@ public class Actie implements Serializable {
     private int id;
     private String omschrijving;
 
-    public Actie(String Omschrijving) {
-        this.omschrijving = Omschrijving;
+    public Actie(String omschrijving) {
+        setOmschrijving(omschrijving);
     }
 
     protected Actie() {
@@ -29,6 +29,14 @@ public class Actie implements Serializable {
 
     public String getOmschrijving() {
         return omschrijving;
+    }
+
+    public void setOmschrijving(String omschrijving) {
+        this.omschrijving = omschrijving;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

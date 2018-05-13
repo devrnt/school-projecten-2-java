@@ -7,12 +7,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -34,7 +36,7 @@ public class BreakOutBox implements Serializable {
     private SoortOnderwijsEnum soortOnderwijs;
     @ManyToMany
     private List<Oefening> oefeningen;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     private List<Actie> acties;
     @Transient
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
