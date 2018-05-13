@@ -122,11 +122,13 @@ public class BeheerActiesController extends AnchorPane {
         });
 
         this.addEventFilter(DeleteEvent.DELETE, event -> {
-            try {
+            boolean zitActieInBox = actieController.zitActieInBox(event.getId());
+            System.out.println(zitActieInBox);
+            if (zitActieInBox) {
+                showDeleteFailedAlert();
+            } else {
                 actieController.deleteActie(event.getId());
                 children.clear();
-            } catch (RuntimeException e) {
-                showDeleteFailedAlert();
             }
         });
 
@@ -134,11 +136,12 @@ public class BeheerActiesController extends AnchorPane {
             children.clear();
             children.add(new CreateActieController(actieController, event.getId()));
         });
-        
-         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
-            if (event.getId() >= 0)
+            if (event.getId() >= 0) {
                 children.add(new DetailsActieController(actieController.getActie(event.getId())));
+            }
         });
 
     }

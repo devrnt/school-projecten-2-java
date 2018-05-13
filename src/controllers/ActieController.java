@@ -44,6 +44,10 @@ public final class ActieController {
     public void deleteActie(int id) {
         actieBeheer.deleteActie(id);
     }
+    
+    public boolean zitActieInBox(int actieId){
+        return actieBeheer.zitActieInBox(actieId);
+    }
 
     public void applyFilter(String toFilter) {
         actieBeheer.applyFilter(toFilter);

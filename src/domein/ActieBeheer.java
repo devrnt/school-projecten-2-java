@@ -24,9 +24,11 @@ public class ActieBeheer implements Observer {
     private GenericDao<Actie> actieRepo;
     private ObservableList<Actie> actieLijst;
     private FilteredList<Actie> gefilterdeActieLijst;
+    private final BreakOutBoxBeheer boxBeheer;
 
     public ActieBeheer() {
         setActieRepo(new GenericDaoJpa(Actie.class));
+        boxBeheer = new BreakOutBoxBeheer();
     }
 
     private void setActieRepo(GenericDaoJpa actieRepo) {
@@ -67,6 +69,16 @@ public class ActieBeheer implements Observer {
         } else {
             actieRepo.delete(actie);
         }
+    }
+    
+    public boolean zitActieInBox(int actieId){
+        Actie actie = actieRepo.get(actieId);
+        if(actie == null ){
+            throw new NotFoundException("De actie werd niet gevonden");
+        }
+        return boxBeheer.getAllBreakOutBoxen()
+                .stream()
+                .anyMatch(box -> box.getActies().contains(actie));
     }
 
     public void applyFilter(String toFilter) {
