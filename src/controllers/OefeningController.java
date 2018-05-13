@@ -108,6 +108,14 @@ public final class OefeningController {
     }
     
     /**
+     * Geeft de meeste recent aangemaakt oefening terug
+     * @return 
+     */
+    public Oefening getMeestRecenteOefening(){
+        return oefeningBeheer.getMeestRecenteOefening();
+    }
+    
+    /**
      * Geeft een lijst terug van alle vakken die al gebruikt geweest zijn
      * in een oefening
      * @return een lijst van vakken

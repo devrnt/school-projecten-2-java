@@ -1,6 +1,7 @@
 package domein;
 
 import exceptions.NotFoundException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -82,6 +83,10 @@ public final class OefeningBeheer implements Observer {
     
     public Oefening getOefening(int id) {
         return oefeningRepo.get(id);
+    }
+    
+    public Oefening getMeestRecenteOefening(){
+        return oefeningRepo.findAll().stream().sorted(Comparator.comparing(Oefening::getId).reversed()).collect(Collectors.toList()).get(0);
     }
     
     public ObservableList<Oefening> getOefeningen() {

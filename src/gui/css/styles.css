@@ -250,6 +250,8 @@ menuItems:    #3F3F3F
     -fx-scale-x: 0.97;
 }
 
+/* === COMBOBOX === */
+
 .combo-box .arrow-button
 {
     -fx-background-color: null;
@@ -266,3 +268,12 @@ menuItems:    #3F3F3F
     -fx-shape: null;
 }
 
+/* === Notificaties === */
+
+.notificatieError {
+    -fx-background-color: red;
+}
+
+.notificatieSuccess {
+    -fx-background-color: green;
+}

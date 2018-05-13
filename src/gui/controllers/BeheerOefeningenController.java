@@ -8,8 +8,11 @@ import gui.events.DetailsEvent;
 import gui.events.WijzigEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -61,6 +64,8 @@ public class BeheerOefeningenController extends AnchorPane {
     private ObservableList<Node> children;
 
     private OefeningController controller;
+    private Oefening laatstVerwijderd;
+    private SortedList<Oefening> oefeningen;
 
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
@@ -75,7 +80,8 @@ public class BeheerOefeningenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        
+        oefeningen = controller.getOefeningen().sorted(Comparator.comparing(Oefening::getOpgave));
         children = detailsStackPane.getChildren();
 
         stelTableViewIn();
@@ -100,7 +106,7 @@ public class BeheerOefeningenController extends AnchorPane {
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
         doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
-        oefeningenTable.setItems(controller.getOefeningen());
+        oefeningenTable.setItems(oefeningen);
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
@@ -118,35 +124,42 @@ public class BeheerOefeningenController extends AnchorPane {
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
             boolean inBox = controller.zitOefeningInBox(event.getId());
-            String opgaveNaam = new File(controller.getOefening(event.getId()).getOpgave()).getName();
+            laatstVerwijderd = controller.getOefening(event.getId());
+            String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             if (inBox) {
-                showDeleteFailedAlert(opgaveNaam);
+                children.add(new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), "#C62828"));
             } else {
-                AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
-                verwijderAlert.setTitle("Verwijderen oefening");
-                verwijderAlert.setHeaderText("Bevestigen");
-                verwijderAlert.setContentText("Weet u zeker dat u deze oefening wil verwijderen?");
-                verwijderAlert.showAndWait().ifPresent(result -> {
-                    if (result == ButtonType.OK) {
-                        controller.deleteOefening(event.getId());
-                        children.clear();
-                        VBox vbox = new VBox();
-                        vbox.alignmentProperty().setValue(Pos.CENTER);
-                        vbox.getChildren().add(new Label(String.format("Oefening met opgave %s is verwijderd", opgaveNaam)));
-                        children.add(vbox);
-                    }
+
+                controller.deleteOefening(event.getId());
+                children.clear();
+                VBox vbox = new VBox();
+                vbox.alignmentProperty().setValue(Pos.CENTER);
+                Button ongedaanButton = new Button("Ongedaan maken");
+                ongedaanButton.setOnAction(clickEvent -> {
+                    controller.createOefening(
+                            laatstVerwijderd.getOpgave(),
+                            laatstVerwijderd.getAntwoord(),
+                            laatstVerwijderd.getFeedback(),
+                            laatstVerwijderd.getVak(),
+                            laatstVerwijderd.getDoelstellingen(),
+                            laatstVerwijderd.getGroepsbewerkingen()
+                    );
+                    oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());               
                 });
+                vbox.getChildren().add(new Label(String.format("Oefening met opgave %s is verwijderd", opgaveNaam)));
+                vbox.getChildren().add(ongedaanButton);
+                children.add(vbox);
             }
         });
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
             if (event.getId() < 0) {
-                int size = controller.getOefeningen().size();
-                children.add(new DetailsOefeningController(controller.getOefeningen().get(size - 1)));
-                oefeningenTable.getSelectionModel().select(size - 1);
+                oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());
+                children.add(new NotificatiePanelController("Oefening is succesvol aangemaakt", "#28BB66"));
             } else {
-                children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
+                oefeningenTable.getSelectionModel().select(controller.getOefening(event.getId()));
+                children.add(new NotificatiePanelController("Oefening is succesvol gewijzigd", "#28BB66"));
             }
         });
 
@@ -156,14 +169,6 @@ public class BeheerOefeningenController extends AnchorPane {
                 children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
             }
         });
-    }
-
-    private void showDeleteFailedAlert(String opgaveNaam) {
-        AlertCS alert = new AlertCS(Alert.AlertType.WARNING);
-        alert.setTitle("Oefening beheren");
-        alert.setHeaderText("Oefening verwijderen");
-        alert.setContentText(String.format("Oefening met opgave %s kan niet verwijderd worden omdat deze nog in een box voorkomt", opgaveNaam));
-        alert.showAndWait();
     }
 
 }
