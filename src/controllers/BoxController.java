@@ -74,8 +74,8 @@ public final class BoxController {
         boxBeheer.createSamenvattingBox(id);
     }
 
-    public boolean isBoxGedaan(BreakOutBox box) {
+    public boolean zitBoxInSessie(int boxId) {
         SessieBeheer sb = new SessieBeheer();
-        return sb.isBoxGedaan(box);
+        return sb.zitBoxInSessie(boxId);
     }
 }

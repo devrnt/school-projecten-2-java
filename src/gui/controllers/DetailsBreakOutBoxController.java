@@ -62,7 +62,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         if (box != null) {
             init();
         }
-        if (boxController.isBoxGedaan(box)) {
+        if (boxController.zitBoxInSessie(box.getId())) {
             verwijderButton.setDisable(true);
         }
     }

@@ -100,7 +100,7 @@ public final class BreakOutBoxBeheer implements Observer {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
         SessieBeheer sb = new SessieBeheer();
-        if (!sb.isBoxGedaan(box)) {
+        if (!sb.zitBoxInSessie(boxId)) {
             breakOutBoxRepo.delete(box);
         }
     }

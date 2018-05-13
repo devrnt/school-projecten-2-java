@@ -139,7 +139,7 @@ public class OefeningControllerTest {
 
     @Test
     public void applyFilter_WithWhiteSpaceReturnsMatches() {
-        controller.applyFilter("opgave 1");
+        controller.applyFilter("     opgave1    ");
         Assert.assertEquals(1, controller.getOefeningen().size());
     }
 //</editor-fold>

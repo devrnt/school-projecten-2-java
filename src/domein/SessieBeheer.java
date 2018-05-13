@@ -74,9 +74,9 @@ public final class SessieBeheer implements Observer {
         sessieRepo.delete(sessie);
     }
 
-    public boolean isBoxGedaan(BreakOutBox box) {
+    public boolean zitBoxInSessie(int boxId) {
         //dit moet beter -Yanis
-        return sessieLijst.stream().anyMatch(t -> t.getBox() == box);
+        return sessieLijst.stream().anyMatch(s -> s.getBox().getId() == boxId);
     }
 
     public boolean bestaatSessieNaam(String naam) {
