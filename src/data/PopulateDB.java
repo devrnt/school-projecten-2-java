@@ -55,32 +55,46 @@ public class PopulateDB {
                 groepbwRepo.findAll()),
             new Oefening(
                 pad + "rekensommenAftrekken.pdf",
-                400,
+                201,
                 pad + "feedbackRekenen.pdf",
                 "Hoofdrekenen",
-                new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "c106"})),
+                new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "A106"})),
                 groepbwRepo.findAll()),
             new Oefening(
                 pad + "rekensommenDelen.pdf",
-                400,
+                40,
                 pad + "feedbackRekenen.pdf",
                 "Hoofdrekenen",
                 new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "C107"})),
                 groepbwRepo.findAll()),
             new Oefening(
                 pad + "rekensommenVermeningvuldigen.pdf",
-                400,
+                101,
                 pad + "feedbackRekenen.pdf",
                 "Hoofdrekenen",
                 new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "C108"})),
                 groepbwRepo.findAll()),
             new Oefening(
                 pad + "pythagoras.pdf",
-                25,
+                29,
                 pad + "feedbackMeetkunde.pdf",
                 "Meetkunde",
                 new ArrayList<>(Arrays.asList(new String[]{"D202", "C106"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)}))),
+            new Oefening(
+                pad + "omtrekOppervlakte.pdf",
+                25,
+                pad + "feedbackMeetkunde.pdf",
+                "Meetkunde",
+                new ArrayList<>(Arrays.asList(new String[]{"D205", "C156"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4), groepbwRepo.get(2)}))),
+            new Oefening(
+                pad + "cirkels.pdf",
+                130,
+                pad + "feedbackMeetkunde.pdf",
+                "Meetkunde",
+                new ArrayList<>(Arrays.asList(new String[]{"B302", "C136"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)}))),
             new Oefening(
                 pad + "staartdeling.pdf",
                 140,
@@ -88,6 +102,13 @@ public class PopulateDB {
                 "Cijferen",
                 new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)}))),
+            new Oefening(
+                pad + "cijferenKommagetallen.pdf",
+                10,
+                pad + "feedbackCijferen.pdf",
+                "Cijferen",
+                new ArrayList<>(Arrays.asList(new String[]{"D152", "C502"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4)}))),
             /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
             new Oefening(
                 pad + "problemen.pdf",
@@ -96,6 +117,20 @@ public class PopulateDB {
                 "Vraagstukken",
                 new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
                 new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)}))),
+            new Oefening(
+                pad + "geldVraagstukken.pdf",
+                140,
+                pad + "feedbackVraagstukken.pdf",
+                "Vraagstukken",
+                new ArrayList<>(Arrays.asList(new String[]{"A256", "D324"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4), groepbwRepo.get(2)}))),
+            new Oefening(
+                pad + "inhoudVraagstukken.pdf",
+                140,
+                pad + "feedbackVraagstukken.pdf",
+                "Vraagstukken",
+                new ArrayList<>(Arrays.asList(new String[]{"B706", "C204"})),
+                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)}))),
         }));
         
         oefeningen.forEach(o -> oefeningRepo.insert(o));

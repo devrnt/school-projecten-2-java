@@ -145,6 +145,7 @@ public class BeheerOefeningenController extends AnchorPane {
             if (event.getId() < 0) {
                 int size = controller.getOefeningen().size();
                 children.add(new DetailsOefeningController(controller.getOefeningen().get(size - 1)));
+                oefeningenTable.getSelectionModel().select(size - 1);
             } else {
                 children.add(new DetailsOefeningController(controller.getOefening(event.getId())));
             }
