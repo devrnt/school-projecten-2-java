@@ -56,6 +56,15 @@ public final class OefeningController {
     public void deleteOefening(int oefId) {
         oefeningBeheer.deleteOefening(oefId);
     }
+    
+    /**
+     * Controleert of de oefening nog in een breakoutbox zit
+     * @param oefId
+     * @return true indien de oefening nog in een breakoutbox zit, anders false
+     */
+    public boolean zitOefeningInBox(int oefId){
+        return oefeningBeheer.zitOefeningInBox(oefId);
+    }
 
     /**
      * Geeft een ObservableList terug van alle groepsbewerkingen in de databank

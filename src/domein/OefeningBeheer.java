@@ -21,10 +21,12 @@ public final class OefeningBeheer implements Observer {
     private ObservableList<Oefening> oefeningenLijst;
     private FilteredList<Oefening> gefilterdeOefeningenLijst;
     private GroepsbewerkingDao groepsbewerkingRepo;
+    private final BreakOutBoxBeheer boxBeheer;
 
     public OefeningBeheer() {
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
         setGroepsbewerkingRepo(new GroepsbewerkingDaoJpa());
+        boxBeheer = new BreakOutBoxBeheer();
     }
     
     public void setGroepsbewerkingRepo(GroepsbewerkingDao groepsbewerkingRepo) {
@@ -63,7 +65,18 @@ public final class OefeningBeheer implements Observer {
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
+        
         oefeningRepo.delete(oefening);
+    }
+    
+    public boolean zitOefeningInBox(int oefId){
+        Oefening oefening = oefeningRepo.get(oefId);
+        if (oefening == null) {
+            throw new NotFoundException("De oefening werd niet gevonden");
+        }
+        return boxBeheer.getAllBreakOutBoxen()
+                .stream()
+                .anyMatch(b -> b.getOefeningen().contains(oefening));
     }
     
     public Oefening getOefening(int id) {
