@@ -1,12 +1,14 @@
 package domein;
 
 import java.io.Serializable;
+import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
@@ -19,6 +21,9 @@ public class Actie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String omschrijving;
+
+    @Transient
+    private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
 
     public Actie(String omschrijving) {
         setOmschrijving(omschrijving);
@@ -33,10 +38,15 @@ public class Actie implements Serializable {
 
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
+        omschrijvingProperty.set(omschrijving);
     }
 
     public int getId() {
         return id;
+    }
+
+    public SimpleStringProperty getOmschrijvingProperty() {
+        return omschrijvingProperty;
     }
 
     @Override
