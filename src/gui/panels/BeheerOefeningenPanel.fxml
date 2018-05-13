@@ -84,9 +84,9 @@
                      <children>
                         <TableView fx:id="oefeningenTable" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-1.0" minWidth="125.0" prefWidth="-1.0" styleClass="table-view-cell-header" text="Opgave" />
-                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-1.0" minWidth="125.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Vak" />
-                              <TableColumn fx:id="doelstellingenCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Doelstellingen" />
+                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-Infinity" minWidth="175.0" prefWidth="175.0" styleClass="table-view-cell-header" text="Opgave" />
+                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-Infinity" minWidth="125.0" prefWidth="125.0" styleClass="table-view-cell-header" text="Vak" />
+                              <TableColumn fx:id="doelstellingenCol" maxWidth="-Infinity" minWidth="177.0" prefWidth="177.0" resizable="false" styleClass="table-view-cell-header" text="Doelstellingen" />
                           </columns>
                            <HBox.margin>
                               <Insets />

@@ -4,6 +4,7 @@ import exceptions.NotFoundException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -21,10 +22,12 @@ public final class OefeningBeheer implements Observer {
     private ObservableList<Oefening> oefeningenLijst;
     private FilteredList<Oefening> gefilterdeOefeningenLijst;
     private GroepsbewerkingDao groepsbewerkingRepo;
+    private final BreakOutBoxBeheer boxBeheer;
 
     public OefeningBeheer() {
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
         setGroepsbewerkingRepo(new GroepsbewerkingDaoJpa());
+        boxBeheer = new BreakOutBoxBeheer();
     }
     
     public void setGroepsbewerkingRepo(GroepsbewerkingDao groepsbewerkingRepo) {
@@ -63,7 +66,18 @@ public final class OefeningBeheer implements Observer {
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
+        
         oefeningRepo.delete(oefening);
+    }
+    
+    public boolean zitOefeningInBox(int oefId){
+        Oefening oefening = oefeningRepo.get(oefId);
+        if (oefening == null) {
+            throw new NotFoundException("De oefening werd niet gevonden");
+        }
+        return boxBeheer.getAllBreakOutBoxen()
+                .stream()
+                .anyMatch(b -> b.getOefeningen().contains(oefening));
     }
     
     public Oefening getOefening(int id) {
@@ -101,6 +115,18 @@ public final class OefeningBeheer implements Observer {
     public ObservableList<Groepsbewerking> getGroepsbewerkingenByOefening(int oefeningId) {
         List<Groepsbewerking> groepsbewerkingen = oefeningRepo.get(oefeningId).getGroepsbewerkingen();
         return FXCollections.observableArrayList(groepsbewerkingen);
+    }
+    
+    public ObservableList<String> getVakken(){
+        return FXCollections.observableArrayList(oefeningenLijst.stream().map(o -> o.getVak()).collect(Collectors.toSet()));
+    }
+    
+    public ObservableList<String> getDoelstellingen(){
+        return FXCollections.observableArrayList(
+                oefeningenLijst.stream()
+                        .map(o -> o.getDoelstellingen())
+                        .flatMap(List::stream)
+                        .collect(Collectors.toSet()));
     }
     
 }

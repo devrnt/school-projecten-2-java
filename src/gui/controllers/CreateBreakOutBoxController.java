@@ -141,7 +141,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
                 AlertCS boxChangedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
                 boxChangedSuccess.setTitle("BreakOutBox");
                 boxChangedSuccess.setHeaderText("Wijzigen van een box");
-                boxChangedSuccess.setContentText("BreakOutBox  " + naamTxt.getText() + " is succesvol aangemaakt");
+                boxChangedSuccess.setContentText("BreakOutBox  " + naamTxt.getText() + " is succesvol gewijzigd");
                 boxChangedSuccess.showAndWait();
                 terugNaarLijst();
             } else {
