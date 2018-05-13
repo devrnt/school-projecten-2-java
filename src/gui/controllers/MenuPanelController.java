@@ -37,12 +37,15 @@ public class MenuPanelController extends AnchorPane {
     private final double WIDTH = 17;
     private final double HEIGHT = 17;
 
-    private Image oefeningIco = new Image("/assets/icons/menu/oefeningIcon.png");
-    private Image boxIco = new Image("/assets/icons/menu/boxIcon.png");
-    private Image sessieIco = new Image("/assets/icons/menu/sessieIcon.png");
-    private Image klasIco = new Image("/assets/icons/menu/klasIcon.png");
+    private final String PATH = "/assets/icons/menu/";
 
-    private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco};
+    private Image oefeningIco = new Image(getClass().getResourceAsStream(PATH + "oefeningIcon.png"));
+    private Image boxIco = new Image(getClass().getResourceAsStream(PATH + "boxIcon.png"));
+    private Image sessieIco = new Image(getClass().getResourceAsStream(PATH + "sessieIcon.png"));
+    private Image klasIco = new Image(getClass().getResourceAsStream(PATH + "klasIcon.png"));
+    private Image actieIco = new Image(getClass().getResourceAsStream(PATH + "actionIcon.png"));
+
+    private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco, actieIco};
 
     public MenuPanelController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/MenuPanel.fxml"));
@@ -63,7 +66,7 @@ public class MenuPanelController extends AnchorPane {
 //                this.fireEvent(menuEvent);
 //            });
 //        });
-        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen");
+        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen", "   Acties");
         menuListView.setCellFactory(param -> new ListCell<String>() {
             ImageView imageVw = new ImageView();
 
@@ -88,9 +91,9 @@ public class MenuPanelController extends AnchorPane {
                         case "Klassen":
                             imageVw.setImage(icons[3]);
                             break;
-                    }
-                    if (name.equals("Oefeningen")) {
-                        imageVw.setImage(icons[0]);
+                        case "Acties":
+                            imageVw.setImage(icons[4]);
+                            break;
                     }
                     imageVw.setFitHeight(WIDTH);
                     imageVw.setFitWidth(HEIGHT);
