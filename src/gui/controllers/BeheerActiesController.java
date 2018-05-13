@@ -7,9 +7,12 @@ package gui.controllers;
 
 import controllers.ActieController;
 import domein.Actie;
+import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
+import gui.events.DetailsEvent;
 import gui.events.WijzigEvent;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -19,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -26,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -73,7 +78,6 @@ public class BeheerActiesController extends AnchorPane {
         voegEventHandlersToe();
     }
 
-
     public final void initialize() {
         // set column
         omschrijvingCol.setCellValueFactory(cell -> cell.getValue().getOmschrijvingProperty());
@@ -88,6 +92,14 @@ public class BeheerActiesController extends AnchorPane {
         // fill the table 
         actieTabel.setItems(sortedActies);
 
+        // add listener on click to trigger details
+        actieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
+            if (newval != null) {
+                children.clear();
+                children.add(new DetailsActieController(newval));
+            }
+        });
+
         // filter
         searchTextField.setOnKeyReleased(event -> actieController.applyFilter(searchTextField.getText()));
     }
@@ -95,11 +107,51 @@ public class BeheerActiesController extends AnchorPane {
     @FXML
     private void maakActieButtonClicked(ActionEvent event) {
         detailsStackPane.getChildren().clear();
-        //detailsStackPane.getChildren().add(new CreateActieController(actieController));
+        detailsStackPane.getChildren().add(new CreateActieController(actieController));
     }
 
     private void voegEventHandlersToe() {
-       
+        this.addEventHandler(DetailsEvent.DETAILS, event -> {
+            children.clear();
+            if (event.getId() < 0) {
+                int size = acties.size();
+                children.add(new DetailsActieController(acties.get(size - 1)));
+            } else {
+                children.add(new DetailsActieController(actieController.getActie(event.getId())));
+            }
+        });
+
+        this.addEventFilter(DeleteEvent.DELETE, event -> {
+            boolean zitActieInBox = actieController.zitActieInBox(event.getId());
+            System.out.println(zitActieInBox);
+            if (zitActieInBox) {
+                showDeleteFailedAlert();
+            } else {
+                actieController.deleteActie(event.getId());
+                children.clear();
+            }
+        });
+
+        this.addEventHandler(WijzigEvent.WIJZIG, event -> {
+            children.clear();
+            children.add(new CreateActieController(actieController, event.getId()));
+        });
+
+        this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
+            children.clear();
+            if (event.getId() >= 0) {
+                children.add(new DetailsActieController(actieController.getActie(event.getId())));
+            }
+        });
+
+    }
+
+    private void showDeleteFailedAlert() {
+        AlertCS alert = new AlertCS(Alert.AlertType.WARNING);
+        alert.setTitle("Acties beheren");
+        alert.setHeaderText("Actie verwijderen");
+        alert.setContentText("Actie kan niet verwijderd worden omdat deze nog in een box voorkomt");
+        alert.showAndWait();
     }
 
 }
