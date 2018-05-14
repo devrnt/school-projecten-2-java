@@ -81,9 +81,9 @@ public class GroepsbewerkingBeheer implements Observer {
             String lowerCaseFilter = toFilter.toLowerCase();
             lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
 
-            return groepsBew.getOmschrijving().trim().toLowerCase().contains(lowerCaseFilter)
+            return groepsBew.getOmschrijving().trim().toLowerCase().replaceAll("\\s+","").contains(lowerCaseFilter)
                     || groepsBew.getOperator().toString().trim().toLowerCase().contains(lowerCaseFilter)
-                    || groepsBew.getFactor() == Integer.parseInt(lowerCaseFilter);
+                    || Integer.toString(groepsBew.getFactor()).equals(lowerCaseFilter);
         });
     }
 

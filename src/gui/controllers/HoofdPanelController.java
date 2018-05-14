@@ -2,6 +2,7 @@ package gui.controllers;
 
 import controllers.ActieController;
 import controllers.BoxController;
+import controllers.GroepsbewerkingController;
 import controllers.KlasController;
 import controllers.OefeningController;
 import controllers.SessieController;
@@ -49,7 +50,8 @@ public class HoofdPanelController extends AnchorPane {
             new BeheerBreakOutBoxPanelController(new BoxController()),
             new BeheerSessiesController(new SessieController()),
             new BeheerKlassenController(new KlasController()),
-            new BeheerActiesController(new ActieController())
+            new BeheerActiesController(new ActieController()),
+            new BeheerGroepsbewerkingenController(new GroepsbewerkingController())
         };
 
         // zet alle beheercomponents op onzichtbaar

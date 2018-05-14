@@ -44,8 +44,9 @@ public class MenuPanelController extends AnchorPane {
     private Image sessieIco = new Image(getClass().getResourceAsStream(PATH + "sessieIcon.png"));
     private Image klasIco = new Image(getClass().getResourceAsStream(PATH + "klasIcon.png"));
     private Image actieIco = new Image(getClass().getResourceAsStream(PATH + "actionIcon.png"));
+    private Image groepsBewIco = new Image(getClass().getResourceAsStream(PATH + "operationIcon.png"));
 
-    private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco, actieIco};
+    private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco, actieIco, groepsBewIco};
 
     public MenuPanelController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/MenuPanel.fxml"));
@@ -66,7 +67,7 @@ public class MenuPanelController extends AnchorPane {
 //                this.fireEvent(menuEvent);
 //            });
 //        });
-        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen", "   Acties");
+        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen", "   Acties", "   Groepsbewerkingen");
         menuListView.setCellFactory(param -> new ListCell<String>() {
             ImageView imageVw = new ImageView();
 
@@ -93,6 +94,9 @@ public class MenuPanelController extends AnchorPane {
                             break;
                         case "Acties":
                             imageVw.setImage(icons[4]);
+                            break;
+                        case "Groepsbewerkingen":
+                            imageVw.setImage(icons[5]);
                             break;
                     }
                     imageVw.setFitHeight(WIDTH);
