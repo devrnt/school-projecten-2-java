@@ -24,24 +24,25 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "Groepsbewerking.findAll",
             query = "SELECT o FROM Groepsbewerking o")
 })
-public class Groepsbewerking implements Serializable {
+public final class Groepsbewerking implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String omschrijving;
     private int factor;
-    
+
     @Enumerated(EnumType.STRING)
     private OperatorEnum operator;
 
     public Groepsbewerking(String omschrijving, int factor, OperatorEnum operator) {
-        this.omschrijving = omschrijving;
-        this.factor = factor;
-        this.operator = operator;
+        setOmschrijving(omschrijving);
+        setFactor(factor);
+        setOperator(operator);
     }
-    
-    protected Groepsbewerking(){
-        
+
+    protected Groepsbewerking() {
+
     }
 
     public int getId() {
@@ -59,13 +60,22 @@ public class Groepsbewerking implements Serializable {
     public OperatorEnum getOperator() {
         return operator;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return omschrijving;
     }
-    
-    
-    
-    
+
+    public void setOmschrijving(String omschrijving) {
+        this.omschrijving = omschrijving;
+    }
+
+    public void setFactor(int factor) {
+        this.factor = factor;
+    }
+
+    public void setOperator(OperatorEnum operator) {
+        this.operator = operator;
+    }
+
 }
