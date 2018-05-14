@@ -7,9 +7,12 @@
 package domein;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.CascadeType;
@@ -22,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -58,12 +62,14 @@ public class Sessie implements Serializable, ISessie {
     private Boolean isGedaan;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private BreakOutBox box;
+    //private List<Groep> groepen;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Groep> groepen;
 
     public Sessie() {
     }
 
-    public Sessie(String naam, String omschrijving,
-            Klas klas, BreakOutBox box,
+    public Sessie(String naam, String omschrijving, Klas klas, BreakOutBox box,
             Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isgedaan) {
         setNaam(naam);
         setOmschrijving(omschrijving);
@@ -74,6 +80,11 @@ public class Sessie implements Serializable, ISessie {
         setSoortOnderwijs(soortOnderwijs);
         setFoutAntwoordActie(foutAntwoordActie);
         setIsGedaan(isgedaan);
+        if (soortOnderwijs == SoortOnderwijsEnum.dagonderwijs) {
+            genereerPadenDag();
+        } else {
+            genereerPadenAfstand();
+        }
     }
 
     // <editor-fold desc="Getters and Setters" >
@@ -117,12 +128,12 @@ public class Sessie implements Serializable, ISessie {
         // controle: datum moet na vandaag zijn
         Calendar cal = Calendar.getInstance();
         cal.setTime(datum);
-        
+
         int gekozenDag = cal.get(Calendar.DAY_OF_MONTH);
         Calendar huidig = Calendar.getInstance();
-        
+
         int huidigeDag = huidig.get(Calendar.DAY_OF_MONTH);
-        
+
         if (gekozenDag < huidigeDag) {
             throw new IllegalArgumentException("Datum moet in de toekomst liggen");
         } else {
@@ -210,4 +221,85 @@ public class Sessie implements Serializable, ISessie {
     }
     // </editor-fold>
 
+    private void genereerPadenDag() {
+        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
+        //this.groepen = new ArrayList<>();
+        int aantalOef = this.box.getOefeningen().size();
+        Random rand = new Random();
+        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroep);
+
+        int aantalAct = this.box.getActies().size();
+        List<List<Integer>> randomAct = genereerDubbeleArray(aantalAct, aantalGroep);
+
+        List<SessiePad> paden = new ArrayList<>();
+        List<Groep> groepen = new ArrayList<>();
+        List<Actie> acties = box.getActies();
+        List<Oefening> oefeningen = box.getOefeningen();
+
+        for (int i = 0; i < aantalGroep; i++) {
+            List<Integer> oefRandom = randomOef.get(i);
+            //List<Oefening> randomOefeningen = new ArrayList<>();
+            List<Opdracht> randomOpdrachten = new ArrayList<>();
+            for (Integer it : oefRandom) {
+                //randomOefeningen.add(oefeningen.get(it));
+                randomOpdrachten.add(new Opdracht(oefeningen.get(it), Integer.toString(rand.nextInt(1000))));
+            }
+            //  oefRandom.forEach((it) -> {
+            //    
+            //  });
+            List<Integer> actRandom = randomAct.get(i);
+            List<Actie> randomActies = new ArrayList<>();
+            for (Integer it : actRandom) {
+                randomActies.add(acties.get(it));
+
+            }
+            actRandom.forEach((it) -> {
+            });
+            SessiePad pad = new SessiePad(randomOpdrachten, randomActies, soortOnderwijs);
+            groepen.add(new Groep("groep" + i, pad));
+        }
+        this.groepen = groepen;
+    }
+
+    private void genereerPadenAfstand() {
+        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
+        //this.groepen = new ArrayList<>();
+        int aantalOef = this.box.getOefeningen().size();
+        Random rand = new Random();
+        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroep);
+        List<Groep> groepen = new ArrayList<>();
+        List<Oefening> oefeningen = box.getOefeningen();
+
+        for (int i = 0; i < aantalGroep; i++) {
+            List<Integer> oefRandom = randomOef.get(i);
+            List<Oefening> randomOefeningen = new ArrayList<>();
+            List<Opdracht> randomOpdrachten = new ArrayList<>();
+            oefRandom.forEach((it) -> {
+                randomOefeningen.add(oefeningen.get(it));
+                randomOpdrachten.add(new Opdracht(oefeningen.get(it), Integer.toString(rand.nextInt(1000))));
+            });
+            SessiePad pad = new SessiePad(randomOpdrachten, soortOnderwijs);
+            groepen.add(new Groep("groep" + i, pad));
+        }
+        this.groepen = groepen;
+    }
+
+    private List<List<Integer>> genereerDubbeleArray(int breedte, int diepte) {
+        Random rand = new Random();
+        List<Integer> startposities = new ArrayList<>();
+        for (int a = 0; a < breedte; a++) {
+            startposities.add(a);
+        }
+        List<List<Integer>> dubbelleArray = new ArrayList<>();
+        for (int b = 0; b < diepte; b++) {
+            dubbelleArray.add(new ArrayList<>());
+        }
+        for (int i = 1; i <= breedte; i++) {
+            int start = startposities.remove(rand.nextInt(startposities.size()));
+            for (int j = 0; j < diepte; j++) {
+                dubbelleArray.get(j).add((start + j) % breedte);
+            }
+        }
+        return dubbelleArray;
+    }
 }

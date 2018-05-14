@@ -4,7 +4,7 @@ import domein.Groepsbewerking;
 import domein.Groep;
 import domein.GroepBeheer;
 import domein.Leerling;
-import domein.Pad;
+import domein.SessiePad;
 import exceptions.NotFoundException;
 import java.util.List;
 import javafx.collections.ObservableList;
