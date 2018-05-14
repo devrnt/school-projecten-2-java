@@ -12,6 +12,8 @@ import org.junit.runners.Suite;
     controllers.BoxControllerTest.class,
     controllers.OefeningControllerTest.class,
     controllers.SessieControllerTest.class,
+    controllers.ActieControllerTest.class,
+    controllers.GroepsbewerkingControllerTest.class,
     domein.KlasTest.class,
     domein.SessieTest.class
 })

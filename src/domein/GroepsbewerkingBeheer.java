@@ -31,10 +31,10 @@ public class GroepsbewerkingBeheer implements Observer {
         oefeningBeheer = new OefeningBeheer();
     }
 
-    private void setGroepsbewerkingRepo(GenericDaoJpa groepsbewerkingRepo) {
+    public void setGroepsbewerkingRepo(GenericDao groepsbewerkingRepo) {
         this.groepsbewerkingRepo = groepsbewerkingRepo;
         this.groepsbewerkingRepo.addObserver(this);
-        groepsbewerkingLijst = FXCollections.observableArrayList(this.groepsbewerkingRepo.findAll());
+        groepsbewerkingLijst = FXCollections.observableArrayList(groepsbewerkingRepo.findAll());
         gefilterdeGroepsbewerkingLijst = new FilteredList<>(groepsbewerkingLijst, s -> true);
     }
 
@@ -48,6 +48,7 @@ public class GroepsbewerkingBeheer implements Observer {
     }
 
     public ObservableList<Groepsbewerking> getAllGroepsbewerkingen() {
+ 
         return gefilterdeGroepsbewerkingLijst.sorted(Comparator.comparing(Groepsbewerking::getOmschrijving));
     }
 
@@ -81,7 +82,7 @@ public class GroepsbewerkingBeheer implements Observer {
             String lowerCaseFilter = toFilter.toLowerCase();
             lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
 
-            return groepsBew.getOmschrijving().trim().toLowerCase().replaceAll("\\s+","").contains(lowerCaseFilter)
+            return groepsBew.getOmschrijving().trim().toLowerCase().replaceAll("\\s+", "").contains(lowerCaseFilter)
                     || groepsBew.getOperator().toString().trim().toLowerCase().contains(lowerCaseFilter)
                     || Integer.toString(groepsBew.getFactor()).equals(lowerCaseFilter);
         });
@@ -95,6 +96,10 @@ public class GroepsbewerkingBeheer implements Observer {
         return oefeningBeheer.getOefeningen()
                 .stream()
                 .anyMatch(oef -> oef.getGroepsbewerkingen().contains(groepsBewerking));
+    }
+
+    public void setGroepsbewerkingRepo2(GenericDao<Groepsbewerking> groepsbewerkingRepo) {
+        this.groepsbewerkingRepo = groepsbewerkingRepo;
     }
 
     @Override
