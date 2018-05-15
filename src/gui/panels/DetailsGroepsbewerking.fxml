@@ -92,6 +92,11 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../../assets/icons/details/factorIcon.png" />
+                     </image>
+                  </ImageView>
                   </children>
                <padding>
                   <Insets left="15.0" right="15.0" />
