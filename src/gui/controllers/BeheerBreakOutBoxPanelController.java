@@ -51,7 +51,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
 
     public BeheerBreakOutBoxPanelController(BoxController boxController) {
         this.boxController = boxController;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerBreakOutBoxPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerBreakOutBoxPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

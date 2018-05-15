@@ -72,7 +72,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerOefeningenPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerOefeningenPanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

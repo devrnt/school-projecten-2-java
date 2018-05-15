@@ -88,7 +88,7 @@ public class BeheerKlassenController extends AnchorPane {
     public BeheerKlassenController(KlasController klasController) {
         this.klasController = klasController;
         klassen = klasController.getAllKlassen();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerKlassen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerKlassen.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

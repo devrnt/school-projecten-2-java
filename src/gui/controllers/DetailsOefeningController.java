@@ -53,7 +53,7 @@ public class DetailsOefeningController extends AnchorPane {
     public DetailsOefeningController(Oefening oefening) {
         this.oefening = oefening;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsOefening.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsOefening.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

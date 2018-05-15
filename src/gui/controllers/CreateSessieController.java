@@ -87,7 +87,7 @@ public class CreateSessieController extends AnchorPane {
         this.sessieController = sessieController;
         klasController = new KlasController();
         boxController = new BoxController();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateSessie.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

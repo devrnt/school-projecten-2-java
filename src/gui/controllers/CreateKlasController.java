@@ -65,7 +65,7 @@ public class CreateKlasController extends AnchorPane {
 
     public CreateKlasController(KlasController klasController) {
         this.klasController = klasController;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateKlas.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateKlas.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

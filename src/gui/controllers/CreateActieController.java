@@ -50,7 +50,7 @@ public class CreateActieController extends AnchorPane {
     
     public CreateActieController(ActieController actieController) {
         this.actieController = actieController;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateActie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateActie.fxml"));
         
         loader.setRoot(this);
         loader.setController(this);

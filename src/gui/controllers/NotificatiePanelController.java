@@ -21,7 +21,7 @@ public class NotificatiePanelController extends AnchorPane {
     private VBox vbox;
 
     public NotificatiePanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/NotificatiePanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/NotificatiePanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

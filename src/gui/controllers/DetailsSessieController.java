@@ -60,7 +60,7 @@ public class DetailsSessieController extends AnchorPane {
     public DetailsSessieController(Sessie sessie) {
         this.sessie = sessie;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsSessie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsSessie.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

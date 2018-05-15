@@ -66,7 +66,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
         this.groepsbewerkingController = groepsbewerkingController;
         groepsbewerkingen = groepsbewerkingController.getAllGroepsbewerking();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerGroepsbewerkingenPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerGroepsbewerkingenPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

@@ -66,7 +66,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
         this.sessieController = sessieController;
         sessies = sessieController.getAllSessies();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerSessiesPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerSessiesPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

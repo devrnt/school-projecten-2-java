@@ -41,7 +41,7 @@ public class DetailsGroepsbewerkingController extends AnchorPane {
 
     public DetailsGroepsbewerkingController(Groepsbewerking groepsbewerking) {
         this.groepsbewerking = groepsbewerking;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsGroepsbewerking.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsGroepsbewerking.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

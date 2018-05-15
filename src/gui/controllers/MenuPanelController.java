@@ -49,7 +49,7 @@ public class MenuPanelController extends AnchorPane {
     private Image[] icons = {oefeningIco, boxIco, sessieIco, klasIco, actieIco, groepsBewIco};
 
     public MenuPanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/MenuPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/MenuPanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

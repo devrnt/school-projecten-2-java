@@ -76,7 +76,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
         this.box = null;
         this.isUpdate = false;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateBreakOutBox.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {

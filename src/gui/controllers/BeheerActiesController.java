@@ -62,7 +62,7 @@ public class BeheerActiesController extends AnchorPane implements Observer {
         this.actieController = actieController;
         acties = actieController.getAllActies();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerActiesPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerActiesPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

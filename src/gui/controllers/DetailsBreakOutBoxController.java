@@ -51,7 +51,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     public DetailsBreakOutBoxController(BreakOutBox box, BoxController boxController) {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsBreakOutBox.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsBreakOutBox.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {

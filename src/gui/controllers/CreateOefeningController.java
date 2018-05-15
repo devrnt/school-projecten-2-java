@@ -104,7 +104,7 @@ public class CreateOefeningController extends AnchorPane {
 
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateOefening.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateOefening.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

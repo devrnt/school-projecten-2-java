@@ -42,7 +42,7 @@ public class DetailsActieController extends AnchorPane {
 
     public DetailsActieController(Actie actie) {
         this.actie = actie;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsActie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsActie.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

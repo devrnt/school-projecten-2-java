@@ -46,7 +46,7 @@ public class DetailsKlasController extends AnchorPane {
 
     public DetailsKlasController(Klas klas) {
         this.klas = klas;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsKlas.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsKlas.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

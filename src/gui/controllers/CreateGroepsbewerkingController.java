@@ -61,7 +61,7 @@ public class CreateGroepsbewerkingController extends AnchorPane {
     CreateGroepsbewerkingController(GroepsbewerkingController groepsbewerkingController) {
         this.groepsbewerkingController = groepsbewerkingController;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateGroepsbewerking.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateGroepsbewerking.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

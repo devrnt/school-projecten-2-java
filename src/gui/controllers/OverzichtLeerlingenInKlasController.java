@@ -36,7 +36,7 @@ public class OverzichtLeerlingenInKlasController extends AnchorPane {
         this.klasController = klasController;
         this.klas = klasController.getKlas(klasId);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/OverzichtLeerlingenInKlas.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/OverzichtLeerlingenInKlas.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

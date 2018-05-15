@@ -28,7 +28,7 @@ public class HoofdPanelController extends AnchorPane {
     private StackPane beheerStackPane;
 
     public HoofdPanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/HoofdPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/HoofdPanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
