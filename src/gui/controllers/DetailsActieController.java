@@ -61,7 +61,6 @@ public class DetailsActieController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        toggleButton();
         Event deleteEvent = new DeleteEvent(actie.getId());
         this.fireEvent(deleteEvent);
     }

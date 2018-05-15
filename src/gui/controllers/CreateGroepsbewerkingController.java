@@ -10,10 +10,11 @@ import domein.Groepsbewerking;
 import domein.OperatorEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.List;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -153,17 +154,15 @@ public class CreateGroepsbewerkingController extends AnchorPane {
     }
 
     private void showSuccesAlert() {
-        bevestigAlert.showAndWait();
         Event beheerEvent = new DetailsEvent(groepsbewerking == null ? -1 : groepsbewerking.getId());
         this.fireEvent(beheerEvent);
     }
 
     private void showErrorAlert() {
-        AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
-        invalidInput.setTitle("Groepsbewerking  aanmaken");
-        invalidInput.setHeaderText("Er zijn nog ongeldige velden");
-        invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
-        invalidInput.showAndWait();
+        List<String> velden = new ArrayList<>();
+        velden.add("Er zijn nog ongeldige velden");
+        Event inputInvalidEvent = new InvalidInputEvent(velden);
+        this.fireEvent(inputInvalidEvent);
     }
 
 }

@@ -7,20 +7,20 @@ package gui.controllers;
 
 import controllers.GroepsbewerkingController;
 import domein.Groepsbewerking;
-import domein.OperatorEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,7 +37,7 @@ import utils.AlertCS;
  *
  * @author devri
  */
-public class BeheerGroepsbewerkingenController extends AnchorPane {
+public class BeheerGroepsbewerkingenController extends AnchorPane implements Observer {
 
     @FXML
     private AnchorPane AnchorPane;
@@ -111,25 +111,32 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
 
     private void voegEventHandlersToe() {
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
-            children.clear();System.out.println("details evet met id "+event.getId());
+            children.clear();
             if (event.getId() < 0) {
-                ObservableList<Groepsbewerking> updated = groepsbewerkingController.getAllGroepsbewerking();
-                updated.forEach(su -> System.out.println(su));
-                int size = updated.size();
-                children.add(new DetailsGroepsbewerkingController(updated.get(size-1)));
+                groepsbewTbl.getSelectionModel().select(groepsbewerkingController.getMeestRecenteGroepsbewerking());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol aangemaakt", "#28BB66"));
+                children.add(topNode);
             } else {
-                children.add(new DetailsGroepsbewerkingController(groepsbewerkingController.getGroepsbewerking(event.getId())));
+                groepsbewTbl.getSelectionModel().select(groepsbewerkingController.getMeestRecenteGroepsbewerking());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol gewijzigd", "#28BB66"));
+                children.add(topNode);
             }
         });
 
         this.addEventFilter(DeleteEvent.DELETE, event -> {
             boolean zitGroepsbewInOef = groepsbewerkingController.zitGroepsbewerkingInOefening(event.getId());
-            System.out.println(zitGroepsbewInOef);
+            String groepsBewOmschrijving = groepsbewerkingController.getGroepsbewerking(event.getId()).getOmschrijving();
             if (zitGroepsbewInOef) {
-                showDeleteFailedAlert();
+                ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", groepsBewOmschrijving), "#C62828"));
+                children.add(topNode);
             } else {
-                groepsbewerkingController.deleteGroepsbewerking(event.getId());
-                children.clear();
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                builder.addObserver(this);
+                children.add(builder.buildConfirmation());
             }
         });
 
@@ -143,6 +150,12 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
             if (event.getId() >= 0) {
                 children.add(new DetailsGroepsbewerkingController(groepsbewerkingController.getGroepsbewerking(event.getId())));
             }
+        });
+
+        this.addEventFilter(InvalidInputEvent.INVALIDINPUT, event -> {
+            Node topNode = children.get(0);
+            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+            children.add(topNode);
         });
 
     }
@@ -159,6 +172,21 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
     private void maakGroepsbewBtnClicked(ActionEvent event) {
         detailsStackPane.getChildren().clear();
         detailsStackPane.getChildren().add(new CreateGroepsbewerkingController(groepsbewerkingController));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String groepsbewOmschr = groepsbewerkingController.getGroepsbewerking(id).getOmschrijving();
+            groepsbewerkingController.deleteGroepsbewerking(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", groepsbewOmschr), "#28BB66"));
+        } else {
+            children.remove(1);
+            ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
+        }
     }
 
 }
