@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -47,7 +48,10 @@ public class NotificatiePanelController extends AnchorPane {
     }
 
     public void setNotificationColor(String color) {
-        notificatieLabel.setStyle(String.format("-fx-background-color:%s;-fx-background-radius:5;", color));
+        vbox.toFront();
+        toFront();
+        notificatieLabel.getStyleClass().add("notificatie");
+        notificatieLabel.setStyle(String.format("-fx-background-color:%s;", color));
     }
 
 }

@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.OefeningController;
+import domein.Kleuren;
 import domein.Oefening;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
@@ -131,7 +132,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             if (inBox) {
                 ((DetailsOefeningController) children.get(0)).toggleButtons();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), "#C62828"));
+                children.set(0, new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
@@ -145,12 +146,12 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             if (event.getId() < 0) {
                 oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Oefening is succesvol aangemaakt", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Oefening is succesvol aangemaakt", Kleuren.GROEN));
                 children.add(topNode);
             } else {
                 oefeningenTable.getSelectionModel().select(controller.getOefening(event.getId()));
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Oefening is succesvol gewijzigd", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Oefening is succesvol gewijzigd", Kleuren.GROEN));
                 children.add(topNode);
             }
         });
@@ -200,7 +201,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             controller.deleteOefening(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", opgaveNaam), "#28BB66"));
+            children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", opgaveNaam), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsOefeningController) children.get(0)).toggleButtons();

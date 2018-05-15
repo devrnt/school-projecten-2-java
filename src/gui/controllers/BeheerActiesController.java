@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.ActieController;
 import domein.Actie;
+import domein.Kleuren;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
@@ -116,12 +117,12 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             if (event.getId() < 0) {
                 actieTabel.getSelectionModel().select(actieController.getMeestRecenteActie());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Actie is succesvol aangemaakt", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Actie is succesvol aangemaakt", Kleuren.GROEN));
                 children.add(topNode);
             } else {
                 actieTabel.getSelectionModel().select(actieController.getMeestRecenteActie());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Actie is succesvol gewijzigd", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Actie is succesvol gewijzigd", Kleuren.GROEN));
                 children.add(topNode);
             }
         });
@@ -132,7 +133,7 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             if (inBox) {
                 ((DetailsActieController) children.get(0)).toggleButton();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Actie zit nog in een BreakOutBox", actieOmschrijving), "#C62828"));
+                children.set(0, new NotificatiePanelController(String.format("Actie zit nog in een BreakOutBox", actieOmschrijving), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
@@ -177,7 +178,7 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             String actieOmschrijving = actieController.getActie(id).getOmschrijving();
             actieController.deleteActie(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", actieOmschrijving), "#28BB66"));
+            children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", actieOmschrijving), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsActieController) children.get(0)).toggleButton();

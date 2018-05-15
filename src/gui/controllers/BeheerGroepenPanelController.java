@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.OefeningController;
+import domein.Kleuren;
 import domein.Oefening;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
@@ -80,7 +81,7 @@ public class BeheerGroepenPanelController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         oefeningen = controller.getOefeningen().sorted(Comparator.comparing(Oefening::getOpgave));
         children = detailsStackPane.getChildren();
 
@@ -127,7 +128,7 @@ public class BeheerGroepenPanelController extends AnchorPane {
             laatstVerwijderd = controller.getOefening(event.getId());
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             if (inBox) {
-                children.add(new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), "#C62828"));
+                children.add(new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), Kleuren.GEEL));
             } else {
 
                 controller.deleteOefening(event.getId());
@@ -144,7 +145,7 @@ public class BeheerGroepenPanelController extends AnchorPane {
                             laatstVerwijderd.getDoelstellingen(),
                             laatstVerwijderd.getGroepsbewerkingen()
                     );
-                    oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());               
+                    oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());
                 });
                 vbox.getChildren().add(new Label(String.format("Oefening met opgave %s is verwijderd", opgaveNaam)));
                 vbox.getChildren().add(ongedaanButton);
@@ -156,10 +157,10 @@ public class BeheerGroepenPanelController extends AnchorPane {
             children.clear();
             if (event.getId() < 0) {
                 oefeningenTable.getSelectionModel().select(controller.getMeestRecenteOefening());
-                children.add(new NotificatiePanelController("Oefening is succesvol aangemaakt", "#28BB66"));
+                children.add(new NotificatiePanelController("Oefening is succesvol aangemaakt", Kleuren.GROEN));
             } else {
                 oefeningenTable.getSelectionModel().select(controller.getOefening(event.getId()));
-                children.add(new NotificatiePanelController("Oefening is succesvol gewijzigd", "#28BB66"));
+                children.add(new NotificatiePanelController("Oefening is succesvol gewijzigd", Kleuren.GROEN));
             }
         });
 

@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.GroepsbewerkingController;
 import domein.Groepsbewerking;
+import domein.Kleuren;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
@@ -115,12 +116,12 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             if (event.getId() < 0) {
                 groepsbewTbl.getSelectionModel().select(groepsbewerkingController.getMeestRecenteGroepsbewerking());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol aangemaakt", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol aangemaakt", Kleuren.GROEN));
                 children.add(topNode);
             } else {
                 groepsbewTbl.getSelectionModel().select(groepsbewerkingController.getMeestRecenteGroepsbewerking());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol gewijzigd", "#28BB66"));
+                children.set(0, new NotificatiePanelController("Groepsbewerking is succesvol gewijzigd", Kleuren.GROEN));
                 children.add(topNode);
             }
         });
@@ -131,7 +132,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             if (zitGroepsbewInOef) {
                 ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", groepsBewOmschrijving), "#C62828"));
+                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", groepsBewOmschrijving), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
@@ -182,7 +183,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             String groepsbewOmschr = groepsbewerkingController.getGroepsbewerking(id).getOmschrijving();
             groepsbewerkingController.deleteGroepsbewerking(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", groepsbewOmschr), "#28BB66"));
+            children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", groepsbewOmschr), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();

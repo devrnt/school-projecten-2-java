@@ -2,6 +2,7 @@ package gui.controllers;
 
 import controllers.BoxController;
 import domein.BreakOutBox;
+import domein.Kleuren;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
@@ -89,7 +90,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
                 String boxNaam = boxController.getBreakOutBox(event.getId()).getNaam();
                 ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("BreakoutBox %s zit nog in een Sessie", boxNaam), "#C62828"));
+                children.set(0, new NotificatiePanelController(String.format("BreakoutBox %s zit nog in een Sessie", boxNaam), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
@@ -104,12 +105,12 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
             if (event.getId() < 0) {
                 boxTabel.getSelectionModel().select(boxController.getMeestRecenteBreakOutBox());
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol aangemaakt", "#28BB66"));
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol aangemaakt", Kleuren.GROEN));
                 children.add(topNode);
             } else {
                 boxTabel.getSelectionModel().select(boxController.getBreakOutBox(event.getId()));
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol gewijzigd", "#28BB66"));
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol gewijzigd", Kleuren.GROEN));
                 children.add(topNode);
             }
         });
@@ -123,13 +124,13 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
 
         this.addEventHandler(DownloadEvent.DOWNLOAD, event -> {
             Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Samenvatting is succesvol gedownload", "#28BB66"));
+            children.set(0, new NotificatiePanelController("Samenvatting is succesvol gedownload", Kleuren.GROEN));
             children.add(topNode);
         });
-        
+
         this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
             Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", Kleuren.GROEN));
             children.add(topNode);
         });
     }
@@ -181,7 +182,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
             String boxNaam = boxController.getBreakOutBox(id).getNaam();
             boxController.deleteBreakOutBox(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Box %s is verwijderd", boxNaam), "#28BB66"));
+            children.add(new NotificatiePanelController(String.format("Box %s is verwijderd", boxNaam), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();

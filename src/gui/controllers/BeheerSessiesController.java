@@ -6,6 +6,7 @@
 package gui.controllers;
 
 import controllers.SessieController;
+import domein.Kleuren;
 import domein.Sessie;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
@@ -135,7 +136,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
             children.clear();
             sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
             Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", "#28BB66"));
+            children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
             children.add(topNode);
         });
 
@@ -162,7 +163,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
             String sessieNaam = sessieController.getSessie(id).getNaam();
             sessieController.deleteSessie(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Sessie %s is verwijderd", sessieNaam), "#28BB66"));
+            children.add(new NotificatiePanelController(String.format("Sessie %s is verwijderd", sessieNaam), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsSessieController) children.get(0)).toggleButton();

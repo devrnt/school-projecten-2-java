@@ -3,12 +3,12 @@
     Author     : sam
 */
 /*
-blauw:        #0747a6
-groen:        #28BB66
-grijs:        #F4F5F7
-rood:         #C62828
-donkergrijs:  #E0E0E0
-menuItems:    #3F3F3F
+blauw:               #0747a6
+groen:               #28BB66
+grijs:                  #F4F5F7
+rood:                 #C62828
+donkergrijs:       #E0E0E0
+menuItems:       #3F3F3F
 */
 
 .root {
@@ -270,11 +270,13 @@ menuItems:    #3F3F3F
 }
 
 /* === Notificaties === */
-
-.notificatieError {
-    -fx-background-color: red;
-}
-
-.notificatieSuccess {
-    -fx-background-color: green;
+.notificatie {
+    /* kleur wordt in de klasse NotificatiePanelController bepaald */
+    -fx-padding: 25px 15px 25px 15px;
+    /* defaut bg color doesn't really matter '*/
+    -fx-background-color: pink;
+    -fx-effect: dropshadow(three-pass-box, gray, 3, 0, 0, 1);
+    -fx-background-radius:3;
+    -fx-background-insets: 8px;
+    -fx-font-size: 1.05em;
 }
