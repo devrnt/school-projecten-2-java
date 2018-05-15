@@ -31,7 +31,7 @@ public class ActieBeheer implements Observer {
         boxBeheer = new BreakOutBoxBeheer();
     }
 
-    private void setActieRepo(GenericDaoJpa actieRepo) {
+    public void setActieRepo(GenericDao actieRepo) {
         this.actieRepo = actieRepo;
         this.actieRepo.addObserver(this);
         actieLijst = FXCollections.observableArrayList(this.actieRepo.findAll());

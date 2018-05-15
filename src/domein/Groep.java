@@ -10,9 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -29,17 +31,18 @@ public class Groep implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String naam;
-    private Pad pad;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private SessiePad sessiePad;
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Leerling> leerlingen;
 
     public Groep() {
         leerlingen = new ArrayList<>();
     }
 
-    public Groep(String naam, Pad pad) {
+    public Groep(String naam, SessiePad pad) {
         setNaam(naam);
-        this.pad = pad;
+        this.sessiePad = pad;
         leerlingen = new ArrayList<>();
     }
 
@@ -81,5 +84,4 @@ public class Groep implements Serializable {
     public void verwijderLeerling(Leerling leerling) {
         leerlingen.remove(leerling);
     }
-
 }

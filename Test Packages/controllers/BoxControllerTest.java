@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import repository.GenericDao;
@@ -40,8 +39,8 @@ public class BoxControllerTest {
         boxRepo = Mockito.mock(GenericDao.class);
 
         // Mocks trainen
-        List<Oefening> oef = new ArrayList<Oefening>();
-        List<Actie> act = new ArrayList<Actie>();
+        List<Oefening> oef = new ArrayList<>();
+        List<Actie> act = new ArrayList<>();
         oef.add(new Oefening());
         oef.add(new Oefening());
         act.add(new Actie("o"));

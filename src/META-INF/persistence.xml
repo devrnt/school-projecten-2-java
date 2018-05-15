@@ -9,6 +9,10 @@
     <class>domein.Sessie</class>
     <class>domein.Klas</class>
     <class>domein.Leerling</class>
+    <class>domein.Opdracht</class>
+    <class>domein.Groep</class>
+    <class>domein.SessiePad</class>
+    <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/breakoutbox"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
