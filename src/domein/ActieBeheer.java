@@ -9,6 +9,7 @@ import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -49,6 +50,14 @@ public class ActieBeheer implements Observer {
 
     public ObservableList<Actie> getAllActies() {
         return gefilterdeActieLijst.sorted(Comparator.comparing(Actie::getOmschrijving));
+    }
+    
+    public Actie getMeestRecenteActie(){
+        return actieRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Actie::getId).reversed())
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     public void updateActie(int id, String omschrijving) {
