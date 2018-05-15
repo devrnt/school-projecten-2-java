@@ -58,6 +58,15 @@ public class GroepsbewerkingController {
     }
 
     /**
+     * Geeft de meeste recent aangemaakte groepsbewerking terug
+     *
+     * @return groepsbewerking
+     */
+    public Groepsbewerking getMeestRecenteGroepsbewerking() {
+        return groepsbewerkingBeheer.getMeestRecenteGroepsbewerking();
+    }
+
+    /**
      * Wijzigt een groepsbewerking via de setters en past deze wijziging toe in
      * de databank
      *
@@ -73,7 +82,7 @@ public class GroepsbewerkingController {
     }
 
     /**
-     * Verwijdert een sessie uit de databank
+     * Verwijdert een groepsbewerking uit de databank
      *
      * @param id id van de te verwijderen groepsbewerking
      * @throws NotFoundException indien er geen groepsbewerking werd gevonden
@@ -88,15 +97,15 @@ public class GroepsbewerkingController {
      * Controleert of de groepsbewerking in een oefening
      *
      * @param groepsbewId id van de te controleren groepsbewerking
-     * @return
+     * @return true of false
      */
     public boolean zitGroepsbewerkingInOefening(int groepsbewId) {
         return groepsbewerkingBeheer.zitGroepsbewerkingInOef(groepsbewId);
     }
 
     /**
-     * Filtert de groepsbewerkingLijst obv de meegegeven String Deze filtert op
-     * de omschrijving, operator en factor van de groepsbewerking
+     * Filtert de groepsbewerkingLijst obv de meegegeven . String Deze filtert
+     * op de omschrijving, operator en factor van de groepsbewerking
      *
      * @param toFilter Tekst waarop de lijst moet gefilterd worden
      */

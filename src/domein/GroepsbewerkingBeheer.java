@@ -9,6 +9,7 @@ import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -48,8 +49,15 @@ public class GroepsbewerkingBeheer implements Observer {
     }
 
     public ObservableList<Groepsbewerking> getAllGroepsbewerkingen() {
- 
         return gefilterdeGroepsbewerkingLijst.sorted(Comparator.comparing(Groepsbewerking::getOmschrijving));
+    }
+
+    public Groepsbewerking getMeestRecenteGroepsbewerking() {
+        return groepsbewerkingRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Groepsbewerking::getId).reversed())
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     public void updateGroepsbewerking(int id, String omschrijving, int factor, OperatorEnum operator) {
