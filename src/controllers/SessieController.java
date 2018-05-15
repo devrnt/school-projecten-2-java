@@ -69,6 +69,10 @@ public final class SessieController {
     public ObservableList<Sessie> getAllSessies() {
         return sessieBeheer.getAllSessies();
     }
+    
+    public Sessie getMeestRecenteSessie(){
+        return sessieBeheer.getMeestRecenteSessie();
+    }
 
     /**
      * Verwijdert een sessie uit de databank

@@ -179,6 +179,7 @@ public class BeheerOefeningenController extends AnchorPane {
         });
         okButton.getStyleClass().add("btn");
         okButton.getStyleClass().add("btn-small");
+        okButton.getStyleClass().add("btn-default");
 
         Button cancelButton = new Button("Nee");
         cancelButton.setOnAction(event2 -> {
@@ -187,6 +188,7 @@ public class BeheerOefeningenController extends AnchorPane {
         });
         cancelButton.getStyleClass().add("btn");
         cancelButton.getStyleClass().add("btn-small");
+        cancelButton.getStyleClass().add("btn-default");
 
         // show confirmation text and buttons
         hbox.getChildren().addAll(cancelButton, okButton);

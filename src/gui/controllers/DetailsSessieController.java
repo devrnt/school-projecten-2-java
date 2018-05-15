@@ -12,6 +12,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -74,16 +75,9 @@ public class DetailsSessieController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen sessie");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u sessie " + sessie.getNaam() + " wilt verwijderen?");
-        verwijderAlert.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-                Event deleteEvent = new DeleteEvent(sessie.getId());
-                this.fireEvent(deleteEvent);
-            }
-        });
+        toggleButton();
+        Event deleteEvent = new DeleteEvent(sessie.getId());
+        this.fireEvent(deleteEvent);
     }
 
     @FXML
@@ -105,6 +99,10 @@ public class DetailsSessieController extends AnchorPane {
         sessiecodeLabel.setText(sessie.getSessieCode());
         boxLabel.setText(sessie.getBoxNaam());
 
+    }
+
+    public void toggleButton() {
+        verwijderBtn.setVisible(!verwijderBtn.isVisible());
     }
 
 }

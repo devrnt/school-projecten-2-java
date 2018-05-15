@@ -16,12 +16,14 @@ import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -46,7 +48,7 @@ import utils.AlertCS;
  * @author devri
  */
 public class CreateSessieController extends AnchorPane {
-
+    
     @FXML
     private TextField naamInput;
     @FXML
@@ -183,20 +185,12 @@ public class CreateSessieController extends AnchorPane {
                     reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false
             );
 
-            AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
-            sessieSuccesvolGewijzigd.setTitle("Sessie");
-            sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een sessie");
-            sessieSuccesvolGewijzigd.setContentText("Sessie " + naamInput.getText() + " is succesvol aangemaakt");
-            sessieSuccesvolGewijzigd.showAndWait();
             Event detailsEvent = new DetailsEvent(-1);
             this.fireEvent(detailsEvent);
 
         } else {
-            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
-            invalidInput.setTitle("Sessie aanmaken");
-            invalidInput.setHeaderText("Niet alle velden zijn geldig");
-            invalidInput.setContentText("Vul alle velden correct in");
-            invalidInput.showAndWait();
+            Event invalidInputEvent = new InvalidInputEvent(Arrays.stream(foutLabels).map(l -> l.getText()).collect(Collectors.toList()));
+            this.fireEvent(invalidInputEvent);
         }
     }
 

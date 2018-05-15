@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -64,6 +65,10 @@ public final class SessieBeheer implements Observer {
 
     public ObservableList<Sessie> getAllSessies() {
         return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
+    }
+    
+    public Sessie getMeestRecenteSessie(){
+        return sessieRepo.findAll().stream().sorted(Comparator.comparing(Sessie::getId).reversed()).collect(Collectors.toList()).get(0);
     }
 
     public void deleteSessie(int id) {
