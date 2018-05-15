@@ -9,7 +9,10 @@ import controllers.ActieController;
 import domein.Actie;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -28,7 +31,7 @@ import utils.AlertCS;
  * @author devri
  */
 public class CreateActieController extends AnchorPane {
-
+    
     @FXML
     private AnchorPane AnchorPane;
     @FXML
@@ -39,46 +42,46 @@ public class CreateActieController extends AnchorPane {
     private Button bevestigButton;
     @FXML
     private Button annuleerButton;
-
+    
     private ActieController actieController;
     private Actie actie;
-
+    
     private AlertCS bevestigAlert;
-
+    
     public CreateActieController(ActieController actieController) {
         this.actieController = actieController;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateActie.fxml"));
-
+        
         loader.setRoot(this);
         loader.setController(this);
-
+        
         try {
             loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        
         addInputValidation();
-
+        
         bevestigAlert = new AlertCS(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer acties");
         bevestigAlert.setHeaderText("Aanmaken actie");
         bevestigAlert.setContentText("Actie is succesvol aangemaakt");
     }
-
+    
     public CreateActieController(ActieController actieController, int actieId) {
         this(actieController);
-
+        
         actie = actieController.getActie(actieId);
-
+        
         omschrijvingInput.setText(actie.getOmschrijving());
-
+        
         bevestigAlert = new AlertCS(Alert.AlertType.INFORMATION);
         bevestigAlert.setTitle("Beheer acties");
         bevestigAlert.setHeaderText("Wijzigen actie");
         bevestigAlert.setContentText("Actie is succesvol gewijzigd");
     }
-
+    
     @FXML
     private void bevestigButtonClicked(ActionEvent event) {
         boolean inputGeldig = !omschrijvingInput.getText().trim().isEmpty();
@@ -87,7 +90,6 @@ public class CreateActieController extends AnchorPane {
             if (actie == null) {
                 actieController.createActie(omschrijving);
             } else {
-                System.out.println("from "+actie.getId());
                 actieController.updateActie(actie.getId(), omschrijving);
             }
             showSuccesAlert();
@@ -95,13 +97,13 @@ public class CreateActieController extends AnchorPane {
             showErrorAlert();
         }
     }
-
+    
     @FXML
     private void annuleerButtonClicked(ActionEvent event) {
         Event annuleerEvent = new AnnuleerEvent(actie == null ? -1 : actie.getId());
         this.fireEvent(annuleerEvent);
     }
-
+    
     private void addInputValidation() {
         omschrijvingInput.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
@@ -111,19 +113,17 @@ public class CreateActieController extends AnchorPane {
             }
         });
     }
-
+    
     private void showSuccesAlert() {
-        bevestigAlert.showAndWait();
-        Event beheerEvent = new DetailsEvent(-1);
+        Event beheerEvent = new DetailsEvent(actie == null ? -1 : actie.getId());
         this.fireEvent(beheerEvent);
     }
-
+    
     private void showErrorAlert() {
-        AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
-        invalidInput.setTitle("Actie  aanmaken");
-        invalidInput.setHeaderText("Er zijn nog ongeldige velden");
-        invalidInput.setContentText("Pas de invoer aan zodat deze geldig is");
-        invalidInput.showAndWait();
+        List<String> velden = new ArrayList<>();
+        velden.add("Er zijn nog ongeldige velden");
+        Event inputInvEvent = new InvalidInputEvent(velden);
+        this.fireEvent(inputInvEvent);
     }
-
+    
 }

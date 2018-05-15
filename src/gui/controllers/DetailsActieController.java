@@ -61,22 +61,19 @@ public class DetailsActieController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen actie");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u de geselecteerde actie wilt verwijderen?");
-        verwijderAlert.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-                Event deleteEvent = new DeleteEvent(actie.getId());
-                this.fireEvent(deleteEvent);
-            }
-        });
+        toggleButton();
+        Event deleteEvent = new DeleteEvent(actie.getId());
+        this.fireEvent(deleteEvent);
     }
-    
+
     @FXML
-    private void wijzigBtnClicked(ActionEvent event){
+    private void wijzigBtnClicked(ActionEvent event) {
         Event wijzigEvent = new WijzigEvent(actie.getId());
         this.fireEvent(wijzigEvent);
+    }
+
+    public void toggleButton() {
+        verwijderBtn.setVisible(!verwijderBtn.isVisible());
     }
 
 }

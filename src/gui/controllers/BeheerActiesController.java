@@ -10,17 +10,17 @@ import domein.Actie;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,7 +37,7 @@ import utils.AlertCS;
  *
  * @author devri
  */
-public class BeheerActiesController extends AnchorPane {
+public class BeheerActiesController extends AnchorPane implements Observer {
 
     @FXML
     private AnchorPane AnchorPane;
@@ -114,21 +114,30 @@ public class BeheerActiesController extends AnchorPane {
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
             if (event.getId() < 0) {
-                int size = acties.size();
-                children.add(new DetailsActieController(acties.get(size - 1)));
+                actieTabel.getSelectionModel().select(actieController.getMeestRecenteActie());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Actie is succesvol aangemaakt", "#28BB66"));
+                children.add(topNode);
             } else {
-                children.add(new DetailsActieController(actieController.getActie(event.getId())));
+                actieTabel.getSelectionModel().select(actieController.getMeestRecenteActie());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Actie is succesvol gewijzigd", "#28BB66"));
+                children.add(topNode);
             }
         });
 
         this.addEventFilter(DeleteEvent.DELETE, event -> {
-            boolean zitActieInBox = actieController.zitActieInBox(event.getId());
-            System.out.println(zitActieInBox);
-            if (zitActieInBox) {
-                showDeleteFailedAlert();
+            boolean inBox = actieController.zitActieInBox(event.getId());
+            String actieOmschrijving = actieController.getActie(event.getId()).getOmschrijving();
+            if (inBox) {
+                ((DetailsActieController) children.get(0)).toggleButton();
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController(String.format("Actie zit nog in een BreakOutBox", actieOmschrijving), "#C62828"));
+                children.add(topNode);
             } else {
-                actieController.deleteActie(event.getId());
-                children.clear();
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                builder.addObserver(this);
+                children.add(builder.buildConfirmation());
             }
         });
 
@@ -144,6 +153,12 @@ public class BeheerActiesController extends AnchorPane {
             }
         });
 
+        this.addEventFilter(InvalidInputEvent.INVALIDINPUT, event -> {
+            Node topNode = children.get(0);
+            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+            children.add(topNode);
+        });
+
     }
 
     private void showDeleteFailedAlert() {
@@ -152,6 +167,21 @@ public class BeheerActiesController extends AnchorPane {
         alert.setHeaderText("Actie verwijderen");
         alert.setContentText("Actie kan niet verwijderd worden omdat deze nog in een box voorkomt");
         alert.showAndWait();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String actieOmschrijving = actieController.getActie(id).getOmschrijving();
+            actieController.deleteActie(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", actieOmschrijving), "#28BB66"));
+        } else {
+            children.remove(1);
+            ((DetailsActieController) children.get(0)).toggleButton();
+        }
     }
 
 }
