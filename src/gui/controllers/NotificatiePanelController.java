@@ -25,13 +25,11 @@ public class NotificatiePanelController extends AnchorPane {
 
         loader.setRoot(this);
         loader.setController(this);
-
         try {
             loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         this.setStyle("-fx-background-color:rgba(0,0,0,0);");
         vbox.setStyle("-fx-background-color:rgba(0,0,0,0);");
 
@@ -48,8 +46,6 @@ public class NotificatiePanelController extends AnchorPane {
     }
 
     public void setNotificationColor(String color) {
-        vbox.toFront();
-        toFront();
         notificatieLabel.getStyleClass().add("notificatie");
         notificatieLabel.setStyle(String.format("-fx-background-color:%s;", color));
     }
