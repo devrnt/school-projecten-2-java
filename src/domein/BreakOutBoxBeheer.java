@@ -9,10 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -63,8 +63,12 @@ public final class BreakOutBoxBeheer implements Observer {
         return gefilterdeBoxLijst;
     }
 
-    public BreakOutBox GeefBreakOutBox(int id) {
+    public BreakOutBox getBreakOutBox(int id) {
         return breakOutBoxRepo.get(id);
+    }
+    
+    public BreakOutBox getMeestRecenteBreakOutBox(){
+        return breakOutBoxRepo.findAll().stream().sorted(Comparator.comparing(BreakOutBox::getId).reversed()).collect(Collectors.toList()).get(0);
     }
 
     public ObservableList<Actie> getActiesByBox(int id) {
@@ -99,10 +103,12 @@ public final class BreakOutBoxBeheer implements Observer {
         if (box == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
-        SessieBeheer sb = new SessieBeheer();
-        if (!sb.zitBoxInSessie(boxId)) {
-            breakOutBoxRepo.delete(box);
-        }
+        breakOutBoxRepo.delete(box);
+    }
+    
+    public boolean zitBoxinSessie(int boxId){
+        SessieBeheer sessieBeheer = new SessieBeheer();
+        return sessieBeheer.zitBoxInSessie(boxId);
     }
 
     @Override

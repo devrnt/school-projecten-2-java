@@ -38,8 +38,12 @@ public final class BoxController {
         return boxBeheer.getAllBreakOutBoxen();
     }
 
-    public BreakOutBox GeefBreakOutBox(int id) {
-        return boxBeheer.GeefBreakOutBox(id);
+    public BreakOutBox getBreakOutBox(int id) {
+        return boxBeheer.getBreakOutBox(id);
+    }
+    
+    public BreakOutBox getMeestRecenteBreakOutBox(){
+        return boxBeheer.getMeestRecenteBreakOutBox();
     }
 
     public ObservableList<Actie> getActiesByBox(int id) {

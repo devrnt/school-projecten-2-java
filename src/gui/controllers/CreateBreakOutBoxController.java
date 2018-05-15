@@ -7,7 +7,9 @@ import domein.Oefening;
 import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.InvalidInputEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -27,6 +29,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
 
     @FXML
     private AnchorPane AnchorPane;
+    @FXML
+    private Label titelLabel;
     @FXML
     private TextField naamTxt;
     @FXML
@@ -80,6 +84,8 @@ public class CreateBreakOutBoxController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        titelLabel.setText("Nieuwe BreakoutBox");
+        
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
@@ -103,6 +109,9 @@ public class CreateBreakOutBoxController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        titelLabel.setText("Wijzig BreakoutBox");
+        
+        
         //waarde vullen
         if (isUpdate) {
             naamTxt.setText(box.getNaam());
@@ -138,37 +147,15 @@ public class CreateBreakOutBoxController extends AnchorPane {
         if (checkInput()) {
             if (this.isUpdate) {
                 boxController.updateBreakOutBox(box.getId(), naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
-                AlertCS boxChangedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
-                boxChangedSuccess.setTitle("BreakOutBox");
-                boxChangedSuccess.setHeaderText("Wijzigen van een box");
-                boxChangedSuccess.setContentText("BreakOutBox  " + naamTxt.getText() + " is succesvol gewijzigd");
-                boxChangedSuccess.showAndWait();
-                terugNaarLijst();
             } else {
                 boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
-                AlertCS boxCreatedSuccess = new AlertCS(Alert.AlertType.INFORMATION);
-                boxCreatedSuccess.setTitle("BreakOutBox");
-                boxCreatedSuccess.setHeaderText("Aanmaken van een box");
-                boxCreatedSuccess.setContentText("BreakOutBox is succesvol aangemaakt");
-                boxCreatedSuccess.showAndWait();
-                terugNaarLijst();
             }
+            Event beheerEvent = new DetailsEvent(isUpdate ? box.getId() : -1);
+            this.fireEvent(beheerEvent);
         } else {
-            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
-            if (this.isUpdate) {
-                invalidInput.setTitle("Box aanmaken");
-            } else {
-                invalidInput.setTitle("Box wijzigen");
-            }
-            invalidInput.setHeaderText("Er zijn nog ongeldige velden");
-            invalidInput.setContentText("Pas de invoer aan zodat deze geldig worden");
-            invalidInput.showAndWait();
+            Event invalidInputEvent = new InvalidInputEvent(new ArrayList<>());
+            this.fireEvent(invalidInputEvent);
         }
-    }
-
-    private void terugNaarLijst() {
-        Event beheerEvent = new DetailsEvent(-1);
-        this.fireEvent(beheerEvent);
     }
 
     @FXML

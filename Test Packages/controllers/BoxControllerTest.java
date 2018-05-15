@@ -71,7 +71,7 @@ public class BoxControllerTest {
 
     @Test
     public void geefBreakOutBox_returnsCorrectBoB() {
-        BreakOutBox box = boxController.GeefBreakOutBox(1);
+        BreakOutBox box = boxController.getBreakOutBox(1);
         Assert.assertEquals(box, this.box);
     }
 //</editor-fold>

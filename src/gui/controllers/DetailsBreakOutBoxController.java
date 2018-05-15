@@ -6,9 +6,11 @@ import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
 import gui.events.DeleteEvent;
+import gui.events.DownloadEvent;
 import gui.events.WijzigEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -62,9 +64,9 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         if (box != null) {
             init();
         }
-        if (boxController.zitBoxInSessie(box.getId())) {
-            verwijderButton.setDisable(true);
-        }
+//        if (boxController.zitBoxInSessie(box.getId())) {
+//            verwijderButton.setDisable(true);
+//        }
     }
 
     private void init() {
@@ -83,19 +85,13 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
         try {
             boxController.createSamenvattingBox(box.getId());
-            AlertCS pdfcreatedAlert = new AlertCS(Alert.AlertType.INFORMATION);
-            pdfcreatedAlert.setTitle("Details BreakOutBox");
-            pdfcreatedAlert.setHeaderText("Downloaden PDF");
-            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is opgeslagen.");
-            pdfcreatedAlert.showAndWait();
+            Event downloadEvent = new DownloadEvent();
+            this.fireEvent(downloadEvent);
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Samenvatting gemaakt!");
-        verwijderAlert.setHeaderText("Succesvol");
-        verwijderAlert.setContentText("De pdf bevindt zich in de map pdf");
+        
 
     }
 
@@ -107,23 +103,16 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        AlertCS verwijderAlert = new AlertCS(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen BreakOutBox");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u box " + box.getNaam() + " wilt verwijderen?");
-        verwijderAlert.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-                Event deleteEvent = new DeleteEvent(box.getId());
-                this.fireEvent(deleteEvent);
-            }
+        toggleButtons();
+        Event deleteEvent = new DeleteEvent(box.getId());
+        this.fireEvent(deleteEvent);
+    }
+
+    public void toggleButtons() {
+        Button[] btns = {wijzigButton, verwijderButton};
+        Arrays.stream(btns).forEach(btn -> {
+            btn.setVisible(!btn.isVisible());
         });
     }
 
-//    private void terugNaarLijst() {
-//        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
-//        Stage stage = (Stage) this.getScene().getWindow();
-//        stage.setTitle("Beheer Oefeningen");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 }

@@ -1,14 +1,10 @@
 package controllers;
 
-import domein.Groepsbewerking;
-import domein.Groep;
 import domein.GroepBeheer;
 import domein.Leerling;
 import domein.SessiePad;
 import exceptions.NotFoundException;
 import java.util.List;
-import javafx.collections.ObservableList;
-import repository.GenericDaoJpa;
 
 public final class GroepController {
     private GroepBeheer groepBeheer;
