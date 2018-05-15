@@ -12,7 +12,10 @@ import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
 import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -37,7 +40,7 @@ import javafx.stage.Stage;
  *
  * @author devri
  */
-public class BeheerSessiesController extends AnchorPane {
+public class BeheerSessiesController extends AnchorPane implements Observer{
 
     @FXML
     private StackPane detailsStackPane;
@@ -123,7 +126,9 @@ public class BeheerSessiesController extends AnchorPane {
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            showConfirmation(event, sessieController.getSessie(event.getId()).getNaam());
+            ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+            builder.addObserver(this);
+            children.add(builder.buildConfirmation());
         });
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
@@ -149,37 +154,19 @@ public class BeheerSessiesController extends AnchorPane {
     }
     // </editor-fold>
 
-    private void showConfirmation(DeleteEvent event, String sessieNaam) {
-        /* === confirmation buttons === */
-        VBox vbox = new VBox();
-        HBox hbox = new HBox();
-        vbox.setAlignment(Pos.BOTTOM_CENTER);
-        hbox.setAlignment(Pos.CENTER);
-        hbox.minHeight(50.0);
-        Button okButton = new Button("Ja");
-        okButton.setStyle("margin-right:7;");
-        okButton.setOnAction(event2 -> {
-            sessieController.deleteSessie(event.getId());
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder)o).isConfirmed();
+        int id = ((ConfirmationBuilder)o).getId();
+        if (confirmed){
+            String sessieNaam = sessieController.getSessie(id).getNaam();
+            sessieController.deleteSessie(id);
             children.clear();
             children.add(new NotificatiePanelController(String.format("Sessie %s is verwijderd", sessieNaam), "#28BB66"));
-        });
-        okButton.getStyleClass().add("btn");
-        okButton.getStyleClass().add("btn-small");
-        okButton.getStyleClass().add("btn-default");
-
-        Button cancelButton = new Button("Nee");
-        cancelButton.setOnAction(event2 -> {
+        } else {
             children.remove(1);
             ((DetailsSessieController) children.get(0)).toggleButton();
-        });
-        cancelButton.getStyleClass().add("btn");
-        cancelButton.getStyleClass().add("btn-small");
-        cancelButton.getStyleClass().add("btn-default");
-
-        // show confirmation text and buttons
-        hbox.getChildren().addAll(cancelButton, okButton);
-        vbox.getChildren().addAll(new Label("Weet u zeker dat u deze sessie wil verwijderen?"), hbox);
-        children.add(vbox);
+        }
     }
 
 }

@@ -5,8 +5,13 @@ import domein.BreakOutBox;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.DownloadEvent;
+import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +26,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
-public class BeheerBreakOutBoxPanelController extends AnchorPane {
+public class BeheerBreakOutBoxPanelController extends AnchorPane implements Observer {
 
     @FXML
     private AnchorPane AnchorPane;
@@ -76,29 +81,56 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new CreateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController, true));
+            children.add(new CreateBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController, true));
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            children.clear();
-            boxController.deleteBreakOutBox(event.getId());
+            if (boxController.zitBoxInSessie(event.getId())) {
+                String boxNaam = boxController.getBreakOutBox(event.getId()).getNaam();
+                ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController(String.format("BreakoutBox %s zit nog in een Sessie", boxNaam), "#C62828"));
+                children.add(topNode);
+            } else {
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                builder.addObserver(this);
+                children.add(builder.buildConfirmation());
+
+            }
         });
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
             if (event.getId() < 0) {
-                int size = boxController.getAllBreakOutBoxen().size();
-                children.add(new DetailsBreakOutBoxController(boxController.getAllBreakOutBoxen().get(size - 1), boxController));
+                boxTabel.getSelectionModel().select(boxController.getMeestRecenteBreakOutBox());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol aangemaakt", "#28BB66"));
+                children.add(topNode);
             } else {
-                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+                boxTabel.getSelectionModel().select(boxController.getBreakOutBox(event.getId()));
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol gewijzigd", "#28BB66"));
+                children.add(topNode);
             }
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
             if (event.getId() >= 0) {
-                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+                children.add(new DetailsBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController));
             }
+        });
+
+        this.addEventHandler(DownloadEvent.DOWNLOAD, event -> {
+            Node topNode = children.get(0);
+            children.set(0, new NotificatiePanelController("Samenvatting is succesvol gedownload", "#28BB66"));
+            children.add(topNode);
+        });
+        
+        this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
+            Node topNode = children.get(0);
+            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+            children.add(topNode);
         });
     }
 
@@ -140,4 +172,19 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 //        stage.setScene(scene);
 //        stage.show();
 //    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String boxNaam = boxController.getBreakOutBox(id).getNaam();
+            boxController.deleteBreakOutBox(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Box %s is verwijderd", boxNaam), "#28BB66"));
+        } else {
+            children.remove(1);
+            ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
+        }
+    }
 }

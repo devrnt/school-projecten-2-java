@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="601.0" prefWidth="500.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="601.0" prefWidth="500.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <GridPane prefHeight="601.0" prefWidth="500.0" vgap="10.0">
         <columnConstraints>
@@ -25,31 +25,32 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="443.0" minWidth="10.0" prefWidth="402.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints maxHeight="104.66667175292969" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="104.66667175292969" minHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="116.0" minHeight="0.0" prefHeight="10.666656494140625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="116.0" minHeight="20.0" prefHeight="10.666656494140625" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="388.3333435058594" minHeight="10.0" prefHeight="37.33332824707031" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="397.99998474121094" minHeight="0.0" prefHeight="13.666671752929688" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="397.99998474121094" minHeight="20.0" prefHeight="13.666671752929688" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="397.99998474121094" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="270.6666564941406" minHeight="10.0" prefHeight="205.66668701171875" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="202.33331298828125" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="65.99996948242188" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="270.6666564941406" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-                  <Label alignment="CENTER" text="Naam:">
+                  <Label alignment="CENTER" text="Naam:" GridPane.rowIndex="1">
                       <font>
                           <Font name="Arial Bold" size="14.0" />
                       </font>
                   </Label>
-                  <Label text="Omschrijving:" GridPane.rowIndex="2">
+                  <Label text="Omschrijving:" GridPane.rowIndex="3">
                       <font>
                           <Font name="Arial Bold" size="14.0" />
                       </font>
                   </Label>
-            <Label fx:id="naamFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="naamTxt" maxWidth="359.0" prefHeight="28.0" prefWidth="359.0" promptText="Typ hier de naam in..." styleClass="text-fld" GridPane.columnIndex="1" />
-            <TextField fx:id="omschrijvingTxt" prefHeight="28.0" prefWidth="210.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="omschrijvingFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <VBox GridPane.columnSpan="2" GridPane.rowIndex="5">
+            <Label fx:id="naamFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="naamTxt" maxWidth="359.0" prefHeight="28.0" prefWidth="359.0" promptText="Typ hier de naam in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="omschrijvingTxt" prefHeight="28.0" prefWidth="210.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="omschrijvingFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="6">
                     <children>
                         <Label text="Oefeningen:">
                             <font>
@@ -101,7 +102,7 @@
                   </HBox>
                     </children>
                 </VBox>
-                <VBox GridPane.columnSpan="2" GridPane.rowIndex="6">
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="7">
                     <children>
                         <Label text="Acties:">
                             <font>
@@ -153,7 +154,7 @@
                   </HBox>
                     </children>
                 </VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
                <children>
                   <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="BEVESTIG">
                      <HBox.margin>
@@ -173,12 +174,13 @@
                      </styleClass></Button>
                </children>
             </HBox>
-            <Label text="Onderwijs:" GridPane.rowIndex="4">
+            <Label text="Onderwijs:" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="soortOnderwijsChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="soortOnderwijsChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="titelLabel" styleClass="title" text="Label" GridPane.columnSpan="2" />
          </children>
          <opaqueInsets>
             <Insets />
