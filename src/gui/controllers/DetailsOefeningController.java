@@ -5,6 +5,7 @@ import gui.events.DeleteEvent;
 import gui.events.WijzigEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -47,9 +48,6 @@ public class DetailsOefeningController extends AnchorPane {
     @FXML
     private Button verwijderBtn;
 
-    @FXML
-    private Button terugBtn;
-
     private Oefening oefening;
 
     public DetailsOefeningController(Oefening oefening) {
@@ -69,6 +67,7 @@ public class DetailsOefeningController extends AnchorPane {
         if (oefening != null) {
             setDetails();
             setTooltips();
+            setButtonActions();
         }
     }
 
@@ -90,6 +89,19 @@ public class DetailsOefeningController extends AnchorPane {
         groepsbewerkingen.setDisable(true);
     }
 
+    private void setButtonActions() {
+        verwijderBtn.setOnAction(event -> {
+            toggleButtons();
+            Event deleteEvent = new DeleteEvent(oefening.getId());
+            this.fireEvent(deleteEvent);
+        });
+
+        wijzigBtn.setOnAction(event -> {
+            Event wijzigEvent = new WijzigEvent(oefening.getId());
+            this.fireEvent(wijzigEvent);
+        });
+    }
+
     private void setTooltips() {
         // add tooltips to display full document path
         Tooltip opgaveTt = new Tooltip();
@@ -103,16 +115,10 @@ public class DetailsOefeningController extends AnchorPane {
 
     }
 
-    @FXML
-    public void wijzigBtnClicked(ActionEvent event) {
-        Event wijzigEvent = new WijzigEvent(oefening.getId());
-        this.fireEvent(wijzigEvent);
-    }
-
-    @FXML
-    public void verwijderBtnClicked(ActionEvent event) {
-        Event deleteEvent = new DeleteEvent(oefening.getId());
-        this.fireEvent(deleteEvent);
-        
+    public void toggleButtons() {
+        Button[] btns = {wijzigBtn, verwijderBtn};
+        Arrays.stream(btns).forEach(btn -> {
+            btn.setVisible(!btn.isVisible());
+        });
     }
 }

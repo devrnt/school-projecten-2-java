@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -14,6 +15,9 @@ public class NotificatiePanelController extends AnchorPane {
 
     @FXML
     private Label notificatieLabel;
+
+    @FXML
+    private VBox vbox;
 
     public NotificatiePanelController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/NotificatiePanel.fxml"));
@@ -27,6 +31,9 @@ public class NotificatiePanelController extends AnchorPane {
             throw new RuntimeException(e);
         }
 
+        this.setStyle("-fx-background-color:rgba(0,0,0,0);");
+        vbox.setStyle("-fx-background-color:rgba(0,0,0,0);");
+
     }
 
     public NotificatiePanelController(String notificatieText, String color) {
@@ -34,12 +41,12 @@ public class NotificatiePanelController extends AnchorPane {
         setNotificatieText(notificatieText);
         setNotificationColor(color);
     }
-    
-    public void setNotificatieText(String notificatieText){
+
+    public void setNotificatieText(String notificatieText) {
         notificatieLabel.setText(notificatieText);
     }
-    
-    public void setNotificationColor(String color){
+
+    public void setNotificationColor(String color) {
         notificatieLabel.setStyle(String.format("-fx-background-color:%s;-fx-background-radius:5;", color));
     }
 
