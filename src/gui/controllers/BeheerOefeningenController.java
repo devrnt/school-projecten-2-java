@@ -164,9 +164,11 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         });
 
         this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
-            Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
-            children.add(topNode);
+            if (children.size() == 1) {
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+                children.add(topNode);
+            }
         });
     }
 
@@ -192,12 +194,11 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 //        vbox.getChildren().add(ongedaanButton);
 //        children.add(vbox);
 //    }
-
     @Override
     public void update(Observable o, Object arg) {
-        boolean confirmed = ((ConfirmationBuilder)o).isConfirmed();
-        int id = ((ConfirmationBuilder)o).getId();
-        if (confirmed){
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             controller.deleteOefening(id);
             children.clear();

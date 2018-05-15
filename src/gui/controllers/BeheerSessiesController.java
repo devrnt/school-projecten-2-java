@@ -148,9 +148,11 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
         });
 
         this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
-            Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
-            children.add(topNode);
+            if (children.size() == 1) {
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+                children.add(topNode);
+            }
         });
     }
     // </editor-fold>

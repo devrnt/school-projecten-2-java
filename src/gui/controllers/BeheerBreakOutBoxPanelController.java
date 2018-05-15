@@ -129,9 +129,11 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
         });
 
         this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
-            Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", Kleuren.GROEN));
-            children.add(topNode);
+            if (children.size() == 1) {
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", Kleuren.GROEN));
+                children.add(topNode);
+            }
         });
     }
 
