@@ -23,6 +23,7 @@ menuItems:    #3F3F3F
 .title {
     -fx-font-size: 19px;
     -fx-fill: #0747a6;
+    -fx-text-fill:#0747a6;
 }
 
 #menu .list-cell{

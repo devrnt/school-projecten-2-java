@@ -60,6 +60,7 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.0" minWidth="10.0" prefWidth="227.66668701171875" />
               </columnConstraints>
               <rowConstraints>
+                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="34.0" vgrow="SOMETIMES" />
@@ -76,7 +77,7 @@
                   <RowConstraints maxHeight="204.0" minHeight="3.0" prefHeight="7.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="132.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="132.0" GridPane.rowIndex="1">
                      <children>
                         <Label text="Opgave: ">
                            <font>
@@ -85,7 +86,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Button fx:id="uploadOpgavePdfBtn" mnemonicParsing="false" onAction="#uploadOpgavePdf" prefHeight="0.0" prefWidth="57.0" text="KIES">
                            <graphic>
@@ -102,17 +103,17 @@
                            </styleClass></Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="199.0" GridPane.columnIndex="2">
+                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="199.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
                         <Label fx:id="opgaveLabel" wrapText="true" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                      <children>
                         <Label fx:id="opgaveFoutLabel" textFill="#f80000" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                      <children>
                         <Label text="Feedback: ">
                            <font>
@@ -121,7 +122,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Button fx:id="uploadFeedbackPdfBtn" mnemonicParsing="false" onAction="#uploadFeedbackPdf" text="KIES">
                            <graphic>
@@ -138,17 +139,17 @@
                            </styleClass></Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <children>
                         <Label fx:id="feedbackLabel" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                      <children>
                         <Label fx:id="feedbackFoutLabel" textFill="RED" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
                      <children>
                         <Label text="Antwoord: ">
                            <font>
@@ -157,17 +158,17 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <children>
                         <TextField fx:id="antwoord" maxWidth="-Infinity" prefHeight="31.0" prefWidth="262.0" promptText="Typ hier het antwoord..." styleClass="text-fld" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                      <children>
                         <Label fx:id="antwoordFout" textFill="RED" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
                      <children>
                         <Label text="Vak: ">
                            <font>
@@ -176,17 +177,17 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <children>
                         <ComboBox fx:id="vakComboBox" editable="true" prefWidth="262.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8">
                      <children>
                         <Label fx:id="vakFoutLabel" textFill="RED" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="8">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
                      <children>
                         <Label text="Doelstellingen: ">
                            <font>
@@ -195,7 +196,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                      <children>
                         <ComboBox fx:id="doelstellingComboBox" editable="true" prefWidth="262.0" />
                         <Button fx:id="addDoelstellingBtn" mnemonicParsing="false" onAction="#addDoelstelling" prefHeight="20.0" prefWidth="30.0">
@@ -217,12 +218,12 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11">
                      <children>
                         <Label fx:id="doelstellingFoutLabel" textFill="RED" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10">
                      <children>
                         <ListView fx:id="doelstellingenListView" maxWidth="-Infinity" prefHeight="92.0" prefWidth="262.0" />
                         <Button fx:id="doelstellingRemoveBtn" mnemonicParsing="false">
@@ -244,7 +245,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="11">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="12">
                      <children>
                         <Label text="Groepsbewerkingen: ">
                            <font>
@@ -253,7 +254,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="12">
                      <children>
                         <ChoiceBox fx:id="groepsbwChoiceBox" prefHeight="28.0" prefWidth="262.0" />
                         <Button fx:id="groepsbwButton" mnemonicParsing="false">
@@ -275,12 +276,12 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="13">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="14">
                      <children>
                         <Label fx:id="groepsbewerkingenFout" textFill="#fc0000" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="12">
+                  <HBox prefHeight="100.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="13">
                      <children>
                         <ListView fx:id="groepsbewerkingenListView" maxWidth="-Infinity" prefHeight="117.0" prefWidth="262.0" />
                         <Button fx:id="groepsbwRemoveButton" mnemonicParsing="false">
@@ -302,6 +303,7 @@
                         </Button>
                      </children>
                   </HBox>
+                  <Label fx:id="titelLabel" styleClass="title" GridPane.columnSpan="3" />
                </children>
                <padding>
                   <Insets top="10.0" />

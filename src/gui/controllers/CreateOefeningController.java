@@ -19,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -29,7 +28,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import utils.AlertCS;
 
 /**
  *
@@ -38,7 +36,9 @@ import utils.AlertCS;
 public class CreateOefeningController extends AnchorPane {
 
     private OefeningController controller;
-
+    @FXML
+    private Label titelLabel;
+    
     @FXML
     private Label opgaveLabel;
     @FXML
@@ -114,7 +114,8 @@ public class CreateOefeningController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        titelLabel.setText("Nieuwe oefening");
+        
         gbws = controller.getGroepsbewerkingen();
         vakken = FXCollections.observableArrayList(controller.getVakken()).filtered(v -> true);
         doelstellingen = FXCollections.observableArrayList(controller.getDoelstellingen()).filtered(v -> true);
@@ -156,7 +157,7 @@ public class CreateOefeningController extends AnchorPane {
 
     public CreateOefeningController(OefeningController controller, int id) {
         this(controller);
-
+        titelLabel.setText("Wijzig oefening");
         oefening = controller.getOefening(id);
 
         opgaveFile = new File(oefening.getOpgave());
