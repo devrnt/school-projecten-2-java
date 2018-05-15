@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<fx:root id="AnchorPane" prefHeight="567.0" prefWidth="456.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      <GridPane prefHeight="567.0" prefWidth="535.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="404.0" minHeight="10.0" prefHeight="380.6666259765625" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="134.33334350585938" minHeight="10.0" prefHeight="48.3333740234375" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="600.0">
+               <children>
+                  <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Details Groepsbewerking">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+              <GridPane prefHeight="100.0" prefWidth="505.0" GridPane.rowIndex="1">
+                  <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="66.66665649414062" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="175.6666259765625" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="306.3333740234375" />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints maxHeight="85.99998474121094" minHeight="10.0" prefHeight="85.99998474121094" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="264.6666564941406" minHeight="10.0" prefHeight="90.33334350585938" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="206.66668701171875" minHeight="10.0" prefHeight="86.99996948242188" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="194.33331298828125" minHeight="10.0" prefHeight="139.00003051757812" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                  <children>
+                      <Label prefWidth="125.0" text="Omschrijving:" GridPane.columnIndex="1">
+                          <font>
+                              <Font name="Arial Bold" size="14.0" />
+                          </font>
+                      </Label>
+                      <Label fx:id="omschrijvingLbl" wrapText="true" GridPane.columnIndex="2">
+                          <font>
+                              <Font size="14.0" />
+                          </font>
+                      </Label>
+                  <ImageView fitHeight="14.0" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../../assets/icons/details/descriptionIcon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="14.0" fitWidth="14.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../../assets/icons/details/operationIcon.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="67.0" layoutY="103.0" prefWidth="125.0" text="Operatie:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="operatieLbl" layoutX="218.0" layoutY="68.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="67.0" layoutY="339.0" prefWidth="125.0" text="Factor:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="factorLbl" layoutX="218.0" layoutY="337.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+              </GridPane>
+              <HBox alignment="CENTER" prefHeight="56.0" prefWidth="580.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                  <children>
+                  <Button fx:id="wijzigBtn" mnemonicParsing="false" onAction="#wijzigBtnClicked" text="WIJZIG">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-default" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0">
+                           <image>
+                              <Image url="@../../assets/icons/editIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                      <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" prefHeight="40.0" prefWidth="130.0" text="VERWIJDER">
+                          <HBox.margin>
+                              <Insets left="10.0" />
+                          </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0">
+                           <image>
+                              <Image url="@../../assets/icons/deleteIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="btn-danger" />
+                        <String fx:value="btn" />
+                     </styleClass>
+                      </Button>
+                  </children>
+              </HBox>
+         </children>
+         <padding>
+            <Insets left="15.0" right="15.0" />
+         </padding>
+      </GridPane>
+    </children>
+</fx:root>

@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.GroepsbewerkingController;
 import domein.Groepsbewerking;
+import domein.OperatorEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -28,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -71,13 +74,11 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         children = detailsStackPane.getChildren();
 
         initialize();
 
-       // voegEventHandlersToe();
-
+        voegEventHandlersToe();
     }
 
     private void initialize() {
@@ -100,7 +101,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
         groepsbewTbl.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 children.clear();
-                //children.add(new DetailsGroepsbewerkingController(newval));
+                children.add(new DetailsGroepsbewerkingController(newval));
             }
         });
 
@@ -108,43 +109,56 @@ public class BeheerGroepsbewerkingenController extends AnchorPane {
         searchTextField.setOnKeyReleased(event -> groepsbewerkingController.applyFilter(searchTextField.getText()));
     }
 
-    /*private void voegEventHandlersToe() {
+    private void voegEventHandlersToe() {
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
-            children.clear();
+            children.clear();System.out.println("details evet met id "+event.getId());
             if (event.getId() < 0) {
-                int size = acties.size();
-                children.add(new DetailsActieController(acties.get(size - 1)));
+                ObservableList<Groepsbewerking> updated = groepsbewerkingController.getAllGroepsbewerking();
+                updated.forEach(su -> System.out.println(su));
+                int size = updated.size();
+                children.add(new DetailsGroepsbewerkingController(updated.get(size-1)));
             } else {
-                children.add(new DetailsActieController(actieController.getActie(event.getId())));
+                children.add(new DetailsGroepsbewerkingController(groepsbewerkingController.getGroepsbewerking(event.getId())));
             }
         });
 
         this.addEventFilter(DeleteEvent.DELETE, event -> {
-            boolean zitActieInBox = actieController.zitActieInBox(event.getId());
-            System.out.println(zitActieInBox);
-            if (zitActieInBox) {
+            boolean zitGroepsbewInOef = groepsbewerkingController.zitGroepsbewerkingInOefening(event.getId());
+            System.out.println(zitGroepsbewInOef);
+            if (zitGroepsbewInOef) {
                 showDeleteFailedAlert();
             } else {
-                actieController.deleteActie(event.getId());
+                groepsbewerkingController.deleteGroepsbewerking(event.getId());
                 children.clear();
             }
         });
 
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new CreateActieController(actieController, event.getId()));
+            children.add(new CreateGroepsbewerkingController(groepsbewerkingController, event.getId()));
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
             if (event.getId() >= 0) {
-                children.add(new DetailsActieController(actieController.getActie(event.getId())));
+                children.add(new DetailsGroepsbewerkingController(groepsbewerkingController.getGroepsbewerking(event.getId())));
             }
         });
-    }*/
+
+    }
+
+    private void showDeleteFailedAlert() {
+        AlertCS alert = new AlertCS(Alert.AlertType.WARNING);
+        alert.setTitle("Groepsbewerking beheren");
+        alert.setHeaderText("Groepsbewerking verwijderen");
+        alert.setContentText("Groepsbewerking kan niet verwijderd worden omdat deze nog in een oefening voorkomt");
+        alert.showAndWait();
+    }
 
     @FXML
     private void maakGroepsbewBtnClicked(ActionEvent event) {
+        detailsStackPane.getChildren().clear();
+        detailsStackPane.getChildren().add(new CreateGroepsbewerkingController(groepsbewerkingController));
     }
 
 }
