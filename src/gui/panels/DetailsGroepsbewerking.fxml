@@ -47,9 +47,9 @@
                   </columnConstraints>
                   <rowConstraints>
                       <RowConstraints maxHeight="85.99998474121094" minHeight="10.0" prefHeight="85.99998474121094" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="264.6666564941406" minHeight="10.0" prefHeight="90.33334350585938" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="206.66668701171875" minHeight="10.0" prefHeight="86.99996948242188" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="194.33331298828125" minHeight="10.0" prefHeight="139.00003051757812" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="264.6666564941406" minHeight="10.0" prefHeight="99.66665649414062" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="194.33331298828125" minHeight="10.0" prefHeight="131.33334350585938" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
                       <Label prefWidth="125.0" text="Omschrijving:" GridPane.columnIndex="1">
@@ -67,32 +67,32 @@
                         <Image url="@../../assets/icons/details/descriptionIcon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="14.0" fitWidth="14.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ImageView fitHeight="14.0" fitWidth="14.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@../../assets/icons/details/operationIcon.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="67.0" layoutY="103.0" prefWidth="125.0" text="Operatie:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label layoutX="67.0" layoutY="103.0" prefWidth="125.0" text="Operatie:" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="operatieLbl" layoutX="218.0" layoutY="68.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label fx:id="operatieLbl" layoutX="218.0" layoutY="68.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="67.0" layoutY="339.0" prefWidth="125.0" text="Factor:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label layoutX="67.0" layoutY="339.0" prefWidth="125.0" text="Factor:" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="factorLbl" layoutX="218.0" layoutY="337.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Label fx:id="factorLbl" layoutX="218.0" layoutY="337.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                  <ImageView fitHeight="15.0" fitWidth="15.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../../assets/icons/details/factorIcon.png" />
                      </image>
