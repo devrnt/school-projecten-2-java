@@ -42,7 +42,7 @@
                      <GridPane.margin>
                         <Insets left="5.0" right="2.0" />
                      </GridPane.margin></Button>
-                  <Label fx:id="fouteKlasnaamLbl" styleClass="btn-danger" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="fouteKlasnaamLbl" GridPane.columnIndex="1" />
                   <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Details Klas">
                      <font>
                         <Font size="19.0" />
@@ -88,6 +88,7 @@
                         </Label>
                      </children>
                   </HBox>
+                  <Label fx:id="leerlingNaamFoutLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="327.0">
