@@ -90,7 +90,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
                 String boxNaam = boxController.getBreakOutBox(event.getId()).getNaam();
                 ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("BreakoutBox %s zit nog in een Sessie", boxNaam), Kleuren.GEEL));
+                children.set(0, new NotificatiePanelController(String.format("BreakoutBox zit nog in een Sessie", boxNaam), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());

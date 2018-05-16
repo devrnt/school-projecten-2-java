@@ -133,7 +133,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             if (zitGroepsbewInOef) {
                 ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", YouTiels.cutSentence(groepsBewOmschrijving)), Kleuren.GEEL));
+                children.set(0, new NotificatiePanelController(String.format("De bewerking zit nog in een oefening", YouTiels.cutSentence(groepsBewOmschrijving)), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
