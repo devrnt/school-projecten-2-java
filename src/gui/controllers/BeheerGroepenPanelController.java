@@ -75,10 +75,10 @@ public class BeheerGroepenPanelController extends AnchorPane implements Observer
         groepen = controller.getGroepen().sorted(Comparator.comparing(Groep::getNaam));
         children = detailsStackPane.getChildren();
 
-        createGroepButton.setOnAction(event -> {
-            children.clear();
-            children.add(new CreateGroepController(controller));
-        });
+//        createGroepButton.setOnAction(event -> {
+//            children.clear();
+//            children.add(new CreateGroepController(controller));
+//        });
         
         createGroepButton.setVisible(false);
 
@@ -110,7 +110,7 @@ public class BeheerGroepenPanelController extends AnchorPane implements Observer
     private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new CreateGroepController(controller, event.getId()));
+//            children.add(new CreateGroepController(controller, event.getId()));
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
