@@ -19,7 +19,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,9 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import utils.YouTiels;
 
 /**
@@ -167,7 +164,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
             if (children.size() == 1) {
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", Kleuren.ROOD));
                 children.add(topNode);
             }
         });
