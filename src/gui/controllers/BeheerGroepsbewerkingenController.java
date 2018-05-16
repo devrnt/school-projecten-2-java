@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import utils.AlertCS;
+import utils.YouTiels;
 
 /**
  * FXML Controller class
@@ -132,7 +133,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             if (zitGroepsbewInOef) {
                 ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
                 Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", groepsBewOmschrijving), Kleuren.GEEL));
+                children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s zit nog in een oefening", YouTiels.cutSentence(groepsBewOmschrijving)), Kleuren.GEEL));
                 children.add(topNode);
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
@@ -183,7 +184,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             String groepsbewOmschr = groepsbewerkingController.getGroepsbewerking(id).getOmschrijving();
             groepsbewerkingController.deleteGroepsbewerking(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", groepsbewOmschr), Kleuren.GROEN));
+            children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", YouTiels.cutSentence(groepsbewOmschr)), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();

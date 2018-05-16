@@ -31,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import utils.YouTiels;
 
 /**
  * FXML Controller class
@@ -202,7 +203,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             controller.deleteOefening(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", opgaveNaam), Kleuren.GROEN));
+            children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", YouTiels.cutSentence(opgaveNaam)), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsOefeningController) children.get(0)).toggleButtons();

@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import utils.AlertCS;
+import utils.YouTiels;
 
 /**
  * FXML Controller class
@@ -178,7 +179,7 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             String actieOmschrijving = actieController.getActie(id).getOmschrijving();
             actieController.deleteActie(id);
             children.clear();
-            children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", actieOmschrijving), Kleuren.GROEN));
+            children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", YouTiels.cutSentence(actieOmschrijving)), Kleuren.GROEN));
         } else {
             children.remove(1);
             ((DetailsActieController) children.get(0)).toggleButton();
