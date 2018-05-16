@@ -1,5 +1,6 @@
 package controllers;
 
+import com.itextpdf.text.DocumentException;
 import domein.BreakOutBox;
 import domein.Klas;
 import domein.Sessie;
@@ -8,6 +9,8 @@ import domein.FoutAntwoordActieEnum;
 import domein.ISessie;
 import domein.SessieBeheer;
 import exceptions.NotFoundException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import javafx.collections.ObservableList;
 
@@ -69,8 +72,8 @@ public final class SessieController {
     public ObservableList<Sessie> getAllSessies() {
         return sessieBeheer.getAllSessies();
     }
-    
-    public Sessie getMeestRecenteSessie(){
+
+    public Sessie getMeestRecenteSessie() {
         return sessieBeheer.getMeestRecenteSessie();
     }
 
@@ -120,4 +123,7 @@ public final class SessieController {
         return new Sessie();
     }
 
+    public void createSamenvattingSessie(int id) throws IOException, FileNotFoundException, DocumentException {
+        sessieBeheer.createSamenvattingSessie(id);
+    }
 }

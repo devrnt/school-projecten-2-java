@@ -5,15 +5,21 @@
  */
 package gui.controllers;
 
+import com.itextpdf.text.DocumentException;
+import controllers.SessieController;
 import domein.Sessie;
 import gui.events.DeleteEvent;
+import gui.events.DownloadEvent;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -56,10 +62,11 @@ public class DetailsSessieController extends AnchorPane {
     private Label boxLabel;
 
     private Sessie sessie;
+    private SessieController controller;
 
-    public DetailsSessieController(Sessie sessie) {
+    public DetailsSessieController(Sessie sessie, SessieController controller) {
         this.sessie = sessie;
-
+        this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsSessie.fxml"));
         loader.setRoot(this);
         loader.setController(this);
@@ -87,6 +94,17 @@ public class DetailsSessieController extends AnchorPane {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
         kopieerLabel.setText("Code  succesvol gekopieerd.");
+    }
+
+    @FXML
+    private void samenvattingBtnClicked(ActionEvent event) throws IOException {
+        try {
+            controller.createSamenvattingSessie(sessie.getId());
+            Event downloadEvent = new DownloadEvent();
+            this.fireEvent(downloadEvent);
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(DetailsSessieController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initialize() {
