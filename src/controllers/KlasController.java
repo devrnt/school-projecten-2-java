@@ -3,6 +3,7 @@ package controllers;
 import domein.Klas;
 import domein.KlasBeheer;
 import domein.Leerling;
+import domein.SessieBeheer;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -69,9 +70,15 @@ public final class KlasController {
     }
 
     public void deleteKlas(int id) {
-       klasBeheer.verwijderKlas(id);
+        klasBeheer.verwijderKlas(id);
     }
 
     public boolean bestaatKlas(String toString) {
-return klasBeheer.bestaatKlasNaam(toString);    }
+        return klasBeheer.bestaatKlasNaam(toString);
+    }
+
+    public boolean zitKlasInSessie(int id) {
+        SessieBeheer sb = new SessieBeheer();
+        return sb.zitKlasInSessie(id);
+    }
 }

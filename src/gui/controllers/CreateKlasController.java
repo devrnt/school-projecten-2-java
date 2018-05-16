@@ -97,6 +97,8 @@ public class CreateKlasController extends AnchorPane {
         Leerling leerling = new Leerling(voorNaamTxt.getText(), familieNaamTxt.getText());
         tempList.add(leerling);
         leerlingenTbl.getItems().add(leerling);
+        voorNaamTxt.clear();
+        familieNaamTxt.clear();
         System.out.println(tempList.size());
     }
 

@@ -256,7 +256,7 @@ public class Sessie implements Serializable, ISessie {
             actRandom.forEach((it) -> {
             });
             SessiePad pad = new SessiePad(randomOpdrachten, randomActies, soortOnderwijs);
-            groepen.add(new Groep("groep" + i, pad));
+            groepen.add(new Groep("groep" + (i + 1), pad));
         }
         this.groepen = groepen;
     }
@@ -302,4 +302,9 @@ public class Sessie implements Serializable, ISessie {
         }
         return dubbelleArray;
     }
+
+    public List<Groep> getGroepen() {
+        return groepen;
+    }
+
 }

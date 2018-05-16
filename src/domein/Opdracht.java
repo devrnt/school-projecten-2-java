@@ -41,4 +41,12 @@ public class Opdracht implements Serializable{
         this.volgnr = 0;
     }
 
+    public Oefening getOefening() {
+        return oefening;
+    }
+
+    public String getToegangscode() {
+        return Toegangscode;
+    }
+    
 }

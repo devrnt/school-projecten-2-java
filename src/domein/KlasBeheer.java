@@ -2,6 +2,7 @@ package domein;
 
 import domein.Klas;
 import domein.Leerling;
+import exceptions.NotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -71,7 +72,12 @@ public final class KlasBeheer implements Observer {
     public void verwijderKlas(int id) {
 //Door de Vreemde sleutels kunnen we klas niet verwijderen         
 //klasRepo.delete(klasRepo.get(id));
-        System.out.println("Klas kan niet verwijdert worden door de vreemde sleutels");
+        //System.out.println("Klas kan niet verwijdert worden door de vreemde sleutels");
+        Klas klas = klasRepo.get(id);
+        if (klas == null) {
+            throw new NotFoundException("De sessie werd niet gevonden");
+        }
+        klasRepo.delete(klas);
     }
 
 }

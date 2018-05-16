@@ -32,7 +32,10 @@ public class StartUpGUI extends Application {
         );
         primaryStage.setScene(scene);
         primaryStage.setTitle("BreakoutBox");
+        primaryStage.setWidth(1300);
+        primaryStage.setHeight(640);
         primaryStage.setMaximized(true);
+
         primaryStage.show();
     }
 
