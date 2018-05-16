@@ -160,6 +160,7 @@ public final class BreakOutBoxBeheer implements Observer {
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
         document.open();
 
+        //informatie/intro van de pdf
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(box.getNaam() + " samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
@@ -168,23 +169,27 @@ public final class BreakOutBoxBeheer implements Observer {
         addEmptyLine(preface, 4);
         document.add(preface);
         
+        //logo van de BoB plaatsen op de pdf
         PdfContentByte canvas = writer.getDirectContentUnder();
         Image image = Image.getInstance("src/main/iconBlue128x128.png");
         image.setAbsolutePosition(440, 640);
         canvas.addImage(image);
 
+        //informatie over de BoB op de pdf plaatsen
         Paragraph info = new Paragraph();
-        info.add(new Paragraph("Naam:                " + box.getNaam()));
+        info.add(new Paragraph("Naam:               " + box.getNaam()));
         addEmptyLine(info, 1);
         info.add(new Paragraph("Omschrijving:   " + box.getOmschrijving()));
         addEmptyLine(info, 1);
-        info.add(new Paragraph("Doelstellinen:  "+box.getDoelstellingen()));
+        info.add(new Paragraph("Doelstellinen:   "+box.getDoelstellingen().toString().substring(1, box.getDoelstellingen().toString().length()-1)));
         addEmptyLine(info,2);
         document.add(info);
 
+        //tabel met de overzicht van de BoB
         PdfPTable table = new PdfPTable(4);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Oefening"));
+
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -206,27 +211,48 @@ public final class BreakOutBoxBeheer implements Observer {
             if (box.getOefeningen().size() - 1 >= i) {
                 table.addCell(new File(box.getOefeningen().get(i).getOpgave()).getName());
                 table.addCell(String.valueOf(box.getOefeningen().get(i).getAntwoord()));
-                table.addCell(box.getOefeningen().get(i).getDoelstellingen().toString());
+                table.addCell(box.getOefeningen().get(i).getDoelstellingen().toString().substring(1,box.getOefeningen().get(i).getDoelstellingen().toString().length()-1));
             } else {
                 table.addCell("");
                 table.addCell("");
                 table.addCell("");
             }
-
             if (box.getActies().size() - 1 >= i) {
                 table.addCell(box.getActies().get(i).getOmschrijving());
             } else {
                 table.addCell("SCHATKIST");
             }
         }
-
         document.add(table);
         
-                Paragraph inhoudstabel = new Paragraph();
-                  addEmptyLine(inhoudstabel,2);
+        //Overzicht vervolg Pdf
+        Paragraph inhoudstabel = new Paragraph();
+        addEmptyLine(inhoudstabel,2);
         inhoudstabel.add(new Paragraph("In de volgende bladzijden worden de oefeningen chronologisch afgelopen. "));
         inhoudstabel.add(new Paragraph("Hieronder vindt u een inhoudstabel.   " ));
-          document.add(inhoudstabel);
+        int paginaTeller =2;
+        int actieTeller=0;
+            for (Oefening oef : box.getOefeningen()) {
+                if (actieTeller <=size-2) {
+                    inhoudstabel.add(new Paragraph("Oefening/feedback/actie "+ (actieTeller+1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+                }else{
+                    inhoudstabel.add(new Paragraph("Oefening/feedback "+ (actieTeller+1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+                }
+                inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+new File(oef.getOpgave()).getName()));
+                inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+new File(oef.getFeedback()).getName()));
+                if (actieTeller <=size-2) {
+                   inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+box.getActies().get(actieTeller++))); 
+                }else{
+                    inhoudstabel.add(new Paragraph("einde"));
+                }
+                
+            
+            }
+        
+        for (int i = 2; i < (size*3); i++) {
+            
+        }
+        document.add(inhoudstabel);
         document.close();
     }
 
