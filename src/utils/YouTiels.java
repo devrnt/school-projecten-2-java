@@ -12,7 +12,10 @@ package utils;
 public class YouTiels {
 
     public static String cutSentence(String zin) {
-        int maxLength = 18;
+        return cutSentence(zin, 18);
+    }
+    
+    public static String cutSentence(String zin, int maxLength) {
         if (zin.trim().length() > maxLength) {
             String cut = zin.trim().substring(0, maxLength);
             String dot = String.format("%s...", cut);

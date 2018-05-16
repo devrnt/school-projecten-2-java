@@ -3,6 +3,7 @@ package data;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.FoutAntwoordActieEnum;
+import domein.Groep;
 import domein.Groepsbewerking;
 import domein.Klas;
 import domein.Leerling;
@@ -32,6 +33,7 @@ public class PopulateDB {
         GenericDao<BreakOutBox> boxRepo = new GenericDaoJpa<>(BreakOutBox.class);
         GenericDao<Actie> actieRepo = new GenericDaoJpa<>(Actie.class);
         GenericDao<Sessie> sessieRepo = new GenericDaoJpa<>(Sessie.class);
+        GenericDao<Groep> groepRepo = new GenericDaoJpa<>(Groep.class);
 
         /* === Data voor oefeningenbeheer === */
         Groepsbewerking groepsbewerking1 = new Groepsbewerking("Tel 2 op", 2, OperatorEnum.optellen);
@@ -201,5 +203,11 @@ public class PopulateDB {
                 "sessie_" + 4, "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
                 klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));
 
+        List<Groep> groepen = new ArrayList<>(Arrays.asList(new Groep[]{
+            new Groep("De Kampioenen", new ArrayList<>(Arrays.asList(llnKlas1))),
+            new Groep("De Pottestampers", new ArrayList<>(Arrays.asList(llnKlas2)))
+        }));
+        
+        groepen.forEach(g -> groepRepo.insert(g));
     }
 }

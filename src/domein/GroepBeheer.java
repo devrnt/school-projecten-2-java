@@ -1,9 +1,11 @@
 package domein;
 
 import exceptions.NotFoundException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -34,7 +36,7 @@ public final class GroepBeheer implements Observer {
     }
 
     public void createGroep(String groepNaam, List<Leerling> leerlingen) {
-        if (bestaatGroepNaam(groepNaam)) {
+        if (bestaatGroepsnaam(groepNaam)) {
             throw new IllegalArgumentException("Een groep met deze naam bestaat al");
         } else {
             groepRepo.insert(new Groep(groepNaam, leerlingen));
@@ -69,11 +71,19 @@ public final class GroepBeheer implements Observer {
         return groepRepo.get(id);
     }
 
-    public ObservableList<Groep> getAllGroepsen() {
+    public ObservableList<Groep> getGroepen() {
         return gefilterdeGroepLijst;
     }
+    
+    public Groep getMeestRecenteGroep(){
+        return groepRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Groep::getId).reversed())
+                .findFirst()
+                .orElse(null);
+    }
 
-    public boolean bestaatGroepNaam(String naam) {
+    public boolean bestaatGroepsnaam(String naam) {
         return groepRepo.findAll()
                 .stream()
                 .anyMatch(g
@@ -101,7 +111,13 @@ public final class GroepBeheer implements Observer {
                             .anyMatch(l
                                     -> l.getNaam()
                                     .toLowerCase()
+                                    .contains(name.trim().toLowerCase()))
+                    || g.getLeerlingen().stream()
+                            .anyMatch(l
+                                    -> l.getVoornaam()
+                                    .toLowerCase()
                                     .contains(name.trim().toLowerCase()));
+                                   
         });
     }
 

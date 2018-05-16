@@ -3,6 +3,8 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import javafx.beans.property.SimpleStringProperty;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import utils.YouTiels;
 
 /**
  *
@@ -56,6 +59,10 @@ public class Groep implements Serializable {
     public String getNaam() {
         return naam;
     }
+    
+    public SimpleStringProperty getNaamProp(){
+        return new SimpleStringProperty(naam);
+    }
 
     public void setNaam(String naam) {
         this.naam = naam;
@@ -63,6 +70,11 @@ public class Groep implements Serializable {
 
     public List<Leerling> getLeerlingen() {
         return leerlingen;
+    }
+    
+    public SimpleStringProperty getLeerlingenProp(){
+        String leerlingenString = leerlingen.stream().map(l -> l.getVolledigeNaam()).collect(Collectors.joining(", "));
+        return new SimpleStringProperty(YouTiels.cutSentence(leerlingenString, 50));
     }
 
     public void setLeerlingen(List<Leerling> leerlingen) {

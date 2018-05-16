@@ -88,4 +88,12 @@ public class Leerling implements Serializable {
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
+
+    @Override
+    public String toString() {
+        return voornaam + " " + naam;
+    }
+    
+    
 }
+

@@ -132,10 +132,12 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             boolean inBox = actieController.zitActieInBox(event.getId());
             String actieOmschrijving = actieController.getActie(event.getId()).getOmschrijving();
             if (inBox) {
-                ((DetailsActieController) children.get(0)).toggleButton();
-                Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Actie zit nog in een BreakOutBox", actieOmschrijving), Kleuren.GEEL));
-                children.add(topNode);
+                if (children.size() == 1) {
+                    ((DetailsActieController) children.get(0)).toggleButton();
+                    Node topNode = children.get(0);
+                    children.set(0, new NotificatiePanelController(String.format("Actie zit nog in een BreakOutBox", actieOmschrijving), Kleuren.GEEL));
+                    children.add(topNode);
+                }
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
                 builder.addObserver(this);
