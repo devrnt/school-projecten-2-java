@@ -157,27 +157,34 @@ public final class BreakOutBoxBeheer implements Observer {
     public void createPdf(String dest, int id) throws IOException, DocumentException {
         BreakOutBox box = breakOutBoxRepo.get(id);
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(dest));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
         document.open();
 
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph(box.getNaam() + " samenvatting", new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD)));
+        preface.add(new Paragraph(box.getNaam() + " samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date()));
-        addEmptyLine(preface, 3);
+        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.COURIER, 8)));
+        addEmptyLine(preface, 4);
         document.add(preface);
+        
+        PdfContentByte canvas = writer.getDirectContentUnder();
+        Image image = Image.getInstance("src/main/iconBlue128x128.png");
+        image.setAbsolutePosition(440, 640);
+        canvas.addImage(image);
 
         Paragraph info = new Paragraph();
-        info.add(new Paragraph("Naam:" + box.getNaam()));
+        info.add(new Paragraph("Naam:                " + box.getNaam()));
         addEmptyLine(info, 1);
-        info.add(new Paragraph("Omschrijving: " + box.getOmschrijving()));
+        info.add(new Paragraph("Omschrijving:   " + box.getOmschrijving()));
         addEmptyLine(info, 1);
+        info.add(new Paragraph("Doelstellinen:  "+box.getDoelstellingen()));
+        addEmptyLine(info,2);
         document.add(info);
 
-        PdfPTable table = new PdfPTable(5);
+        PdfPTable table = new PdfPTable(4);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Oefeningen"));
+        PdfPCell c1 = new PdfPCell(new Phrase("Oefening"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -185,21 +192,21 @@ public final class BreakOutBoxBeheer implements Observer {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Feedback"));
+        c1 = new PdfPCell(new Phrase("Doelstelling"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Acties"));
+        c1 = new PdfPCell(new Phrase("Actie"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
         table.setHeaderRows(1);
 
-        int size = Integer.max(box.getActies().size(), box.getOefeningen().size());
+        int size =  box.getOefeningen().size();
         for (int i = 0; i < size; i++) {
             if (box.getOefeningen().size() - 1 >= i) {
                 table.addCell(new File(box.getOefeningen().get(i).getOpgave()).getName());
                 table.addCell(String.valueOf(box.getOefeningen().get(i).getAntwoord()));
-                table.addCell(new File(box.getOefeningen().get(i).getFeedback()).getName());
+                table.addCell(box.getOefeningen().get(i).getDoelstellingen().toString());
             } else {
                 table.addCell("");
                 table.addCell("");
@@ -209,11 +216,17 @@ public final class BreakOutBoxBeheer implements Observer {
             if (box.getActies().size() - 1 >= i) {
                 table.addCell(box.getActies().get(i).getOmschrijving());
             } else {
-                table.addCell("");
+                table.addCell("SCHATKIST");
             }
         }
 
         document.add(table);
+        
+                Paragraph inhoudstabel = new Paragraph();
+                  addEmptyLine(inhoudstabel,2);
+        inhoudstabel.add(new Paragraph("In de volgende bladzijden worden de oefeningen chronologisch afgelopen. "));
+        inhoudstabel.add(new Paragraph("Hieronder vindt u een inhoudstabel.   " ));
+          document.add(inhoudstabel);
         document.close();
     }
 
