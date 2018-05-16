@@ -38,6 +38,8 @@ public class BreakOutBox implements Serializable {
     private SimpleStringProperty naamProperty = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty omschrijvingProperty = new SimpleStringProperty();
+    @Transient
+    private List<String> doelstellingen;
 
     public BreakOutBox(String naam, String omschrijving, SoortOnderwijsEnum soortOnderwijs, List<Oefening> oefeningen, List<Actie> acties) {
         if (soortOnderwijs == SoortOnderwijsEnum.dagonderwijs && oefeningen.size() > 0 && oefeningen.size() != acties.size() + 1) {
@@ -48,6 +50,7 @@ public class BreakOutBox implements Serializable {
         setSoortOnderwijs(soortOnderwijs);
         setOefeningen(oefeningen);
         setActies(acties);
+        setDoelstellingen();
 
     }
 
@@ -118,5 +121,21 @@ public class BreakOutBox implements Serializable {
 
     public List<Actie> getActies() {
         return acties;
+    }
+
+    public List<String> getDoelstellingen(){
+        return doelstellingen;
+    }
+    private void setDoelstellingen(){
+        doelstellingen = new ArrayList<String>();
+        for (Oefening oef : oefeningen) {
+            for (String doelS: oef.getDoelstellingen()) {
+                if (!doelstellingen.contains(doelS)) {
+                    doelstellingen.add(doelS);
+                }
+            }
+      
+            
+        }
     }
 }
