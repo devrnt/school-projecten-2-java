@@ -101,7 +101,7 @@ public final class BreakOutBoxBeheer implements Observer {
     public void deleteBreakOutBox(int boxId) {
         BreakOutBox box = breakOutBoxRepo.get(boxId);
         if (box == null) {
-            throw new NotFoundException("De oefening werd niet gevonden");
+            throw new NotFoundException("De breakoutbox werd niet gevonden");
         }
         breakOutBoxRepo.delete(box);
     }

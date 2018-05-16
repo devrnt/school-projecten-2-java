@@ -97,7 +97,9 @@ public final class SessieBeheer implements Observer {
         //dit moet beter -Yanis
         return sessieLijst.stream().anyMatch(s -> s.getBox().getId() == boxId);
     }
-
+    public boolean zitKlasInSessie(int id) {
+        return sessieLijst.stream().anyMatch(s -> s.getKlas().getId() == id);
+    }
     public boolean bestaatSessieNaam(String naam) {
         Sessie sessie = sessieRepo.getByNaam(naam);
         return sessie != null;
@@ -225,4 +227,6 @@ public final class SessieBeheer implements Observer {
         p.setAlignment(Element.ALIGN_CENTER);
         return p;
     }
+
+
 }
