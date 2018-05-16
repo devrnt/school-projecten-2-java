@@ -1,8 +1,8 @@
 package controllers;
 
 import domein.Groepsbewerking;
-import domein.Oefening;
-import domein.OefeningBeheer;
+import domein.Groep;
+import domein.GroepBeheer;
 import domein.OperatorEnum;
 import exceptions.NotFoundException;
 import java.util.ArrayList;
@@ -21,42 +21,29 @@ import repository.GroepsbewerkingDao;
  */
 public class GroepControllerTest {
 
-    private OefeningController controller;
-    private GenericDao<Oefening> oefeningRepo;
-    private GroepsbewerkingDao groepsbwRepo;
+    private GroepController controller;
+    private GenericDao<Groep> groepRepo;
 
-    private Oefening oefening;
+    private Groep groep;
 
     @Before
     public void before() {
         // aanmaken controller
-        controller = new OefeningController();
+        controller = new GroepController();
 
         // aanmaken mocks
-        oefeningRepo = Mockito.mock(GenericDao.class);
-        groepsbwRepo = Mockito.mock(GroepsbewerkingDao.class);
+        groepRepo = Mockito.mock(GenericDao.class);
 
         // trainen mocks
-        oefening = new Oefening("opgave", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
-        Mockito.when(oefeningRepo.get(1)).thenReturn(oefening);
-        Mockito.when(oefeningRepo.get(2)).thenReturn(null);
-        Mockito.when(oefeningRepo.findAll()).thenReturn(
+        groep = new Groep("groep", new ArrayList<>());
+        Mockito.when(groepRepo.get(1)).thenReturn(groep);
+        Mockito.when(groepRepo.get(2)).thenReturn(null);
+        Mockito.when(groepRepo.findAll()).thenReturn(
                 new ArrayList<>(
                         Arrays.asList(
-                                new Oefening[]{
-                                    new Oefening("opgave1", 1, "feedback1", "vak1", new ArrayList<>(), new ArrayList<>()),
-                                    new Oefening("opgave2", 1, "feedback2", "vak2", new ArrayList<>(), new ArrayList<>())
-
-                                }
-                        )
-                )
-        );
-        Mockito.when(groepsbwRepo.findAll()).thenReturn(
-                new ArrayList<>(
-                        Arrays.asList(
-                                new Groepsbewerking[]{
-                                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
-                                    new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
+                                new Groep[]{
+                                    new Groep("groep1", new ArrayList<>()),
+                                    new Groep("groep2", new ArrayList<>())
 
                                 }
                         )
@@ -64,63 +51,54 @@ public class GroepControllerTest {
         );
 
         // setter injection mocks
-        controller.getOefeningBeheer().setOefeningRepo(oefeningRepo);
-        controller.getOefeningBeheer().setGroepsbewerkingRepo(groepsbwRepo);
+        controller.getGroepBeheer().setGroepRepo(groepRepo);
     }
 
-    //<editor-fold defaultstate="collapsed" desc="=== createOefening ===">
+    //<editor-fold defaultstate="collapsed" desc="=== createGroep ===">
     @Test
-    public void createOefening_AddsNewOefening() {
-        controller.createOefening("opgave", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
-        Mockito.verify(oefeningRepo).insert(Mockito.any(Oefening.class));
+    public void createGroep_AddsNewGroep() {
+        controller.createGroep("eenGroep", new ArrayList<>());
+        Mockito.verify(groepRepo).insert(Mockito.any(Groep.class));
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="=== updateOefening ===">
+    //<editor-fold defaultstate="collapsed" desc="=== updateGroep ===">
     @Test
-    public void updateOefening_changesAndPersistsOefening() {
-        controller.updateOefening(1, "opgaveUpdate", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
-        Assert.assertEquals("opgaveUpdate", oefening.getOpgave());
-        Mockito.verify(oefeningRepo).update(Mockito.any(Oefening.class));
+    public void updateGroep_changesAndPersistsGroep() {
+        controller.updateGroep(1, "groepUpdate", new ArrayList<>());
+        Assert.assertEquals("groepUpdate", groep.getNaam());
+        Mockito.verify(groepRepo).update(Mockito.any(Groep.class));
     }
 
     @Test(expected = NotFoundException.class)
-    public void updateOefening_oefeningNotFound_throwsNotFoundException() {
-        controller.updateOefening(2, "opgave2", 0, "feedback", "vak", new ArrayList<>(), new ArrayList<>());
+    public void updateGroep_groepNotFound_throwsNotFoundException() {
+        controller.updateGroep(2, "groepNotFound", new ArrayList<>());
     }
 //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="=== deleteOefening ===">
+    //<editor-fold defaultstate="collapsed" desc="=== deleteGroep ===">
     @Test
-    public void deleteOefening_callsDeleteInRepo() {
-        controller.deleteOefening(1);
-        Mockito.verify(oefeningRepo).delete(Mockito.any(Oefening.class));
+    public void deleteGroep_callsDeleteInRepo() {
+        controller.deleteGroep(1);
+        Mockito.verify(groepRepo).delete(Mockito.any(Groep.class));
     }
 
     @Test(expected = NotFoundException.class)
-    public void deleteOefening_oefeningNotFound_throwsNotFoundException() {
-        controller.deleteOefening(2);
+    public void deleteGroep_groepNotFound_throwsNotFoundException() {
+        controller.deleteGroep(2);
     }
 //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="=== getGroepsbewerkingen ===">
+    //<editor-fold defaultstate="collapsed" desc="=== getGroep ===">
     @Test
-    public void getGroepsbewerkingen_returnsListOfGroepsbewerkingen() {
-        ObservableList<Groepsbewerking> list = controller.getGroepsbewerkingen();
-        Assert.assertEquals(2, list.size());
-    }
-//</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="=== getOefening ===">
-    @Test
-    public void getOefeningen_ReturnsOefeningen() {
-        Assert.assertEquals(2, controller.getOefeningen().size());
+    public void getGroepen_ReturnsGroepen() {
+        Assert.assertEquals(2, controller.getGroepen().size());
     }
 
     @Test
-    public void getOefening_returnsCorrectOefening() {
-        Oefening oefening = controller.getOefening(1);
-        Assert.assertEquals(oefening, this.oefening);
+    public void getGroep_returnsCorrectGroep() {
+        Groep groep = controller.getGroep(1);
+        Assert.assertEquals(groep, this.groep);
     }
 //</editor-fold>
 
@@ -128,26 +106,26 @@ public class GroepControllerTest {
     @Test
     public void applyFilter_NoTextReturnsAll() {
         controller.applyFilter("");
-        Assert.assertEquals(2, controller.getOefeningen().size());
+        Assert.assertEquals(2, controller.getGroepen().size());
     }
 
     @Test
     public void applyFilter_ReturnsMatches() {
-        controller.applyFilter("opgave1");
-        Assert.assertEquals(1, controller.getOefeningen().size());
+        controller.applyFilter("groep1");
+        Assert.assertEquals(1, controller.getGroepen().size());
     }
 
     @Test
     public void applyFilter_WithWhiteSpaceReturnsMatches() {
-        controller.applyFilter("     opgave1    ");
-        Assert.assertEquals(1, controller.getOefeningen().size());
+        controller.applyFilter("     groep1    ");
+        Assert.assertEquals(1, controller.getGroepen().size());
     }
 //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="=== getOefeningBeheer ===">
+    //<editor-fold defaultstate="collapsed" desc="=== getGroepBeheer ===">
     @Test
-    public void getOefeningBeheer_returnsOefeningBeheer() {
-        Assert.assertTrue(controller.getOefeningBeheer() instanceof OefeningBeheer);
+    public void getGroepBeheer_returnsGroepBeheer() {
+        Assert.assertTrue(controller.getGroepBeheer() instanceof GroepBeheer);
     }
     //</editor-fold>
 

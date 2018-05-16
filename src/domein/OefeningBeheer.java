@@ -86,7 +86,11 @@ public final class OefeningBeheer implements Observer {
     }
     
     public Oefening getMeestRecenteOefening(){
-        return oefeningRepo.findAll().stream().sorted(Comparator.comparing(Oefening::getId).reversed()).collect(Collectors.toList()).get(0);
+        return oefeningRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Oefening::getId).reversed())
+                .findFirst()
+                .orElse(null);
     }
     
     public ObservableList<Oefening> getOefeningen() {

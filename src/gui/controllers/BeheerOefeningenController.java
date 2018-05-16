@@ -128,10 +128,13 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             laatstVerwijderd = controller.getOefening(event.getId());
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             if (inBox) {
-                ((DetailsOefeningController) children.get(0)).toggleButtons();
-                Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("Oefening zit nog in een BreakoutBox", opgaveNaam), Kleuren.GEEL));
-                children.add(topNode);
+                int size = children.size();
+                ((DetailsOefeningController)children.get(size - 1)).toggleButtons();
+                if (size == 1) {
+                    Node topNode = children.get(0);
+                    children.set(0, new NotificatiePanelController(String.format("Oefening %s zit nog in een BreakoutBox", opgaveNaam), Kleuren.GEEL));
+                    children.add(topNode);
+                }
             } else {
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
                 builder.addObserver(this);

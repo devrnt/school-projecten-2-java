@@ -2,6 +2,7 @@ package gui.controllers;
 
 import controllers.ActieController;
 import controllers.BoxController;
+import controllers.GroepController;
 import controllers.GroepsbewerkingController;
 import controllers.KlasController;
 import controllers.OefeningController;
@@ -50,6 +51,7 @@ public class HoofdPanelController extends AnchorPane {
             new BeheerBreakOutBoxPanelController(new BoxController()),
             new BeheerSessiesController(new SessieController()),
             new BeheerKlassenController(new KlasController()),
+            new BeheerGroepenPanelController(new GroepController()),
             new BeheerActiesController(new ActieController()),
             new BeheerGroepsbewerkingenController(new GroepsbewerkingController())
         };

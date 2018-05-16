@@ -53,7 +53,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="600.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="createGroepButton" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
+                        <Button fx:id="createGroepButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -84,7 +84,7 @@
                      <children>
                         <TableView fx:id="groepenTableView" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="groepsnaamCol" editable="false" maxWidth="-Infinity" minWidth="175.0" prefWidth="175.0" resizable="false" styleClass="table-view-cell-header" text="Groepsnaam" />
+                            <TableColumn fx:id="naamCol" editable="false" maxWidth="-Infinity" minWidth="175.0" prefWidth="175.0" resizable="false" styleClass="table-view-cell-header" text="Groepsnaam" />
                             <TableColumn fx:id="leerlingenCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="303.0" prefWidth="270.0" resizable="false" styleClass="table-view-cell-header" text="Leerlingen" />
                           </columns>
                            <HBox.margin>
