@@ -9,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -54,4 +52,12 @@ public class SessiePad implements Serializable {
         this.voortgang = 0;
     }
 
+    public List<Actie> getActies() {
+        return acties;
+    }
+
+    public List<Opdracht> getOpdrachten() {
+        return opdrachten;
+    }
+    
 }

@@ -41,7 +41,7 @@ import javafx.stage.Stage;
  *
  * @author devri
  */
-public class BeheerSessiesController extends AnchorPane implements Observer{
+public class BeheerSessiesController extends AnchorPane implements Observer {
 
     @FXML
     private StackPane detailsStackPane;
@@ -100,7 +100,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
         sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 children.clear();
-                children.add(new DetailsSessieController(newval));
+                children.add(new DetailsSessieController(newval, sessieController));
             }
         });
 
@@ -117,7 +117,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
     private void toonSessieDetails() {
         int sessieId = sessieTabel.getSelectionModel().getSelectedItem().getId();
         detailsStackPane.getChildren().clear();
-        detailsStackPane.getChildren().add(new DetailsSessieController(sessieController.getSessie(sessieId)));
+        detailsStackPane.getChildren().add(new DetailsSessieController(sessieController.getSessie(sessieId), sessieController));
     }
 
     private void voegEventHandlersToe() {
@@ -143,7 +143,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
             if (event.getId() >= 0) {
-                children.add(new DetailsSessieController(sessieController.getSessie(event.getId())));
+                children.add(new DetailsSessieController(sessieController.getSessie(event.getId()), sessieController));
             }
         });
 
@@ -159,9 +159,9 @@ public class BeheerSessiesController extends AnchorPane implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        boolean confirmed = ((ConfirmationBuilder)o).isConfirmed();
-        int id = ((ConfirmationBuilder)o).getId();
-        if (confirmed){
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
             String sessieNaam = sessieController.getSessie(id).getNaam();
             sessieController.deleteSessie(id);
             children.clear();

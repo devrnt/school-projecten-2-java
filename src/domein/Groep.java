@@ -3,8 +3,6 @@ package domein;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -74,6 +71,10 @@ public class Groep implements Serializable {
 
     public int getAantalLeerlingen() {
         return leerlingen.size();
+    }
+
+    public SessiePad getSessiePad() {
+        return sessiePad;
     }
 
     // </editor-fold>
