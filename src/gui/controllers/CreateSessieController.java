@@ -145,8 +145,7 @@ public class CreateSessieController extends AnchorPane {
 
         klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
-        boxController.getAllBreakOutBoxen()
-                .forEach(box -> boxChoiceBox.getItems().add(box));
+        boxChoiceBox.getItems().setAll(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()));
 
         reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
         reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
@@ -249,6 +248,12 @@ public class CreateSessieController extends AnchorPane {
 
         // listener for choicebox select change
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            boxChoiceBox.getItems().setAll(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()));
+            if (boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()).size() < 1) {
+                boxChoiceBox.setValue(null);
+            } else {
+                boxChoiceBox.setValue(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()).get(0));
+            }
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
                 reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);

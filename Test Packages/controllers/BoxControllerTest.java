@@ -63,7 +63,7 @@ public class BoxControllerTest {
         boxController.getBoxBeheer().setBreakOutBoxRepo(boxRepo);
     }
 
-//<editor-fold defaultstate="getters" desc="comment">
+    //<editor-fold defaultstate="getters" desc="=== getAll ===">
     @Test
     public void getAllBobs_returnsAllBobs() {
         Assert.assertEquals(2, boxController.getAllBreakOutBoxen().size());
@@ -73,6 +73,16 @@ public class BoxControllerTest {
     public void geefBreakOutBox_returnsCorrectBoB() {
         BreakOutBox box = boxController.getBreakOutBox(1);
         Assert.assertEquals(box, this.box);
+    }
+
+    @Test
+    public void geefAlleBreakOutBoxenMetSoortOnderwijs_returnsJuisteSoortOnderwijsBoxen() {
+        Assert.assertEquals(2, boxController.getAllBreakOutBoxen(SoortOnderwijsEnum.dagonderwijs).size());
+    }
+
+    @Test
+    public void geefAlleBreakOutBoxenMetSoortOnderwijs_returnsJuisteSoortOnderwijsBoxen2() {
+        Assert.assertEquals(0, boxController.getAllBreakOutBoxen(SoortOnderwijsEnum.afstandsonderwijs).size());
     }
 //</editor-fold>
 
