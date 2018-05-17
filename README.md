@@ -62,7 +62,7 @@ Vul de use cases aan:
 * [X] Oefeningen, filter op absolutut pad
 * [X] Oefeningen sorteren
 * [X] Kopie zonder iets te selecteren
-* [ ] Bij aanmaken sessie lijst boxen van soortonderwijs
+* [X] Bij aanmaken sessie lijst boxen van soortonderwijs
 * [ ] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
 * [ ] Geselecteerde acties en oefening doen zoals in oefening
 * [X] Box naam bestaat al checken
