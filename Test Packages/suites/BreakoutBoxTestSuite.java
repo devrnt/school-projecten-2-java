@@ -15,7 +15,8 @@ import org.junit.runners.Suite;
     controllers.ActieControllerTest.class,
     controllers.GroepsbewerkingControllerTest.class,
     domein.KlasTest.class,
-    domein.SessieTest.class
+    domein.SessieTest.class,
+    domein.GroepsbewerkingTest.class
 })
 public class BreakoutBoxTestSuite {   
 }

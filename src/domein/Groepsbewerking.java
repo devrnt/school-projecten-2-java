@@ -26,7 +26,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Groepsbewerking.findAll",
             query = "SELECT o FROM Groepsbewerking o")
 })
-public class Groepsbewerking implements Serializable {
+public class Groepsbewerking implements Serializable, IGroepsbewerking {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,8 @@ public class Groepsbewerking implements Serializable {
     
     public Groepsbewerking(String omschrijving, int factor, OperatorEnum operator) {
         setOmschrijving(omschrijving);
-        setFactor(factor);
         setOperator(operator);
+        setFactor(factor);
     }
     
     protected Groepsbewerking() {
@@ -79,6 +79,8 @@ public class Groepsbewerking implements Serializable {
     }
     
     public void setFactor(int factor) {
+        if (factor == 0)
+            throw new IllegalArgumentException("Factor mag niet 0 zijn");
         this.factor = factor;
         factorProperty.set(Integer.toString(factor));
     }

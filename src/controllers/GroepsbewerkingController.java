@@ -7,6 +7,7 @@ package controllers;
 
 import domein.Groepsbewerking;
 import domein.GroepsbewerkingBeheer;
+import domein.IGroepsbewerking;
 import domein.OperatorEnum;
 import javafx.collections.ObservableList;
 
@@ -45,6 +46,15 @@ public class GroepsbewerkingController {
      */
     public Groepsbewerking getGroepsbewerking(int id) {
         return groepsbewerkingBeheer.getGroepsbewerking(id);
+    }
+    
+    /**
+     * Geeft een IGroepsbewerking terug waarop setters kunnen worden
+     * opgeroep voor validatie
+     * @return IGroepsbewerking object
+     */   
+    public IGroepsbewerking getIGroepsbewerking(){
+        return groepsbewerkingBeheer.getIGroepsbewerking();
     }
 
     /**
