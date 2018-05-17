@@ -63,6 +63,8 @@ public class CreateSessieController extends AnchorPane {
     @FXML
     private ChoiceBox<BreakOutBox> boxChoiceBox;
     @FXML
+    private Label boxFout;
+    @FXML
     private Label klasFout;
     @FXML
     private Button bekijkLlnButton;
@@ -170,7 +172,12 @@ public class CreateSessieController extends AnchorPane {
 
     @FXML
     private void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, datumFout};
+        if (boxChoiceBox.getSelectionModel().selectedIndexProperty().getValue() == -1) {
+            boxFout.setText("Selecteer een box of maak er een");
+        } else {
+            boxFout.setText("");
+        }
+        Label[] foutLabels = {naamFout, omschrijvingFout, datumFout, boxFout};
         String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
 
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
@@ -249,6 +256,11 @@ public class CreateSessieController extends AnchorPane {
         // listener for choicebox select change
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             boxChoiceBox.getItems().setAll(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()));
+            if (boxChoiceBox.getSelectionModel().selectedIndexProperty().getValue() == -1) {
+                boxFout.setText("Selecteer een box of maak er een");
+            } else {
+                boxFout.setText("");
+            }
             if (boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()).size() < 1) {
                 boxChoiceBox.setValue(null);
             } else {
