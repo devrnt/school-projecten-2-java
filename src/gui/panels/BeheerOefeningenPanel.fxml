@@ -69,6 +69,16 @@
                               <String fx:value="btn-success" />
                            </styleClass>
                         </Button>
+                        <Button fx:id="kopieButton" mnemonicParsing="false" text="Kopie">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-medium" />
+                              <String fx:value="btn-default" />
+                           </styleClass>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

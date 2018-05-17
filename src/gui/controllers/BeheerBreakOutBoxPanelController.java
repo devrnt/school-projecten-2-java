@@ -63,7 +63,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
         children = detailsStackPane.getChildren();
         stelTableViewIn();
         voegEventHandlersToe();
-
+        kopieBoxButton.setDisable(true);
     }
 
     private void stelTableViewIn() {
@@ -73,6 +73,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
         boxTabel.setItems(boxController.getAllBreakOutBoxen());
         boxTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
+                kopieBoxButton.setDisable(false);
                 children.clear();
                 children.add(new DetailsBreakOutBoxController(newval, boxController));
             }
@@ -186,8 +187,8 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
             children.clear();
             children.add(new NotificatiePanelController(String.format("Box %s is verwijderd", boxNaam), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
+            children.remove(children.size() - 1);
+            ((DetailsBreakOutBoxController) children.get(children.size() - 1)).toggleButtons();
         }
     }
 }

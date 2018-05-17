@@ -7,6 +7,7 @@ package gui.controllers;
 
 import controllers.GroepsbewerkingController;
 import domein.Groepsbewerking;
+import domein.IGroepsbewerking;
 import domein.OperatorEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
@@ -144,10 +145,14 @@ public class CreateGroepsbewerkingController extends AnchorPane {
             } else {
                 String factorAntwoord = factorInput.getText();
                 try {
-                    Integer.parseInt(factorAntwoord);
+                    int factor = Integer.parseInt(factorAntwoord);
                     factorFout.setText("");
+                    IGroepsbewerking gbw = groepsbewerkingController.getIGroepsbewerking();
+                    gbw.setFactor(factor);
                 } catch (NumberFormatException e) {
                     factorFout.setText("Factor moet een getal zijn");
+                } catch (IllegalArgumentException e){
+                    factorFout.setText(e.getMessage());
                 }
             }
         });

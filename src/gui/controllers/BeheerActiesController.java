@@ -185,8 +185,8 @@ public class BeheerActiesController extends AnchorPane implements Observer {
             children.clear();
             children.add(new NotificatiePanelController(String.format("Actie %s is verwijderd", YouTiels.cutSentence(actieOmschrijving)), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsActieController) children.get(0)).toggleButton();
+            children.remove(children.size() - 1);
+            ((DetailsActieController) children.get(children.size() - 1)).toggleButton();
         }
     }
 

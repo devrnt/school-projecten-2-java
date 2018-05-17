@@ -182,8 +182,8 @@ public class BeheerSessiesController extends AnchorPane implements Observer {
             children.clear();
             children.add(new NotificatiePanelController(String.format("Sessie %s is verwijderd", sessieNaam), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsSessieController) children.get(0)).toggleButton();
+            children.remove(children.size() - 1);
+            ((DetailsSessieController) children.get(children.size() - 1)).toggleButton();
         }
     }
 

@@ -183,4 +183,8 @@ public final class BoxController {
         SessieBeheer sb = new SessieBeheer();
         return sb.zitBoxInSessie(boxId);
     }
+
+    public boolean bestaatBoxNaam(String text) {
+        return boxBeheer.bestaatBoxNaam(text);
+    }
 }

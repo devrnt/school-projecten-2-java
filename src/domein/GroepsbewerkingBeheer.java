@@ -81,6 +81,10 @@ public class GroepsbewerkingBeheer implements Observer {
             groepsbewerkingRepo.delete(groepsBewerking);
         }
     }
+    
+    public IGroepsbewerking getIGroepsbewerking(){
+        return new Groepsbewerking();
+    }
 
     public void applyFilter(String toFilter) {
         gefilterdeGroepsbewerkingLijst.setPredicate(groepsBew -> {

@@ -66,8 +66,8 @@ public final class BreakOutBoxBeheer implements Observer {
     public BreakOutBox getBreakOutBox(int id) {
         return breakOutBoxRepo.get(id);
     }
-    
-    public BreakOutBox getMeestRecenteBreakOutBox(){
+
+    public BreakOutBox getMeestRecenteBreakOutBox() {
         return breakOutBoxRepo.findAll().stream().sorted(Comparator.comparing(BreakOutBox::getId).reversed()).collect(Collectors.toList()).get(0);
     }
 
@@ -105,8 +105,8 @@ public final class BreakOutBoxBeheer implements Observer {
         }
         breakOutBoxRepo.delete(box);
     }
-    
-    public boolean zitBoxinSessie(int boxId){
+
+    public boolean zitBoxinSessie(int boxId) {
         SessieBeheer sessieBeheer = new SessieBeheer();
         return sessieBeheer.zitBoxInSessie(boxId);
     }
@@ -168,7 +168,7 @@ public final class BreakOutBoxBeheer implements Observer {
         preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.COURIER, 8)));
         addEmptyLine(preface, 4);
         document.add(preface);
-        
+
         //logo van de BoB plaatsen op de pdf
         PdfContentByte canvas = writer.getDirectContentUnder();
         Image image = Image.getInstance("src/main/iconBlue128x128.png");
@@ -181,8 +181,8 @@ public final class BreakOutBoxBeheer implements Observer {
         addEmptyLine(info, 1);
         info.add(new Paragraph("Omschrijving:   " + box.getOmschrijving()));
         addEmptyLine(info, 1);
-        info.add(new Paragraph("Doelstellinen:   "+box.getDoelstellingen().toString().substring(1, box.getDoelstellingen().toString().length()-1)));
-        addEmptyLine(info,2);
+        info.add(new Paragraph("Doelstellinen:   " + box.getDoelstellingen().toString().substring(1, box.getDoelstellingen().toString().length() - 1)));
+        addEmptyLine(info, 2);
         document.add(info);
 
         //tabel met de overzicht van de BoB
@@ -206,12 +206,12 @@ public final class BreakOutBoxBeheer implements Observer {
         table.addCell(c1);
         table.setHeaderRows(1);
 
-        int size =  box.getOefeningen().size();
+        int size = box.getOefeningen().size();
         for (int i = 0; i < size; i++) {
             if (box.getOefeningen().size() - 1 >= i) {
                 table.addCell(new File(box.getOefeningen().get(i).getOpgave()).getName());
                 table.addCell(String.valueOf(box.getOefeningen().get(i).getAntwoord()));
-                table.addCell(box.getOefeningen().get(i).getDoelstellingen().toString().substring(1,box.getOefeningen().get(i).getDoelstellingen().toString().length()-1));
+                table.addCell(box.getOefeningen().get(i).getDoelstellingen().toString().substring(1, box.getOefeningen().get(i).getDoelstellingen().toString().length() - 1));
             } else {
                 table.addCell("");
                 table.addCell("");
@@ -224,33 +224,32 @@ public final class BreakOutBoxBeheer implements Observer {
             }
         }
         document.add(table);
-        
+
         //Overzicht vervolg Pdf
         Paragraph inhoudstabel = new Paragraph();
-        addEmptyLine(inhoudstabel,2);
+        addEmptyLine(inhoudstabel, 2);
         inhoudstabel.add(new Paragraph("In de volgende bladzijden worden de oefeningen chronologisch afgelopen. "));
-        inhoudstabel.add(new Paragraph("Hieronder vindt u een inhoudstabel.   " ));
-        int paginaTeller =2;
-        int actieTeller=0;
-            for (Oefening oef : box.getOefeningen()) {
-                if (actieTeller <=size-2) {
-                    inhoudstabel.add(new Paragraph("Oefening/feedback/actie "+ (actieTeller+1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
-                }else{
-                    inhoudstabel.add(new Paragraph("Oefening/feedback "+ (actieTeller+1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
-                }
-                inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+new File(oef.getOpgave()).getName()));
-                inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+new File(oef.getFeedback()).getName()));
-                if (actieTeller <=size-2) {
-                   inhoudstabel.add(new Paragraph("Pagina "+ paginaTeller++ +": "+box.getActies().get(actieTeller++))); 
-                }else{
-                    inhoudstabel.add(new Paragraph("einde"));
-                }
-                
-            
+        inhoudstabel.add(new Paragraph("Hieronder vindt u een inhoudstabel.   "));
+        int paginaTeller = 2;
+        int actieTeller = 0;
+        for (Oefening oef : box.getOefeningen()) {
+            if (actieTeller <= size - 2) {
+                inhoudstabel.add(new Paragraph("Oefening/feedback/actie " + (actieTeller + 1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+            } else {
+                inhoudstabel.add(new Paragraph("Oefening/feedback " + (actieTeller + 1), new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
             }
-        
-        for (int i = 2; i < (size*3); i++) {
-            
+            inhoudstabel.add(new Paragraph("Pagina " + paginaTeller++ + ": " + new File(oef.getOpgave()).getName()));
+            inhoudstabel.add(new Paragraph("Pagina " + paginaTeller++ + ": " + new File(oef.getFeedback()).getName()));
+            if (actieTeller <= size - 2) {
+                inhoudstabel.add(new Paragraph("Pagina " + paginaTeller++ + ": " + box.getActies().get(actieTeller++)));
+            } else {
+                inhoudstabel.add(new Paragraph("einde"));
+            }
+
+        }
+
+        for (int i = 2; i < (size * 3); i++) {
+
         }
         document.add(inhoudstabel);
         document.close();
@@ -260,5 +259,9 @@ public final class BreakOutBoxBeheer implements Observer {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
+    }
+
+    public boolean bestaatBoxNaam(String text) {
+        return this.boxLijst.filtered(it -> it.getNaam().equals(text)).size() > 0;
     }
 }

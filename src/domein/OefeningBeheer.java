@@ -1,6 +1,7 @@
 package domein;
 
 import exceptions.NotFoundException;
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
@@ -94,7 +95,7 @@ public final class OefeningBeheer implements Observer {
     }
     
     public ObservableList<Oefening> getOefeningen() {
-        return gefilterdeOefeningenLijst;
+        return gefilterdeOefeningenLijst.sorted(Comparator.comparing(Oefening::getOpgaveNaam));
     }
     
     public void applyFilter(String toFilter) {
@@ -102,7 +103,7 @@ public final class OefeningBeheer implements Observer {
             if (toFilter == null || toFilter.isEmpty()) {
                 return true;
             }
-            return o.getOpgave().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+            return new File(o.getOpgave()).getName().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
                     || o.getVak().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
                     || o.getDoelstellingen()
                             .stream()

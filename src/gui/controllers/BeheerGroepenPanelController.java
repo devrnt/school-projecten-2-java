@@ -161,8 +161,8 @@ public class BeheerGroepenPanelController extends AnchorPane implements Observer
             children.clear();
             children.add(new NotificatiePanelController(String.format("Groep %s is verwijderd", YouTiels.cutSentence(groepsnaam)), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsOefeningController) children.get(0)).toggleButtons();
+            children.remove(children.size() - 1);
+            ((DetailsOefeningController) children.get(children.size() - 1)).toggleButtons();
         }
     }
 

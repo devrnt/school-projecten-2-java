@@ -39,6 +39,9 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 
     @FXML
     private Button createOefening;
+    
+    @FXML
+    private Button kopieButton;
 
     @FXML
     private Button detailsBtn;
@@ -81,12 +84,20 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             throw new RuntimeException(e);
         }
 
-        oefeningen = controller.getOefeningen().sorted(Comparator.comparing(Oefening::getOpgave));
         children = detailsStackPane.getChildren();
 
         stelTableViewIn();
 
         voegEventHandlersToe();
+        
+        kopieButton.setDisable(true);
+        kopieButton.setOnAction(event -> {
+            children.clear();
+            Oefening oef = oefeningenTable.getSelectionModel().getSelectedItem();
+            children.add(new CreateOefeningController(controller, oef.getId(), true));
+        });
+        
+        
     }
 
     @FXML
@@ -107,10 +118,11 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
         doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
-        oefeningenTable.setItems(oefeningen);
+        oefeningenTable.setItems(controller.getOefeningen());
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
+                kopieButton.setDisable(false);
                 children.clear();
                 children.add(new DetailsOefeningController(newval));
             }
@@ -205,7 +217,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             children.clear();
             children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", YouTiels.cutSentence(opgaveNaam)), Kleuren.GROEN));
         } else {
-            children.remove(1);
+            children.remove(children.size()-1);
             ((DetailsOefeningController) children.get(children.size() - 1)).toggleButtons();
         }
     }
