@@ -54,18 +54,18 @@ Vul de use cases aan:
 - [ ]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
 - [ ]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
 
-## Technical Review 1
-* Delen door 0 mag niet groepsbewerking 
-* Groepsbewddking delete werkt nie 
-* Elke lijst continu alfabetisch
-* Klas lln toevoegen mag geen cijgers/tekens 
-* Oefeningen, filter op absolutut pad [X]
-* Oefeningen sorteren [X]
-* Kopie zonder iets te selecteren
-* Bij aanmaken sessie lijst boxen van soortonderwijs
-* Kopie een box nummering
-* pdf box is ms verwarrend je zou kunnen denken dat de acties altijd opvolgen
-* Geselecteerde acties en oefening doen zoals in oefening
-* Box naam bestaat al checken
-* Verwijderen ja / nee is de eerste keer altijd buggy
-* Tests
+## Technical Review 2
+* [ ] Delen door 0 mag niet groepsbewerking 
+* [ ] Groepsbewddking delete werkt nie 
+* [ ] Elke lijst continu alfabetisch
+* [ ] Klas lln toevoegen mag geen cijgers/tekens 
+* [X] Oefeningen, filter op absolutut pad
+* [X] Oefeningen sorteren
+* [X] Kopie zonder iets te selecteren
+* [ ] Bij aanmaken sessie lijst boxen van soortonderwijs
+* [ ] Kopie een box nummering
+* [ ] pdf box is ms verwarrend je zou kunnen denken dat de acties altijd opvolgen
+* [ ] Geselecteerde acties en oefening doen zoals in oefening
+* [ ] Box naam bestaat al checken
+* [X] Verwijderen ja / nee is de eerste keer altijd buggy
+* [ ] Tests
