@@ -188,8 +188,8 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             children.clear();
             children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", YouTiels.cutSentence(groepsbewOmschr)), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
+            children.remove(children.size() - 1);
+            ((DetailsGroepsbewerkingController) children.get(children.size() - 1)).toggleButton();
         }
     }
 

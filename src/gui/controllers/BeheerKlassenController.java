@@ -291,8 +291,8 @@ public class BeheerKlassenController extends AnchorPane implements Observer {
             children.clear();
             children.add(new NotificatiePanelController(String.format("Klas %s is verwijderd", klasNaam), Kleuren.GROEN));
         } else {
-            children.remove(1);
-            ((DetailsKlasController) children.get(0)).toggleButton();
+            children.remove(children.size() - 1);
+            ((DetailsKlasController) children.get(children.size() - 1)).toggleButton();
         }
     }
 }

@@ -217,7 +217,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             children.clear();
             children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", YouTiels.cutSentence(opgaveNaam)), Kleuren.GROEN));
         } else {
-            children.remove(1);
+            children.remove(children.size()-1);
             ((DetailsOefeningController) children.get(children.size() - 1)).toggleButtons();
         }
     }
