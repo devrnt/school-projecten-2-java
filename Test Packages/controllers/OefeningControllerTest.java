@@ -55,7 +55,7 @@ public class OefeningControllerTest {
                 new ArrayList<>(
                         Arrays.asList(
                                 new Groepsbewerking[]{
-                                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
+                                    new Groepsbewerking("gbw1", 1, OperatorEnum.optellen),
                                     new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
 
                                 }

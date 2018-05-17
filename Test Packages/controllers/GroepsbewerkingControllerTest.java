@@ -68,14 +68,14 @@ public class GroepsbewerkingControllerTest {
     //<editor-fold defaultstate="collapsed" desc="=== updateGroepsbewerking ===">
     @Test
     public void updateGroepsbewerking_changesAndPersistsGroepsbewerking() {
-        controller.updateGroepsbewerking(1, "updatedOmschrijving", 0, OperatorEnum.optellen);
+        controller.updateGroepsbewerking(1, "updatedOmschrijving", 1, OperatorEnum.optellen);
         Assert.assertEquals("updatedOmschrijving", groepsbewerking.getOmschrijving());
         Mockito.verify(groepsbwRepo).update(Mockito.any(Groepsbewerking.class));
     }
 
     @Test(expected = NotFoundException.class)
     public void updateGroepsbewerking_groepsbewerkingNotFound_throwsNotFoundException() {
-        controller.updateGroepsbewerking(2, "updatedOmschrijvingError", 0, OperatorEnum.optellen);
+        controller.updateGroepsbewerking(2, "updatedOmschrijvingError", 1, OperatorEnum.optellen);
     }
     //</editor-fold>
 
