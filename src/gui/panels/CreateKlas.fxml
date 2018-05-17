@@ -35,11 +35,14 @@
                   <RowConstraints maxHeight="320.0" minHeight="0.0" prefHeight="16.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="klasNaamTxt" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="230.0" promptText="Klasnaam ingeven" styleClass="btn-medium" stylesheets="@../css/styles.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <TextField fx:id="voorNaamTxt" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="160.0" promptText="Voornaam" styleClass="btn-medium" stylesheets="@../css/styles.css" GridPane.rowIndex="3" />
-                  <TextField fx:id="familieNaamTxt" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Familienaam" styleClass="btn-medium" stylesheets="@../css/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Button fx:id="llnToevoegenBtn" mnemonicParsing="false" onAction="#llnToevoegenBtnClicked" styleClass="btn-success" text="Ok" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Label fx:id="fouteKlasnaamLbl" styleClass="btn-danger" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="klasNaamTxt" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="230.0" promptText="Klasnaam ingeven" styleClass="text-fld" stylesheets="@../css/styles.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <TextField fx:id="voorNaamTxt" minHeight="-Infinity" minWidth="116.0" prefHeight="25.0" prefWidth="90.0" promptText="Voornaam" styleClass="text-fld" stylesheets="@../css/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="familieNaamTxt" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="214.0" promptText="Familienaam" styleClass="text-fld" stylesheets="@../css/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="llnToevoegenBtn" minWidth="37.0" mnemonicParsing="false" onAction="#llnToevoegenBtnClicked" prefHeight="31.0" prefWidth="37.0" styleClass="btn-success" text="Ok" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="2.0" />
+                     </GridPane.margin></Button>
+                  <Label fx:id="fouteKlasnaamLbl" GridPane.columnIndex="1" />
                   <Text fill="#0747a6" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Details Klas">
                      <font>
                         <Font size="19.0" />
@@ -85,11 +88,15 @@
                         </Label>
                      </children>
                   </HBox>
+                  <Label fx:id="leerlingNaamFoutLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="327.0">
                <children>
                   <TableView fx:id="leerlingenTbl" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="186.0" prefWidth="426.0">
+                      <placeholder>
+                          <Label>Nog geen leerlingen</Label>
+                      </placeholder>
                      <columns>
                         <TableColumn fx:id="voorNaamList" prefWidth="200.0" text="Voornaam" />
                         <TableColumn fx:id="familieNaamList" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="200.0" text="Familienaam" />

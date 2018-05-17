@@ -72,7 +72,10 @@ public final class SessieController {
     public ObservableList<Sessie> getAllSessies() {
         return sessieBeheer.getAllSessies();
     }
-
+  /**
+     * Geeft de meeste recent aangemaakte actie terug
+     * @return actie
+     */
     public Sessie getMeestRecenteSessie() {
         return sessieBeheer.getMeestRecenteSessie();
     }
@@ -119,10 +122,23 @@ public final class SessieController {
         sessieBeheer.applyFilter(toFilter);
     }
 
+    /**
+     * Retourneert een nieuwe lege sessie
+     * 
+     */
+    
     public ISessie getISessie() {
         return new Sessie();
     }
-
+    /**
+     * Crieert een PDF samenvatting van de geselecteerde Sessie 
+     *
+     * @param id id van de Sessie die samengevat moet worden
+     *      *
+     * @throws IOException als er een probleem is tijdens het wegschrijven
+     * @throws FileNotFoundException als de opgevraagde File niet gevonden werd
+     * @throws DocumentException als er een fout optreed tijdens het opstellen van de Pdf
+     */
     public void createSamenvattingSessie(int id) throws IOException, FileNotFoundException, DocumentException {
         sessieBeheer.createSamenvattingSessie(id);
     }

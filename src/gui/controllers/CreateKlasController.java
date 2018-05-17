@@ -10,6 +10,7 @@ import controllers.KlasController;
 import domein.Actie;
 import domein.Klas;
 import domein.Leerling;
+import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import utils.AlertCS;
 
@@ -55,6 +57,8 @@ public class CreateKlasController extends AnchorPane {
     @FXML
     private Label fouteKlasnaamLbl;
     @FXML
+    private Label leerlingNaamFoutLabel;
+    @FXML
     private TableView<Leerling> leerlingenTbl;
     @FXML
     private TableColumn<Leerling, String> voorNaamList;
@@ -76,30 +80,47 @@ public class CreateKlasController extends AnchorPane {
             throw new RuntimeException(e);
         }
         tempList = new ArrayList<>();
+        fouteKlasnaamLbl.setTextFill(Color.RED);
+        leerlingNaamFoutLabel.setTextFill(Color.RED);
+        klasAanmakenBtn.setDisable(true);
 
         leerlingenTbl.setItems(FXCollections.observableArrayList(tempList));
         voorNaamList.setCellValueFactory(cell -> cell.getValue().getVoornaamProperty());
         familieNaamList.setCellValueFactory(cell -> cell.getValue().getNaamProperty());
 
         klasNaamTxt.textProperty().addListener((ObservableValue<? extends String> ob, String oldValue, String newValue) -> {
-            if (newValue == null || newValue.trim().isEmpty()) {
-                fouteKlasnaamLbl.setText("Vul sessienaam in");
-            } else {
-                String sessieNaam = klasNaamTxt.getText();
-                checkKlasNaam(sessieNaam);
-            }
+            String sessieNaam = klasNaamTxt.getText();
+            checkKlasNaam(sessieNaam);
+        });
+        
+                annuleerBtn.setOnAction(event -> {
+            Event annuleerEvent = new AnnuleerEvent(-1);
+            this.fireEvent(annuleerEvent);
         });
 
     }
 
     @FXML
     private void llnToevoegenBtnClicked(ActionEvent event) {
-        Leerling leerling = new Leerling(voorNaamTxt.getText(), familieNaamTxt.getText());
-        tempList.add(leerling);
-        leerlingenTbl.getItems().add(leerling);
-        voorNaamTxt.clear();
-        familieNaamTxt.clear();
-        System.out.println(tempList.size());
+
+        if (voorNaamTxt.getText().length() == 0 || familieNaamTxt.getText().length() == 0) {
+            leerlingNaamFoutLabel.setText("voornaam EN familienaam invullen");
+        } else {
+            Leerling leerling = new Leerling(voorNaamTxt.getText(), familieNaamTxt.getText());
+
+            if (tempList.stream().anyMatch(n->n.getVolledigeNaam().equals(leerling.getVolledigeNaam()))) {
+                leerlingNaamFoutLabel.setText("Deze leerling is al toegevoegd");
+
+            } else {
+                leerlingNaamFoutLabel.setText("");
+
+                tempList.add(leerling);
+                leerlingenTbl.getItems().add(leerling);
+                voorNaamTxt.clear();
+                familieNaamTxt.clear();
+                checkKlasNaam(klasNaamTxt.getText().toString());
+            }
+        }
     }
 
     @FXML
@@ -108,7 +129,7 @@ public class CreateKlasController extends AnchorPane {
         AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
         sessieSuccesvolGewijzigd.setTitle("Sessie");
         sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een klas");
-        sessieSuccesvolGewijzigd.setContentText("Klas " +klasNaamTxt.getText()+ " is succesvol aangemaakt");
+        sessieSuccesvolGewijzigd.setContentText("Klas " + klasNaamTxt.getText() + " is succesvol aangemaakt");
         sessieSuccesvolGewijzigd.showAndWait();
         Event detailsEvent = new DetailsEvent(-1);
         this.fireEvent(detailsEvent);
@@ -125,12 +146,24 @@ public class CreateKlasController extends AnchorPane {
 
     @FXML
     private void checkKlasNaam(String naam) {
-        if (klasController.bestaatKlas(naam)) {
+        if (naam.length()==0) {
+            klasAanmakenBtn.setDisable(Boolean.TRUE);
+            fouteKlasnaamLbl.setText("Klasnaam verplicht");
+
+        } else if (klasController.bestaatKlas(naam)) {
             klasAanmakenBtn.setDisable(Boolean.TRUE);
             fouteKlasnaamLbl.setText("Klasnaam bestaat al");
         } else {
-            klasAanmakenBtn.setDisable(Boolean.FALSE);
+            if (tempList.size()!=0) {
+                 klasAanmakenBtn.setDisable(Boolean.FALSE);
             fouteKlasnaamLbl.setText("");
+            }else{
+                            fouteKlasnaamLbl.setText("");
+                                             klasAanmakenBtn.setDisable(Boolean.TRUE);
+
+
+            }
+           
         }
     }
 
