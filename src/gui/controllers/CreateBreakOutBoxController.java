@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -85,7 +86,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             throw new RuntimeException(e);
         }
         titelLabel.setText("Nieuwe BreakoutBox");
-        
+
         //listviews vullen
         actieList2.setItems(boxController.getActies());
         oefeningList2.setItems(boxController.getOefeningen());
@@ -110,8 +111,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             throw new RuntimeException(e);
         }
         titelLabel.setText("Wijzig BreakoutBox");
-        
-        
+
         //waarde vullen
         if (isUpdate) {
             naamTxt.setText(box.getNaam());
@@ -153,6 +153,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             Event beheerEvent = new DetailsEvent(isUpdate ? box.getId() : -1);
             this.fireEvent(beheerEvent);
         } else {
+            System.out.println("123");
             Event invalidInputEvent = new InvalidInputEvent(new ArrayList<>());
             this.fireEvent(invalidInputEvent);
         }
@@ -208,6 +209,7 @@ public class CreateBreakOutBoxController extends AnchorPane {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
         });
+
     }
 
     private void setActiesDisabled(Boolean bool) {
@@ -226,7 +228,13 @@ public class CreateBreakOutBoxController extends AnchorPane {
             inputGeldig = false;
             naamFoutLbl.setText("Voer een naam in");
         } else {
-            naamFoutLbl.setText("");
+            if (boxController.bestaatBoxNaam(naamTxt.getText())) {
+                naamFoutLbl.setText("Er bestaat al een box met deze naam.");
+                inputGeldig = false;
+            } else {
+                naamFoutLbl.setText("");
+
+            }
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
