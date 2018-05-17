@@ -101,7 +101,8 @@ public class CreateOefeningController extends AnchorPane {
     private ObservableList<Groepsbewerking> gbws;
     private FilteredList<String> vakken;
     private FilteredList<String> doelstellingen;
-
+    private boolean kopie;
+    
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateOefening.fxml"));
@@ -178,6 +179,14 @@ public class CreateOefeningController extends AnchorPane {
 
     }
 
+    public CreateOefeningController(OefeningController controller, int id, boolean kopie) {
+        this(controller, id);
+        titelLabel.setText("Kopiëer oefening");
+        this.kopie = kopie;
+    }
+    
+    
+
     @FXML
     protected void addDoelstelling(ActionEvent event) {
         String doelstelling = doelstellingTextField.getText();
@@ -213,7 +222,7 @@ public class CreateOefeningController extends AnchorPane {
         boolean inputGeldig = Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
 
         if (inputGeldig) {
-            if (oefening == null) {
+            if (oefening == null || kopie) {
                 controller.createOefening(opgaveFile.getAbsolutePath(),
                         Integer.parseInt(antwoord.getText()),
                         feedbackFile.getAbsolutePath(),

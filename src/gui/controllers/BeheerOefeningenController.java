@@ -39,6 +39,9 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 
     @FXML
     private Button createOefening;
+    
+    @FXML
+    private Button kopieButton;
 
     @FXML
     private Button detailsBtn;
@@ -86,6 +89,15 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         stelTableViewIn();
 
         voegEventHandlersToe();
+        
+        kopieButton.setDisable(true);
+        kopieButton.setOnAction(event -> {
+            children.clear();
+            Oefening oef = oefeningenTable.getSelectionModel().getSelectedItem();
+            children.add(new CreateOefeningController(controller, oef.getId(), true));
+        });
+        
+        
     }
 
     @FXML
@@ -110,6 +122,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
+                kopieButton.setDisable(false);
                 children.clear();
                 children.add(new DetailsOefeningController(newval));
             }
