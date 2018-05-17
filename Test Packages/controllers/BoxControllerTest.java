@@ -41,8 +41,8 @@ public class BoxControllerTest {
         // Mocks trainen
         List<Oefening> oef = new ArrayList<>();
         List<Actie> act = new ArrayList<>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
 
         box = new BreakOutBox("bob1", "bob omschrijving", SoortOnderwijsEnum.dagonderwijs, oef, act);
@@ -81,8 +81,8 @@ public class BoxControllerTest {
     public void createBox_voegtNieuweBoxToe() {
         List<Oefening> oef = new ArrayList<Oefening>();
         List<Actie> act = new ArrayList<Actie>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
         boxController.createBreakOutBox("bob3", "bob omschrijving 3", SoortOnderwijsEnum.dagonderwijs, oef, act);
         Mockito.verify(boxRepo).insert(Mockito.any(BreakOutBox.class));
