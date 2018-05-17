@@ -76,6 +76,10 @@ public class Oefening implements Serializable {
     public String getOpgave() {
         return opgave;
     }
+    
+    public String getOpgaveNaam(){
+        return new File(opgave).getName();
+    }
 
     public String getFeedback() {
         return feedback;

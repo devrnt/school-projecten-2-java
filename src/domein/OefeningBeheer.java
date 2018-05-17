@@ -95,7 +95,7 @@ public final class OefeningBeheer implements Observer {
     }
     
     public ObservableList<Oefening> getOefeningen() {
-        return gefilterdeOefeningenLijst;
+        return gefilterdeOefeningenLijst.sorted(Comparator.comparing(Oefening::getOpgaveNaam));
     }
     
     public void applyFilter(String toFilter) {

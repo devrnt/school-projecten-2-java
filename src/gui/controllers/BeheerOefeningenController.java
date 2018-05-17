@@ -81,7 +81,6 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             throw new RuntimeException(e);
         }
 
-        oefeningen = controller.getOefeningen().sorted(Comparator.comparing(Oefening::getOpgave));
         children = detailsStackPane.getChildren();
 
         stelTableViewIn();
@@ -107,7 +106,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
         vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
         doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
-        oefeningenTable.setItems(oefeningen);
+        oefeningenTable.setItems(controller.getOefeningen());
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
