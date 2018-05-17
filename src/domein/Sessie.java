@@ -80,11 +80,6 @@ public class Sessie implements Serializable, ISessie {
         setSoortOnderwijs(soortOnderwijs);
         setFoutAntwoordActie(foutAntwoordActie);
         setIsGedaan(isgedaan);
-        if (soortOnderwijs == SoortOnderwijsEnum.dagonderwijs) {
-            genereerPadenDag();
-        } else {
-            genereerPadenAfstand();
-        }
     }
 
     // <editor-fold desc="Getters and Setters" >
@@ -221,8 +216,16 @@ public class Sessie implements Serializable, ISessie {
     }
     // </editor-fold>
 
-    private void genereerPadenDag() {
-        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
+    public void genereerPaden(int aantal) {
+        if (soortOnderwijs == SoortOnderwijsEnum.dagonderwijs) {
+            genereerPadenDag(aantal);
+        } else {
+            genereerPadenAfstand();
+        }
+    }
+
+    private void genereerPadenDag(int getal) {
+        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / getal);
         //this.groepen = new ArrayList<>();
         int aantalOef = this.box.getOefeningen().size();
         Random rand = new Random();
@@ -256,6 +259,7 @@ public class Sessie implements Serializable, ISessie {
             actRandom.forEach((it) -> {
             });
             SessiePad pad = new SessiePad(randomOpdrachten, randomActies, soortOnderwijs);
+            groepen.forEach(groep -> System.out.println("groep " + groep.getNaam()));
             groepen.add(new Groep("groep" + (i + 1), pad));
         }
         this.groepen = groepen;
@@ -305,6 +309,10 @@ public class Sessie implements Serializable, ISessie {
 
     public List<Groep> getGroepen() {
         return groepen;
+    }
+
+    public int getMinimumAantalGroepen() {
+        return (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
     }
 
 }

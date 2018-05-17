@@ -16,6 +16,7 @@ import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.GeefSessieDoorEvent;
 import gui.events.InvalidInputEvent;
 import java.io.IOException;
 import java.time.Instant;
@@ -48,7 +49,7 @@ import utils.AlertCS;
  * @author devri
  */
 public class CreateSessieController extends AnchorPane {
-    
+
     @FXML
     private TextField naamInput;
     @FXML
@@ -177,17 +178,10 @@ public class CreateSessieController extends AnchorPane {
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
         boolean inputGeldig = Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()) && Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         if (inputGeldig) {
-            sessieController.createSessie(
-                    naamInput.getText(), omschrijvingInput.getText(),
-                    gekozenKlas, gekozenBox,
-                    convertToDate(datumInput.getValue()),
-                    soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
-                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false
-            );
-
-            Event detailsEvent = new DetailsEvent(-1);
-            this.fireEvent(detailsEvent);
-
+            Sessie doorgevenSessie = new Sessie(naamInput.getText(), omschrijvingInput.getText(), gekozenKlas, gekozenBox, convertToDate(datumInput.getValue()), soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
+                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), inputGeldig);
+            Event geefdoorevent = new GeefSessieDoorEvent(doorgevenSessie);
+            this.fireEvent(geefdoorevent);
         } else {
             Event invalidInputEvent = new InvalidInputEvent(Arrays.stream(foutLabels).map(l -> l.getText()).collect(Collectors.toList()));
             this.fireEvent(invalidInputEvent);

@@ -11,6 +11,7 @@ import domein.Sessie;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.GeefSessieDoorEvent;
 import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
 import gui.util.ConfirmationBuilder;
@@ -134,10 +135,24 @@ public class BeheerSessiesController extends AnchorPane implements Observer {
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
-            sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
-            Node topNode = children.get(0);
-            children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
-            children.add(topNode);
+            Sessie ses = sessieController.getMeestRecenteSessie();
+
+            if (event.getId() == 90) {
+                sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
+
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
+                children.add(topNode);
+            }
+            //sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
+
+            //Node topNode = children.get(0);
+            //children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
+            //children.add(topNode);
+        });
+        this.addEventHandler(GeefSessieDoorEvent.GEEFSESSIEDOOR, event -> {
+            children.clear();
+            children.add(new CreateSessieStap2Controller(sessieController, event.getSessie()));
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
