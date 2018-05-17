@@ -63,9 +63,8 @@ Vul de use cases aan:
 * [X] Oefeningen sorteren
 * [X] Kopie zonder iets te selecteren
 * [ ] Bij aanmaken sessie lijst boxen van soortonderwijs
-* [ ] Kopie een box nummering
-* [ ] pdf box is ms verwarrend je zou kunnen denken dat de acties altijd opvolgen
+* [ ] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
 * [ ] Geselecteerde acties en oefening doen zoals in oefening
 * [X] Box naam bestaat al checken
 * [X] Verwijderen ja / nee is de eerste keer altijd buggy
-* [ ] Tests
+* [X] Tests
