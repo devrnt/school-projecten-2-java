@@ -59,8 +59,8 @@ Vul de use cases aan:
 * Groepsbewddking delete werkt nie 
 * Elke lijst continu alfabetisch
 * Klas lln toevoegen mag geen cijgers/tekens 
-* Oefeningen, filter op absolutut pad
-* Oefeningen sorteren 
+* Oefeningen, filter op absolutut pad [X]
+* Oefeningen sorteren [X]
 * Kopie zonder iets te selecteren
 * Bij aanmaken sessie lijst boxen van soortonderwijs
 * Kopie een box nummering
