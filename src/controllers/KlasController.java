@@ -69,14 +69,33 @@ public final class KlasController {
         return klasBeheer.getAllKlassen();
     }
 
+    /**
+     * Verwijdert een Klas uit de databank
+     *
+     * @param id id van de te verwijderen Klas
+     * @throws NotFoundException indien er geen Klas werd gevonden met
+     * meegegeven id
+     */
     public void deleteKlas(int id) {
         klasBeheer.verwijderKlas(id);
     }
 
+    /**
+     * Controleert of de Klas al bestaat adhv de klasnaam
+     *
+     * @param toString klasnaam van de te controleren Klas
+     * @return true of false
+     */
     public boolean bestaatKlas(String toString) {
         return klasBeheer.bestaatKlasNaam(toString);
     }
 
+    /**
+     * Controleert of de klas in een sessie zit
+     *
+     * @param id id van de te controleren Klas
+     * @return true of false
+     */
     public boolean zitKlasInSessie(int id) {
         SessieBeheer sb = new SessieBeheer();
         return sb.zitKlasInSessie(id);
