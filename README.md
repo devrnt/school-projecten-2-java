@@ -55,7 +55,7 @@ Vul de use cases aan:
 - [ ]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
 
 ## Technical Review 2
-* [ ] Delen door 0 mag niet groepsbewerking 
+* [X] Delen door 0 mag niet groepsbewerking 
 * [ ] Groepsbewddking delete werkt nie 
 * [ ] Elke lijst continu alfabetisch
 * [ ] Klas lln toevoegen mag geen cijgers/tekens 
@@ -66,6 +66,6 @@ Vul de use cases aan:
 * [ ] Kopie een box nummering
 * [ ] pdf box is ms verwarrend je zou kunnen denken dat de acties altijd opvolgen
 * [ ] Geselecteerde acties en oefening doen zoals in oefening
-* [ ] Box naam bestaat al checken
+* [X] Box naam bestaat al checken
 * [X] Verwijderen ja / nee is de eerste keer altijd buggy
 * [ ] Tests
