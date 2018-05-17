@@ -7,7 +7,7 @@
 
 <fx:root id="AnchorPane" prefHeight="997.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="vbox" alignment="TOP_RIGHT" layoutX="149.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="270.0" prefHeight="997.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="vbox" alignment="BOTTOM_CENTER" layoutX="149.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="270.0" prefHeight="997.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="notificatieLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="270.0" minWidth="-Infinity" style=": ; : ;" styleClass="notificatie" stylesheets="@../css/styles.css" text="Dit is een notificatie. Deze bevat " textFill="WHITE" wrapText="true">
                <padding>
