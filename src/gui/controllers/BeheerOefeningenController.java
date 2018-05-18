@@ -150,6 +150,8 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
                     children.add(topNode);
                 }
             } else {
+                if (children.size() == 2)
+                    children.remove(0);
                 ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
                 builder.addObserver(this);
                 children.add(builder.buildConfirmation());
