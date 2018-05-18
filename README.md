@@ -57,7 +57,7 @@ Vul de use cases aan:
 ## Technical Review 2
 * [X] Delen door 0 mag niet groepsbewerking 
 * [ ] Groepsbewddking delete werkt nie 
-* [ ] Elke lijst continu alfabetisch
+* [X] Elke lijst continu alfabetisch
 * [X] Klas lln toevoegen mag geen cijfers/tekens 
 * [X] Oefeningen, filter op absolutut pad
 * [X] Oefeningen sorteren
