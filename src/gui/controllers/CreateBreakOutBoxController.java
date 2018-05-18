@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -31,51 +32,55 @@ public class CreateBreakOutBoxController extends AnchorPane {
     @FXML
     private AnchorPane AnchorPane;
     @FXML
-    private Label titelLabel;
+    private Label naamFoutLbl;
     @FXML
     private TextField naamTxt;
     @FXML
     private TextField omschrijvingTxt;
     @FXML
-    private Label naamFoutLbl;
-    @FXML
     private Label omschrijvingFoutLbl;
     @FXML
-    private Label actiesFoutLbl;
-    @FXML
-    private Label oefeningenFoutLbl;
-    @FXML
-    private ListView<Actie> actieList1;
-    @FXML
-    private Button actieToevoegenBtn;
-    @FXML
-    private Button actieVerwijderenBtn;
-    @FXML
-    private ListView<Actie> actieList2;
-    @FXML
-    private ListView<Oefening> oefeningList1;
-    @FXML
-    private Button oefeningToevoegenBtn;
-    @FXML
-    private Button oefeningVerwijderenBtn;
-    @FXML
-    private ListView<Oefening> oefeningList2;
-    @FXML
     private Button bevestigBtn;
-    @FXML
-    private Button keerTerugBtn;
     @FXML
     private Button annuleerBtn;
     @FXML
     private ChoiceBox<SoortOnderwijsEnum> soortOnderwijsChoiceBox;
+    @FXML
+    private Label titelLabel;
+    @FXML
+    private Label oefeningenFoutLbl;
+    @FXML
+    private ChoiceBox<Oefening> oefeningenChoiceBox;
+    @FXML
+    private Button addOefeningButton;
+    @FXML
+    private ListView<Oefening> oefeningenListView;
+    @FXML
+    private Button delOefeningButton;
+    @FXML
+    private Label actiesFoutLbl;
+    @FXML
+    private ChoiceBox<Actie> actieChoiceBox;
+    @FXML
+    private Button addActieButton;
+    @FXML
+    private ListView<Actie> actiesListView;
+    @FXML
+    private Button delActieButton;
+
     private final BoxController boxController;
     private final BreakOutBox box;
-    private final Boolean isUpdate;
+    private final int type;
+    private ObservableList<Oefening> oefeningen;
+    private ObservableList<Actie> acties;
 
-    public CreateBreakOutBoxController(BoxController boxController) {
+    public CreateBreakOutBoxController(BreakOutBox box, BoxController boxController, int type) {
+        //type: 0=create, 1 = kopie, 2= update
+        this.box = box;
         this.boxController = boxController;
-        this.box = null;
-        this.isUpdate = false;
+        this.oefeningen = boxController.getOefeningen();
+        this.acties = boxController.getActies();
+        this.type = type;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateBreakOutBox.fxml"));
         loader.setRoot(this);
@@ -85,160 +90,214 @@ public class CreateBreakOutBoxController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        titelLabel.setText("Nieuwe BreakoutBox");
-
-        //listviews vullen
-        actieList2.setItems(boxController.getActies());
-        oefeningList2.setItems(boxController.getOefeningen());
-        //choicebox
-        Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
-        soortOnderwijsChoiceBox.getSelectionModel().selectFirst();
-
+        oefeningenChoiceBox.setItems(oefeningen);
+        oefeningenChoiceBox.getSelectionModel().selectFirst();
+        actieChoiceBox.setItems(acties);
+        actieChoiceBox.getSelectionModel().selectFirst();
+        switch (type) {
+            case 0:
+                titelLabel.setText("Nieuwe BreakoutBox");
+                break;
+            case 1:
+                titelLabel.setText("Kopie van BreakoutBox '" + box.getNaam() + "'");
+                break;
+            case 2:
+                titelLabel.setText("Wijzigen van Breakoutbox '" + box.getNaam() + "'");
+                break;
+        }
+        //choiceBoxes vullen
+        vulChoiceBoxes();
         //listeners
         maakListeners();
+        if (type != 0) {
+            if (type == 1) {
+                naamTxt.setText(box.getNaam() + " kopie");
+            } else {
+                naamTxt.setText(box.getNaam());
+            }
+            omschrijvingTxt.setText(box.getOmschrijving());
+            for (Oefening oefening : box.getOefeningen()) {
+                oefeningenListView.getItems().add(oefening);
+            }
+            oefeningen.removeAll(box.getOefeningen());
+            for (Actie actie : box.getActies()) {
+                actiesListView.getItems().add(actie);
+            }
+            acties.removeAll(box.getOefeningen());
+        }
     }
 
-    public CreateBreakOutBoxController(BreakOutBox box, BoxController boxController, Boolean isUpdate) {
-        this.boxController = boxController;
-        this.box = box;
-        this.isUpdate = isUpdate;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateBreakOutBox.fxml"));
-        loader.setRoot(this);
-        loader.setController(this);
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        titelLabel.setText("Wijzig BreakoutBox");
-
-        //waarde vullen
-        if (isUpdate) {
-            naamTxt.setText(box.getNaam());
-        } else {
-            naamTxt.setText(box.getNaam() + " kopie");
-        }
-        omschrijvingTxt.setText(box.getOmschrijving());
-        //listviews vullen
-        actieList2.setItems(boxController.getActies());
-        for (Actie a : box.getActies()) {
-            actieList2.getItems().remove(a);
-            actieList1.getItems().add(a);
-        }
-        oefeningList2.setItems(boxController.getOefeningen());
-        for (Oefening o : box.getOefeningen()) {
-            oefeningList2.getItems().remove(o);
-            oefeningList1.getItems().add(o);
-        }
-        Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
-        soortOnderwijsChoiceBox.setValue(this.box.getSoortOnderwijsEnum());
-        if (this.box.getSoortOnderwijsEnum() == SoortOnderwijsEnum.afstandsonderwijs) {
-            setActiesDisabled(true);
-        }
-        //listeners
-        maakListeners();
+    public CreateBreakOutBoxController(BoxController bc) {
+        this(null, bc, 0);
     }
 
     @FXML
     private void bevestigClicked(ActionEvent event) {
         SoortOnderwijsEnum onderwijs = soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem();
-        List<Actie> geselecteerdeActies = actieList1.getItems();
-        List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
+        List<Actie> geselecteerdeActies;
+        List<Oefening> geselecteerdeOefeningen = oefeningenListView.getItems();
+        if (onderwijs == SoortOnderwijsEnum.dagonderwijs) {
+            geselecteerdeActies = actiesListView.getItems();
+        } else {
+            geselecteerdeActies = new ArrayList<>();
+        }
         if (checkInput()) {
-            if (this.isUpdate) {
+            if (this.type == 2) {
                 boxController.updateBreakOutBox(box.getId(), naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
             } else {
                 boxController.createBreakOutBox(naamTxt.getText(), omschrijvingTxt.getText(), soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem(), geselecteerdeOefeningen, geselecteerdeActies);
             }
-            Event beheerEvent = new DetailsEvent(isUpdate ? box.getId() : -1);
+            Event beheerEvent = new DetailsEvent(type == 1 ? box.getId() : -1);
             this.fireEvent(beheerEvent);
         } else {
-            System.out.println("123");
             Event invalidInputEvent = new InvalidInputEvent(new ArrayList<>());
             this.fireEvent(invalidInputEvent);
         }
     }
 
     @FXML
-    private void voegActieToeBtn(ActionEvent event) {
-        Actie a = actieList2.getSelectionModel().getSelectedItem();
-        if (a != null) {
-            actieList2.getItems().remove(a);
-            actieList1.getItems().add(a);
+    private void addOefening(ActionEvent event) {
+        Oefening o = oefeningenChoiceBox.getSelectionModel().getSelectedItem();
+        oefeningen.remove(o);
+        oefeningenFoutLbl.setText("");
+        oefeningenListView.getItems().add(o);
+        if (oefeningenChoiceBox.getItems().isEmpty()) {
+            oefeningenChoiceBox.setDisable(true);
+            addOefeningButton.setDisable(true);
+        } else {
+            oefeningenChoiceBox.getSelectionModel().selectFirst();
         }
     }
 
     @FXML
-    private void verwijderActieBtn(ActionEvent event) {
-        Actie a = actieList1.getSelectionModel().getSelectedItem();
-        if (a != null) {
-            actieList1.getItems().remove(a);
-            actieList2.getItems().add(a);
+    private void delOefening(ActionEvent event) {
+        Oefening o = oefeningenListView.getSelectionModel().getSelectedItem();
+        oefeningen.add(o);
+        oefeningenListView.getItems().remove(o);
+        oefeningenChoiceBox.getSelectionModel().selectFirst();
+        if (oefeningenListView.getItems().isEmpty()) {
+            delOefeningButton.setDisable(true);
+        }
+        addOefeningButton.setDisable(false);
+        oefeningenChoiceBox.setDisable(false);
+        oefeningenListView.getSelectionModel().clearSelection();
+        delOefeningButton.setDisable(true);
+
+    }
+
+    @FXML
+    private void addActie(ActionEvent event) {
+        Actie a = actieChoiceBox.getSelectionModel().getSelectedItem();
+        acties.remove(a);
+        actiesListView.getItems().add(a);
+        actiesFoutLbl.setText("");
+        if (actieChoiceBox.getItems().isEmpty()) {
+            actieChoiceBox.setDisable(true);
+            addActieButton.setDisable(true);
+        } else {
+            actieChoiceBox.getSelectionModel().selectFirst();
         }
     }
 
     @FXML
-    private void voegOefeningToeBtn(ActionEvent event) {
-        Oefening o = oefeningList2.getSelectionModel().getSelectedItem();
-        if (o != null) {
-            oefeningList2.getItems().remove(o);
-            oefeningList1.getItems().add(o);
+    private void delActie(ActionEvent event) {
+        Actie a = actiesListView.getSelectionModel().getSelectedItem();
+        acties.add(a);
+        actiesListView.getItems().remove(a);
+        actieChoiceBox.getSelectionModel().selectFirst();
+        if (actiesListView.getItems().isEmpty()) {
+            delActieButton.setDisable(true);
         }
-    }
-
-    @FXML
-    private void verwijderOefeningBtn(ActionEvent event) {
-        Oefening o = oefeningList1.getSelectionModel().getSelectedItem();
-        if (o != null) {
-            oefeningList1.getItems().remove(o);
-            oefeningList2.getItems().add(o);
-        }
+        addActieButton.setDisable(false);
+        actieChoiceBox.setDisable(false);
+        actiesListView.getSelectionModel().clearSelection();
+        delActieButton.setDisable(true);
     }
 
     private void maakListeners() {
         // listener for choicebox sleect change
         soortOnderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
-                setActiesDisabled(false);
+                setActiesVisible(true);
             }
             if (newVal == SoortOnderwijsEnum.afstandsonderwijs) {
-                setActiesDisabled(true);
+                setActiesVisible(false);
             }
         });
         annuleerBtn.setOnAction(event -> {
-            Event annuleerEvent = new AnnuleerEvent(-1);
+            Event annuleerEvent = new AnnuleerEvent(box == null ? -1 : box.getId());
             this.fireEvent(annuleerEvent);
+        });
+        oefeningenListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
+            if (newvalue != null) {
+                delOefeningButton.setDisable(false);
+            }
+        });
+        oefeningenListView.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (oefeningenListView.getSelectionModel().getSelectedItems() == null) {
+                    oefeningenFoutLbl.setText("Selecteer minstens 1 groepsbewerking");
+                } else {
+                    oefeningenFoutLbl.setText("");
+                }
+            }
+        });
+        actiesListView.getSelectionModel().selectedItemProperty().addListener((ob, oldvalue, newvalue) -> {
+            if (newvalue != null) {
+                delActieButton.setDisable(false);
+            }
+        });
+        actiesListView.focusedProperty().addListener((ob, oldValue, newValue) -> {
+            if (!newValue) {
+                if (actiesListView.getSelectionModel().getSelectedItems() == null) {
+                    actiesFoutLbl.setText("Selecteer minstens 1 groepsbewerking");
+                } else {
+                    actiesFoutLbl.setText("");
+                }
+            }
         });
 
     }
 
-    private void setActiesDisabled(Boolean bool) {
-        actieList1.setDisable(bool);
-        actieList2.setDisable(bool);
-        actieToevoegenBtn.setDisable(bool);
-        actieVerwijderenBtn.setDisable(bool);
+    private void setActiesVisible(Boolean bool) {
+        actieChoiceBox.setVisible(bool);
+        actiesFoutLbl.setVisible(bool);
+        actiesListView.setVisible(bool);
+    }
+
+    private void vulChoiceBoxes() {
+        oefeningenChoiceBox.setItems(oefeningen.sorted());
+        oefeningenChoiceBox.getSelectionModel().selectFirst();
+        actieChoiceBox.setItems(acties.sorted());
+        actieChoiceBox.getSelectionModel().selectFirst();
+        Arrays.asList(SoortOnderwijsEnum.values()).forEach(soortOnderwijs -> soortOnderwijsChoiceBox.getItems().add(soortOnderwijs));
+        soortOnderwijsChoiceBox.getSelectionModel().selectFirst();
     }
 
     private boolean checkInput() {
         SoortOnderwijsEnum onderwijs = soortOnderwijsChoiceBox.getSelectionModel().getSelectedItem();
-        List<Actie> geselecteerdeActies = actieList1.getItems();
-        List<Oefening> geselecteerdeOefeningen = oefeningList1.getItems();
+        List<Actie> geselecteerdeActies;
+        List<Oefening> geselecteerdeOefeningen = oefeningenListView.getItems();
+        if (onderwijs == SoortOnderwijsEnum.dagonderwijs) {
+            geselecteerdeActies = actiesListView.getItems();
+        } else {
+            geselecteerdeActies = new ArrayList<>();
+        }
         boolean inputGeldig = true;
         if (naamTxt.getText().isEmpty()) {
             inputGeldig = false;
             naamFoutLbl.setText("Voer een naam in");
         } else {
-            if (boxController.bestaatBoxNaam(naamTxt.getText())) {
+            if (type == 1 && boxController.bestaatBoxNaam(naamTxt.getText())) {
                 naamFoutLbl.setText("Er bestaat al een box met deze naam.");
                 inputGeldig = false;
             } else {
                 naamFoutLbl.setText("");
-
             }
         }
         if (omschrijvingTxt.getText().isEmpty()) {
             inputGeldig = false;
-            naamFoutLbl.setText("Voer een naam in");
+            omschrijvingFoutLbl.setText("Voer een omschrijving in");
         } else {
             omschrijvingFoutLbl.setText("");
         }
