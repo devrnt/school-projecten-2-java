@@ -60,7 +60,8 @@ public final class BreakOutBoxBeheer implements Observer {
     }
 
     public ObservableList<BreakOutBox> getAllBreakOutBoxen() {
-        return gefilterdeBoxLijst;
+        Comparator<BreakOutBox> comparatorIgnorecase = (a,b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        return gefilterdeBoxLijst.sorted(comparatorIgnorecase);
     }
 
     public ObservableList<BreakOutBox> getAllBreakOutBoxen(SoortOnderwijsEnum soortOnderwijs) {
