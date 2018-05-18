@@ -78,7 +78,8 @@ public final class SessieBeheer implements Observer {
     }
     
     public ObservableList<Sessie> getAllSessies() {
-        return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
+        Comparator<Sessie> comparatorIgnoreCase = (a,b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        return gefilterdeSessieLijst.sorted(comparatorIgnoreCase);
     }
         
     public Sessie getMeestRecenteSessie() {

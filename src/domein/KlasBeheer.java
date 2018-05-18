@@ -51,7 +51,8 @@ public final class KlasBeheer implements Observer {
     }
 
     public ObservableList<Klas> getAllKlassen() {
-        return gefilterdeKlasLijst.sorted(Comparator.comparing(Klas::getNaam));
+        Comparator<Klas> comparatorIgnorecase = (a,b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        return gefilterdeKlasLijst.sorted(comparatorIgnorecase);
     }
 
     public boolean bestaatKlasNaam(String naam) {
@@ -72,7 +73,7 @@ public final class KlasBeheer implements Observer {
     public void verwijderKlas(int id) {
 //Door de Vreemde sleutels kunnen we klas niet verwijderen         
 //klasRepo.delete(klasRepo.get(id));
-        //System.out.println("Klas kan niet verwijdert worden door de vreemde sleutels");
+        //System.out.println("Klas kan niet verwijderd worden door de vreemde sleutels");
         Klas klas = klasRepo.get(id);
         if (klas == null) {
             throw new NotFoundException("De sessie werd niet gevonden");

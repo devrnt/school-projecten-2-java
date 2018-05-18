@@ -49,7 +49,8 @@ public class GroepsbewerkingBeheer implements Observer {
     }
 
     public ObservableList<Groepsbewerking> getAllGroepsbewerkingen() {
-        return gefilterdeGroepsbewerkingLijst.sorted(Comparator.comparing(Groepsbewerking::getOmschrijving));
+        Comparator<Groepsbewerking> comparatorIgnorecase = (a,b) -> a.getOmschrijving().toLowerCase().compareTo(b.getOmschrijving().toLowerCase());
+        return gefilterdeGroepsbewerkingLijst.sorted(comparatorIgnorecase);
     }
 
     public Groepsbewerking getMeestRecenteGroepsbewerking() {

@@ -95,7 +95,8 @@ public final class OefeningBeheer implements Observer {
     }
     
     public ObservableList<Oefening> getOefeningen() {
-        return gefilterdeOefeningenLijst.sorted(Comparator.comparing(Oefening::getOpgaveNaam));
+        Comparator<Oefening> comparatorIgnoreCase = (a, b) -> a.getOpgaveNaam().toLowerCase().compareTo(b.getOpgaveNaam().toLowerCase());
+        return gefilterdeOefeningenLijst.sorted(comparatorIgnoreCase);
     }
     
     public void applyFilter(String toFilter) {

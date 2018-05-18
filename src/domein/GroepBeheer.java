@@ -72,7 +72,8 @@ public final class GroepBeheer implements Observer {
     }
 
     public ObservableList<Groep> getGroepen() {
-        return gefilterdeGroepLijst;
+        Comparator<Groep> comparatorIgnorecase = (a,b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        return gefilterdeGroepLijst.sorted(comparatorIgnorecase);
     }
     
     public Groep getMeestRecenteGroep(){
