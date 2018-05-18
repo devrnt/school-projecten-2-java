@@ -5,19 +5,17 @@
  */
 package gui.controllers;
 
-import controllers.BoxController;
 import controllers.KlasController;
-import domein.Actie;
-import domein.Klas;
 import domein.Leerling;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -26,7 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -92,8 +89,8 @@ public class CreateKlasController extends AnchorPane {
             String sessieNaam = klasNaamTxt.getText();
             checkKlasNaam(sessieNaam);
         });
-        
-                annuleerBtn.setOnAction(event -> {
+
+        annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
         });
@@ -103,12 +100,14 @@ public class CreateKlasController extends AnchorPane {
     @FXML
     private void llnToevoegenBtnClicked(ActionEvent event) {
 
-        if (voorNaamTxt.getText().length() == 0 || familieNaamTxt.getText().length() == 0) {
-            leerlingNaamFoutLabel.setText("voornaam EN familienaam invullen");
+        String geldigeNaam = "^[ A-Za-z-]+$";
+        if (!voorNaamTxt.getText().trim().matches(geldigeNaam) || !familieNaamTxt.getText().trim().matches(geldigeNaam)) {
+            leerlingNaamFoutLabel.setText("Vul een geldige voor- en familienaam in");
         } else {
+            leerlingNaamFoutLabel.setText("");
             Leerling leerling = new Leerling(voorNaamTxt.getText(), familieNaamTxt.getText());
 
-            if (tempList.stream().anyMatch(n->n.getVolledigeNaam().equals(leerling.getVolledigeNaam()))) {
+            if (tempList.stream().anyMatch(n -> n.getVolledigeNaam().equals(leerling.getVolledigeNaam()))) {
                 leerlingNaamFoutLabel.setText("Deze leerling is al toegevoegd");
 
             } else {
@@ -146,7 +145,7 @@ public class CreateKlasController extends AnchorPane {
 
     @FXML
     private void checkKlasNaam(String naam) {
-        if (naam.length()==0) {
+        if (naam.length() == 0) {
             klasAanmakenBtn.setDisable(Boolean.TRUE);
             fouteKlasnaamLbl.setText("Klasnaam verplicht");
 
@@ -154,16 +153,15 @@ public class CreateKlasController extends AnchorPane {
             klasAanmakenBtn.setDisable(Boolean.TRUE);
             fouteKlasnaamLbl.setText("Klasnaam bestaat al");
         } else {
-            if (tempList.size()!=0) {
-                 klasAanmakenBtn.setDisable(Boolean.FALSE);
-            fouteKlasnaamLbl.setText("");
-            }else{
-                            fouteKlasnaamLbl.setText("");
-                                             klasAanmakenBtn.setDisable(Boolean.TRUE);
-
+            if (tempList.size() != 0) {
+                klasAanmakenBtn.setDisable(Boolean.FALSE);
+                fouteKlasnaamLbl.setText("");
+            } else {
+                fouteKlasnaamLbl.setText("");
+                klasAanmakenBtn.setDisable(Boolean.TRUE);
 
             }
-           
+
         }
     }
 

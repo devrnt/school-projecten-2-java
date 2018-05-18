@@ -36,7 +36,8 @@
                 <RowConstraints maxHeight="196.99998474121094" minHeight="10.0" prefHeight="56.66667175292969" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="162.33334350585938" minHeight="10.0" prefHeight="52.666656494140625" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="89.33334350585938" minHeight="10.0" prefHeight="55.666656494140625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="135.0" minHeight="7.666656494140625" prefHeight="7.666656494140625" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="89.33334350585938" minHeight="10.0" prefHeight="85.33334350585938" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="89.33334350585938" minHeight="8.0" prefHeight="8.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="86.66668701171875" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
@@ -65,15 +66,15 @@
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <Label text="Datum:" GridPane.rowIndex="8">
+                <Label text="Datum:" GridPane.rowIndex="9">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <DatePicker fx:id="datumInput" prefHeight="28.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+                <DatePicker fx:id="datumInput" prefHeight="28.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                <Label fx:id="datumFout" textFill="RED" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
                 <ChoiceBox fx:id="soortonderwijsChoiceBox" prefHeight="28.0" prefWidth="268.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label text="Actie bij fout:" GridPane.rowIndex="10">
+                <Label text="Actie bij fout:" GridPane.rowIndex="11">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
@@ -81,7 +82,7 @@
                   <Tooltip text="De geselecteerde actie wordt gebruikt wanneer de leerlingen 3 keer fout hebben geantwoord" />
                </tooltip>
                 </Label>
-                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="28.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                <ChoiceBox fx:id="reactieFoutAntwChoiceBox" prefHeight="28.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                 <ChoiceBox fx:id="klasChoiceBox" prefHeight="28.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <Button fx:id="bekijkLlnButton" mnemonicParsing="false" onAction="#bekijkLlnButtonClicked" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <graphic>
@@ -109,6 +110,7 @@
             </Label>
             <ChoiceBox fx:id="boxChoiceBox" prefHeight="28.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label styleClass="title" text="Nieuwe Sessie" GridPane.columnSpan="3" />
+            <Label fx:id="boxFout" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             </children>
             <padding>
                 <Insets left="20.0" right="20.0" top="10.0" />

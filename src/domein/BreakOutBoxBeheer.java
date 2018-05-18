@@ -63,6 +63,13 @@ public final class BreakOutBoxBeheer implements Observer {
         return gefilterdeBoxLijst;
     }
 
+    public ObservableList<BreakOutBox> getAllBreakOutBoxen(SoortOnderwijsEnum soortOnderwijs) {
+        return breakOutBoxRepo.findAll().stream()
+                .filter(box -> box.getSoortOnderwijsEnum() == soortOnderwijs)
+                .sorted(Comparator.comparing(BreakOutBox::getNaam))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    }
+
     public BreakOutBox getBreakOutBox(int id) {
         return breakOutBoxRepo.get(id);
     }

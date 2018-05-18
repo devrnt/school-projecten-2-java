@@ -83,7 +83,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
     private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new CreateBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController, true));
+            children.add(new CreateBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController, 2));
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
@@ -148,7 +148,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
     private void kopieBreakOutBoxButtonClicked(ActionEvent event) {
         if (boxTabel.getSelectionModel().getSelectedItem() != null) {
             children.clear();
-            children.add(new CreateBreakOutBoxController(boxTabel.getSelectionModel().getSelectedItem(), boxController, false));
+            children.add(new CreateBreakOutBoxController(boxTabel.getSelectionModel().getSelectedItem(), boxController, 1));
         }
     }
 

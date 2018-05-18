@@ -33,58 +33,58 @@ import repository.SessieDaoJpa;
  * @author devri
  */
 public final class SessieBeheer implements Observer {
-
+    
     private SessieDao sessieRepo;
     private GenericDao<Klas> klasRepo;
     private ObservableList<Sessie> sessieLijst;
     private FilteredList<Sessie> gefilterdeSessieLijst;
-
+    
     public SessieBeheer() {
         setSessieRepo(new SessieDaoJpa(Sessie.class));
         setKlasRepo(new GenericDaoJpa(Klas.class));
     }
-
+    
     public void setSessieRepo(SessieDao sessieRepo) {
         this.sessieRepo = sessieRepo;
         this.sessieRepo.addObserver(this);
         sessieLijst = FXCollections.observableArrayList(sessieRepo.findAll());
         gefilterdeSessieLijst = new FilteredList<>(sessieLijst, s -> true);
     }
-
+    
     public void setKlasRepo(GenericDaoJpa klasRepo) {
         this.klasRepo = klasRepo;
     }
-
+    
     public void createSessie(
             String naam, String omschrijving, Klas klas,
             BreakOutBox box, Date datum, SoortOnderwijsEnum soortOnderwijs,
             FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan) {
-
+        
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
             sessieRepo.insert(new Sessie(naam, omschrijving, klas, box,
                     datum, soortOnderwijs, foutAntwoordActie, isGedaan));
-
+            
         }
     }
-
+    
     public void close() {
         GenericDaoJpa.closePersistency();
     }
-
+    
     public Sessie getSessie(int id) {
         return sessieRepo.get(id);
     }
-
+    
     public ObservableList<Sessie> getAllSessies() {
         return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
     }
-
+        
     public Sessie getMeestRecenteSessie() {
         return sessieRepo.findAll().stream().sorted(Comparator.comparing(Sessie::getId).reversed()).collect(Collectors.toList()).get(0);
     }
-
+    
     public void deleteSessie(int id) {
         Sessie sessie = sessieRepo.get(id);
         if (sessie == null) {
@@ -92,19 +92,21 @@ public final class SessieBeheer implements Observer {
         }
         sessieRepo.delete(sessie);
     }
-
+    
     public boolean zitBoxInSessie(int boxId) {
         //dit moet beter -Yanis
         return sessieLijst.stream().anyMatch(s -> s.getBox().getId() == boxId);
     }
+
     public boolean zitKlasInSessie(int id) {
         return sessieLijst.stream().anyMatch(s -> s.getKlas().getId() == id);
     }
+
     public boolean bestaatSessieNaam(String naam) {
         Sessie sessie = sessieRepo.getByNaam(naam);
         return sessie != null;
     }
-
+    
     public void updateSessie(int id, String naam, String omschrijving,
             Klas klas, BreakOutBox box, Date datum,
             SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie
@@ -113,17 +115,17 @@ public final class SessieBeheer implements Observer {
         if (sessie == null) {
             throw new NotFoundException("De sessie werd niet gevonden");
         }
-
+        
         sessie.setNaam(naam);
         sessie.setOmschrijving(omschrijving);
         sessie.setKlas(klas);
         sessie.setDatum(datum);
         sessie.setSoortOnderwijs(soortOnderwijs);
         sessie.setFoutAntwoordActie(foutAntwoordActie);
-
+        
         sessieRepo.update(sessie);
     }
-
+    
     public void applyFilter(String toFilter) {
         gefilterdeSessieLijst.setPredicate(sessie -> {
             if (toFilter == null || toFilter.isEmpty()) {
@@ -131,7 +133,7 @@ public final class SessieBeheer implements Observer {
             }
             String lowerCaseFilter = toFilter.toLowerCase();
             lowerCaseFilter = lowerCaseFilter.trim().replaceAll("\\s+", "");
-
+            
             if (sessie.getNaam().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
                 return true;
             } else if (sessie.getOmschrijving().toLowerCase().trim().replaceAll("\\s+", "").contains(lowerCaseFilter)) {
@@ -140,25 +142,25 @@ public final class SessieBeheer implements Observer {
             return false; // No matches
         });
     }
-
+    
     @Override
     public void update(Observable o, Object arg) {
         sessieLijst.clear();
         sessieLijst.addAll(sessieRepo.findAll());
     }
-
+    
     public void createSamenvattingSessie(int id) throws IOException, FileNotFoundException, DocumentException {
         String DEST = "src/pdf/" + sessieRepo.get(id).getNaam() + "-samenvatting.pdf";
         File file = new File(DEST);
         new SessieBeheer().createPdf(DEST, id);
     }
-
+    
     private void createPdf(String dest, int id) throws IOException, DocumentException {
         Sessie ses = sessieRepo.get(id);
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(dest));
         document.open();
-
+        
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(ses.getNaam() + "- samenvatting", new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD)));
@@ -166,7 +168,7 @@ public final class SessieBeheer implements Observer {
         preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD)));
         addEmptyLine(preface, 3);
         document.add(preface);
-
+        
         Paragraph info = new Paragraph();
         document.add(new Paragraph("Omschrijving: "));
         document.add(addInfoParagraph(ses.getOmschrijving()));
@@ -202,31 +204,30 @@ public final class SessieBeheer implements Observer {
                     actOpl += i + ". " + pad.getActies().get(i - 1).getOmschrijving() + " = " + pad.getOpdrachten().get(i).getToegangscode() + " | ";
                 }
                 actOpl = actOpl.substring(0, actOpl.length() - 2);
-
+                
                 groepen.add(new Paragraph("Acties & Oplossingen: "));
                 groepen.add(new Paragraph(actOpl));
                 addEmptyLine(groepen, 1);
             }
-
+            
         }
         groepen.add(new DottedLineSeparator());
-
+        
         document.add(info);
         document.add(groepen);
         document.close();
     }
-
+    
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
     }
-
+    
     private Paragraph addInfoParagraph(String string) {
         Paragraph p = new Paragraph(string);
         p.setAlignment(Element.ALIGN_CENTER);
         return p;
     }
-
-
+    
 }

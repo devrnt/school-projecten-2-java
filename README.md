@@ -58,11 +58,11 @@ Vul de use cases aan:
 * [X] Delen door 0 mag niet groepsbewerking 
 * [ ] Groepsbewddking delete werkt nie 
 * [ ] Elke lijst continu alfabetisch
-* [ ] Klas lln toevoegen mag geen cijgers/tekens 
+* [X] Klas lln toevoegen mag geen cijfers/tekens 
 * [X] Oefeningen, filter op absolutut pad
 * [X] Oefeningen sorteren
 * [X] Kopie zonder iets te selecteren
-* [ ] Bij aanmaken sessie lijst boxen van soortonderwijs
+* [X] Bij aanmaken sessie lijst boxen van soortonderwijs
 * [ ] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
 * [ ] Geselecteerde acties en oefening doen zoals in oefening
 * [X] Box naam bestaat al checken

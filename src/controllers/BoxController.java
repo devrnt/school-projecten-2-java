@@ -6,6 +6,7 @@ import domein.BreakOutBox;
 
 import domein.BreakOutBoxBeheer;
 import domein.Oefening;
+import domein.Sessie;
 import domein.SessieBeheer;
 import domein.SoortOnderwijsEnum;
 import java.io.FileNotFoundException;
@@ -61,6 +62,16 @@ public final class BoxController {
      */
     public ObservableList<BreakOutBox> getAllBreakOutBoxen() {
         return boxBeheer.getAllBreakOutBoxen();
+    }
+
+    /**
+     * Geeft een ObservableList terug van alle Bob's met de meegeven
+     * soortOnderwijs
+     *
+     * @return een ObservableList met BreakOutBoxen
+     */
+    public ObservableList<BreakOutBox> getAllBreakOutBoxen(SoortOnderwijsEnum soortOnderwijs) {
+        return boxBeheer.getAllBreakOutBoxen(soortOnderwijs);
     }
 
     /**
@@ -162,17 +173,18 @@ public final class BoxController {
     }
 
     /**
-     * Crieert een PDF samenvatting van de geselecteerde BoB 
+     * Crieert een PDF samenvatting van de geselecteerde BoB
      *
-     * @param id id van de BoB die samengevat moet worden
-     *      *
-     * @throws IOException als er een probleem is tijdens het wegschrijven
+     * @param id id van de BoB die samengevat moet worden * @throws IOException
+     * als er een probleem is tijdens het wegschrijven
      * @throws FileNotFoundException als de opgevraagde File niet gevonden werd
-     * @throws DocumentException als er een fout optreed tijdens het opstellen van de Pdf
+     * @throws DocumentException als er een fout optreed tijdens het opstellen
+     * van de Pdf
      */
     public void createSamenvattingBox(int id) throws IOException, FileNotFoundException, DocumentException {
         boxBeheer.createSamenvattingBox(id);
     }
+
     /**
      * Controleert of de BoB in een sessie zit
      *
