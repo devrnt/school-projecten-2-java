@@ -60,44 +60,7 @@
                   <Label fx:id="oefeningenFoutLbl" textFill="#ff6d6d" />
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="oefeningList1" maxWidth="-Infinity" />
-                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="165.0" prefWidth="70.0">
-                           <children>
-                              <Button fx:id="oefeningToevoegenBtn" mnemonicParsing="false" onAction="#voegOefeningToeBtn" prefHeight="31.0" prefWidth="37.0">
-                                 <styleClass>
-                                    <String fx:value="btn" />
-                                    <String fx:value="btn-square" />
-                                    <String fx:value="btn-default" />
-                                 </styleClass>
-                                 <graphic>
-                                    <ImageView fitHeight="11.0" fitWidth="11.0">
-                                       <image>
-                                          <Image url="@../../assets/icons/arrowLeft.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <VBox.margin>
-                                    <Insets bottom="2.0" />
-                                 </VBox.margin></Button>
-                              <Button fx:id="oefeningVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderOefeningBtn">
-                                 <graphic>
-                                    <ImageView fitHeight="11.0" fitWidth="11.0">
-                                       <image>
-                                          <Image url="@../../assets/icons/arrowRight.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <styleClass>
-                                    <String fx:value="btn" />
-                                    <String fx:value="btn-square" />
-                                    <String fx:value="btn-default" />
-                                 </styleClass>
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Button>
-                           </children>
-                        </VBox>
-                        <ListView fx:id="oefeningList2" maxWidth="-Infinity" prefHeight="200.0" />
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="165.0" prefWidth="70.0" />
                      </children>
                   </HBox>
                     </children>
@@ -110,48 +73,6 @@
                             </font>
                         </Label>
                   <Label fx:id="actiesFoutLbl" textFill="#ff6d6d" />
-                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                              <ListView fx:id="actieList1" maxWidth="-Infinity" prefHeight="162.0" prefWidth="265.0" />
-                        <VBox alignment="CENTER" prefHeight="162.0" prefWidth="87.0">
-                           <children>
-                              <Button fx:id="actieToevoegenBtn" mnemonicParsing="false" onAction="#voegActieToeBtn">
-                                 <styleClass>
-                                    <String fx:value="btn" />
-                                    <String fx:value="btn-square" />
-                                    <String fx:value="btn-default" />
-                                 </styleClass>
-                                 <graphic>
-                                    <ImageView fitHeight="11.0" fitWidth="11.0">
-                                       <image>
-                                          <Image url="@../../assets/icons/arrowLeft.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <VBox.margin>
-                                    <Insets bottom="2.0" />
-                                 </VBox.margin></Button>
-                              <Button fx:id="actieVerwijderenBtn" mnemonicParsing="false" onAction="#verwijderActieBtn">
-                                 <graphic>
-                                    <ImageView fitHeight="11.0" fitWidth="11.0">
-                                       <image>
-                                          <Image url="@../../assets/icons/arrowRight.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <styleClass>
-                                    <String fx:value="btn" />
-                                    <String fx:value="btn-square" />
-                                    <String fx:value="btn-default" />
-                                 </styleClass>
-                                 <VBox.margin>
-                                    <Insets top="2.0" />
-                                 </VBox.margin></Button>
-                           </children>
-                        </VBox>
-                        <ListView fx:id="actieList2" maxWidth="-Infinity" prefHeight="162.0" prefWidth="261.0" />
-                     </children>
-                  </HBox>
                     </children>
                 </VBox>
             <HBox alignment="TOP_CENTER" prefHeight="101.0" prefWidth="470.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
