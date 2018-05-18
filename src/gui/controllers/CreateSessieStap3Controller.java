@@ -164,8 +164,6 @@ public class CreateSessieStap3Controller extends AnchorPane {
         if (valid) {
             sessieController.createSessie(sessie.getNaam(), sessie.getOmschrijving(), sessie.getKlas(), sessie.getBox(),
                     sessie.getDatum(), sessie.getSoortOnderwijs(), sessie.getFoutAntwoordActie(), sessie.getIsGedaan(), sessie.getGroepen());
-            sessieController.getMeestRecenteSessie().getGroepen().get(0).getLeerlingen().forEach(System.out::println);
-            sessieController.getMeestRecenteSessie().getGroepen().get(1).getLeerlingen().forEach(System.out::println);
 
             Event details = new DetailsEvent(90);
             this.fireEvent(details);

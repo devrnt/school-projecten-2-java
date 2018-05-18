@@ -134,7 +134,7 @@ public class CreateSessieStap2Controller extends AnchorPane {
                 try {
                     int aantal = Integer.parseInt(aantalGroepenInput.getText());
                     if (aantal < sessie.getMinimumAantalGroepen()) {
-                        aantalGroepenFout.setText("Minimaal aantal groepen is " + sessie.getMinimumAantalGroepen() + "(klas bevat " + sessie.getAantalLeerlingen() + " leerlingen)");
+                        aantalGroepenFout.setText("Minimaal aantal groepen is " + sessie.getMinimumAantalGroepen()/* + "(klas bevat " + sessie.getAantalLeerlingen() + " leerlingen)"*/);
                     } else {
                         aantalGroepenFout.setText("");
                     }
