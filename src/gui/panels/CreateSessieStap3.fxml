@@ -3,38 +3,72 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="429.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="429.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <GridPane layoutX="-4.0" layoutY="-2.0" minHeight="-Infinity" prefHeight="600.0" prefWidth="480.0" vgap="5.0">
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="137.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="245.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="59.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="247.3333740234375" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="56.6666259765625" />
             <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
             <RowConstraints maxHeight="129.6666717529297" minHeight="10.0" prefHeight="76.66665649414062" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="220.3333282470703" minHeight="10.0" prefHeight="109.66665649414062" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="106.0" minHeight="0.0" prefHeight="22.666656494140625" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="325.0" minHeight="10.0" prefHeight="286.3333435058594" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="500.0" minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="220.3333282470703" minHeight="10.0" prefHeight="177.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="325.0" minHeight="10.0" prefHeight="45.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="34.33331298828125" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="181.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
             <Label styleClass="title" text="Nieuwe Sessie (Stap 3)" GridPane.columnIndex="1" GridPane.columnSpan="3" />
-                <Button fx:id="bevestigButton" alignment="CENTER" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                <Button fx:id="bevestigButton" alignment="CENTER" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="btn-medium" />
                   <String fx:value="btn-success" />
                </styleClass>
                 </Button>
+            <TableView fx:id="leerlingenTbl" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="382.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+               <columns>
+                  <TableColumn fx:id="voorNaamList" prefWidth="177.33331298828125" text="Voornaam" />
+                  <TableColumn fx:id="familieNaamList" minWidth="0.0" prefWidth="201.66668701171875" text="Familienaam" />
+               </columns>
+            </TableView>
+            <ChoiceBox fx:id="groepChoiceBox" prefHeight="30.0" prefWidth="248.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <Label style="-fx-font-weight: 700;" text="Geselecteerde klas:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ListView fx:id="leerlingenListView" prefHeight="180.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            <Label style="-fx-font-size: 13px;" text="Leerlingen in de geselecteerde groep:" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+            <Button fx:id="voegLlnToeBtn" alignment="CENTER" mnemonicParsing="false" onAction="#voegLlnToeBtnClicked" prefHeight="30.0" prefWidth="40.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0">
+                     <image>
+                        <Image url="@../../assets/icons/createIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-square" />
+                  <String fx:value="btn-success" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets top="30.0" />
+               </GridPane.margin>
+            </Button>
             </children>
             <padding>
                 <Insets left="20.0" right="20.0" top="10.0" />

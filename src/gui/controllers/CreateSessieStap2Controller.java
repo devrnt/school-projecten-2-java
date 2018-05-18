@@ -90,6 +90,7 @@ public class CreateSessieStap2Controller extends AnchorPane {
             String text = chk.getText().toLowerCase();
             switch (text) {
                 case "zelf kiezen":
+                    sessie.genereerLegeGroepen(aantalGroepen);
                     Event geefdoorevent = new GeefSessieDoorEvent(sessie, 2);
                     this.fireEvent(geefdoorevent);
                     break;
@@ -101,7 +102,9 @@ public class CreateSessieStap2Controller extends AnchorPane {
                     break;
                 case "leeg":
                     sessie.genereerLegeGroepen(aantalGroepen);
-                    System.out.println("Ja leeg uw");
+                    sessieController.createSessie(sessie.getNaam(), sessie.getOmschrijving(), sessie.getKlas(), sessie.getBox(), sessie.getDatum(), sessie.getSoortOnderwijs(), sessie.getFoutAntwoordActie(), sessie.getIsGedaan(), sessie.getGroepen());
+                    Event details = new DetailsEvent(90);
+                    this.fireEvent(details);
                     break;
                 default:
                     System.out.println("to bad");
@@ -109,6 +112,10 @@ public class CreateSessieStap2Controller extends AnchorPane {
                     this.fireEvent(invalidInputEvent);
                     break;
             }
+        } else {
+            aantalGroepenFout.setText("Vul het aantal groepen in");
+            Event invalidInputEvent = new InvalidInputEvent(new ArrayList<>());
+            this.fireEvent(invalidInputEvent);
         }
     }
 
