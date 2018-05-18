@@ -91,7 +91,8 @@ public class DetailsOefeningController extends AnchorPane {
 
     private void setButtonActions() {
         verwijderBtn.setOnAction(event -> {
-            toggleButtons();
+//            toggleButtons();
+            this.setDisable(true);
             Event deleteEvent = new DeleteEvent(oefening.getId());
             this.fireEvent(deleteEvent);
         });

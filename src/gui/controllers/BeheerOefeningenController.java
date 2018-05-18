@@ -68,7 +68,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 
     private OefeningController controller;
     private Oefening laatstVerwijderd;
-    private SortedList<Oefening> oefeningen;
+    private ConfirmationBuilder confirmationBuilder;
 
     public BeheerOefeningenController(OefeningController controller) {
         this.controller = controller;
@@ -115,10 +115,13 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 
     }
 
-    private void stelTableViewIn() {
+    private void stelTableViewIn() {  
         opgaveCol.setCellValueFactory(c -> c.getValue().getOpgaveProp());
+        opgaveCol.setSortable(false);
         vakCol.setCellValueFactory(c -> c.getValue().getVakProp());
+        vakCol.setSortable(false);
         doelstellingenCol.setCellValueFactory(c -> c.getValue().getDoelstellingenProp());
+        doelstellingenCol.setSortable(false);
         oefeningenTable.setItems(controller.getOefeningen());
         oefeningenTable.setPlaceholder(new Label("Geen oefeningen"));
         oefeningenTable.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
@@ -142,7 +145,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
             if (inBox) {
                 int size = children.size();
-                ((DetailsOefeningController)children.get(size - 1)).toggleButtons();
+                children.get(size - 1).setDisable(false);
                 if (size == 1) {
                     Node topNode = children.get(0);
                     children.set(0, new NotificatiePanelController(String.format("Oefening met opgave %s kan niet verwijderd worden."
@@ -152,9 +155,9 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             } else {
                 if (children.size() == 2)
                     children.remove(0);
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
-                builder.addObserver(this);
-                children.add(builder.buildConfirmation());
+                confirmationBuilder = new ConfirmationBuilder(event.getId());
+                confirmationBuilder.addObserver(this);
+                children.add(confirmationBuilder.buildConfirmation());
             }
         });
 
@@ -213,16 +216,16 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
 //    }
     @Override
     public void update(Observable o, Object arg) {
-        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
-        int id = ((ConfirmationBuilder) o).getId();
+        boolean confirmed = confirmationBuilder.isConfirmed();
+        int id = confirmationBuilder.getId();
         if (confirmed) {
-            String opgaveNaam = new File(laatstVerwijderd.getOpgave()).getName();
+            String opgaveNaam = laatstVerwijderd.getOpgaveNaam();
             controller.deleteOefening(id);
             children.clear();
             children.add(new NotificatiePanelController(String.format("Oefening met opgave %s is verwijderd", YouTiels.cutSentence(opgaveNaam)), Kleuren.GROEN));
         } else {
             children.remove(children.size()-1);
-            ((DetailsOefeningController) children.get(children.size() - 1)).toggleButtons();
+            children.get(children.size() - 1).setDisable(false);
         }
     }
 

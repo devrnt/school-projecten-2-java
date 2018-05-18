@@ -46,9 +46,7 @@ public class ConfirmationBuilder extends Observable {
             this.setChanged();
             notifyObservers();
         });
-        cancelButton.getStyleClass().add("btn");
-        cancelButton.getStyleClass().add("btn-small");
-        cancelButton.getStyleClass().add("btn-default");
+        cancelButton.getStyleClass().addAll("btn", "btn-small", "btn-default");
 
         // show confirmation text and buttons
         hbox.getChildren().addAll(cancelButton, okButton);

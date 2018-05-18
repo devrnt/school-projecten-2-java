@@ -142,6 +142,7 @@ menuItems:       #3F3F3F
     -fx-background-color: #F4F5F7;
     -fx-text-fill: #333333;
     -fx-border-color: #cccccc;
+    -fx-margin: 10px;
 }
 
 .btn-default:hover {
