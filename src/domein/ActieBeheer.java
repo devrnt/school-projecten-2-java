@@ -49,7 +49,8 @@ public class ActieBeheer implements Observer {
     }
 
     public ObservableList<Actie> getAllActies() {
-        return gefilterdeActieLijst.sorted(Comparator.comparing(Actie::getOmschrijving));
+        Comparator<Actie> comparatorIgnorecase = (a,b) -> a.getOmschrijving().toLowerCase().compareTo(b.getOmschrijving().toLowerCase());
+        return gefilterdeActieLijst.sorted(comparatorIgnorecase);
     }
     
     public Actie getMeestRecenteActie(){

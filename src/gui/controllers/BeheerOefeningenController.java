@@ -145,7 +145,7 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
                 ((DetailsOefeningController)children.get(size - 1)).toggleButtons();
                 if (size == 1) {
                     Node topNode = children.get(0);
-                    children.set(0, new NotificatiePanelController(String.format("Oefening %s kan niet verwijderd worden."
+                    children.set(0, new NotificatiePanelController(String.format("Oefening met opgave %s kan niet verwijderd worden."
                             + "%nReden: Zit nog in een BreakoutBox", YouTiels.cutSentence(opgaveNaam)), Kleuren.ROOD));
                     children.add(topNode);
                 }
