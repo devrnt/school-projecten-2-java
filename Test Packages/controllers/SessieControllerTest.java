@@ -55,7 +55,7 @@ public class SessieControllerTest {
         act.add(new Actie("o"));
         sessie = new Sessie("Sessie 1", "Omschrijving Sessie 1",
                 new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(),
-                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false
+                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null
         );
         Mockito.when(sessieRepo.get(1)).thenReturn(sessie);
         Mockito.when(sessieRepo.get(2)).thenReturn(null);
@@ -64,7 +64,7 @@ public class SessieControllerTest {
                         Arrays.asList(
                                 new Sessie[]{
                                     sessie,
-                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false)
+                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null)
                                 }
                         )
                 )
@@ -95,7 +95,7 @@ public class SessieControllerTest {
         oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
-        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false);
+        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null);
         Mockito.verify(sessieRepo).insert(Mockito.any(Sessie.class));
     }
     // </editor-fold>

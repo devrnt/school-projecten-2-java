@@ -139,7 +139,6 @@ public class BeheerSessiesController extends AnchorPane implements Observer {
 
             if (event.getId() == 90) {
                 sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
-
                 Node topNode = children.get(0);
                 children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
                 children.add(topNode);
@@ -152,7 +151,11 @@ public class BeheerSessiesController extends AnchorPane implements Observer {
         });
         this.addEventHandler(GeefSessieDoorEvent.GEEFSESSIEDOOR, event -> {
             children.clear();
-            children.add(new CreateSessieStap2Controller(sessieController, event.getSessie()));
+            if (event.getStap() == 1) {
+                children.add(new CreateSessieStap2Controller(sessieController, event.getSessie()));
+            } else {
+                children.add(new CreateSessieStap3Controller(event.getSessie(), sessieController));
+            }
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {

@@ -185,8 +185,8 @@ public class CreateSessieController extends AnchorPane {
         boolean inputGeldig = Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()) && Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         if (inputGeldig) {
             Sessie doorgevenSessie = new Sessie(naamInput.getText(), omschrijvingInput.getText(), gekozenKlas, gekozenBox, convertToDate(datumInput.getValue()), soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
-                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), inputGeldig);
-            Event geefdoorevent = new GeefSessieDoorEvent(doorgevenSessie);
+                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false, null);
+            Event geefdoorevent = new GeefSessieDoorEvent(doorgevenSessie, 1);
             this.fireEvent(geefdoorevent);
         } else {
             Event invalidInputEvent = new InvalidInputEvent(Arrays.stream(foutLabels).map(l -> l.getText()).collect(Collectors.toList()));
