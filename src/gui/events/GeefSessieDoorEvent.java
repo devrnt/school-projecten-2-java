@@ -6,16 +6,21 @@ import javafx.event.EventType;
 
 public class GeefSessieDoorEvent extends Event {
 
-    private Sessie sessie;
-
+    private final Sessie sessie;
+    private final int stap;
     public static final EventType<GeefSessieDoorEvent> GEEFSESSIEDOOR = new EventType(ANY, "GEEFSESSIEDOOR");
 
-    public GeefSessieDoorEvent(Sessie sessie) {
+    public GeefSessieDoorEvent(Sessie sessie, int stap) {
         super(GeefSessieDoorEvent.GEEFSESSIEDOOR);
         this.sessie = sessie;
+        this.stap = stap;
     }
 
     public Sessie getSessie() {
         return sessie;
+    }
+
+    public int getStap() {
+        return stap;
     }
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +41,7 @@ import javax.persistence.Transient;
             query = "SELECT s FROM Sessie s")
 })
 public class Sessie implements Serializable, ISessie {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -65,12 +66,12 @@ public class Sessie implements Serializable, ISessie {
     //private List<Groep> groepen;
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Groep> groepen;
-
+    
     public Sessie() {
     }
-
+    
     public Sessie(String naam, String omschrijving, Klas klas, BreakOutBox box,
-            Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isgedaan) {
+            Date datum, SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isgedaan, List<Groep> groepen) {
         setNaam(naam);
         setOmschrijving(omschrijving);
         setKlas(klas);
@@ -80,31 +81,32 @@ public class Sessie implements Serializable, ISessie {
         setSoortOnderwijs(soortOnderwijs);
         setFoutAntwoordActie(foutAntwoordActie);
         setIsGedaan(isgedaan);
+        setGroepen(groepen);
     }
 
     // <editor-fold desc="Getters and Setters" >
     public int getId() {
         return id;
     }
-
+    
     public String getNaam() {
         return naam;
     }
-
+    
     public void setNaam(String naam) {
         this.naam = naam;
         naamProperty.set(naam);
     }
-
+    
     public String getOmschrijving() {
         return omschrijving;
     }
-
+    
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
         omschrijvingProperty.set(omschrijving);
     }
-
+    
     public Klas getKlas() {
         return klas;
     }
@@ -114,21 +116,21 @@ public class Sessie implements Serializable, ISessie {
         //controle 
         this.klas = klas;
     }
-
+    
     public Date getDatum() {
         return datum;
     }
-
+    
     public void setDatum(Date datum) {
         // controle: datum moet na vandaag zijn
         Calendar cal = Calendar.getInstance();
         cal.setTime(datum);
-
+        
         int gekozenDag = cal.get(Calendar.DAY_OF_MONTH);
         Calendar huidig = Calendar.getInstance();
-
+        
         int huidigeDag = huidig.get(Calendar.DAY_OF_MONTH);
-
+        
         if (gekozenDag < huidigeDag) {
             throw new IllegalArgumentException("Datum moet in de toekomst liggen");
         } else {
@@ -148,27 +150,31 @@ public class Sessie implements Serializable, ISessie {
             this.datum = datum;
     }*/
     }
-
+    
+    public void setGroepen(List<Groep> groepen) {
+        this.groepen = groepen;
+    }
+    
     public Boolean getIsGedaan() {
         return isGedaan;
     }
-
+    
     public void setIsGedaan(Boolean isGedaan) {
         this.isGedaan = isGedaan;
     }
-
+    
     public void setBox(BreakOutBox box) {
         this.box = box;
     }
-
+    
     public String getBoxNaam() {
         return this.box.getNaam();
     }
-
+    
     public BreakOutBox getBox() {
         return box;
     }
-
+    
     public void setSessieCode() {
         int min = 1;
         int max = 10;
@@ -180,15 +186,15 @@ public class Sessie implements Serializable, ISessie {
         }
         this.sessieCode = temp;
     }
-
+    
     public String getSessieCode() {
         return sessieCode;
     }
-
+    
     public SoortOnderwijsEnum getSoortOnderwijs() {
         return soortOnderwijs;
     }
-
+    
     @Override
     public void setSoortOnderwijs(SoortOnderwijsEnum soortOnderwijs) {
         if (Arrays.asList(SoortOnderwijsEnum.values()).contains(soortOnderwijs)) {
@@ -197,49 +203,58 @@ public class Sessie implements Serializable, ISessie {
             throw new IllegalArgumentException("Geen geldig onderwijstype");
         }
     }
-
+    
     public SimpleStringProperty getNaamProperty() {
         return naamProperty;
     }
-
+    
     public SimpleStringProperty getOmschrijvingProperty() {
         return omschrijvingProperty;
     }
-
+    
     public void setFoutAntwoordActie(FoutAntwoordActieEnum foutAntwoordActie) {
-
+        
         this.foutAntwoordActie = foutAntwoordActie;
     }
-
+    
     public FoutAntwoordActieEnum getFoutAntwoordActie() {
         return foutAntwoordActie;
     }
     // </editor-fold>
 
-    public void genereerPaden(int aantal) {
+    public void genereerLegeGroepen(int aantal) {
         if (soortOnderwijs == SoortOnderwijsEnum.dagonderwijs) {
-            genereerPadenDag(aantal);
+            genereerLegeGroepenDag(aantal);
         } else {
-            genereerPadenAfstand();
+            genereerLegeGroepenAfstand(aantal);
         }
     }
-
-    private void genereerPadenDag(int getal) {
-        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / getal);
-        //this.groepen = new ArrayList<>();
+    
+    public void genereerRandomGroepen(int aantal) {
+        genereerLegeGroepen(aantal);
+        List<Leerling> leerlingen = this.klas.getLeerlingen();
+        Collections.shuffle(leerlingen);
+        for (int i = 0; i < leerlingen.size(); i++) {
+            int x = i % aantal;
+            this.groepen.get(x).voegLeerlingToe(leerlingen.get(i));
+        }
+    }
+    
+    private void genereerLegeGroepenDag(int aantalGroepen) {
+        //int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4);
         int aantalOef = this.box.getOefeningen().size();
         Random rand = new Random();
-        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroep);
-
+        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroepen);
+        
         int aantalAct = this.box.getActies().size();
-        List<List<Integer>> randomAct = genereerDubbeleArray(aantalAct, aantalGroep);
-
+        List<List<Integer>> randomAct = genereerDubbeleArray(aantalAct, aantalGroepen);
+        
         List<SessiePad> paden = new ArrayList<>();
-        List<Groep> groepen = new ArrayList<>();
+        List<Groep> groeplijst = new ArrayList<>();
         List<Actie> acties = box.getActies();
         List<Oefening> oefeningen = box.getOefeningen();
-
-        for (int i = 0; i < aantalGroep; i++) {
+        
+        for (int i = 0; i < aantalGroepen; i++) {
             List<Integer> oefRandom = randomOef.get(i);
             //List<Oefening> randomOefeningen = new ArrayList<>();
             List<Opdracht> randomOpdrachten = new ArrayList<>();
@@ -254,40 +269,37 @@ public class Sessie implements Serializable, ISessie {
             List<Actie> randomActies = new ArrayList<>();
             for (Integer it : actRandom) {
                 randomActies.add(acties.get(it));
-
+                
             }
             actRandom.forEach((it) -> {
             });
             SessiePad pad = new SessiePad(randomOpdrachten, randomActies, soortOnderwijs);
-            groepen.forEach(groep -> System.out.println("groep " + groep.getNaam()));
-            groepen.add(new Groep("groep" + (i + 1), pad));
+            groeplijst.add(new Groep("groep" + (i + 1), pad));
         }
-        this.groepen = groepen;
+        this.groepen = groeplijst;
     }
-
-    private void genereerPadenAfstand() {
-        int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
+    
+    private void genereerLegeGroepenAfstand(int aantalGroepen) {
+        // int aantalGroep = (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
         //this.groepen = new ArrayList<>();
         int aantalOef = this.box.getOefeningen().size();
         Random rand = new Random();
-        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroep);
-        List<Groep> groepen = new ArrayList<>();
+        List<List<Integer>> randomOef = genereerDubbeleArray(aantalOef, aantalGroepen);
+        List<Groep> groeplijst = new ArrayList<>();
         List<Oefening> oefeningen = box.getOefeningen();
-
-        for (int i = 0; i < aantalGroep; i++) {
+        
+        for (int i = 0; i < aantalGroepen; i++) {
             List<Integer> oefRandom = randomOef.get(i);
-            List<Oefening> randomOefeningen = new ArrayList<>();
             List<Opdracht> randomOpdrachten = new ArrayList<>();
             oefRandom.forEach((it) -> {
-                randomOefeningen.add(oefeningen.get(it));
                 randomOpdrachten.add(new Opdracht(oefeningen.get(it), Integer.toString(rand.nextInt(1000))));
             });
             SessiePad pad = new SessiePad(randomOpdrachten, soortOnderwijs);
-            groepen.add(new Groep("groep" + i, pad));
+            groeplijst.add(new Groep("groep" + i, pad));
         }
-        this.groepen = groepen;
+        this.groepen = groeplijst;
     }
-
+    
     private List<List<Integer>> genereerDubbeleArray(int breedte, int diepte) {
         Random rand = new Random();
         List<Integer> startposities = new ArrayList<>();
@@ -306,13 +318,17 @@ public class Sessie implements Serializable, ISessie {
         }
         return dubbelleArray;
     }
-
+    
     public List<Groep> getGroepen() {
         return groepen;
     }
-
+    
     public int getMinimumAantalGroepen() {
         return (int) Math.ceil(this.klas.getAantalLeerlingen() / 4.0);
     }
-
+    
+    public String getAantalLeerlingen() {
+        return Integer.toString(this.klas.getAantalLeerlingen());
+    }
+    
 }
