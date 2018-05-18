@@ -28,14 +28,15 @@
             <rowConstraints>
             <RowConstraints maxHeight="129.6666717529297" minHeight="10.0" prefHeight="76.66665649414062" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="220.3333282470703" minHeight="10.0" prefHeight="177.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="325.0" minHeight="10.0" prefHeight="45.66668701171875" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="34.33331298828125" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="181.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="325.0" minHeight="10.0" prefHeight="38.66668701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="171.33331298828125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="366.0" minHeight="10.0" prefHeight="31.66668701171875" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
             <Label styleClass="title" text="Nieuwe Sessie (Stap 3)" GridPane.columnIndex="1" GridPane.columnSpan="3" />
-                <Button fx:id="bevestigButton" alignment="CENTER" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                <Button fx:id="bevestigButton" alignment="CENTER" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="btn-medium" />
@@ -45,11 +46,11 @@
             <TableView fx:id="leerlingenTbl" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="382.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <columns>
                   <TableColumn fx:id="voorNaamList" prefWidth="177.33331298828125" text="Voornaam" />
-                  <TableColumn fx:id="familieNaamList" minWidth="0.0" prefWidth="201.66668701171875" text="Familienaam" />
+                  <TableColumn fx:id="familieNaamList" minWidth="0.0" prefWidth="202.0" text="Familienaam" />
                </columns>
             </TableView>
             <ChoiceBox fx:id="groepChoiceBox" prefHeight="30.0" prefWidth="248.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <Label style="-fx-font-weight: 700;" text="Geselecteerde klas:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label style="-fx-font-weight: 700;" text="Selecteer een groep" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ListView fx:id="leerlingenListView" prefHeight="180.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
             <Label style="-fx-font-size: 13px;" text="Leerlingen in de geselecteerde groep:" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
             <Button fx:id="voegLlnToeBtn" alignment="CENTER" mnemonicParsing="false" onAction="#voegLlnToeBtnClicked" prefHeight="30.0" prefWidth="40.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
@@ -68,6 +69,24 @@
                <GridPane.margin>
                   <Insets top="30.0" />
                </GridPane.margin>
+            </Button>
+            <Label fx:id="foutLabel" textFill="RED" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+            <Button fx:id="verwijderLlnUitGroep" alignment="CENTER" mnemonicParsing="false" onAction="#verwijderLlnUitGroepClicked" prefHeight="30.0" prefWidth="40.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-square" />
+                  <String fx:value="btn-danger" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0">
+                     <image>
+                        <Image url="@../../assets/icons/minusIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
             </children>
             <padding>

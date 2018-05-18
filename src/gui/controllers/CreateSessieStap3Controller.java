@@ -14,6 +14,7 @@ import gui.events.DetailsEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -48,9 +49,13 @@ public class CreateSessieStap3Controller extends AnchorPane {
     @FXML
     private ChoiceBox<Groep> groepChoiceBox;
     @FXML
-    private ListView<String> leerlingenListView;
+    private ListView<Leerling> leerlingenListView;
     @FXML
     private Button voegLlnToeBtn;
+    @FXML
+    private Label foutLabel;
+    @FXML
+    private Button verwijderLlnUitGroep;
 
     private final Sessie sessie;
     private final SessieController sessieController;
@@ -104,12 +109,13 @@ public class CreateSessieStap3Controller extends AnchorPane {
         groepChoiceBox.getSelectionModel().selectFirst();
 
         // listview disabel 
-        leerlingenListView.setMouseTransparent(true);
+        /*leerlingenListView.setMouseTransparent(true);
         leerlingenListView.setFocusTraversable(false);
-        leerlingenListView.setDisable(true);
-
+        leerlingenListView.setDisable(true);*/
         // btn is disabled on default
         voegLlnToeBtn.setDisable(true);
+
+        verwijderLlnUitGroep.setDisable(true);
     }
 
     private void addEventHandlers() {
@@ -124,6 +130,16 @@ public class CreateSessieStap3Controller extends AnchorPane {
                 voegLlnToeBtn.setDisable(false);
             }
         });
+
+        // if listview is empty disable the verwijderLln button
+        verwijderLlnUitGroep.disableProperty().bind(Bindings.isEmpty(leerlingenListView.getItems()));
+    }
+
+    private void refreshListView() {
+        Groep geselecteerdeGroep = groepChoiceBox.getSelectionModel().getSelectedItem();
+        List<Leerling> leerlingenUitGroep = geselecteerdeGroep.getLeerlingen();
+
+        leerlingenListView.getItems().setAll(FXCollections.observableArrayList(leerlingenUitGroep));
     }
 
     @FXML
@@ -144,23 +160,39 @@ public class CreateSessieStap3Controller extends AnchorPane {
     private void bevestigButtonClicked(ActionEvent event) {
         // check if every groep has leerlingen.count > 0
         boolean valid = sessie.getGroepen().stream().allMatch(groep -> groep.getAantalLeerlingen() > 0);
-        System.out.println(valid);
 
-        sessieController.createSessie(sessie.getNaam(), sessie.getOmschrijving(), sessie.getKlas(), sessie.getBox(), sessie.getDatum(), sessie.getSoortOnderwijs(), sessie.getFoutAntwoordActie(), sessie.getIsGedaan(), sessie.getGroepen());
+        if (valid) {
+            sessieController.createSessie(sessie.getNaam(), sessie.getOmschrijving(), sessie.getKlas(), sessie.getBox(),
+                    sessie.getDatum(), sessie.getSoortOnderwijs(), sessie.getFoutAntwoordActie(), sessie.getIsGedaan(), sessie.getGroepen());
+            sessieController.getMeestRecenteSessie().getGroepen().get(0).getLeerlingen().forEach(System.out::println);
+            sessieController.getMeestRecenteSessie().getGroepen().get(1).getLeerlingen().forEach(System.out::println);
 
-        sessieController.getMeestRecenteSessie().getGroepen().get(0).getLeerlingen().forEach(lln -> System.out.println(lln));
-        sessieController.getMeestRecenteSessie().getGroepen().get(1).getLeerlingen().forEach(lln -> System.out.println(lln));
+            Event details = new DetailsEvent(90);
+            this.fireEvent(details);
+        } else {
+            foutLabel.setText("Elke groep moet min. 1 leerling hebben");
+        }
 
-        Event details = new DetailsEvent(90);
-        this.fireEvent(details);
     }
 
-    private void refreshListView() {
-        Groep geselecteerdeGroep = groepChoiceBox.getSelectionModel().getSelectedItem();
-        List<String> leerlingenUitGroep = geselecteerdeGroep.getLeerlingen().stream()
-                .map(leerling -> leerling.getVolledigeNaam())
-                .collect(Collectors.toList());
+    @FXML
+    private void verwijderLlnUitGroepClicked(ActionEvent event) {
+        foutLabel.setText("");
+        boolean valid = leerlingenListView.getSelectionModel().getSelectedItem() != null;
+        if (valid) {
+            // add the selected leerling to the group 
+            Groep geselecteerdeGroep = groepChoiceBox.getSelectionModel().getSelectedItem();
+            Leerling geselecteerdeLeerling = leerlingenListView.getSelectionModel().getSelectedItem();
+            geselecteerdeGroep.verwijderLeerling(geselecteerdeLeerling);
 
-        leerlingenListView.getItems().setAll(leerlingenUitGroep);
+            // add the leerling back to the table
+            refreshListView();
+
+            // add selected leerling to the tableView
+            leerlingenTbl.getItems().add(geselecteerdeLeerling);
+        } else {
+            foutLabel.setText("Klik op de leerling");
+        }
+
     }
 }
