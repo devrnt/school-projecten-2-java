@@ -17,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="601.0" prefWidth="500.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="660.0" prefWidth="500.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <GridPane prefHeight="601.0" prefWidth="500.0" vgap="10.0">
+      <GridPane prefHeight="660.0" prefWidth="500.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="168.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="443.0" minWidth="10.0" prefWidth="402.0" />
@@ -31,9 +31,9 @@
           <RowConstraints maxHeight="388.3333435058594" minHeight="10.0" prefHeight="37.33332824707031" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="397.99998474121094" minHeight="20.0" prefHeight="13.666671752929688" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="397.99998474121094" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="397.99998474121094" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="270.6666564941406" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="146.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.3333435058594" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
                   <Label alignment="CENTER" text="Naam:" GridPane.rowIndex="1">
@@ -50,7 +50,32 @@
             <TextField fx:id="naamTxt" maxWidth="359.0" prefHeight="28.0" prefWidth="359.0" promptText="Typ hier de naam in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="omschrijvingTxt" prefHeight="28.0" prefWidth="210.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="omschrijvingFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="6">
+                    <children>
+                        <Label text="Oefeningen:">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                  <Label fx:id="oefeningenFoutLbl" textFill="#ff6d6d" />
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="165.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                    </children>
+                </VBox>
+                <VBox GridPane.columnSpan="2" GridPane.rowIndex="7">
+                    <children>
+                        <Label text="Acties:">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                        </Label>
+                  <Label fx:id="actiesFoutLbl" textFill="#ff6d6d" />
+                    </children>
+                </VBox>
+            <HBox alignment="TOP_CENTER" prefHeight="101.0" prefWidth="470.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
                <children>
                   <Button fx:id="bevestigBtn" mnemonicParsing="false" onAction="#bevestigClicked" text="BEVESTIG">
                      <HBox.margin>

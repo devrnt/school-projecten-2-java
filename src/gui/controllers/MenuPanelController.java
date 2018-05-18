@@ -64,7 +64,7 @@ public class MenuPanelController extends AnchorPane {
 //                this.fireEvent(menuEvent);
 //            });
 //        });
-        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen", "   Groepen", "   Acties", "   Groepsbewerkingen");
+        menuListView.getItems().addAll("   Oefeningen", "   Boxen", "   Sessies", "   Klassen"/*, "   Groepen"*/, "   Acties", "   Groepsbewerkingen");
         menuListView.setCellFactory(param -> new ListCell<String>() {
             ImageView imageVw = new ImageView();
 

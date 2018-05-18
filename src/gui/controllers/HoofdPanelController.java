@@ -51,7 +51,7 @@ public class HoofdPanelController extends AnchorPane {
             new BeheerBreakOutBoxPanelController(new BoxController()),
             new BeheerSessiesController(new SessieController()),
             new BeheerKlassenController(new KlasController()),
-            new BeheerGroepenPanelController(new GroepController()),
+//            new BeheerGroepenPanelController(new GroepController()),
             new BeheerActiesController(new ActieController()),
             new BeheerGroepsbewerkingenController(new GroepsbewerkingController())
         };
