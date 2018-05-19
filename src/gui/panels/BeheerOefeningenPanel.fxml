@@ -53,7 +53,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="600.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="createOefening" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
+                        <Button fx:id="createButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -83,7 +83,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="search-fld">
+                        <TextField fx:id="filterTextField" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="search-fld">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -92,7 +92,7 @@
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="467.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
-                        <TableView fx:id="oefeningenTable" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="oefeningenTableView" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-Infinity" minWidth="175.0" prefWidth="175.0" styleClass="table-view-cell-header" text="Opgave" />
                             <TableColumn fx:id="vakCol" editable="false" maxWidth="-Infinity" minWidth="125.0" prefWidth="125.0" styleClass="table-view-cell-header" text="Vak" />

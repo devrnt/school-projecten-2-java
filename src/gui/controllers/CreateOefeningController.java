@@ -215,7 +215,7 @@ public class CreateOefeningController extends AnchorPane {
 
     @FXML
     public void bevestigClicked(ActionEvent event) {
-        Label[] foutLabels = {opgaveFoutLabel, antwoordFout, feedbackFoutLabel, groepsbewerkingenFout};
+        Label[] foutLabels = {opgaveFoutLabel, antwoordFout, feedbackFoutLabel, doelstellingFoutLabel, groepsbewerkingenFout};
 
         checkInputs();
 
@@ -274,30 +274,30 @@ public class CreateOefeningController extends AnchorPane {
         int aantalGroepsbewerkingen = groepsbewerkingenListView.getItems().size();
 
         if (antwoordText == null || antwoordText.trim().isEmpty()) {
-            antwoordFout.setText("Geef een antwoord in");
+            antwoordFout.setText("Geef een antwoord in\n");
         }
         try {
             Integer.parseInt(antwoordText);
         } catch (NumberFormatException e) {
-            antwoordFout.setText("Antwoord moet een getal zijn");
+            antwoordFout.setText("Antwoord moet een getal zijn\n");
         }
         if (vakText == null || vakText.trim().isEmpty()) {
-            vakFoutLabel.setText("Geef een vak in");
+            vakFoutLabel.setText("Geef een vak in\n");
         }
         if (aantalDoelstelling == 0) {
-            doelstellingFoutLabel.setText("Geef minstens 1 doelstelling in");
+            doelstellingFoutLabel.setText("Geef minstens 1 doelstelling in\n");
         }
 
         if (aantalGroepsbewerkingen == 0) {
-            groepsbewerkingenFout.setText("Voeg minstens 1 groepsbewerking toe");
+            groepsbewerkingenFout.setText("Voeg minstens 1 groepsbewerking toe\n");
         }
 
         if (opgaveFile == null || !opgaveFile.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
-            opgaveFoutLabel.setText("Bestand moet in PDF formaat zijn");
+            opgaveFoutLabel.setText("Kies een opgave bestand in PDF\n");
         }
 
         if (feedbackFile == null || !feedbackFile.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
-            feedbackFoutLabel.setText("Bestand moet in PDF formaat zijn");
+            feedbackFoutLabel.setText("Kies een feedback bestand in PDF\n");
         }
     }
 
