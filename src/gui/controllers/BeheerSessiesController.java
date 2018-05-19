@@ -128,7 +128,7 @@ public class BeheerSessiesController extends AnchorPane implements Observer {
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+            ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "sessie");
             builder.addObserver(this);
             children.add(builder.buildConfirmation());
         });

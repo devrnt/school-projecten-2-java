@@ -139,7 +139,7 @@ public class BeheerActiesController extends AnchorPane implements Observer {
                     children.add(topNode);
                 }
             } else {
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "actie");
                 builder.addObserver(this);
                 children.add(builder.buildConfirmation());
             }

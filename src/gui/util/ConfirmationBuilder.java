@@ -19,9 +19,11 @@ public class ConfirmationBuilder extends Observable {
 
     private boolean confirmed;
     private int id;
+    private String type;
 
-    public ConfirmationBuilder(int id) {
+    public ConfirmationBuilder(int id, String type) {
         this.id = id;
+        this.type = type;
     }
 
     public Node buildConfirmation() {
@@ -30,7 +32,8 @@ public class ConfirmationBuilder extends Observable {
         HBox hbox = new HBox();
         vbox.setAlignment(Pos.BOTTOM_CENTER);
         hbox.setAlignment(Pos.CENTER);
-        hbox.minHeight(50.0);
+        vbox.setPrefHeight(600.0);
+        vbox.setMaxHeight(600.0);
         Button okButton = new Button("Ja");
         okButton.setOnAction(event -> {
             confirmed = true;
@@ -50,7 +53,7 @@ public class ConfirmationBuilder extends Observable {
 
         // show confirmation text and buttons
         hbox.getChildren().addAll(cancelButton, okButton);
-        vbox.getChildren().addAll(new Label("Weet u zeker dat u deze oefening wil verwijderen?"), hbox);
+        vbox.getChildren().addAll(new Label(String.format("Weet u zeker dat u deze %s wil verwijderen?", type)), hbox);
         return vbox;
     }
 

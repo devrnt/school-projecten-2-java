@@ -126,7 +126,7 @@ public class BeheerGroepenPanelController extends AnchorPane implements Observer
                     children.add(topNode);
                 }
             } else {
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "groep");
                 builder.addObserver(this);
                 children.add(builder.buildConfirmation());
             }

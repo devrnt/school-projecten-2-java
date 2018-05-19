@@ -62,6 +62,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
 
     private ObservableList<Groepsbewerking> groepsbewerkingen;
     private ObservableList<Node> children;
+    private ConfirmationBuilder confirmationBuilder;
 
     public BeheerGroepsbewerkingenController(GroepsbewerkingController groepsbewerkingController) {
         this.groepsbewerkingController = groepsbewerkingController;
@@ -128,17 +129,24 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
         });
 
         this.addEventFilter(DeleteEvent.DELETE, event -> {
-            boolean zitGroepsbewInOef = groepsbewerkingController.zitGroepsbewerkingInOefening(event.getId());
-            String groepsBewOmschrijving = groepsbewerkingController.getGroepsbewerking(event.getId()).getOmschrijving();
-            if (zitGroepsbewInOef) {
-                ((DetailsGroepsbewerkingController) children.get(0)).toggleButton();
-                Node topNode = children.get(0);
-                children.set(0, new NotificatiePanelController(String.format("De bewerking zit nog in een oefening", YouTiels.cutSentence(groepsBewOmschrijving)), Kleuren.GEEL));
-                children.add(topNode);
+            boolean inOef = groepsbewerkingController.zitGroepsbewerkingInOefening(event.getId());
+            String omschrijving = groepsbewerkingController.getGroepsbewerking(event.getId()).getOmschrijving();
+            if (inOef) {
+                int size = children.size();
+                children.get(size - 1).setDisable(false);
+                if (size == 1) {
+                    Node topNode = children.get(0);
+                    children.set(0, new NotificatiePanelController(String.format("Groepsbewerking %s kan niet verwijderd worden."
+                            + "%nReden: Zit nog in een Oefening", YouTiels.cutSentence(omschrijving)), Kleuren.ROOD));
+                    children.add(topNode);
+                }
             } else {
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
-                builder.addObserver(this);
-                children.add(builder.buildConfirmation());
+                if (children.size() == 2) {
+                    children.remove(0);
+                }
+                confirmationBuilder = new ConfirmationBuilder(event.getId(), "groepsbewerking");
+                confirmationBuilder.addObserver(this);
+                children.add(confirmationBuilder.buildConfirmation());
             }
         });
 
@@ -180,8 +188,8 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
 
     @Override
     public void update(Observable o, Object arg) {
-        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
-        int id = ((ConfirmationBuilder) o).getId();
+        boolean confirmed = confirmationBuilder.isConfirmed();
+        int id = confirmationBuilder.getId();
         if (confirmed) {
             String groepsbewOmschr = groepsbewerkingController.getGroepsbewerking(id).getOmschrijving();
             groepsbewerkingController.deleteGroepsbewerking(id);
@@ -189,7 +197,7 @@ public class BeheerGroepsbewerkingenController extends AnchorPane implements Obs
             children.add(new NotificatiePanelController(String.format("Groepsbewerking %s is verwijderd", YouTiels.cutSentence(groepsbewOmschr)), Kleuren.GROEN));
         } else {
             children.remove(children.size() - 1);
-            ((DetailsGroepsbewerkingController) children.get(children.size() - 1)).toggleButton();
+            children.get(children.size() - 1).setDisable(false);
         }
     }
 

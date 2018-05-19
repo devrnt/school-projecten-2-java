@@ -69,13 +69,14 @@ public class DetailsGroepsbewerkingController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
+        this.setDisable(true);
         Event deleteEvent = new DeleteEvent(groepsbewerking.getId());
         this.fireEvent(deleteEvent);
     }
 
-    public void toggleButton() {
-        System.out.println(verwijderBtn.isVisible());
-        verwijderBtn.setVisible(!verwijderBtn.isVisible());
-    }
+//    public void toggleButton() {
+//        System.out.println(verwijderBtn.isVisible());
+//        verwijderBtn.setVisible(!verwijderBtn.isVisible());
+//    }
 
 }

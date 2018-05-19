@@ -121,17 +121,15 @@ public class BeheerOefeningenController extends AnchorPane implements Observer {
             if (inBox) {
                 int size = children.size();
                 children.get(size - 1).setDisable(false);
-                if (size == 1) {
-                    Node topNode = children.get(0);
-                    children.set(0, new NotificatiePanelController(String.format("Oefening met opgave %s kan niet verwijderd worden."
-                            + "%nReden: Zit nog in een BreakoutBox", YouTiels.cutSentence(opgaveNaam)), Kleuren.ROOD));
-                    children.add(topNode);
-                }
+                Node topNode = children.remove(size - 1);
+                children.set(0, new NotificatiePanelController(String.format("Oefening %s kan niet verwijderd worden."
+                        + "%nReden: Zit nog in een BreakoutBox", YouTiels.cutSentence(opgaveNaam)), Kleuren.ROOD));
+                children.add(topNode);
             } else {
                 if (children.size() == 2) {
                     children.remove(0);
                 }
-                confirmationBuilder = new ConfirmationBuilder(event.getId());
+                confirmationBuilder = new ConfirmationBuilder(event.getId(), "oefening");
                 confirmationBuilder.addObserver(this);
                 children.add(confirmationBuilder.buildConfirmation());
             }

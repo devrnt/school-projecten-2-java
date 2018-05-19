@@ -249,7 +249,7 @@ public class BeheerKlassenController extends AnchorPane implements Observer {
             int x = event.getId();
             boolean y = klasController.zitKlasInSessie(x);
             if (!y) {
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "klas");
                 builder.addObserver(this);
                 children.add(builder.buildConfirmation());
             }

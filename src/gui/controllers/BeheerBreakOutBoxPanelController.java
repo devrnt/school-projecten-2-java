@@ -94,7 +94,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane implements Obse
                 children.set(0, new NotificatiePanelController(String.format("BreakoutBox zit nog in een Sessie", boxNaam), Kleuren.ROOD));
                 children.add(topNode);
             } else {
-                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "breakoutbox");
                 builder.addObserver(this);
                 children.add(builder.buildConfirmation());
 

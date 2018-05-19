@@ -94,10 +94,13 @@ menuItems:       #3F3F3F
 .btn {
     -fx-text-fill: white;
     -fx-font-size: 1.1em;
-    -fx-padding: 7px 10px;
+    -fx-padding: 10px 15px;
     -fx-cursor: hand;
     -fx-pref-height: 40px;
     -fx-pref-width: 120px;
+    -fx-border-insets: 3px 5px;
+    -fx-background-insets: 3px 5px;
+
 }
 
 .btn:hover {
@@ -106,19 +109,19 @@ menuItems:       #3F3F3F
 }
 
 .btn-small {
-    -fx-padding: 0px 0px;
+    -fx-padding: 3px 5px;
     -fx-pref-height: 15px;
     -fx-pref-width: 80px;
 }
 
 .btn-medium {
-    -fx-padding: 5px 5px;
+    -fx-padding: 8px 10px;
     -fx-pref-height: 35px;
     -fx-pref-width: 100px;
 }
 
 .btn-square {    
-    -fx-padding: 5px 7px;
+    -fx-padding: 8px 12px;
     -fx-pref-height: 20px;
     -fx-pref-width: 20px;
 }
@@ -142,7 +145,6 @@ menuItems:       #3F3F3F
     -fx-background-color: #F4F5F7;
     -fx-text-fill: #333333;
     -fx-border-color: #cccccc;
-    -fx-margin: 10px;
 }
 
 .btn-default:hover {
@@ -153,7 +155,7 @@ menuItems:       #3F3F3F
     -fx-background-color: #0747a6;
     -fx-pref-height: INHERIT;
     -fx-pref-width: INHERIT;
-    -fx-padding: 3px 5px;
+    -fx-padding: 6px 10px;
 }
 
 
