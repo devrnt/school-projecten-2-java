@@ -192,6 +192,11 @@ public class PopulateDB {
         Sessie sessie2 = new Sessie("sessie_" + klas1.getNaam() + "_2", "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()), klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
         Sessie sessie3 = new Sessie("sessie_" + klas2.getNaam(), "Sessie voor klas " + klas2.getNaam() + " op " + sdf.format(c.getTime()), klas2, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
         Sessie sessie4 = new Sessie("sessie_" + klas2.getNaam() + "_2", "Sessie voor klas " + klas2.getNaam() + " op " + sdf.format(c.getTime()), klas1, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
+        sessie1.genereerRandomGroepen(2);
+        sessie2.genereerRandomGroepen(2);
+        sessie3.genereerRandomGroepen(2);
+        sessie4.genereerRandomGroepen(2);
+        
         sessieRepo.insert(sessie1);
         sessieRepo.insert(sessie2);
         sessieRepo.insert(sessie3);

@@ -4,8 +4,10 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -161,27 +163,32 @@ public final class SessieBeheer implements Observer {
         Sessie ses = sessieRepo.get(id);
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(dest));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));        
         document.open();
-
+//intro + foto
+        PdfContentByte canvas = writer.getDirectContentUnder();
+        Image image = Image.getInstance("src/main/iconBlue128x128.png");
+        image.setAbsolutePosition(440, 640);
+        canvas.addImage(image);
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph(ses.getNaam() + "- samenvatting", new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD)));
+        preface.add(new Paragraph(ses.getNaam() + " - samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
         //addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD)));
+        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.COURIER, 8)));
         addEmptyLine(preface, 3);
         document.add(preface);
 
         Paragraph info = new Paragraph();
-        document.add(new Paragraph("Omschrijving: "));
-        document.add(addInfoParagraph(ses.getOmschrijving()));
-        document.add(new Paragraph("Klas: "));
-        document.add(addInfoParagraph(ses.getKlas().getNaam()));
-        document.add(new Paragraph("BreakOutBox: "));
-        document.add(addInfoParagraph(ses.getBoxNaam()));
-        document.add(new Paragraph("Sessiecode: "));
-        document.add(addInfoParagraph(ses.getSessieCode()));
-        document.add(new Paragraph("FoutAnrwoord: "));
-        document.add(addInfoParagraph(ses.getFoutAntwoordActie().name()));
+        document.add(new Paragraph("Omschrijving:            " + ses.getOmschrijving()));
+        //document.add(addInfoParagraph(ses.getOmschrijving()));
+        document.add(new Paragraph("Klas:                          " + ses.getKlas().getNaam()));
+        //document.add(addInfoParagraph(ses.getKlas().getNaam()));
+        document.add(new Paragraph("BreakOutBox:            " + ses.getBoxNaam()));
+        //document.add(addInfoParagraph(ses.getBoxNaam()));
+        document.add(new Paragraph("Sessiecode:              " + ses.getSessieCode()));
+        //document.add(addInfoParagraph(ses.getSessieCode()));
+        document.add(new Paragraph("FoutAnrwoord:           " + ses.getFoutAntwoordActie().name()));
+        //document.add(addInfoParagraph(ses.getFoutAntwoordActie().name()));
         document.add(new Paragraph(" "));
         Paragraph groepen = new Paragraph();
         for (Groep groep : ses.getGroepen()) {
@@ -193,7 +200,7 @@ public final class SessieBeheer implements Observer {
             String oefOpl = "";
             int a = 1;
             for (Opdracht opdracht : pad.getOpdrachten()) {
-                oefOpl += a + ". " + opdracht.getOefening().getAntwoord() + " | ";
+                oefOpl += a + ". " + opdracht.getOefening().getOpgaveNaam()+ " = " + opdracht.getOefening().getAntwoord() + " | ";
                 a++;
             }
             oefOpl = oefOpl.substring(0, oefOpl.length() - 2);
