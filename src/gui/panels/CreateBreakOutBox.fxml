@@ -48,7 +48,7 @@
                   </Label>
             <Label fx:id="naamFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="naamTxt" maxWidth="359.0" prefHeight="28.0" prefWidth="359.0" promptText="Typ hier de naam in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="omschrijvingTxt" prefHeight="28.0" prefWidth="210.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="omschrijvingTxt" prefHeight="35.0" prefWidth="300.0" promptText="Typ hier de omschrijving in..." styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="omschrijvingFoutLbl" textFill="#ff6d6d" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <VBox GridPane.columnSpan="2" GridPane.rowIndex="6">
                     <children>
@@ -87,7 +87,7 @@
                         <String fx:value="btn-success" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="annuleerBtn" mnemonicParsing="false" text="ANNULEER">
+                  <Button fx:id="annuleerBtn" mnemonicParsing="false" prefHeight="45.0" prefWidth="110.0" text="ANNULEER">
                      <styleClass>
                         <String fx:value="btn" />
                         <String fx:value="btn-medium" />
@@ -100,19 +100,19 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="soortOnderwijsChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="soortOnderwijsChoiceBox" prefHeight="30.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="titelLabel" styleClass="title" text="Label" GridPane.columnSpan="2" />
             <GridPane GridPane.columnSpan="2" GridPane.rowIndex="6">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="168.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="334.0" minWidth="10.0" prefWidth="302.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="118.66668701171875" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="353.33331298828125" minWidth="10.0" prefWidth="351.33331298828125" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="40.0" prefWidth="99.0">
                      <children>
                               <Label text="Oefeningen:">
                                   <font>
@@ -122,10 +122,10 @@
                         <Label fx:id="oefeningenFoutLbl" textFill="#ff6d6d" />
                      </children>
                   </VBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <ChoiceBox fx:id="oefeningenChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="10000.0" />
-                        <Button fx:id="addOefeningButton" mnemonicParsing="false" onAction="#addOefening" prefHeight="20.0" prefWidth="30.0">
+                        <ChoiceBox fx:id="oefeningenChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="313.0" />
+                        <Button fx:id="addOefeningButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addOefening" prefHeight="20.0" prefWidth="30.0">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
@@ -146,7 +146,7 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <children>
-                        <ListView fx:id="oefeningenListView" maxWidth="-Infinity" prefHeight="92.0" prefWidth="262.0" />
+                        <ListView fx:id="oefeningenListView" maxWidth="-Infinity" prefHeight="83.0" prefWidth="307.0" />
                         <Button fx:id="delOefeningButton" mnemonicParsing="false" onAction="#delOefening">
                            <HBox.margin>
                               <Insets left="5.0" />
@@ -170,8 +170,8 @@
             </GridPane>
             <GridPane GridPane.columnSpan="2" GridPane.rowIndex="7">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="168.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="334.0" minWidth="10.0" prefWidth="302.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="119.99996948242188" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.3333435058594" minWidth="10.0" prefWidth="350.0000305175781" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -188,9 +188,9 @@
                         <Label fx:id="actiesFoutLbl" textFill="#ff6d6d" />
                      </children>
                   </VBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="329.0" GridPane.columnIndex="1">
                      <children>
-                        <ChoiceBox fx:id="actieChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="10000.0" />
+                        <ChoiceBox fx:id="actieChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="312.0" />
                         <Button fx:id="addActieButton" mnemonicParsing="false" onAction="#addActie" prefHeight="20.0" prefWidth="30.0">
                            <HBox.margin>
                               <Insets left="5.0" />
@@ -212,7 +212,7 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <children>
-                        <ListView fx:id="actiesListView" maxWidth="-Infinity" prefHeight="92.0" prefWidth="262.0" />
+                        <ListView fx:id="actiesListView" maxWidth="-Infinity" prefHeight="106.0" prefWidth="307.0" />
                         <Button fx:id="delActieButton" mnemonicParsing="false" onAction="#delActie">
                            <HBox.margin>
                               <Insets left="5.0" />
