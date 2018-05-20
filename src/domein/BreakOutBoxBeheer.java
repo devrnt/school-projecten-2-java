@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -173,7 +174,7 @@ public final class BreakOutBoxBeheer implements Observer {
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(box.getNaam() + " samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.COURIER, 8)));
+        preface.add(new Paragraph("Samenvatting gemaakt op: " + new SimpleDateFormat("HH:mm yyyy-MM-dd").format(new Date()), new Font(Font.FontFamily.COURIER, 8)));
         addEmptyLine(preface, 4);
         document.add(preface);
 
@@ -189,7 +190,9 @@ public final class BreakOutBoxBeheer implements Observer {
         addEmptyLine(info, 1);
         info.add(new Paragraph("Omschrijving:   " + box.getOmschrijving()));
         addEmptyLine(info, 1);
-        info.add(new Paragraph("Doelstellinen:   " + box.getDoelstellingen().toString().substring(1, box.getDoelstellingen().toString().length() - 1)));
+        info.add(new Paragraph("Doelstellingen:   " + box.getDoelstellingen().toString().substring(1, box.getDoelstellingen().toString().length() - 1)));
+        addEmptyLine(info, 2);
+        info.add(new Paragraph("Hieronder volgt een tabel met een overzicht van alle oefeningen en acties" ));
         addEmptyLine(info, 2);
         document.add(info);
 
@@ -201,11 +204,11 @@ public final class BreakOutBoxBeheer implements Observer {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Antwoord"));
+        c1 = new PdfPCell(new Phrase("Bijhorende antwoord"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Doelstelling"));
+        c1 = new PdfPCell(new Phrase("Doelstelling oefening"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -228,12 +231,13 @@ public final class BreakOutBoxBeheer implements Observer {
             if (box.getActies().size() - 1 >= i) {
                 table.addCell(box.getActies().get(i).getOmschrijving());
             } else {
-                table.addCell("SCHATKIST");
+                table.addCell("");
             }
         }
         document.add(table);
-
-        //Overzicht vervolg Pdf
+        
+//Dit valt weg omdat dit enkel kan met iText versie 7 (betalend)
+/*        //Overzicht vervolg Pdf
         Paragraph inhoudstabel = new Paragraph();
         addEmptyLine(inhoudstabel, 2);
         inhoudstabel.add(new Paragraph("In de volgende bladzijden worden de oefeningen chronologisch afgelopen. "));
@@ -259,7 +263,7 @@ public final class BreakOutBoxBeheer implements Observer {
         for (int i = 2; i < (size * 3); i++) {
 
         }
-        document.add(inhoudstabel);
+        document.add(inhoudstabel);  */
         document.close();
     }
 

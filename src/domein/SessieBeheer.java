@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -174,7 +175,7 @@ public final class SessieBeheer implements Observer {
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(ses.getNaam() + " - samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
         //addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Samenvatting gemaakt op: " + new Date(), new Font(Font.FontFamily.COURIER, 8)));
+        preface.add(new Paragraph("Samenvatting gemaakt op: " + new SimpleDateFormat("HH:mm yyyy-MM-dd").format(new Date()), new Font(Font.FontFamily.COURIER, 8)));
         addEmptyLine(preface, 3);
         document.add(preface);
 
@@ -185,9 +186,9 @@ public final class SessieBeheer implements Observer {
         //document.add(addInfoParagraph(ses.getKlas().getNaam()));
         document.add(new Paragraph("BreakOutBox:            " + ses.getBoxNaam()));
         //document.add(addInfoParagraph(ses.getBoxNaam()));
-        document.add(new Paragraph("Sessiecode:              " + ses.getSessieCode()));
+        document.add(new Paragraph("Sessie code:              " + ses.getSessieCode()));
         //document.add(addInfoParagraph(ses.getSessieCode()));
-        document.add(new Paragraph("FoutAnrwoord:           " + ses.getFoutAntwoordActie().name()));
+        document.add(new Paragraph("Foute antwoord:         " + ses.getFoutAntwoordActie().name()));
         //document.add(addInfoParagraph(ses.getFoutAntwoordActie().name()));
         document.add(new Paragraph(" "));
         Paragraph groepen = new Paragraph();
