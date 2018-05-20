@@ -82,7 +82,7 @@ public final class SessieBeheer implements Observer {
     }
 
     public ObservableList<Sessie> getAllSessies() {
-        Comparator<Sessie> comparatorIgnoreCase = (a,b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        Comparator<Sessie> comparatorIgnoreCase = (a, b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
         return gefilterdeSessieLijst.sorted(comparatorIgnoreCase);
     }
 
@@ -164,7 +164,7 @@ public final class SessieBeheer implements Observer {
         Sessie ses = sessieRepo.get(id);
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(dest));
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));        
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
         document.open();
 //intro + foto
         PdfContentByte canvas = writer.getDirectContentUnder();
@@ -201,7 +201,7 @@ public final class SessieBeheer implements Observer {
             String oefOpl = "";
             int a = 1;
             for (Opdracht opdracht : pad.getOpdrachten()) {
-                oefOpl += a + ". " + opdracht.getOefening().getOpgaveNaam()+ " = " + opdracht.getOefening().getAntwoord() + " | ";
+                oefOpl += a + ". " + opdracht.getOefening().getOpgaveNaam() + " = " + opdracht.getOefening().getAntwoord() + " | ";
                 a++;
             }
             oefOpl = oefOpl.substring(0, oefOpl.length() - 2);
@@ -218,6 +218,16 @@ public final class SessieBeheer implements Observer {
                 groepen.add(new Paragraph("Acties & Oplossingen: "));
                 groepen.add(new Paragraph(actOpl));
                 addEmptyLine(groepen, 1);
+                groepen.add(new Paragraph(String.format("Leerlingen uit groep '%s':", groep.getNaam())));
+                StringBuilder build = new StringBuilder();
+                groep.getLeerlingen().forEach(lln -> {
+                    int length = groep.getLeerlingen().size();
+                    build.append(lln.getVolledigeNaam());
+                    if (lln != groep.getLeerlingen().get(length - 1)) {
+                        build.append(", ");
+                    }
+                });
+                groepen.add(new Paragraph(build.toString()));
             }
 
         }
