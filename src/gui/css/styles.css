@@ -94,10 +94,10 @@ menuItems:       #3F3F3F
 .btn {
     -fx-text-fill: white;
     -fx-font-size: 1.1em;
-    -fx-padding: 10px 15px;
+    -fx-padding: 8px 15px;
     -fx-cursor: hand;
-    -fx-pref-height: 40px;
-    -fx-pref-width: 120px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 125px;
     -fx-border-insets: 3px 5px;
     -fx-background-insets: 3px 5px;
 
