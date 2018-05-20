@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -80,5 +81,11 @@ public final class KlasBeheer implements Observer {
         }
         klasRepo.delete(klas);
     }
-
+ public Klas getMeestRecenteKlas(){
+        return klasRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Klas::getId).reversed())
+                .collect(Collectors.toList())
+                .get(0);
+    }
 }

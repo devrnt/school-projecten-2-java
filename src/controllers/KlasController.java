@@ -100,4 +100,7 @@ public final class KlasController {
         SessieBeheer sb = new SessieBeheer();
         return sb.zitKlasInSessie(id);
     }
+    public Klas getMeestRecenteKlas(){
+        return klasBeheer.getMeestRecenteKlas();
+    }
 }

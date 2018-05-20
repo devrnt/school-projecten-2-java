@@ -125,22 +125,17 @@ public class CreateKlasController extends AnchorPane {
     @FXML
     private void klasAanmakenBtnClicked(ActionEvent event) {
         klasController.createKlas(klasNaamTxt.getText(), tempList);
+        klasController.getMeestRecenteKlas().getId();
         AlertCS sessieSuccesvolGewijzigd = new AlertCS(Alert.AlertType.INFORMATION);
-        sessieSuccesvolGewijzigd.setTitle("Sessie");
-        sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een klas");
-        sessieSuccesvolGewijzigd.setContentText("Klas " + klasNaamTxt.getText() + " is succesvol aangemaakt");
-        sessieSuccesvolGewijzigd.showAndWait();
-        Event detailsEvent = new DetailsEvent(-1);
-        this.fireEvent(detailsEvent);
+        Event beheerEvent = new DetailsEvent(        klasController.getMeestRecenteKlas().getId());
+        this.fireEvent(beheerEvent);
 
     }
 
     @FXML
     private void annuleerBtnClicked(ActionEvent event) {
-        Stage stage = (Stage) annuleerBtn.getScene().getWindow();
-        stage.setScene(new Scene(new BeheerKlassenController(new KlasController())));
-        stage.setTitle("Beheer klassen");
-        stage.show();
+  Event annuleerEvent = new AnnuleerEvent(-1);
+        this.fireEvent(annuleerEvent);
     }
 
     @FXML
