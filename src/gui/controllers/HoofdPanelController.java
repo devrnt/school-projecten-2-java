@@ -1,6 +1,9 @@
 package gui.controllers;
 
+import controllers.ActieController;
 import controllers.BoxController;
+import controllers.GroepController;
+import controllers.GroepsbewerkingController;
 import controllers.KlasController;
 import controllers.OefeningController;
 import controllers.SessieController;
@@ -26,7 +29,7 @@ public class HoofdPanelController extends AnchorPane {
     private StackPane beheerStackPane;
 
     public HoofdPanelController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/HoofdPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/HoofdPanel.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -47,7 +50,10 @@ public class HoofdPanelController extends AnchorPane {
             new BeheerOefeningenController(new OefeningController()),
             new BeheerBreakOutBoxPanelController(new BoxController()),
             new BeheerSessiesController(new SessieController()),
-            new BeheerKlassenController(new KlasController())
+            new BeheerKlassenController(new KlasController()),
+//            new BeheerGroepenPanelController(new GroepController()),
+            new BeheerActiesController(new ActieController()),
+            new BeheerGroepsbewerkingenController(new GroepsbewerkingController())
         };
 
         // zet alle beheercomponents op onzichtbaar

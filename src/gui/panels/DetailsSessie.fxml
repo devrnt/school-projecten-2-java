@@ -12,12 +12,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root id="AnchorPane" prefHeight="567.0" prefWidth="610.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="660.0" prefWidth="535.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <GridPane prefHeight="567.0" prefWidth="610.0">
+      <GridPane prefHeight="660.0" prefWidth="535.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints />
@@ -47,14 +48,15 @@
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="306.3333740234375" />
                   </columnConstraints>
                   <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="39.3333740234375" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
                       <Label text="Naam:" GridPane.columnIndex="1">
@@ -180,16 +182,38 @@
                         <Image url="@../../assets/icons/details/keysIcon.png" />
                      </image>
                   </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                     <children>
+                        <Label fx:id="kopieerLabel" style="-fx-text-fill: #28BB66;" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="kopieerBtn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#kopieerBtnClicked" prefHeight="40.0" prefWidth="41.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
+                           <image>
+                              <Image url="@../../assets/icons/details/copyIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-accent" />
+                        <String fx:value="btn-square" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets right="25.0" />
+                     </GridPane.margin>
+                  </Button>
                   </children>
                <padding>
                   <Insets left="15.0" right="15.0" />
                </padding>
               </GridPane>
-              <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="580.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+              <HBox alignment="TOP_CENTER" prefHeight="56.0" prefWidth="580.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                   <children>
-                      <Button fx:id="verwijderBtn" mnemonicParsing="false" onAction="#verwijderBtnClicked" prefHeight="40.0" prefWidth="130.0" text="VERWIJDER">
+                      <Button fx:id="verwijderBtn" alignment="CENTER" mnemonicParsing="false" onAction="#verwijderBtnClicked" prefHeight="40.0" prefWidth="130.0" text="VERWIJDER">
                           <HBox.margin>
-                              <Insets left="82.0" />
+                              <Insets right="20.0" />
                           </HBox.margin>
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0">
@@ -203,6 +227,22 @@
                         <String fx:value="btn" />
                      </styleClass>
                       </Button>
+                  <Button fx:id="samenvattingButton" alignment="CENTER" mnemonicParsing="false" onAction="#samenvattingBtnClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #0747a6;" text="PDF">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0">
+                           <image>
+                              <Image url="@../../assets/icons/seconIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-accent" />
+                     </styleClass>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
                   </children>
               </HBox>
          </children>

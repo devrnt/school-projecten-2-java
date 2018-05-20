@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<fx:root id="AnchorPane" prefHeight="660.0" prefWidth="429.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane layoutX="-4.0" layoutY="-2.0" prefHeight="427.0" prefWidth="480.0" vgap="5.0" AnchorPane.topAnchor="90.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666259765625" minWidth="10.0" prefWidth="137.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="10.0" prefWidth="244.33331298828125" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.3333435058594" minWidth="0.0" prefWidth="59.66668701171875" />
+                <ColumnConstraints />
+            <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="204.66665649414062" minHeight="10.0" prefHeight="142.0" />
+            <RowConstraints maxHeight="204.66665649414062" minHeight="10.0" prefHeight="22.333343505859375" />
+            <RowConstraints maxHeight="161.0" minHeight="6.0000152587890625" prefHeight="106.33334350585938" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="161.0" minHeight="2.000030517578125" prefHeight="17.666656494140625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="161.0" minHeight="10.0" prefHeight="113.33334350585938" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Omschrijving:" GridPane.valignment="TOP">
+                    <font>
+                        <Font name="Arial Bold" size="14.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="omschrijvingInput" minHeight="100.0" prefHeight="100.0" prefWidth="100.0" promptText="Typ hier uw actie" wrapText="true" GridPane.columnIndex="1" />
+                <Label fx:id="omschrijvingFout" textFill="RED" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+            <Label layoutX="30.0" layoutY="20.0" text="Factor:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="factorFout" layoutX="166.0" layoutY="253.0" textFill="RED" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="factorInput" promptText="Typ hier uw factor" styleClass="text-fld" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="operatorCBX" prefHeight="30.0" prefWidth="255.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label layoutX="30.0" layoutY="222.0" text="Operator:" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            </children>
+            <padding>
+                <Insets left="20.0" right="20.0" top="10.0" />
+            </padding>
+        </GridPane>
+        <HBox alignment="TOP_CENTER" layoutY="524.0" prefHeight="140.0" prefWidth="476.0">
+            <children>
+                <Button fx:id="bevestigButton" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG">
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-medium" />
+                  <String fx:value="btn-success" />
+               </styleClass>
+                </Button>
+                <Button fx:id="annuleerButton" mnemonicParsing="false" onAction="#annuleerButtonClicked" text="Annuleer">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-medium" />
+                  <String fx:value="btn-default" />
+               </styleClass></Button>
+            </children>
+        </HBox>
+    </children>
+</fx:root>

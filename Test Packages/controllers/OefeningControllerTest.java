@@ -55,7 +55,7 @@ public class OefeningControllerTest {
                 new ArrayList<>(
                         Arrays.asList(
                                 new Groepsbewerking[]{
-                                    new Groepsbewerking("gbw1", 0, OperatorEnum.optellen),
+                                    new Groepsbewerking("gbw1", 1, OperatorEnum.optellen),
                                     new Groepsbewerking("gbw2", 1, OperatorEnum.aftrekken)
 
                                 }
@@ -139,7 +139,7 @@ public class OefeningControllerTest {
 
     @Test
     public void applyFilter_WithWhiteSpaceReturnsMatches() {
-        controller.applyFilter("opgave 1");
+        controller.applyFilter("     opgave1    ");
         Assert.assertEquals(1, controller.getOefeningen().size());
     }
 //</editor-fold>

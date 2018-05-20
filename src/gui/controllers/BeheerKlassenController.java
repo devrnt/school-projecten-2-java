@@ -6,19 +6,20 @@
 package gui.controllers;
 
 import controllers.KlasController;
-import controllers.SessieController;
 import domein.Klas;
+import domein.Kleuren;
 import domein.Leerling;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
-import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -28,7 +29,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,13 +47,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
  *
  * @author devri
  */
-public class BeheerKlassenController extends AnchorPane {
+public class BeheerKlassenController extends AnchorPane implements Observer {
 
     @FXML
     private AnchorPane AnchorPane;
@@ -73,21 +74,19 @@ public class BeheerKlassenController extends AnchorPane {
     private Button nieuweKlasBtn;
     @FXML
     private StackPane detailsStackPane;
-    
 
     private FileChooser fileChooser;
 
     private ObservableList<Klas> klassen;
 
     private KlasController klasController;
-    
-    private ObservableList<Node> children;
 
+    private ObservableList<Node> children;
 
     public BeheerKlassenController(KlasController klasController) {
         this.klasController = klasController;
         klassen = klasController.getAllKlassen();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerKlassen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerKlassen.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -132,7 +131,7 @@ public class BeheerKlassenController extends AnchorPane {
         klassenTbl.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 children.clear();
-                children.add(new DetailsKlasController(newval));
+                children.add(new DetailsKlasController(newval, klasController));
             }
         });
 //        keerTerugBtn.setOnAction(event -> terugNaarMenu());
@@ -194,7 +193,7 @@ public class BeheerKlassenController extends AnchorPane {
                             klas.voegLeerlingToe(leerling);
 
                         } catch (IllegalArgumentException e) {
-                            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+                            AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
                             invalidInput.setTitle("Leerling bestaat al");
                             invalidInput.setHeaderText("De leerling " + leerling.getVolledigeNaam() + " bestaat reeds");
                             invalidInput.setContentText("Deze leerling werd niet toegevoegd");
@@ -208,10 +207,10 @@ public class BeheerKlassenController extends AnchorPane {
             try {
                 klasController.createKlas(klas.getNaam(), klas.getLeerlingen().stream().collect(Collectors.toList()));
             } catch (IllegalArgumentException e) {
-                Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+                AlertCS invalidInput = new AlertCS(Alert.AlertType.ERROR);
                 invalidInput.setTitle("Klas lezen");
                 invalidInput.setHeaderText("De klas " + klas.getNaam() + " bestaat reeds");
-                invalidInput.setContentText("Deze klas werd niet toegevoegd");
+                invalidInput.setContentText("De klas werd niet toegevoegd");
                 invalidInput.showAndWait();
             }
         }
@@ -221,27 +220,16 @@ public class BeheerKlassenController extends AnchorPane {
 
     @FXML
     private void dubbelKlik(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-            int klasId = klassenTbl.getSelectionModel().getSelectedItem().getId();
-            Scene scene = new Scene(new OverzichtLeerlingenInKlasController(klasController, klasId));
-            Stage stage = new Stage();
-            stage.setTitle("Bekijk leerlingen");
-            stage.setScene(scene);
-            stage.show();
-        }
+
     }
+
     @FXML
-    private void nieuweKlasBtnClicked(ActionEvent event){
-//        Scene scene = new Scene(new CreateKlasController(klasController));
-//        Stage stage = (Stage) nieuweKlasBtn.getScene().getWindow();
-//        stage.setScene(scene);
-//        stage.setTitle("Wijzig BreakOutBox");
-//        stage.show();
+    private void nieuweKlasBtnClicked(ActionEvent event) {
         detailsStackPane.getChildren().clear();
         detailsStackPane.getChildren().add(new CreateKlasController(klasController));
 
     }
-    
+
     // <editor-fold desc="=== Hulp methodes ===" >
     private boolean isCellLeeg(Cell cell) {
         if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
@@ -249,33 +237,41 @@ public class BeheerKlassenController extends AnchorPane {
         }
         return cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty();
     }
-     private void voegEventHandlersToe() {
-       
+
+    private void voegEventHandlersToe() {
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            children.clear();
-            klasController.deleteKlas(event.getId());
-            
+//            ConfirmationBuilder builder = new ConfirmationBuilder(event.getId());
+//            builder.addObserver(this);
+//            children.add(builder.buildConfirmation());
+//            children.clear();
+//            klasController.deleteKlas(event.getId());
+            int x = event.getId();
+            boolean y = klasController.zitKlasInSessie(x);
+            if (!y) {
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "klas");
+                builder.addObserver(this);
+                children.add(builder.buildConfirmation());
+            }
         });
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
             if (event.getId() < 0) {
                 int size = klasController.getAllKlassen().size();
-                children.add(new DetailsKlasController(klasController.getAllKlassen().get(size - 1)));
+                children.add(new DetailsKlasController(klasController.getAllKlassen().get(size - 1), klasController));
             } else {
-                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId()), klasController));
             }
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
             if (event.getId() >= 0) {
-                children.add(new DetailsKlasController(klasController.getKlas(event.getId())));
+                children.add(new DetailsKlasController(klasController.getKlas(event.getId()), klasController));
             }
         });
     }
-
 
 //    private void terugNaarMenu() {
 //        Scene scene = new Scene(new MenuPanelController());
@@ -285,4 +281,18 @@ public class BeheerKlassenController extends AnchorPane {
 //        stage.show();
 //    }
     // </editor-fold>
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String klasNaam = klasController.getKlas(id).getNaam();
+            klasController.deleteKlas(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Klas %s is verwijderd", klasNaam), Kleuren.GROEN));
+        } else {
+            children.remove(children.size() - 1);
+            ((DetailsKlasController) children.get(children.size() - 1)).toggleButton();
+        }
+    }
 }

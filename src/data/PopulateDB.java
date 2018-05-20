@@ -3,6 +3,7 @@ package data;
 import domein.Actie;
 import domein.BreakOutBox;
 import domein.FoutAntwoordActieEnum;
+import domein.Groep;
 import domein.Groepsbewerking;
 import domein.Klas;
 import domein.Leerling;
@@ -32,6 +33,7 @@ public class PopulateDB {
         GenericDao<BreakOutBox> boxRepo = new GenericDaoJpa<>(BreakOutBox.class);
         GenericDao<Actie> actieRepo = new GenericDaoJpa<>(Actie.class);
         GenericDao<Sessie> sessieRepo = new GenericDaoJpa<>(Sessie.class);
+        GenericDao<Groep> groepRepo = new GenericDaoJpa<>(Groep.class);
 
         /* === Data voor oefeningenbeheer === */
         Groepsbewerking groepsbewerking1 = new Groepsbewerking("Tel 2 op", 2, OperatorEnum.optellen);
@@ -45,69 +47,99 @@ public class PopulateDB {
 
         String pad = "/Users/sam/NetBeansProjects/java-g16/src/data/";
 
-        Oefening oefening1 = new Oefening(
-                pad + "rekensommen.pdf",
-                400,
-                pad + "feedbackRekenen.pdf",
-                "Hoofdrekenen",
-                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105"})),
-                groepbwRepo.findAll());
-        Oefening oefening11 = new Oefening(
-                pad + "rekensommen.pdf",
-                400,
-                pad + "feedbackRekenen.pdf",
-                "Hoofdrekenen",
-                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "c106"})),
-                groepbwRepo.findAll());
-        Oefening oefening12 = new Oefening(
-                pad + "rekensommen.pdf",
-                400,
-                pad + "feedbackRekenen.pdf",
-                "Hoofdrekenen",
-                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "C107"})),
-                groepbwRepo.findAll());
-        Oefening oefening13 = new Oefening(
-                pad + "rekensommen.pdf",
-                400,
-                pad + "feedbackRekenen.pdf",
-                "Hoofdrekenen",
-                new ArrayList<String>(Arrays.asList(new String[]{"D203", "C105", "C108"})),
-                groepbwRepo.findAll());
-        Oefening oefening2 = new Oefening(
-                pad + "pythagoras.pdf",
-                25,
-                pad + "feedbackMeetkunde.pdf",
-                "Meetkunde",
-                new ArrayList<String>(Arrays.asList(new String[]{"D202", "C106"})),
-                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)})));
-        Oefening oefening3 = new Oefening(
-                pad + "staartdeling.pdf",
-                140,
-                pad + "feedbackCijferen.pdf",
-                "Cijferen",
-                new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
-                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)})));
-        /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
-        Oefening oefening4 = new Oefening(
-                pad + "problemen.pdf",
-                140,
-                pad + "feedbackVraagstukken.pdf",
-                "Vraagstukken",
-                new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
-                new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)})));
-        oefeningRepo.insert(oefening1);
-        oefeningRepo.insert(oefening2);
-        oefeningRepo.insert(oefening3);
-        oefeningRepo.insert(oefening4);
-        oefeningRepo.insert(oefening11);
-        oefeningRepo.insert(oefening12);
-        oefeningRepo.insert(oefening13);
+        List<Oefening> oefeningen = new ArrayList<>(Arrays.asList(new Oefening[]{
+            new Oefening(
+            pad + "rekensommenOptellen.pdf",
+            400,
+            pad + "feedbackRekenen.pdf",
+            "Hoofdrekenen",
+            new ArrayList<>(Arrays.asList(new String[]{"D203", "C105"})),
+            groepbwRepo.findAll()),
+            new Oefening(
+            pad + "rekensommenAftrekken.pdf",
+            201,
+            pad + "feedbackRekenen.pdf",
+            "Hoofdrekenen",
+            new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "A106"})),
+            groepbwRepo.findAll()),
+            new Oefening(
+            pad + "rekensommenDelen.pdf",
+            40,
+            pad + "feedbackRekenen.pdf",
+            "Hoofdrekenen",
+            new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "C107"})),
+            groepbwRepo.findAll()),
+            new Oefening(
+            pad + "rekensommenVermeningvuldigen.pdf",
+            101,
+            pad + "feedbackRekenen.pdf",
+            "Hoofdrekenen",
+            new ArrayList<>(Arrays.asList(new String[]{"D203", "C105", "C108"})),
+            groepbwRepo.findAll()),
+            new Oefening(
+            pad + "pythagoras.pdf",
+            29,
+            pad + "feedbackMeetkunde.pdf",
+            "Meetkunde",
+            new ArrayList<>(Arrays.asList(new String[]{"D202", "C106"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)}))),
+            new Oefening(
+            pad + "omtrekOppervlakte.pdf",
+            25,
+            pad + "feedbackMeetkunde.pdf",
+            "Meetkunde",
+            new ArrayList<>(Arrays.asList(new String[]{"D205", "C156"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4), groepbwRepo.get(2)}))),
+            new Oefening(
+            pad + "cirkels.pdf",
+            130,
+            pad + "feedbackMeetkunde.pdf",
+            "Meetkunde",
+            new ArrayList<>(Arrays.asList(new String[]{"B302", "C136"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)}))),
+            new Oefening(
+            pad + "staartdeling.pdf",
+            140,
+            pad + "feedbackCijferen.pdf",
+            "Cijferen",
+            new ArrayList<>(Arrays.asList(new String[]{"D102", "A402"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(3)}))),
+            new Oefening(
+            pad + "cijferenKommagetallen.pdf",
+            10,
+            pad + "feedbackCijferen.pdf",
+            "Cijferen",
+            new ArrayList<>(Arrays.asList(new String[]{"D152", "C502"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4)}))),
+            /* ==== NIET NAAR LINKEN IN BOB, MOET VERWIJDERD KUNNEN WORDEN ===== */
+            new Oefening(
+            pad + "problemen.pdf",
+            140,
+            pad + "feedbackVraagstukken.pdf",
+            "Vraagstukken",
+            new ArrayList<>(Arrays.asList(new String[]{"A256", "F304"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(3)}))),
+            new Oefening(
+            pad + "geldVraagstukken.pdf",
+            140,
+            pad + "feedbackVraagstukken.pdf",
+            "Vraagstukken",
+            new ArrayList<>(Arrays.asList(new String[]{"A256", "D324"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(4), groepbwRepo.get(2)}))),
+            new Oefening(
+            pad + "inhoudVraagstukken.pdf",
+            140,
+            pad + "feedbackVraagstukken.pdf",
+            "Vraagstukken",
+            new ArrayList<>(Arrays.asList(new String[]{"B706", "C204"})),
+            new ArrayList<>(Arrays.asList(new Groepsbewerking[]{groepbwRepo.get(1), groepbwRepo.get(2)}))),}));
 
-        /* === Data voor boxbeheer === */
- /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
-        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2}));
-        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening3}));
-        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefening1, oefening2, oefening3}));
+        oefeningen.forEach(o -> oefeningRepo.insert(o));
+
+        /* === Data voor boxbeheer === */ /* === #Oefeningen moet 1 meer zijn dan het #Acties === */
+        List<Oefening> oefeningen1 = new ArrayList<>(Arrays.asList(new Oefening[]{oefeningen.get(0), oefeningen.get(1)}));
+        List<Oefening> oefeningen2 = new ArrayList<>(Arrays.asList(new Oefening[]{oefeningen.get(0), oefeningen.get(2)}));
+        List<Oefening> oefeningen3 = new ArrayList<>(Arrays.asList(new Oefening[]{oefeningen.get(0), oefeningen.get(1), oefeningen.get(3)}));
         Actie actie1 = new Actie("actie1");
         Actie actie2 = new Actie("actie2");
         Actie actie3 = new Actie("actie3");
@@ -118,9 +150,9 @@ public class PopulateDB {
         List<Actie> acties1 = new ArrayList<>(Arrays.asList(new Actie[]{actie1}));
         List<Actie> acties2 = new ArrayList<>(Arrays.asList(new Actie[]{actie2}));
         List<Actie> acties3 = new ArrayList<>(Arrays.asList(new Actie[]{actie1, actie2}));
-        BreakOutBox box1 = new BreakOutBox("Box vermenigvuldigen en delen", "Vermenigvuldigen en delen", oefeningen1, acties1);
-        BreakOutBox box2 = new BreakOutBox("Box optellen en aftrekken", "Optellen en aftrekken", oefeningen2, acties2);
-        BreakOutBox box3 = new BreakOutBox("Box alle opdrachten", "Alle wiskunde met vragen over optellen en aftrekken, vermenigvuldigen en delen", oefeningen3, acties3);
+        BreakOutBox box1 = new BreakOutBox("Box vermenigvuldigen en delen", "Vermenigvuldigen en delen", SoortOnderwijsEnum.dagonderwijs, oefeningen1, acties1);
+        BreakOutBox box2 = new BreakOutBox("Box optellen en aftrekken", "Optellen en aftrekken", SoortOnderwijsEnum.dagonderwijs, oefeningen2, acties2);
+        BreakOutBox box3 = new BreakOutBox("Box alle opdrachten", "Alle wiskunde met vragen over optellen en aftrekken, vermenigvuldigen en delen", SoortOnderwijsEnum.dagonderwijs, oefeningen3, acties3);
         boxRepo.insert(box1);
         boxRepo.insert(box2);
         boxRepo.insert(box3);
@@ -156,19 +188,24 @@ public class PopulateDB {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+        Sessie sessie1 = new Sessie("sessie_" + klas1.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()), klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
+        Sessie sessie2 = new Sessie("sessie_" + klas1.getNaam() + "_2", "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()), klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
+        Sessie sessie3 = new Sessie("sessie_" + klas2.getNaam(), "Sessie voor klas " + klas2.getNaam() + " op " + sdf.format(c.getTime()), klas2, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
+        Sessie sessie4 = new Sessie("sessie_" + klas2.getNaam() + "_2", "Sessie voor klas " + klas2.getNaam() + " op " + sdf.format(c.getTime()), klas1, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, Boolean.FALSE, null);
+        sessie1.genereerRandomGroepen(2);
+        sessie2.genereerRandomGroepen(2);
+        sessie3.genereerRandomGroepen(2);
+        sessie4.genereerRandomGroepen(2);
+        
+        sessieRepo.insert(sessie1);
+        sessieRepo.insert(sessie2);
+        sessieRepo.insert(sessie3);
+        sessieRepo.insert(sessie4);
+        List<Groep> groepen = new ArrayList<>(Arrays.asList(new Groep[]{
+            new Groep("De Kampioenen", new ArrayList<>(Arrays.asList(llnKlas1))),
+            new Groep("De Pottestampers", new ArrayList<>(Arrays.asList(llnKlas2)))
+        }));
 
-        sessieRepo.insert(new Sessie(
-                "sessie_" + klas1.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
-                klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
-        sessieRepo.insert(new Sessie(
-                "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op 28/12",
-                klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
-         sessieRepo.insert(new Sessie(
-                    "sessie_" + klas2.getNaam(), "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
-                    klas1, box1, c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false));
-        sessieRepo.insert(new Sessie(
-                "sessie_" + 4, "Sessie voor klas " + klas1.getNaam() + " op " + sdf.format(c.getTime()),
-                klas2, box2, c.getTime(), SoortOnderwijsEnum.afstandsonderwijs, FoutAntwoordActieEnum.feedback, false));
-
+        groepen.forEach(g -> groepRepo.insert(g));
     }
 }

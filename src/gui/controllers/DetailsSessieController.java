@@ -5,11 +5,21 @@
  */
 package gui.controllers;
 
+import com.itextpdf.text.DocumentException;
+import controllers.SessieController;
 import domein.Sessie;
 import gui.events.DeleteEvent;
+import gui.events.DownloadEvent;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 /**
  * FXML Controller class
@@ -40,6 +51,10 @@ public class DetailsSessieController extends AnchorPane {
     @FXML
     private Button verwijderBtn;
     @FXML
+    private Button kopieerBtn;
+    @FXML
+    private Label kopieerLabel;
+    @FXML
     private Label onderwijsLabel;
     @FXML
     private Label reactieFoutAntw;
@@ -47,11 +62,12 @@ public class DetailsSessieController extends AnchorPane {
     private Label boxLabel;
 
     private Sessie sessie;
+    private SessieController controller;
 
-    public DetailsSessieController(Sessie sessie) {
+    public DetailsSessieController(Sessie sessie, SessieController controller) {
         this.sessie = sessie;
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsSessie.fxml"));
+        this.controller = controller;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsSessie.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 
@@ -66,14 +82,28 @@ public class DetailsSessieController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen sessie");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze sessie wilt verwijderen?");
-        Optional<ButtonType> result = verwijderAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Event deleteEvent = new DeleteEvent(sessie.getId());
-            this.fireEvent(deleteEvent);
+        toggleButton();
+        Event deleteEvent = new DeleteEvent(sessie.getId());
+        this.fireEvent(deleteEvent);
+    }
+
+    @FXML
+    private void kopieerBtnClicked(ActionEvent event) {
+        String code = sessiecodeLabel.getText();
+        StringSelection selection = new StringSelection(code);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+        kopieerLabel.setText("Code  succesvol gekopieerd.");
+    }
+
+    @FXML
+    private void samenvattingBtnClicked(ActionEvent event) throws IOException {
+        try {
+            controller.createSamenvattingSessie(sessie.getId());
+            Event downloadEvent = new DownloadEvent();
+            this.fireEvent(downloadEvent);
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(DetailsSessieController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,6 +117,10 @@ public class DetailsSessieController extends AnchorPane {
         sessiecodeLabel.setText(sessie.getSessieCode());
         boxLabel.setText(sessie.getBoxNaam());
 
+    }
+
+    public void toggleButton() {
+        verwijderBtn.setVisible(!verwijderBtn.isVisible());
     }
 
 }

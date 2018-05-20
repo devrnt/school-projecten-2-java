@@ -1,10 +1,29 @@
 package domein;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import exceptions.NotFoundException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -43,13 +62,13 @@ public final class SessieBeheer implements Observer {
     public void createSessie(
             String naam, String omschrijving, Klas klas,
             BreakOutBox box, Date datum, SoortOnderwijsEnum soortOnderwijs,
-            FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan) {
+            FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan, List<Groep> groepen) {
 
         if (bestaatSessieNaam(naam)) {
             throw new IllegalArgumentException("Een sessie met deze naam bestaat al");
         } else {
             sessieRepo.insert(new Sessie(naam, omschrijving, klas, box,
-                    datum, soortOnderwijs, foutAntwoordActie, isGedaan));
+                    datum, soortOnderwijs, foutAntwoordActie, isGedaan, groepen));
 
         }
     }
@@ -63,7 +82,12 @@ public final class SessieBeheer implements Observer {
     }
 
     public ObservableList<Sessie> getAllSessies() {
-        return gefilterdeSessieLijst.sorted(Comparator.comparing(Sessie::getNaam));
+        Comparator<Sessie> comparatorIgnoreCase = (a, b) -> a.getNaam().toLowerCase().compareTo(b.getNaam().toLowerCase());
+        return gefilterdeSessieLijst.sorted(comparatorIgnoreCase);
+    }
+
+    public Sessie getMeestRecenteSessie() {
+        return sessieRepo.findAll().stream().sorted(Comparator.comparing(Sessie::getId).reversed()).collect(Collectors.toList()).get(0);
     }
 
     public void deleteSessie(int id) {
@@ -73,9 +97,14 @@ public final class SessieBeheer implements Observer {
         }
         sessieRepo.delete(sessie);
     }
-    public boolean isBoxGedaan(BreakOutBox box) {
+
+    public boolean zitBoxInSessie(int boxId) {
         //dit moet beter -Yanis
-        return sessieLijst.stream().anyMatch(t -> t.getBox() == box);
+        return sessieLijst.stream().anyMatch(s -> s.getBox().getId() == boxId);
+    }
+
+    public boolean zitKlasInSessie(int id) {
+        return sessieLijst.stream().anyMatch(s -> s.getKlas().getId() == id);
     }
 
     public boolean bestaatSessieNaam(String naam) {
@@ -123,6 +152,102 @@ public final class SessieBeheer implements Observer {
     public void update(Observable o, Object arg) {
         sessieLijst.clear();
         sessieLijst.addAll(sessieRepo.findAll());
+    }
+
+    public void createSamenvattingSessie(int id) throws IOException, FileNotFoundException, DocumentException {
+        String DEST = "src/pdf/" + sessieRepo.get(id).getNaam() + "-samenvatting.pdf";
+        File file = new File(DEST);
+        new SessieBeheer().createPdf(DEST, id);
+    }
+
+    private void createPdf(String dest, int id) throws IOException, DocumentException {
+        Sessie ses = sessieRepo.get(id);
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(dest));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+        document.open();
+//intro + foto
+        PdfContentByte canvas = writer.getDirectContentUnder();
+        Image image = Image.getInstance("src/main/iconBlue128x128.png");
+        image.setAbsolutePosition(440, 640);
+        canvas.addImage(image);
+        Paragraph preface = new Paragraph();
+        addEmptyLine(preface, 1);
+        preface.add(new Paragraph(ses.getNaam() + " - samenvatting", new Font(Font.FontFamily.COURIER, 18, Font.BOLD)));
+        //addEmptyLine(preface, 1);
+        preface.add(new Paragraph("Samenvatting gemaakt op: " + new SimpleDateFormat("HH:mm yyyy-MM-dd").format(new Date()), new Font(Font.FontFamily.COURIER, 8)));
+        addEmptyLine(preface, 3);
+        document.add(preface);
+
+        Paragraph info = new Paragraph();
+        document.add(new Paragraph("Omschrijving:            " + ses.getOmschrijving()));
+        //document.add(addInfoParagraph(ses.getOmschrijving()));
+        document.add(new Paragraph("Klas:                          " + ses.getKlas().getNaam()));
+        //document.add(addInfoParagraph(ses.getKlas().getNaam()));
+        document.add(new Paragraph("BreakOutBox:            " + ses.getBoxNaam()));
+        //document.add(addInfoParagraph(ses.getBoxNaam()));
+        document.add(new Paragraph("Sessie code:              " + ses.getSessieCode()));
+        //document.add(addInfoParagraph(ses.getSessieCode()));
+        document.add(new Paragraph("Foute antwoord:         " + ses.getFoutAntwoordActie().name()));
+        //document.add(addInfoParagraph(ses.getFoutAntwoordActie().name()));
+        document.add(new Paragraph(" "));
+        Paragraph groepen = new Paragraph();
+        for (Groep groep : ses.getGroepen()) {
+            groepen.add(new DottedLineSeparator());
+            addEmptyLine(groepen, 1);
+            groepen.add(new Paragraph("Pad voor " + groep.getNaam()));
+            addEmptyLine(groepen, 1);
+            SessiePad pad = groep.getSessiePad();
+            String oefOpl = "";
+            int a = 1;
+            for (Opdracht opdracht : pad.getOpdrachten()) {
+                oefOpl += a + ". " + opdracht.getOefening().getOpgaveNaam() + " = " + opdracht.getOefening().getAntwoord() + " | ";
+                a++;
+            }
+            oefOpl = oefOpl.substring(0, oefOpl.length() - 2);
+            groepen.add(new Paragraph("Oplossingen Oefeningen:"));
+            groepen.add(new Paragraph(oefOpl));
+            addEmptyLine(groepen, 1);
+            if (ses.getSoortOnderwijs() == SoortOnderwijsEnum.dagonderwijs) {
+                String actOpl = "";
+                for (int i = 1; i <= pad.getActies().size(); i++) {
+                    actOpl += i + ". " + pad.getActies().get(i - 1).getOmschrijving() + " = " + pad.getOpdrachten().get(i).getToegangscode() + " | ";
+                }
+                actOpl = actOpl.substring(0, actOpl.length() - 2);
+
+                groepen.add(new Paragraph("Acties & Oplossingen: "));
+                groepen.add(new Paragraph(actOpl));
+                addEmptyLine(groepen, 1);
+                groepen.add(new Paragraph(String.format("Leerlingen uit groep '%s':", groep.getNaam())));
+                StringBuilder build = new StringBuilder();
+                groep.getLeerlingen().forEach(lln -> {
+                    int length = groep.getLeerlingen().size();
+                    build.append(lln.getVolledigeNaam());
+                    if (lln != groep.getLeerlingen().get(length - 1)) {
+                        build.append(", ");
+                    }
+                });
+                groepen.add(new Paragraph(build.toString()));
+            }
+
+        }
+        groepen.add(new DottedLineSeparator());
+
+        document.add(info);
+        document.add(groepen);
+        document.close();
+    }
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    private Paragraph addInfoParagraph(String string) {
+        Paragraph p = new Paragraph(string);
+        p.setAlignment(Element.ALIGN_CENTER);
+        return p;
     }
 
 }

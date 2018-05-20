@@ -55,9 +55,17 @@ Vul de use cases aan:
 - [ ]	Alle functionaliteiten opgenomen = groen, niet opgenomen = rood
 - [ ]	Bij elke use case: Alles dat niet werd opgenomen = rood, Alles dat werd aangepast/toegevoegd groen.
 
-
-## Presentatie klant - Sprint 2 Opmerkingen
-* Herbekijken Alert boxes
-* Default alert actie op annuleer
-* Acties bij Box autocomplete
-* Foutmeldingen niet uitroepingsteken 
+## Technical Review 2
+* [X] Delen door 0 mag niet groepsbewerking 
+* [ ] Groepsbewddking delete werkt nie 
+* [X] Elke lijst continu alfabetisch
+* [X] Klas lln toevoegen mag geen cijfers/tekens 
+* [X] Oefeningen, filter op absolutut pad
+* [X] Oefeningen sorteren
+* [X] Kopie zonder iets te selecteren
+* [X] Bij aanmaken sessie lijst boxen van soortonderwijs
+* [x] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
+* [ ] Geselecteerde acties en oefening doen zoals in oefening
+* [X] Box naam bestaat al checken
+* [X] Verwijderen ja / nee is de eerste keer altijd buggy
+* [X] Tests

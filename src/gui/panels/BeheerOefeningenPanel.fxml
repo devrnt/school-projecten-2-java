@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" maxHeight="-Infinity" prefHeight="600.0" prefWidth="996.0" stylesheets="@../css/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="999.0" prefWidth="996.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -53,7 +53,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="600.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="createOefening" mnemonicParsing="false" onAction="#createOefeningClicked" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
+                        <Button fx:id="createButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="127.0" text="NIEUW">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -69,11 +69,21 @@
                               <String fx:value="btn-success" />
                            </styleClass>
                         </Button>
+                        <Button fx:id="kopieButton" mnemonicParsing="false" text="Kopie">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-medium" />
+                              <String fx:value="btn-default" />
+                           </styleClass>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="filterText" onKeyReleased="#filter" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="text-fld">
+                        <TextField fx:id="filterTextField" prefHeight="28.0" prefWidth="169.0" promptText="Opgave, vak, doelstelling..." styleClass="search-fld">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -82,11 +92,11 @@
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="467.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
-                        <TableView fx:id="oefeningenTable" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="oefeningenTableView" maxWidth="1.7976931348623157E308" prefHeight="473.0" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-1.0" minWidth="125.0" prefWidth="-1.0" styleClass="table-view-cell-header" text="Opgave" />
-                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-1.0" minWidth="125.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Vak" />
-                              <TableColumn fx:id="doelstellingenCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="200.0" styleClass="table-view-cell-header" text="Doelstellingen" />
+                            <TableColumn fx:id="opgaveCol" editable="false" maxWidth="-Infinity" minWidth="175.0" prefWidth="175.0" styleClass="table-view-cell-header" text="Opgave" />
+                            <TableColumn fx:id="vakCol" editable="false" maxWidth="-Infinity" minWidth="125.0" prefWidth="125.0" styleClass="table-view-cell-header" text="Vak" />
+                              <TableColumn fx:id="doelstellingenCol" maxWidth="-Infinity" minWidth="177.0" prefWidth="177.0" resizable="false" styleClass="table-view-cell-header" text="Doelstellingen" />
                           </columns>
                            <HBox.margin>
                               <Insets />

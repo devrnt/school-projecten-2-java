@@ -6,9 +6,11 @@ import domein.Actie;
 import domein.BreakOutBox;
 import domein.Oefening;
 import gui.events.DeleteEvent;
+import gui.events.DownloadEvent;
 import gui.events.WijzigEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import utils.AlertCS;
 
 public class DetailsBreakOutBoxController extends AnchorPane {
 
@@ -30,6 +33,8 @@ public class DetailsBreakOutBoxController extends AnchorPane {
     private Label naamLabel;
     @FXML
     private Label omschrijvingLabel;
+    @FXML
+    private Label soortOnderwijsLabel;
     @FXML
     private ListView<Actie> actieList;
     @FXML
@@ -46,7 +51,7 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     public DetailsBreakOutBoxController(BreakOutBox box, BoxController boxController) {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsBreakOutBox.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsBreakOutBox.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {
@@ -59,18 +64,20 @@ public class DetailsBreakOutBoxController extends AnchorPane {
         if (box != null) {
             init();
         }
-        if (boxController.isBoxGedaan(box)) {
-            verwijderButton.setDisable(true);
-        }
+//        if (boxController.zitBoxInSessie(box.getId())) {
+//            verwijderButton.setDisable(true);
+//        }
     }
 
     private void init() {
         naamLabel.setText(box.getNaam());
         omschrijvingLabel.setText(box.getOmschrijving());
+        soortOnderwijsLabel.setText(box.getSoortOnderwijs());
         oefeningList.setItems(boxController.getOefeningenByBox(box.getId()));
         oefeningList.setDisable(true);
         actieList.setItems(boxController.getActiesByBox(box.getId()));
         actieList.setDisable(true);
+
     }
 
     @FXML
@@ -78,19 +85,13 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
         try {
             boxController.createSamenvattingBox(box.getId());
-            Alert pdfcreatedAlert = new Alert(Alert.AlertType.INFORMATION);
-            pdfcreatedAlert.setTitle("Details BreakOutBox");
-            pdfcreatedAlert.setHeaderText("Downloaden PDF");
-            pdfcreatedAlert.setContentText("Samenvatting van de BreakOutBox is gedownload.");
-            pdfcreatedAlert.showAndWait();
+            Event downloadEvent = new DownloadEvent();
+            this.fireEvent(downloadEvent);
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(DetailsBreakOutBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Samenvatting gemaakt!");
-        verwijderAlert.setHeaderText("Succesvol");
-        verwijderAlert.setContentText("De pdf bevind zich in de map Pdf");
+        
 
     }
 
@@ -102,23 +103,16 @@ public class DetailsBreakOutBoxController extends AnchorPane {
 
     @FXML
     private void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen BreakOutBox");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze BreakOutBox wil verwijderen?");
-        verwijderAlert.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-                Event deleteEvent = new DeleteEvent(box.getId());
-                this.fireEvent(deleteEvent);
-            }
+        toggleButtons();
+        Event deleteEvent = new DeleteEvent(box.getId());
+        this.fireEvent(deleteEvent);
+    }
+
+    public void toggleButtons() {
+        Button[] btns = {wijzigButton, verwijderButton};
+        Arrays.stream(btns).forEach(btn -> {
+            btn.setVisible(!btn.isVisible());
         });
     }
 
-//    private void terugNaarLijst() {
-//        Scene scene = new Scene(new BeheerBreakOutBoxPanelController(boxController));
-//        Stage stage = (Stage) this.getScene().getWindow();
-//        stage.setTitle("Beheer Oefeningen");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 }

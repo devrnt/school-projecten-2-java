@@ -16,13 +16,15 @@ import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import gui.events.AnnuleerEvent;
 import gui.events.DetailsEvent;
+import gui.events.GeefSessieDoorEvent;
+import gui.events.InvalidInputEvent;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -33,12 +35,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import utils.AlertCS;
 
 /**
  *
@@ -58,6 +62,8 @@ public class CreateSessieController extends AnchorPane {
     private ChoiceBox<Klas> klasChoiceBox;
     @FXML
     private ChoiceBox<BreakOutBox> boxChoiceBox;
+    @FXML
+    private Label boxFout;
     @FXML
     private Label klasFout;
     @FXML
@@ -84,7 +90,7 @@ public class CreateSessieController extends AnchorPane {
         this.sessieController = sessieController;
         klasController = new KlasController();
         boxController = new BoxController();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/CreateSessie.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateSessie.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -141,14 +147,12 @@ public class CreateSessieController extends AnchorPane {
 
         klasController.getAllKlassen()
                 .forEach(klas -> klasChoiceBox.getItems().add(klas));
-        boxController.getAllBreakOutBoxen()
-                .forEach(box -> boxChoiceBox.getItems().add(box));
+        boxChoiceBox.getItems().setAll(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()));
 
         reactieFoutAntwChoiceBox.setValue(FoutAntwoordActieEnum.feedback);
         reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);
 
-        bekijkLlnButton.setDisable(true);
-
+        //bekijkLlnButton.setDisable(true);
         annuleerBtn.setOnAction(event -> {
             Event annuleerEvent = new AnnuleerEvent(-1);
             this.fireEvent(annuleerEvent);
@@ -159,46 +163,34 @@ public class CreateSessieController extends AnchorPane {
         soortonderwijsChoiceBox.getSelectionModel().selectFirst();
         klasChoiceBox.getSelectionModel().selectFirst();
         reactieFoutAntwChoiceBox.getSelectionModel().selectFirst();
-        
+
         LocalDate ndd = LocalDate.now();
-        
+
         datumInput.setValue(ndd);
 
     }
 
     @FXML
     private void bevestigButtonClicked(ActionEvent event) {
-        Label[] foutLabels = {naamFout, omschrijvingFout, klasFout, datumFout};
+        if (boxChoiceBox.getSelectionModel().selectedIndexProperty().getValue() == -1) {
+            boxFout.setText("Selecteer een box of maak er een");
+        } else {
+            boxFout.setText("");
+        }
+        Label[] foutLabels = {naamFout, omschrijvingFout, datumFout, boxFout};
         String[] inputs = {naamInput.getText(), omschrijvingInput.getText()};
 
         Klas gekozenKlas = klasChoiceBox.getSelectionModel().getSelectedItem();
         BreakOutBox gekozenBox = boxChoiceBox.getSelectionModel().getSelectedItem();
-
-        boolean inputGeldig = true;//(Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty()) && Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()));
-
+        boolean inputGeldig = Arrays.stream(inputs).allMatch(i -> !i.trim().isEmpty()) && Arrays.stream(foutLabels).allMatch(l -> l.getText().isEmpty());
         if (inputGeldig) {
-            sessieController.createSessie(
-                    naamInput.getText(), omschrijvingInput.getText(),
-                    gekozenKlas, gekozenBox,
-                    convertToDate(datumInput.getValue()),
-                    soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
-                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false
-            );
-
-            Alert sessieSuccesvolGewijzigd = new Alert(Alert.AlertType.INFORMATION);
-            sessieSuccesvolGewijzigd.setTitle("Sessie");
-            sessieSuccesvolGewijzigd.setHeaderText("Aanmaken van een sessie");
-            sessieSuccesvolGewijzigd.setContentText("Sessie is succesvol aangemaakt");
-            sessieSuccesvolGewijzigd.showAndWait();
-            Event detailsEvent = new DetailsEvent(-1);
-            this.fireEvent(detailsEvent);
-
+            Sessie doorgevenSessie = new Sessie(naamInput.getText(), omschrijvingInput.getText(), gekozenKlas, gekozenBox, convertToDate(datumInput.getValue()), soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get(),
+                    reactieFoutAntwChoiceBox.getSelectionModel().selectedItemProperty().get(), false, null);
+            Event geefdoorevent = new GeefSessieDoorEvent(doorgevenSessie, 1);
+            this.fireEvent(geefdoorevent);
         } else {
-            Alert invalidInput = new Alert(Alert.AlertType.ERROR);
-            invalidInput.setTitle("Sessie aanmaken");
-            invalidInput.setHeaderText("Niet alle velden zijn geldig!");
-            invalidInput.setContentText("Vul alle velden correct in.");
-            invalidInput.showAndWait();
+            Event invalidInputEvent = new InvalidInputEvent(Arrays.stream(foutLabels).map(l -> l.getText()).collect(Collectors.toList()));
+            this.fireEvent(invalidInputEvent);
         }
     }
 
@@ -221,7 +213,7 @@ public class CreateSessieController extends AnchorPane {
             } else {
                 String sessieNaam = naamInput.getText();
                 if (sessieController.getSessieBeheer().bestaatSessieNaam(sessieNaam)) {
-                    naamFout.setText("Sessienaam bestaat al, vul een andere in!");
+                    naamFout.setText("Sessienaam bestaat al");
                 } else {
                     naamFout.setText("");
                 }
@@ -245,7 +237,7 @@ public class CreateSessieController extends AnchorPane {
                 // object for validation
                 ISessie validation = sessieController.getISessie();
                 LocalDate datumInputVal = datumInput.getValue();
-                
+
                 Date gekozenDag = Date.from(datumInputVal.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                 try {
@@ -261,8 +253,14 @@ public class CreateSessieController extends AnchorPane {
             }
         });
 
-        // listener for choicebox sleect change
+        // listener for choicebox select change
         soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldVal, newVal) -> {
+            boxChoiceBox.getItems().setAll(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()));
+            if (boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()).size() < 1) {
+                boxChoiceBox.setValue(null);
+            } else {
+                boxChoiceBox.setValue(boxController.getAllBreakOutBoxen(soortonderwijsChoiceBox.getSelectionModel().selectedItemProperty().get()).get(0));
+            }
             if (newVal == SoortOnderwijsEnum.dagonderwijs) {
                 reactieFoutAntwChoiceBox.getItems().clear();
                 reactieFoutAntwChoiceBox.getItems().addAll(FoutAntwoordActieEnum.feedback, FoutAntwoordActieEnum.blokkeren);

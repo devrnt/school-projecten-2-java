@@ -50,12 +50,12 @@ public class SessieControllerTest {
         //tijdelijk
         List<Oefening> oef = new ArrayList<Oefening>();
         List<Actie> act = new ArrayList<Actie>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
         sessie = new Sessie("Sessie 1", "Omschrijving Sessie 1",
-                new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", oef, act), c.getTime(),
-                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false
+                new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(),
+                SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null
         );
         Mockito.when(sessieRepo.get(1)).thenReturn(sessie);
         Mockito.when(sessieRepo.get(2)).thenReturn(null);
@@ -64,7 +64,7 @@ public class SessieControllerTest {
                         Arrays.asList(
                                 new Sessie[]{
                                     sessie,
-                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), new BreakOutBox("legeBox", "legeOmscrijving", oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false)
+                                    new Sessie("Sessie 2", "Omschrijving Sessie 2", new Klas("2A1"), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null)
                                 }
                         )
                 )
@@ -92,10 +92,10 @@ public class SessieControllerTest {
     public void createSessie_voegtNieuweSessieToe() {
         List<Oefening> oef = new ArrayList<Oefening>();
         List<Actie> act = new ArrayList<Actie>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
-        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false);
+        sessieController.createSessie("Sessie3", "Sessie3 omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback, false, null);
         Mockito.verify(sessieRepo).insert(Mockito.any(Sessie.class));
     }
     // </editor-fold>
@@ -105,10 +105,10 @@ public class SessieControllerTest {
     public void updateSessie_wordtGewijzigd() {
         List<Oefening> oef = new ArrayList<Oefening>();
         List<Actie> act = new ArrayList<Actie>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
-        sessieController.updateSessie(1, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
+        sessieController.updateSessie(1, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
         Assert.assertEquals("sessie89", sessie.getNaam());
         Mockito.verify(sessieRepo).update(Mockito.any(Sessie.class));
     }
@@ -117,11 +117,11 @@ public class SessieControllerTest {
     public void updateSessie_sessieNietGevonden_GooitNotFoundException() {
         List<Oefening> oef = new ArrayList<Oefening>();
         List<Actie> act = new ArrayList<Actie>();
-        oef.add(new Oefening());
-        oef.add(new Oefening());
+        oef.add(new Oefening("opgave1.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
+        oef.add(new Oefening("opgave2.pdf", 0, "feed", "vak", new ArrayList<>(), new ArrayList<>()));
         act.add(new Actie("o"));
         int foutId = 8;
-        sessieController.updateSessie(foutId, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
+        sessieController.updateSessie(foutId, "sessie89", "omschrijving", new Klas(), new BreakOutBox("legeBox", "legeOmscrijving", SoortOnderwijsEnum.dagonderwijs, oef, act), c.getTime(), SoortOnderwijsEnum.dagonderwijs, FoutAntwoordActieEnum.feedback);
     }
     // </editor-fold>
 

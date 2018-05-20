@@ -1,7 +1,8 @@
 package domein;
 
 import exceptions.NotFoundException;
-import java.util.ArrayList;
+import java.io.File;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,10 +24,12 @@ public final class OefeningBeheer implements Observer {
     private ObservableList<Oefening> oefeningenLijst;
     private FilteredList<Oefening> gefilterdeOefeningenLijst;
     private GroepsbewerkingDao groepsbewerkingRepo;
+    private final BreakOutBoxBeheer boxBeheer;
 
     public OefeningBeheer() {
         setOefeningRepo(new GenericDaoJpa<>(Oefening.class));
         setGroepsbewerkingRepo(new GroepsbewerkingDaoJpa());
+        boxBeheer = new BreakOutBoxBeheer();
     }
     
     public void setGroepsbewerkingRepo(GroepsbewerkingDao groepsbewerkingRepo) {
@@ -36,7 +39,7 @@ public final class OefeningBeheer implements Observer {
     public void setOefeningRepo(GenericDao<Oefening> oefeningRepo) {
         this.oefeningRepo = oefeningRepo;
         this.oefeningRepo.addObserver(this);
-        oefeningenLijst = FXCollections.observableArrayList(oefeningRepo.findAll());
+        oefeningenLijst = FXCollections.observableiist(oefeningRepo.findAll());
         gefilterdeOefeningenLijst = new FilteredList<>(oefeningenLijst, o -> true);
     }
 
@@ -65,15 +68,35 @@ public final class OefeningBeheer implements Observer {
         if (oefening == null) {
             throw new NotFoundException("De oefening werd niet gevonden");
         }
+        
         oefeningRepo.delete(oefening);
+    }
+    
+    public boolean zitOefeningInBox(int oefId){
+        Oefening oefening = oefeningRepo.get(oefId);
+        if (oefening == null) {
+            throw new NotFoundException("De oefening werd niet gevonden");
+        }
+        return boxBeheer.getAllBreakOutBoxen()
+                .stream()
+                .anyMatch(b -> b.getOefeningen().contains(oefening));
     }
     
     public Oefening getOefening(int id) {
         return oefeningRepo.get(id);
     }
     
+    public Oefening getMeestRecenteOefening(){
+        return oefeningRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Oefening::getId).reversed())
+                .findFirst()
+                .orElse(null);
+    }
+    
     public ObservableList<Oefening> getOefeningen() {
-        return gefilterdeOefeningenLijst;
+        Comparator<Oefening> comparatorIgnoreCase = (a, b) -> a.getOpgaveNaam().toLowerCase().compareTo(b.getOpgaveNaam().toLowerCase());
+        return gefilterdeOefeningenLijst.sorted(comparatorIgnoreCase);
     }
     
     public void applyFilter(String toFilter) {
@@ -81,7 +104,7 @@ public final class OefeningBeheer implements Observer {
             if (toFilter == null || toFilter.isEmpty()) {
                 return true;
             }
-            return o.getOpgave().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
+            return new File(o.getOpgave()).getName().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
                     || o.getVak().trim().toLowerCase().contains(toFilter.trim().toLowerCase())
                     || o.getDoelstellingen()
                             .stream()

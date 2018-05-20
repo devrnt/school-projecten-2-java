@@ -6,17 +6,24 @@
 package gui.controllers;
 
 import controllers.SessieController;
+import domein.Kleuren;
 import domein.Sessie;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.GeefSessieDoorEvent;
+import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +32,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -33,9 +42,10 @@ import javafx.stage.Stage;
  *
  * @author devri
  */
-public class BeheerSessiesController extends AnchorPane {
+public class BeheerSessiesController extends AnchorPane implements Observer {
+
     @FXML
-    private StackPane detailsStackPane; 
+    private StackPane detailsStackPane;
 
     @FXML
     private TableView<Sessie> sessieTabel;
@@ -57,7 +67,7 @@ public class BeheerSessiesController extends AnchorPane {
         this.sessieController = sessieController;
         sessies = sessieController.getAllSessies();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerSessiesPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerSessiesPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 
@@ -66,11 +76,11 @@ public class BeheerSessiesController extends AnchorPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         children = detailsStackPane.getChildren();
 
         initialize();
-        
+
         voegEventHandlersToe();
     }
 
@@ -87,22 +97,15 @@ public class BeheerSessiesController extends AnchorPane {
 
         sessieTabel.setItems(sortedSessies);
 
-
         // toont de geselecteerde sessie meteen in het detailvenster
         sessieTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
                 children.clear();
-                children.add(new DetailsSessieController(newval));
+                children.add(new DetailsSessieController(newval, sessieController));
             }
         });
 
         searchTextField.setOnKeyReleased(event -> sessieController.applyFilter(searchTextField.getText()));
-        
-        // eventhandlers
-        this.addEventHandler(DeleteEvent.DELETE, event -> {
-            detailsStackPane.getChildren().clear();
-            sessieController.deleteSessie(event.getId());
-        });
     }
 
     @FXML
@@ -115,46 +118,76 @@ public class BeheerSessiesController extends AnchorPane {
     private void toonSessieDetails() {
         int sessieId = sessieTabel.getSelectionModel().getSelectedItem().getId();
         detailsStackPane.getChildren().clear();
-        detailsStackPane.getChildren().add(new DetailsSessieController(sessieController.getSessie(sessieId)));
+        detailsStackPane.getChildren().add(new DetailsSessieController(sessieController.getSessie(sessieId), sessieController));
     }
 
-    private void terugNaarMenu() {
-        Scene scene = new Scene(new MenuPanelController());
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    private void voegEventHandlersToe(){
+    private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
             children.add(new CreateSessieController(sessieController));
         });
-        
+
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            children.clear();
-            sessieController.deleteSessie(event.getId());
+            ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "sessie");
+            builder.addObserver(this);
+            children.add(builder.buildConfirmation());
         });
-        
+
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
-            if (event.getId() < 0){
-                int size = sessies.size();
-                children.add(new DetailsSessieController(sessies.get(size - 1)));
+            Sessie ses = sessieController.getMeestRecenteSessie();
+
+            if (event.getId() == 90) {
+                sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
+                children.add(topNode);
+            }
+            //sessieTabel.getSelectionModel().select(sessieController.getMeestRecenteSessie());
+
+            //Node topNode = children.get(0);
+            //children.set(0, new NotificatiePanelController("Sessie is succesvol aangemaakt", Kleuren.GROEN));
+            //children.add(topNode);
+        });
+        this.addEventHandler(GeefSessieDoorEvent.GEEFSESSIEDOOR, event -> {
+            children.clear();
+            if (event.getStap() == 1) {
+                children.add(new CreateSessieStap2Controller(sessieController, event.getSessie()));
             } else {
-                children.add(new DetailsSessieController(sessieController.getSessie(event.getId())));
+                children.add(new CreateSessieStap3Controller(event.getSessie(), sessieController));
             }
         });
-        
+
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
-            if (event.getId() >= 0)
-                children.add(new DetailsSessieController(sessieController.getSessie(event.getId())));
+            if (event.getId() >= 0) {
+                children.add(new DetailsSessieController(sessieController.getSessie(event.getId()), sessieController));
+            }
+        });
+
+        this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
+            if (children.size() == 1) {
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", "#C62828"));
+                children.add(topNode);
+            }
         });
     }
     // </editor-fold>
 
-    
-    
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String sessieNaam = sessieController.getSessie(id).getNaam();
+            sessieController.deleteSessie(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Sessie %s is verwijderd", sessieNaam), Kleuren.GROEN));
+        } else {
+            children.remove(children.size() - 1);
+            ((DetailsSessieController) children.get(children.size() - 1)).toggleButton();
+        }
+    }
+
 }

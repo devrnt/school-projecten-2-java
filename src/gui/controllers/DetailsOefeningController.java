@@ -5,15 +5,14 @@ import gui.events.DeleteEvent;
 import gui.events.WijzigEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
@@ -49,15 +48,12 @@ public class DetailsOefeningController extends AnchorPane {
     @FXML
     private Button verwijderBtn;
 
-    @FXML
-    private Button terugBtn;
-
     private Oefening oefening;
 
     public DetailsOefeningController(Oefening oefening) {
         this.oefening = oefening;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/DetailsOefening.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/DetailsOefening.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -71,6 +67,7 @@ public class DetailsOefeningController extends AnchorPane {
         if (oefening != null) {
             setDetails();
             setTooltips();
+            setButtonActions();
         }
     }
 
@@ -92,6 +89,20 @@ public class DetailsOefeningController extends AnchorPane {
         groepsbewerkingen.setDisable(true);
     }
 
+    private void setButtonActions() {
+        verwijderBtn.setOnAction(event -> {
+//            toggleButtons();
+            this.setDisable(true);
+            Event deleteEvent = new DeleteEvent(oefening.getId());
+            this.fireEvent(deleteEvent);
+        });
+
+        wijzigBtn.setOnAction(event -> {
+            Event wijzigEvent = new WijzigEvent(oefening.getId());
+            this.fireEvent(wijzigEvent);
+        });
+    }
+
     private void setTooltips() {
         // add tooltips to display full document path
         Tooltip opgaveTt = new Tooltip();
@@ -104,51 +115,10 @@ public class DetailsOefeningController extends AnchorPane {
         feedbackLabel.setTooltip(feedbackTt);
 
     }
-
-    @FXML
-    public void wijzigBtnClicked(ActionEvent event) {
-        Event wijzigEvent = new WijzigEvent(oefening.getId());
-        this.fireEvent(wijzigEvent);
-    }
-
-    @FXML
-    public void verwijderBtnClicked(ActionEvent event) {
-        Alert verwijderAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        verwijderAlert.setTitle("Verwijderen oefening");
-        verwijderAlert.setHeaderText("Bevestigen");
-        verwijderAlert.setContentText("Weet u zeker dat u deze oefening wil verwijderen?");
-        
-        verwijderAlert.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-                Event deleteEvent = new DeleteEvent(oefening.getId());
-                this.fireEvent(deleteEvent);
-            }
+    public void toggleButtons() {
+        Button[] btns = {wijzigBtn, verwijderBtn};
+        Arrays.stream(btns).forEach(btn -> {
+            btn.setVisible(!btn.isVisible());
         });
     }
-
-    private void terugNaarLijst() {
-//        Scene scene = new Scene(new BeheerOefeningenController(controller));
-//        Stage stage = (Stage) wijzigBtn.getScene().getWindow();
-//        stage.setTitle("Beheer Oefeningen");
-//        stage.setScene(scene);
-//        stage.show();
-    }
-
-//    @FXML
-//    public void bevestigClicked(ActionEvent event) {
-//
-//        controller.deleteOefening(1);
-//
-//        Alert oefeningCreatedSuccess = new Alert(Alert.AlertType.INFORMATION);
-//        oefeningCreatedSuccess.setTitle("Oefening");
-//        oefeningCreatedSuccess.setHeaderText("Verwijderen van een oefening");
-//        oefeningCreatedSuccess.setContentText("Oefening is succesvol verwijderd");
-//        oefeningCreatedSuccess.showAndWait();
-//        Scene scene = new Scene(new BeheerOefeningenController(controller));
-//        Stage stage = (Stage) opgaveLabel.getScene().getWindow();
-//        stage.setTitle("Beheer Oefeningen");
-//        stage.setScene(scene);
-//        stage.show();
-//
-//    }
 }

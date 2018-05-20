@@ -1,14 +1,19 @@
 package controllers;
 
+import com.itextpdf.text.DocumentException;
 import domein.BreakOutBox;
 import domein.Klas;
 import domein.Sessie;
 import domein.SoortOnderwijsEnum;
 import domein.FoutAntwoordActieEnum;
+import domein.Groep;
 import domein.ISessie;
 import domein.SessieBeheer;
 import exceptions.NotFoundException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import javafx.collections.ObservableList;
 
 /**
@@ -43,10 +48,12 @@ public final class SessieController {
      */
     public void createSessie(
             String naam, String omschrijving,
-            Klas klas, BreakOutBox box, Date datum,
-            SoortOnderwijsEnum soortOnderwijs, FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan) {
+            Klas klas, BreakOutBox box,
+            Date datum, SoortOnderwijsEnum soortOnderwijs,
+            FoutAntwoordActieEnum foutAntwoordActie, Boolean isGedaan,
+            List<Groep> groepen) {
 
-        sessieBeheer.createSessie(naam, omschrijving, klas, box, datum, soortOnderwijs, foutAntwoordActie, isGedaan);
+        sessieBeheer.createSessie(naam, omschrijving, klas, box, datum, soortOnderwijs, foutAntwoordActie, isGedaan, groepen);
 
     }
 
@@ -68,6 +75,15 @@ public final class SessieController {
      */
     public ObservableList<Sessie> getAllSessies() {
         return sessieBeheer.getAllSessies();
+    }
+
+    /**
+     * Geeft de meeste recent aangemaakte actie terug
+     *
+     * @return actie
+     */
+    public Sessie getMeestRecenteSessie() {
+        return sessieBeheer.getMeestRecenteSessie();
     }
 
     /**
@@ -112,8 +128,24 @@ public final class SessieController {
         sessieBeheer.applyFilter(toFilter);
     }
 
+    /**
+     * Retourneert een nieuwe lege sessie
+     *
+     */
     public ISessie getISessie() {
         return new Sessie();
     }
 
+    /**
+     * Crieert een PDF samenvatting van de geselecteerde Sessie
+     *
+     * @param id id van de Sessie die samengevat moet worden * @throws
+     * IOException als er een probleem is tijdens het wegschrijven
+     * @throws FileNotFoundException als de opgevraagde File niet gevonden werd
+     * @throws DocumentException als er een fout optreed tijdens het opstellen
+     * van de Pdf
+     */
+    public void createSamenvattingSessie(int id) throws IOException, FileNotFoundException, DocumentException {
+        sessieBeheer.createSamenvattingSessie(id);
+    }
 }

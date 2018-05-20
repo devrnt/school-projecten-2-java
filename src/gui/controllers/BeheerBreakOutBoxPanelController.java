@@ -2,11 +2,17 @@ package gui.controllers;
 
 import controllers.BoxController;
 import domein.BreakOutBox;
+import domein.Kleuren;
 import gui.events.AnnuleerEvent;
 import gui.events.DeleteEvent;
 import gui.events.DetailsEvent;
+import gui.events.DownloadEvent;
+import gui.events.InvalidInputEvent;
 import gui.events.WijzigEvent;
+import gui.util.ConfirmationBuilder;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +27,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
-public class BeheerBreakOutBoxPanelController extends AnchorPane {
+public class BeheerBreakOutBoxPanelController extends AnchorPane implements Observer {
 
     @FXML
     private AnchorPane AnchorPane;
@@ -45,7 +51,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 
     public BeheerBreakOutBoxPanelController(BoxController boxController) {
         this.boxController = boxController;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../panels/BeheerBreakOutBoxPanel.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/BeheerBreakOutBoxPanel.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 
@@ -57,7 +63,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
         children = detailsStackPane.getChildren();
         stelTableViewIn();
         voegEventHandlersToe();
-
+        kopieBoxButton.setDisable(true);
     }
 
     private void stelTableViewIn() {
@@ -67,6 +73,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
         boxTabel.setItems(boxController.getAllBreakOutBoxen());
         boxTabel.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newval) -> {
             if (newval != null) {
+                kopieBoxButton.setDisable(false);
                 children.clear();
                 children.add(new DetailsBreakOutBoxController(newval, boxController));
             }
@@ -76,28 +83,57 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void voegEventHandlersToe() {
         this.addEventHandler(WijzigEvent.WIJZIG, event -> {
             children.clear();
-            children.add(new UpdateBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+            children.add(new CreateBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController, 2));
         });
 
         this.addEventHandler(DeleteEvent.DELETE, event -> {
-            children.clear();
-            boxController.deleteBreakOutBox(event.getId());
+            if (boxController.zitBoxInSessie(event.getId())) {
+                String boxNaam = boxController.getBreakOutBox(event.getId()).getNaam();
+                ((DetailsBreakOutBoxController) children.get(0)).toggleButtons();
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController(String.format("BreakoutBox zit nog in een Sessie", boxNaam), Kleuren.ROOD));
+                children.add(topNode);
+            } else {
+                ConfirmationBuilder builder = new ConfirmationBuilder(event.getId(), "breakoutbox");
+                builder.addObserver(this);
+                children.add(builder.buildConfirmation());
+
+            }
         });
 
         this.addEventHandler(DetailsEvent.DETAILS, event -> {
             children.clear();
             if (event.getId() < 0) {
-                int size = boxController.getAllBreakOutBoxen().size();
-                children.add(new DetailsBreakOutBoxController(boxController.getAllBreakOutBoxen().get(size - 1), boxController));
+                boxTabel.getSelectionModel().select(boxController.getMeestRecenteBreakOutBox());
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol aangemaakt", Kleuren.GROEN));
+                children.add(topNode);
             } else {
-                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+                boxTabel.getSelectionModel().select(boxController.getBreakOutBox(event.getId()));
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("BreakoutBox is succesvol gewijzigd", Kleuren.GROEN));
+                children.add(topNode);
             }
         });
 
         this.addEventHandler(AnnuleerEvent.ANNULEER, event -> {
             children.clear();
             if (event.getId() >= 0) {
-                children.add(new DetailsBreakOutBoxController(boxController.GeefBreakOutBox(event.getId()), boxController));
+                children.add(new DetailsBreakOutBoxController(boxController.getBreakOutBox(event.getId()), boxController));
+            }
+        });
+
+        this.addEventHandler(DownloadEvent.DOWNLOAD, event -> {
+            Node topNode = children.get(0);
+            children.set(0, new NotificatiePanelController("Samenvatting is succesvol gedownload", Kleuren.GROEN));
+            children.add(topNode);
+        });
+
+        this.addEventHandler(InvalidInputEvent.INVALIDINPUT, event -> {
+            if (children.size() == 1) {
+                Node topNode = children.get(0);
+                children.set(0, new NotificatiePanelController("Er zijn nog ongeldige velden", Kleuren.ROOD));
+                children.add(topNode);
             }
         });
     }
@@ -112,7 +148,7 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
     private void kopieBreakOutBoxButtonClicked(ActionEvent event) {
         if (boxTabel.getSelectionModel().getSelectedItem() != null) {
             children.clear();
-            children.add(new CreateBreakOutBoxController(boxController, boxTabel.getSelectionModel().getSelectedItem()));
+            children.add(new CreateBreakOutBoxController(boxTabel.getSelectionModel().getSelectedItem(), boxController, 1));
         }
     }
 
@@ -140,4 +176,19 @@ public class BeheerBreakOutBoxPanelController extends AnchorPane {
 //        stage.setScene(scene);
 //        stage.show();
 //    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        boolean confirmed = ((ConfirmationBuilder) o).isConfirmed();
+        int id = ((ConfirmationBuilder) o).getId();
+        if (confirmed) {
+            String boxNaam = boxController.getBreakOutBox(id).getNaam();
+            boxController.deleteBreakOutBox(id);
+            children.clear();
+            children.add(new NotificatiePanelController(String.format("Box %s is verwijderd", boxNaam), Kleuren.GROEN));
+        } else {
+            children.remove(children.size() - 1);
+            ((DetailsBreakOutBoxController) children.get(children.size() - 1)).toggleButtons();
+        }
+    }
 }
