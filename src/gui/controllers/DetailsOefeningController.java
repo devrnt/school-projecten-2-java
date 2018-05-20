@@ -115,7 +115,6 @@ public class DetailsOefeningController extends AnchorPane {
         feedbackLabel.setTooltip(feedbackTt);
 
     }
-
     public void toggleButtons() {
         Button[] btns = {wijzigBtn, verwijderBtn};
         Arrays.stream(btns).forEach(btn -> {

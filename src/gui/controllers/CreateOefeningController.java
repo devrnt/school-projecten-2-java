@@ -102,7 +102,6 @@ public class CreateOefeningController extends AnchorPane {
     private FilteredList<String> vakken;
     private FilteredList<String> doelstellingen;
     private boolean kopie;
-    
     public CreateOefeningController(OefeningController controller) {
         this.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/panels/CreateOefening.fxml"));
@@ -130,6 +129,24 @@ public class CreateOefeningController extends AnchorPane {
         groepsbwChoiceBox.setItems(gbws.sorted());
         groepsbwChoiceBox.getSelectionModel().selectFirst();
         
+        // combobox
+        vakTextField = vakComboBox.getEditor();
+        vakComboBox.setItems(vakken.sorted());
+
+        vakTextField.setOnKeyReleased(event -> {
+            String text = vakTextField.getText().trim().toLowerCase();
+            if (text == null || text.isEmpty()) {
+                vakken.setPredicate(v -> true);
+                vakComboBox.hide();
+            } else {
+                vakken.setPredicate(v -> v.toLowerCase().startsWith(text));
+                vakComboBox.show();
+            }
+        });
+        
+        doelstellingTextField = doelstellingComboBox.getEditor();
+        doelstellingComboBox.setItems(doelstellingen.sorted());
+
         // combobox
         vakTextField = vakComboBox.getEditor();
         vakComboBox.setItems(vakken.sorted());

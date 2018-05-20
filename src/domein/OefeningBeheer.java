@@ -39,7 +39,7 @@ public final class OefeningBeheer implements Observer {
     public void setOefeningRepo(GenericDao<Oefening> oefeningRepo) {
         this.oefeningRepo = oefeningRepo;
         this.oefeningRepo.addObserver(this);
-        oefeningenLijst = FXCollections.observableArrayList(oefeningRepo.findAll());
+        oefeningenLijst = FXCollections.observableiist(oefeningRepo.findAll());
         gefilterdeOefeningenLijst = new FilteredList<>(oefeningenLijst, o -> true);
     }
 

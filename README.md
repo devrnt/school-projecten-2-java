@@ -46,6 +46,7 @@ projectenII
 ## Presentatie opmerkingen
 * Productie-waardig ipv productwaardig
 * Duidelijk de nadruk leggen op welk deel van de schermen klaar is (functionaliteit of uiterlijk)
+
 * ==== TIPS ====
 * Bij de presentatie aan de klant zet op je desktop de jar file van de applicatie en open het zodat het vertrouwelijk overkomt bij de klant
 
@@ -63,7 +64,7 @@ Vul de use cases aan:
 * [X] Oefeningen sorteren
 * [X] Kopie zonder iets te selecteren
 * [X] Bij aanmaken sessie lijst boxen van soortonderwijs
-* [ ] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
+* [x] pdf box is mss verwarrend je zou kunnen denken dat de acties altijd opvolgen
 * [ ] Geselecteerde acties en oefening doen zoals in oefening
 * [X] Box naam bestaat al checken
 * [X] Verwijderen ja / nee is de eerste keer altijd buggy

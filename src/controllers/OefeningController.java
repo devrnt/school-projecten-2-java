@@ -96,6 +96,26 @@ public final class OefeningController {
     public Oefening getOefening(int id) {
         return oefeningBeheer.getOefening(id);
     }
+    
+    /**
+     * Geeft een lijst terug van alle vakken die al gebruikt geweest zijn
+     * in een oefening
+     * @return een lijst van vakken
+     */
+    public List<String> getVakken(){
+        return oefeningBeheer.getVakken();
+    }
+    
+    /**
+     * Geeft een lijst terug van alle doelstellingen die al gebruikt geweest zijn
+     * in een oefening
+     * @return een lijst van doelstellingen
+     */
+    public List<String> getDoelstellingen(){
+        return oefeningBeheer.getDoelstellingen();
+    }
+    
+    
 
     /**
      * Geeft een ObservableList terug die gefiltered kan worden van alle
