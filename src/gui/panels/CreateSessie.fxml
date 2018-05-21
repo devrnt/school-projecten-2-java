@@ -120,7 +120,7 @@
             <children>
                 <Button fx:id="bevestigButton" mnemonicParsing="false" onAction="#bevestigButtonClicked" text="BEVESTIG">
                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" right="5.0" top="10.0" />
                     </HBox.margin>
                <styleClass>
                   <String fx:value="btn" />
@@ -128,12 +128,15 @@
                   <String fx:value="btn-success" />
                </styleClass>
                 </Button>
-                <Button fx:id="annuleerBtn" mnemonicParsing="false" text="Annuleer">
+                <Button fx:id="annuleerBtn" mnemonicParsing="false" text="ANNULEER">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="btn-medium" />
                   <String fx:value="btn-default" />
-               </styleClass></Button>
+               </styleClass>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" top="10.0" />
+               </HBox.margin></Button>
             </children>
         </HBox>
     </children>

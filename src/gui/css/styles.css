@@ -94,16 +94,29 @@ menuItems:       #3F3F3F
 .btn {
     -fx-text-fill: white;
     -fx-font-size: 1.1em;
+    -fx-padding: 5px 10px;
+    -fx-cursor: hand;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 115px;
+}
+
+.btn:hover {
+    -fx-scale-y: 0.97;
+    -fx-scale-x: 0.97;
+}
+
+.btn-confirm{
+    -fx-text-fill: white;
+    -fx-font-size: 1.1em;
     -fx-padding: 8px 15px;
     -fx-cursor: hand;
     -fx-pref-height: 50px;
     -fx-pref-width: 125px;
     -fx-border-insets: 3px 5px;
     -fx-background-insets: 3px 5px;
-
 }
 
-.btn:hover {
+.btn-confirm:hover {
     -fx-scale-y: 0.97;
     -fx-scale-x: 0.97;
 }

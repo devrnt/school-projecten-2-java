@@ -41,7 +41,7 @@ public class ConfirmationBuilder extends Observable {
             notifyObservers();
         });
 
-        okButton.getStyleClass().addAll("btn", "btn-small", "btn-default");
+        okButton.getStyleClass().addAll("btn-confirm", "btn-small", "btn-default");
 
         Button cancelButton = new Button("Nee");
         cancelButton.setOnAction(event -> {

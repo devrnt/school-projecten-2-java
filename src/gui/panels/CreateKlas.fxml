@@ -128,10 +128,15 @@
                         <String fx:value="btn-success" />
                         <String fx:value="btn-medium" />
                      </styleClass></Button>
-                  <Button fx:id="annuleerBtn" mnemonicParsing="false" onAction="#annuleerBtnClicked" styleClass="btn-default" text="ANNULEER">
+                  <Button fx:id="annuleerBtn" mnemonicParsing="false" onAction="#annuleerBtnClicked" text="ANNULEER">
                      <HBox.margin>
                         <Insets left="10.0" />
-                     </HBox.margin></Button>
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="btn-default" />
+                        <String fx:value="btn" />
+                        <String fx:value="btn-medium" />
+                     </styleClass></Button>
                </children>
             </HBox>
          </children>
