@@ -187,7 +187,7 @@
                         <Label fx:id="kopieerLabel" style="-fx-text-fill: #28BB66;" />
                      </children>
                   </VBox>
-                  <Button fx:id="kopieerBtn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#kopieerBtnClicked" prefHeight="40.0" prefWidth="41.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+                  <Button fx:id="kopieerBtn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#kopieerBtnClicked" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: #0747a6; -fx-cursor: pointer;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
@@ -195,11 +195,6 @@
                            </image>
                         </ImageView>
                      </graphic>
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-accent" />
-                        <String fx:value="btn-square" />
-                     </styleClass>
                      <GridPane.margin>
                         <Insets right="25.0" />
                      </GridPane.margin>

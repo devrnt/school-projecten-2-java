@@ -134,8 +134,8 @@ menuItems:       #3F3F3F
 }
 
 .btn-square {    
-    -fx-padding: 8px 12px;
-    -fx-pref-height: 20px;
+    -fx-padding: 4px 8px;
+    -fx-pref-height: 15px;
     -fx-pref-width: 20px;
 }
 
@@ -167,7 +167,7 @@ menuItems:       #3F3F3F
 .btn-accent {
     -fx-background-color: #0747a6;
     -fx-pref-height: INHERIT;
-    -fx-pref-width: INHERIT;
+    -fx-pref-width: 70px;
     -fx-padding: 6px 10px;
 }
 

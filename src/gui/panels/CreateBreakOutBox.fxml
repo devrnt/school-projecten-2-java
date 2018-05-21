@@ -124,7 +124,7 @@
                   </VBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <ChoiceBox fx:id="oefeningenChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="313.0" />
+                        <ChoiceBox fx:id="oefeningenChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="320.0" />
                         <Button fx:id="addOefeningButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addOefening" prefHeight="20.0" prefWidth="30.0">
                            <HBox.margin>
                               <Insets left="5.0" />
@@ -144,9 +144,9 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <HBox alignment="TOP_RIGHT" prefHeight="83.0" prefWidth="331.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <ListView fx:id="oefeningenListView" maxWidth="-Infinity" prefHeight="83.0" prefWidth="307.0" />
+                        <ListView fx:id="oefeningenListView" maxWidth="-Infinity" prefHeight="83.0" prefWidth="315.0" />
                         <Button fx:id="delOefeningButton" mnemonicParsing="false" onAction="#delOefening">
                            <HBox.margin>
                               <Insets left="5.0" />
@@ -190,7 +190,7 @@
                   </VBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="329.0" GridPane.columnIndex="1">
                      <children>
-                        <ChoiceBox fx:id="actieChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="312.0" />
+                        <ChoiceBox fx:id="actieChoiceBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="321.0" />
                         <Button fx:id="addActieButton" mnemonicParsing="false" onAction="#addActie" prefHeight="20.0" prefWidth="30.0">
                            <HBox.margin>
                               <Insets left="5.0" />
@@ -210,9 +210,9 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <ListView fx:id="actiesListView" maxWidth="-Infinity" prefHeight="106.0" prefWidth="307.0" />
+                        <ListView fx:id="actiesListView" maxWidth="-Infinity" prefHeight="106.0" prefWidth="316.0" />
                         <Button fx:id="delActieButton" mnemonicParsing="false" onAction="#delActie">
                            <HBox.margin>
                               <Insets left="5.0" />

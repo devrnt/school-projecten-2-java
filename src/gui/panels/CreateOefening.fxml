@@ -181,8 +181,8 @@
                               </ImageView>
                            </graphic>
                            <styleClass>
-                              <String fx:value="btn" />
                               <String fx:value="btn-square" />
+                              <String fx:value="btn" />
                               <String fx:value="btn-success" />
                            </styleClass>
                         </Button>
